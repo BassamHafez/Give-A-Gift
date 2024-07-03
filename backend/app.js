@@ -12,7 +12,6 @@ const ApiError = require("./utils/ApiError");
 const globalErrorHandler = require("./controllers/errorController");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
-const colorRoutes = require("./routes/colorRoutes");
 const shapeRoutes = require("./routes/shapeRoutes");
 const shopRoutes = require("./routes/shopRoutes");
 const cardRoutes = require("./routes/cardRoutes");
@@ -66,7 +65,6 @@ app.use(compression());
 // ROUTES
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
-app.use("/api/v1/colors", colorRoutes);
 app.use("/api/v1/shapes", shapeRoutes);
 app.use("/api/v1/shops", shopRoutes);
 app.use("/api/v1/cards", cardRoutes);
