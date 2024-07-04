@@ -1,0 +1,68 @@
+/* ------------------------------------------------- sec1 card types section----------------------- */
+
+.sec1_gift_card,.sec1_custom_gift_card{
+    width: 31.25rem;
+    border-radius: 0.625rem;
+    overflow: hidden;
+    position: relative;
+}
+.sec1_layer{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .6);
+    backdrop-filter: blur(0.625rem);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity .4s;
+}
+.sec1_gift_card:hover .sec1_layer, .sec1_custom_gift_card:hover .sec1_layer{
+    opacity: 1;
+}
+
+
+.top_stores{
+    padding:1.25rem;
+    background-color: white;
+    border-bottom: 0.0625rem solid rgb(211, 211, 211);
+    margin-bottom: 0.625rem;
+}
+
+
+@media screen and (max-width:1130px){
+    .sec1_gift_card,.sec1_custom_gift_card{
+        width: 400px;
+    }
+}
+@media screen and (max-width:830px){
+    .sec1_gift_card,.sec1_custom_gift_card{
+        width: 350px;
+    }
+}
+@media screen and (max-width:768px){
+    .sec1_gift_card,.sec1_custom_gift_card{
+        width: 500px;
+    }
+    .sec3_caption h2{
+        margin-bottom:5px;
+        margin-top: 40px;   
+    }
+    .sec3_caption{
+        text-align: center;    
+    }
+}
+@media screen and (max-width:535px){
+    .sec1_gift_card,.sec1_custom_gift_card{
+        width:90%;
+        margin: auto;
+    }
+    .caption{
+        min-height: 60vh;
+        width: 95vw;
+        padding-inline:0;
+    }
+}

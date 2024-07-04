@@ -1,0 +1,101 @@
+.header_container{
+    width: 90vw;
+    min-height: 28.125rem;
+    background-color: var(--main_color_lighter);
+    border-radius: 0.625rem;
+    margin-top: 3.125rem;
+    box-shadow: 0 0.1875rem 0.1875rem rgba(0, 0, 0, 0.129);
+    position: relative;
+}
+.header_layer{
+    background-color: var(--main_color);
+    width:38%;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: -1;
+    border-radius: 47%  0.625rem  0.625rem 47% ;
+}
+.img_side,.caption_side{
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
+.caption_side{
+    align-items: center;
+    position: relative;
+}
+.caption_side div{
+    margin-left: 0.625rem;
+    text-align: center;
+}
+.caption_side div h1{
+    font-size: 3.125rem;
+    font-weight:700;
+    margin-bottom: 2.5rem;
+}
+.img_side div{
+    width: 25rem;
+}
+
+
+.scroll_down{
+    position: absolute;
+    width: 1.5625rem;
+    height: 2.5rem;
+    border-radius: 3.125rem;
+    border: 0.0625rem solid var(--dark_white);
+    background-color: transparent;
+    bottom: 2%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: border .3s;
+}
+.small_circle{
+    background-color: var(--main_color);
+    width: 0.3125rem;
+    height: 0.3125rem;
+    margin: auto;
+    border-radius: 50%;
+    animation:upDownMove 2s linear ;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+@keyframes upDownMove {
+    0%{transform: translateY(0);}
+    50%{transform: translateY(0.625rem);}
+    100%{transform: translateY(-0.625rem);}
+}
+.scroll_down:hover{
+    border: 0.0625rem solid var(--main_color);
+}
+
+@media screen and (max-width:768px) {
+    .scroll_down{
+        display: none;
+    }
+    .header_layer{
+        bottom: 0;
+        left: 0;
+        height:38%;
+        width: 100%;
+        border-radius:  0.625rem  0.625rem  47% 47% ;
+
+    }
+    .caption_side{
+        margin-bottom: 40px;
+        padding-top: 15px;
+    }
+}
+
+@media screen and (max-width:400px){
+    .caption_side div h1{
+        font-size: 25px;
+    }
+}

@@ -1,0 +1,153 @@
+
+.nav_list li a{
+    color: var(--font_color);
+    font-weight: 700;
+    font-size: 0.9375rem;
+    transition: all .3s;
+    position: relative;
+}
+.nav_white li a{
+    color: white;
+}
+.nav_list li a::after{
+    content: '';
+    width:0;
+    height:1px;
+    background-color: var(--main_color);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: all .3s;
+}
+.nav_list li a:hover::after{
+    width:  100%;
+}
+.nav_list li a:hover{
+    color: var(--main_color);
+}
+
+.nav_list li a.active{
+    position: relative;
+    color: var(--main_color);
+}
+
+.nav_list li a.active::before{
+    content: '';
+    width:0;
+    height:1px;
+    background-color: var(--main_color);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: all .3s;
+}
+
+.brand{
+    width:70px;
+}
+
+.burger_list{
+    width: 2.5rem;
+    height: 1.5625rem;
+    cursor: pointer;
+    display: none;
+}
+
+.half_line{
+    width: 50%;
+    height: 0.1875rem;
+    background-color: black;
+    transition: width .3s;
+}
+.full_line{
+    width: 100%;
+    height: 0.1875rem;
+    background-color:black;
+}
+
+.burger_list:hover .half_line{
+    width: 100%;
+}
+
+.sign_btn{
+    margin-inline: 0.625rem;
+}
+
+.list:hover{
+    transform: scale(1.1);
+}
+
+ .burger_list_white .half_line, .burger_list_white .full_line{
+    background-color: white !important;
+}
+
+.cart_icon{
+    font-size:25px;
+    fill: var(--main_color) !important;
+    font-weight: 700;
+    margin-inline: 20px;
+    cursor: pointer;
+    transition: all .3s;
+}
+.cart_icon:hover{
+    scale: 1.08;
+    color: var(--main_color);
+}
+
+
+@media screen and (max-width:1150px) {
+    
+    .list{
+        display: flex;
+    }
+
+    .special_hidden{
+        display: none !important;
+    }
+}
+
+@media screen and (max-width:536px) {
+    .sign_btn{
+        display: none ;
+    }
+    .brand{
+        width: 9.375rem;
+    }
+}
+
+@media screen and (max-width:355px) {
+    .brand{
+        width: 6.25rem;
+    }
+    .main_nav{
+        justify-content: center;
+     }
+}
+
+
+@media screen and (max-width:275px) {
+    .brand{
+        width: 5rem;
+    }
+
+}
+@media screen and (max-width:259px) {
+    .brand{
+        width: 4.375rem;
+    }
+
+}
+@media screen and (max-width:243px) {
+    .list{
+        font-size: 1.375rem;
+    }
+    .brand{
+        margin-left: 20%;
+    }
+}
+
+@media screen and (max-width:179px) {
+    .brand{
+        width: 4.375rem;
+    }
+}

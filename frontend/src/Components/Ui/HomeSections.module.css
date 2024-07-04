@@ -1,0 +1,52 @@
+/* ------------------------------------------------- sec2 quality section----------------------- */
+
+.sec2_quality_img{
+    width: 25rem;
+}
+.sec3_caption h2{
+    margin-bottom: 3rem;
+}
+
+/* ------------------------------------------------- sec3 caption section----------------------- */
+.caption{
+    background-color: var(--main_color_lighter);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    width: 85vw;
+    border-radius: 1.875rem;
+    padding-inline:3.125rem;
+    margin: auto;
+    margin-bottom: 3.125rem;
+    text-align: center;
+}
+.caption h2{
+    font-weight: 900;
+    font-family: var(--jakarta);
+    font-size:2.5rem;
+    margin-bottom: 1.875rem;
+}
+.caption p{
+    font-size:1.25rem;
+    font-weight: 700;
+    margin-bottom: 1.875rem;
+}
+
+@media screen and (max-width:768px){
+    .sec3_caption h2{
+        margin-bottom:5px;
+        margin-top: 40px;   
+    }
+    .sec3_caption{
+        text-align: center;    
+    }
+}
+@media screen and (max-width:535px){
+    .caption{
+        min-height: 60vh;
+        width: 95vw;
+        padding-inline:0;
+    }
+}

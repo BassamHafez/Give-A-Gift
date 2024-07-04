@@ -1,0 +1,30 @@
+.company{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1.25rem 0;
+}
+.company img{
+    opacity: .7;
+    width: 90px;
+    cursor: pointer;
+    transition: all .3s;
+}
+
+.single_container{
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;   
+}
+.single_container img:hover{
+    opacity: 1;
+}
+
+.double_contianer{
+    height: 200px;
+}
+.double_contianer img{
+    opacity: 1;
+}
+
