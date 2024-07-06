@@ -3,6 +3,7 @@ import {RouterProvider, createBrowserRouter } from "react-router-dom";
 import Root from "./Pages/Root";
 import Home from './Pages/Home/Home';
 import SpecialCards from './Pages/SpecialCards/SpecialCards';
+import About from './Pages/About/About';
 
 function App() {
 
@@ -11,6 +12,7 @@ function App() {
     element:<Root/>,
     children:[
       {index:true,element:<Home/>},
+      {path:"about",element:<About/>},
       {path:"special-cards",element:<SpecialCards/>}
     ]
   }])  
