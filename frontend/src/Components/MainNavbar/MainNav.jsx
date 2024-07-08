@@ -3,13 +3,15 @@ import { Link, NavLink } from "react-router-dom";
 import MainButton from "../Ui/MainButton";
 import styles from "./MainNav.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faGlobe } from "@fortawesome/free-solid-svg-icons";
+import { faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { faOpencart } from "@fortawesome/free-brands-svg-icons";
 import ResponsiveMenuSlideBar from "../ResponsiveSideBar/ResponsiveSideBar";
 import nav_logo from "../../Images/LogoNav.jpg";
+import { useTranslation } from "react-i18next";
 
 const MainNav = () => {
   const [openResMenu, setOpenResMenu] = useState(false);
+  const[key,control]=useTranslation();
 
   return (
     <>
@@ -30,7 +32,7 @@ const MainNav = () => {
                 to={"/"}
                 end
               >
-                Home
+                {key("homePageTitle")}
               </NavLink>
             </li>
             <li className={`${styles.special_hidden} mx-4`}>
@@ -40,7 +42,7 @@ const MainNav = () => {
                 }
                 to={"about"}
               >
-                About
+                {key("aboutPageTitle")}
               </NavLink>
             </li>
             <li className={`${styles.special_hidden} mx-4`}>
@@ -50,7 +52,7 @@ const MainNav = () => {
                 }
                 to={"contact"}
               >
-                Stores
+                {key("storesPageTitle")}
               </NavLink>
             </li>
             <li className={`${styles.special_hidden} mx-4`}>
@@ -60,7 +62,7 @@ const MainNav = () => {
                 }
                 to={"contact"}
               >
-                Buy A Card
+                {key("buyCardPageTitle")}
               </NavLink>
             </li>
             <li className={`${styles.special_hidden} mx-4`}>
@@ -70,7 +72,7 @@ const MainNav = () => {
                 }
                 to={"contact"}
               >
-                Create A Card
+                {key("createCardPageTitle")}
               </NavLink>
             </li>
           </>
@@ -79,15 +81,31 @@ const MainNav = () => {
         <div className="d-flex align-items-center ms-auto me-2">
           <div className="d-flex justify-content-center align-items-center">
             <FontAwesomeIcon className={styles.cart_icon} icon={faOpencart} />
-            <FontAwesomeIcon className={styles.cart_icon} icon={faGlobe}/>
+            <div className="dropdown">
+              <FontAwesomeIcon
+                className={`${styles.cart_icon} dropdown-toggle`}
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                icon={faGlobe}
+              />
+
+              <ul className="dropdown-menu">
+                <li onClick={()=>control.changeLanguage("ar")} className={`${styles.lang_item} ${control.language==="ar"?styles.active_lang:""}`}>
+                  <span className="dropdown-item">Arabic</span>
+                </li>
+                <li onClick={()=>control.changeLanguage("en")} className={`${styles.lang_item} ${control.language==="en"?styles.active_lang:""}`}>
+                  <span className="dropdown-item">English</span>
+                </li>
+              </ul>
+            </div>
           </div>
 
           <Link to={"login"} className={styles.sign_btn}>
-            <MainButton text="Login" />
+            <MainButton text={`${key("login")}`} />
           </Link>
 
-          <Link to={"company-home"} className={styles.sign_btn}>
-            <MainButton type="white" text="Register" />
+          <Link to={"register"} className={styles.sign_btn}>
+            <MainButton type="white" text={`${key("register")}`} />
           </Link>
 
           <div
@@ -98,7 +116,6 @@ const MainNav = () => {
             <span className={styles.full_line}></span>
             <span className={`${styles.half_line} ms-auto`}></span>
           </div>
-
         </div>
       </nav>
       <ResponsiveMenuSlideBar

@@ -29,5 +29,8 @@
     "sharp": "^0.33.4",
     "uuid": "^10.0.0",
     "xss-clean": "^0.1.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
   }
 }

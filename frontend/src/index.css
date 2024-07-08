@@ -3,15 +3,14 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family:var(--main_font_en);
+  font-family:var(--main_font);
 }
 body {
   overflow-x: hidden;
   background-color: var(--main_bg_color);
 }
 :root{
-  --main_font_en:"Playfair Display", serif;
-  --main_font_ar:"Cairo", sans-serif;
+  --main_font:"Playfair Display", serif;
   --main_color:#AF9A85;
   --sub_color:#ee8733;
   --main_bg_color:#FEF7EF;
@@ -70,6 +69,30 @@ ul li{
 }
 .main_shadow{
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.266);
+}
+
+
+.or_span{
+  position: relative;
+  text-align: center;
+}
+.or_span::after{
+  content: "";
+  width: 12.5rem;
+  height: 0.0625rem;
+  background-color: rgb(202, 202, 202);
+  position: absolute;
+  top: 50%;
+  left:1.25rem;
+}
+.or_span::before{
+  content: "";
+  width: 12.5rem;
+  height: 0.0625rem;
+  background-color: rgb(202, 202, 202);
+  position: absolute;
+  top: 50%;
+  right:1.25rem;
 }
 
 @media screen and (max-width:768px) {

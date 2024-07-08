@@ -4,8 +4,12 @@ import cardHand from "../../Images/cardHand.png";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import MainButtonTwo from "../Ui/MainButtonTwo";
+import { useTranslation } from "react-i18next";
 
 const HomeHeader = () => {
+
+  const {t:key}=useTranslation();
+
   return (
     <div className={styles.header_container}>
       <div className={styles.header_layer}></div>
@@ -13,7 +17,7 @@ const HomeHeader = () => {
         <Col md={7} className={styles.caption_side}>
           <div>
             <h1>
-              Send the Perfect Gift Card <br /> Your Way, Anytime!
+              {key("title")}
             </h1>
             <MainButtonTwo text="Get Card"/>
             <a href="#firstSec">

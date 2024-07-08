@@ -1,0 +1,131 @@
+.login_form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.25rem;
+    padding-top: 0;
+}
+.user_input_faild{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0.9375rem 0;
+    position: relative;
+}
+.user_input_faild label{
+    margin-bottom: 0.3125rem;
+}
+
+.login_btn{
+    width: 80%;
+    background-color: var(--main_color);
+    color: white;
+    padding: 0.625rem 0.9375rem;
+    border-radius: 0.9375rem;
+    margin: 0.9375rem 0 0.625rem 0;
+    transition: background-color .3s;
+}
+.login_btn:hover{
+    background-color: var(--sub_color);
+}
+.form_options{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 15px 0;
+}
+.form_options span{
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: black;
+    letter-spacing: 1px;
+}
+.form_options span a{
+    color: var(--darker_main_color);
+}
+.remember_div label{
+    font-size: 0.875rem;
+    margin-left: 0.3125rem;
+    font-weight: 700;
+}
+.show_password_field{
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(50%);
+    margin-right: 20px;
+    color: var(--main_color);
+    cursor: pointer;
+}
+
+.select_type{
+    margin-inline: 0.625rem;
+    background-color: var(--vanilla);
+    font-size: 0.75rem;
+    padding: 0.4375rem 0.6875rem;
+    border-radius: 0.625rem;
+    color: var(--main_color);
+    cursor: pointer;
+    transition: all .4s;
+}
+.select_type:hover{
+    scale: 1.1;
+}
+.active_type{
+    background-color: var(--main_color);
+    color:white;
+}
+.login_google{
+    transform: translateY(0);
+    opacity: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transition: all .5s;
+}
+.hidden_google_login{
+    transform: translateY(100%);
+    opacity: 0;
+    transition: all .5s;
+}
+
+@media screen and (max-width:855px) {
+    .form_options{
+        flex-direction: column;
+        align-items: start;
+    }
+    .login_btn{
+        margin-top:1.875rem;
+    }
+}
+@media screen and (max-width:650px) {
+    .login_form{
+        padding:0.3125rem;
+    }
+    .sign_with_google{
+        width: 100%;
+        padding-inline: 0.625rem;
+    }
+
+}
+
+@media screen and (max-width:420px){
+    .sign_with_google{
+        padding-inline: 1.875rem;
+    }
+    .form_options{
+        flex-direction:row;
+        align-items: center;
+    }
+    }
+
+@media screen and (max-width:295px){
+    .form_options{
+        flex-direction:column;
+        align-items: start;
+    }
+    }
+

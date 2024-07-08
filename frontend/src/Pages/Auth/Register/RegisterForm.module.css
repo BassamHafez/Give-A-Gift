@@ -1,0 +1,53 @@
+/* _________________________________________________________________Form_______________________________ */
+
+.register_form{
+    padding:0.9375rem 1.25rem;
+    width: 100%;
+    text-align: center;
+    overflow: hidden;
+}
+.register_form label{
+    text-align: start;
+    margin-bottom: 0.1875rem;
+}
+.register_btn{
+    width: 80%;
+    background-color: var(--main_color);
+    color: white;
+    padding: 0.625rem 0.9375rem;
+    border-radius: 0.9375rem;
+    margin: 0.625rem 0;
+    transition: background-color .3s;
+}
+.register_btn:hover{
+    background-color:var(--sub_color);
+}
+.confirm_password, .password_field{
+    width: 50%;
+}
+.have_acc_p{
+    letter-spacing: 1px;
+}
+@media screen and (max-width:1130px) {
+    .register_form div{
+       margin-inline:0 !important;
+    }
+    .pass_group{
+        flex-wrap: wrap;
+    }
+    .confirm_password, .password_field{
+        width: 100% !important;
+    }
+    .password_field{
+        margin-bottom: 30px;
+    }
+}
+
+@media screen and (max-width:268px) {
+    .register_btn{
+        margin-top: 1.5625rem;
+    }
+    .register_form{
+        padding: 0.125rem;
+    }
+}
