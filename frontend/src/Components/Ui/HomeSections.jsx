@@ -4,12 +4,27 @@ import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import cardWithDetails from "../../Images/cardWithDetails.jpg";
 import MainButtonTwo from "./MainButtonTwo";
+import { useTranslation } from "react-i18next";
 
 const HomeSections = () => {
+  const {t:key} = useTranslation();
+
   return (
     <>
       <section className="my-5 py-5">
         <Row className="mt-5">
+          <Col
+            md={6}
+            className="d-flex justify-content-center align-items-center"
+            data-aos="zoom-in-up"
+            data-aos-duration="900"
+          >
+            <div className={`${styles.sec3_caption} px-4`}>
+              <h2 className="text-center">{key("sec2Title")}</h2>
+              <p>{key("sec2Caption")}</p>
+            </div>
+          </Col>
+
           <Col
             md={6}
             className="d-flex justify-content-center align-items-center"
@@ -28,24 +43,6 @@ const HomeSections = () => {
               </div>
             </div>
           </Col>
-          <Col
-            md={6}
-            className="d-flex justify-content-center align-items-center"
-            data-aos="zoom-in-up"
-            data-aos-duration="900"
-          >
-            <div className={`${styles.sec3_caption} px-4`}>
-              <h2 className="text-center">
-                Our Commitment to Quality and Customer Satisfaction
-              </h2>
-              <p>
-                We provide top-quality gift cards and a seamless experience,
-                from design selection to timely delivery. Customer satisfaction
-                is our priority, and we're here to assist with any inquiries.
-                Enjoy personalized service that makes every occasion special.
-              </p>
-            </div>
-          </Col>
         </Row>
       </section>
 
@@ -56,19 +53,15 @@ const HomeSections = () => {
             data-aos="zoom-in-up"
             data-aos-duration="900"
           >
-            <h2 className="text-center">Our Policy</h2>
-            <p>
-              We offer a wide range of gift cards that suit all tastes and
-              occasions. We also offer the possibility of creating a custom gift
-              card with your own design and text.
-            </p>
+            <h2 className="text-center">{`${key("sec3Title")}`}</h2>
+            <p>{`${key("sec3Caption")}`}</p>
           </div>
           <div
             className="text-center"
             data-aos="zoom-in-up"
             data-aos-duration="900"
           >
-            <MainButtonTwo text="Show Cards" />
+            <MainButtonTwo text={`${key("getCardBtn")}`} />
           </div>
         </div>
       </section>

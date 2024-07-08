@@ -7,7 +7,7 @@
     box-shadow: 0 0.1875rem 0.1875rem rgba(0, 0, 0, 0.129);
     position: relative;
 }
-.header_layer{
+.header_layer,.header_layer_ar{
     background-color: var(--main_color);
     width:38%;
     height: 100%;
@@ -17,6 +17,13 @@
     z-index: -1;
     border-radius: 47%  0.625rem  0.625rem 47% ;
 }
+.header_layer_ar{
+    right: 100%;
+    transform: translateX(100%);
+    top: 0;
+    border-radius: 0.625rem 47%  47%   0.625rem;
+}
+
 .img_side,.caption_side{
     display: flex;
     justify-content: center;
@@ -80,7 +87,7 @@
     .scroll_down{
         display: none;
     }
-    .header_layer{
+    .header_layer,.header_layer_ar{
         bottom: 0;
         left: 0;
         height:38%;
