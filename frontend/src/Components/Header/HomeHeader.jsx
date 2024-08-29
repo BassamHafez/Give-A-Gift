@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./HomeHeader.module.css";
-import cardHand from "../../Images/cardHand.png";
+import cardHand from "../../Images/headerCard.png";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import MainButtonTwo from "../Ui/MainButtonTwo";

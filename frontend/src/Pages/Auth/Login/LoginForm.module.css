@@ -50,7 +50,7 @@
     margin-left: 0.3125rem;
     font-weight: 700;
 }
-.show_password_field{
+.show_password_field,.show_password_field_ar{
     position: absolute;
     right: 0;
     top: 50%;
@@ -59,7 +59,11 @@
     color: var(--main_color);
     cursor: pointer;
 }
-
+.show_password_field_ar{
+    right:98%;
+    transform: translate(100%,50%);
+    margin-right: 0;
+}
 .select_type{
     margin-inline: 0.625rem;
     background-color: var(--vanilla);

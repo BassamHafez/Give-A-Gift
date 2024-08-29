@@ -51,7 +51,7 @@ const MainNav = () => {
                 className={({ isActive }) =>
                   isActive ? styles.active : undefined
                 }
-                to={"contact"}
+                to={"stores"}
               >
                 {key("storesPageTitle")}
               </NavLink>
@@ -61,7 +61,7 @@ const MainNav = () => {
                 className={({ isActive }) =>
                   isActive ? styles.active : undefined
                 }
-                to={"contact"}
+                to={"special-cards"}
               >
                 {key("buyCardPageTitle")}
               </NavLink>

@@ -8,10 +8,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faYinYang } from "@fortawesome/free-solid-svg-icons";
 import { signFormsHandler } from "../../../util/Http";
 import InputErrorMessage from "../../../Components/Ui/InputErrorMessage";
+import { useTranslation } from "react-i18next";
 
 const RegisterForm = () => {
   const [isEmailError, setIsEmailError] = useState(false);
   const navigate = useNavigate();
+  const [ key,control ] = useTranslation();
+  let isArLang = control.language === "ar";
 
   const { mutate, isPending } = useMutation({
     mutationFn: signFormsHandler,
@@ -49,23 +52,24 @@ const RegisterForm = () => {
     password: "",
     passwordConfirm: "",
   };
+
   const onSubmit = (values) => {
     mutate({ type: "signup", formData: values });
   };
 
   const passwordRegex = string()
-    .min(5, "Min 5 characters")
-    .required("Password is required")
-    .matches(/[A-Z]+/, "Must contain at least one uppercase character")
-    .matches(/[a-z]+/, "Must contain at least one lowercase character")
-    .matches(/[0-9]+/, "Must contain at least one number");
+    .min(5, `${key("passwordValidation1")}`)
+    .required(`${key("passwordValidation2")}`)
+    .matches(/[A-Z]+/, `${key("passwordValidation3")}`)
+    .matches(/[a-z]+/, `${key("passwordValidation4")}`)
+    .matches(/[0-9]+/, `${key("passwordValidation5")}`);
 
   const validationSchema = object({
     name: string()
-      .min(3, "name should be at min 3 char")
-      .max(20, "name should be at max 20 char")
-      .required("first name is required"),
-    email: string().email("email not valid").required("email is required"),
+      .min(3, `${key("nameValidation1")}`)
+      .max(20, `${key("nameValidation2")}`)
+      .required(`${key("nameValidation3")}`),
+    email: string().email(`${key("emailValidation1")}`).required(`${key("emailValidation2")}`),
     password: passwordRegex,
     passwordConfirm: passwordRegex,
   });
@@ -78,7 +82,7 @@ const RegisterForm = () => {
     >
       <Form className={styles.register_form}>
         <div className="d-flex flex-column mb-5  position-relative">
-          <Field type="text" id="name" name="name" placeholder="Name" />
+          <Field type="text" id="name" name="name" placeholder={key("name")} />
           <ErrorMessage name="name" component={InputErrorMessage} />
         </div>
 
@@ -87,7 +91,7 @@ const RegisterForm = () => {
             type="email"
             id="email_Input"
             name="email"
-            placeholder="Email"
+            placeholder={`${key("email")}`}
           />
           <ErrorMessage name="email" component={InputErrorMessage} />
           {isEmailError && <InputErrorMessage text="email already exist!" />}
@@ -96,13 +100,13 @@ const RegisterForm = () => {
           className={`${styles.pass_group} d-flex justify-content-between align-items-center mb-5`}
         >
           <div
-            className={`${styles.password_field} d-flex flex-column me-2 position-relative`}
+            className={`${styles.password_field} ${isArLang?"ms-2":"me-2"} d-flex flex-column position-relative`}
           >
             <Field
               type="password"
               id="Password_Input"
               name="password"
-              placeholder="Password"
+              placeholder={`${key("password")}`}
             />
             <ErrorMessage name="password" component={InputErrorMessage} />
           </div>
@@ -113,7 +117,7 @@ const RegisterForm = () => {
               type="password"
               id="passwordConfirm"
               name="passwordConfirm"
-              placeholder="Confirm Password"
+              placeholder={`${key("confirmPass")}`}
             />
             <ErrorMessage
               name="passwordConfirm"
@@ -127,14 +131,14 @@ const RegisterForm = () => {
           </button>
         ) : (
           <button type="submit" className={styles.register_btn}>
-            Register
+            {key("register")}
           </button>
         )}
         <div>
           <span className="or_span">or</span>
           <p className={`${styles.have_acc_p} mini_word`}>
-            Already have an Account{" "}
-            <Link to={"/login"}>Login</Link>
+            {key("haveAcc")}{" "}
+            <Link to={"/login"}>{key("login")}</Link>
           </p>
         </div>
       </Form>
