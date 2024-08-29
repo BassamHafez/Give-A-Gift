@@ -16,7 +16,7 @@ const userRoutes = require("./routes/userRoutes");
 const shapeRoutes = require("./routes/shapeRoutes");
 const shopRoutes = require("./routes/shopRoutes");
 const cardRoutes = require("./routes/cardRoutes");
-const walletRoutes = require("./routes/walletRoutes");
+// const walletRoutes = require("./routes/walletRoutes");
 // const paymentRoutes = require("./routes/paymentRoutes");
 
 const app = express();
@@ -74,7 +74,7 @@ app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/shapes", shapeRoutes);
 app.use("/api/v1/shops", shopRoutes);
 app.use("/api/v1/cards", cardRoutes);
-app.use("/api/v1/wallets", walletRoutes);
+// app.use("/api/v1/wallets", walletRoutes);
 // app.use("/api/v1/payments", paymentRoutes);
 
 app.all("*", (req, res, next) => {
