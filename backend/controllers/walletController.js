@@ -1,6 +1,7 @@
 const Wallet = require("../models/walletModel");
 const User = require("../models/userModel");
 const Card = require("../models/cardModel");
+const Config = require("../models/configModel");
 const catchAsync = require("../utils/catchAsync");
 const ApiError = require("../utils/ApiError");
 
@@ -8,9 +9,13 @@ exports.getMyWallet = catchAsync(async (req, res, next) => {
   let wallet = await Wallet.findOne({ user: req.user.id });
 
   if (!wallet) {
+    const STARTING_BALANCE = await Config.findOne({
+      key: "WALLET_STARTING_BALANCE",
+    });
+
     wallet = await Wallet.create({
       user: req.user.id,
-      balance: 0,
+      balance: +STARTING_BALANCE?.value || 0,
     });
   }
 

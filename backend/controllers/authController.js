@@ -3,6 +3,7 @@ const { promisify } = require("util");
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 const Wallet = require("../models/walletModel");
+const Config = require("../models/configModel");
 const catchAsync = require("../utils/catchAsync");
 const ApiError = require("../utils/ApiError");
 const sendEmail = require("../utils/sendEmail");
@@ -34,9 +35,13 @@ exports.signup = catchAsync(async (req, res, next) => {
     password: req.body.password,
   });
 
+  const STARTING_BALANCE = await Config.findOne({
+    key: "WALLET_STARTING_BALANCE",
+  });
+
   Wallet.create({
     user: newUser._id,
-    balance: 0,
+    balance: +STARTING_BALANCE?.value || 0,
   });
 
   createSendToken(newUser, 201, res);
