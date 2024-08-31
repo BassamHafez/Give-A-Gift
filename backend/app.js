@@ -17,12 +17,13 @@ const userRoutes = require("./routes/userRoutes");
 const shapeRoutes = require("./routes/shapeRoutes");
 const shopRoutes = require("./routes/shopRoutes");
 const cardRoutes = require("./routes/cardRoutes");
-// const walletRoutes = require("./routes/walletRoutes");
-// const paymentRoutes = require("./routes/paymentRoutes");
+const walletRoutes = require("./routes/walletRoutes");
+const paymentRoutes = require("./routes/paymentRoutes");
+const configRoutes = require("./routes/configRoutes");
 
 const app = express();
 
-// app.set("trust proxy", true);
+app.set("trust proxy", true);
 
 ensureDirectories();
 // Serve static files
@@ -44,6 +45,9 @@ if (process.env.NODE_ENV === "development") {
 const limiter = rateLimit({
   max: 200,
   windowMs: 60 * 60 * 1000,
+  keyGenerator: (req) => {
+    return req.ip; // Customize key generation to ensure correct IP is used
+  },
   message: "Too many requests from this IP, Please try again in an hour!",
 });
 app.use("/api", limiter);
@@ -75,8 +79,9 @@ app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/shapes", shapeRoutes);
 app.use("/api/v1/shops", shopRoutes);
 app.use("/api/v1/cards", cardRoutes);
-// app.use("/api/v1/wallets", walletRoutes);
-// app.use("/api/v1/payments", paymentRoutes);
+app.use("/api/v1/wallets", walletRoutes);
+app.use("/api/v1/payments", paymentRoutes);
+app.use("/api/v1/configs", configRoutes);
 
 app.all("*", (req, res, next) => {
   next(new ApiError(`Can't find ${req.originalUrl} on server!`, 404));
