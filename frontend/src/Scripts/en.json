@@ -6,6 +6,7 @@
     "createCardPageTitle":"Create A Card",
     "buyCardPageTitle":"Buy A Card",
     "login":"Login",
+    "logout":"Logout",
     "register":"Register",
     "getCardBtn":"Get Card",
     "showCardBtn":"Show Cards",
@@ -35,5 +36,13 @@
     "passwordValidation2":"Password is required",
     "passwordValidation3":"Must contain at least one uppercase character",
     "passwordValidation4":"Must contain at least one lowercase character",
-    "passwordValidation5":"Must contain at least one number"
+    "passwordValidation5":"Must contain at least one number",
+    "passwordMismatch":"the passwords do not match",
+    "dashboard":"Dashboard",
+    "setting":"Setting",
+    "help":"Help",
+    "search":"Search here",
+    "specialCardsPageTitle":"Special Cards For You",
+    "storesTitle":"Stores we work with",
+    "sar":"SAR"
 }

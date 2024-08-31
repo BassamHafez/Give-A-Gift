@@ -1,8 +1,8 @@
 .store_card{
-    margin: 20px 0;
+    margin: 1.25rem 0;
 }
 .store_logo{
-    width: 80px;
+    width: 5rem;
     border-radius: 50%;
 }
 .store_logo img{
@@ -14,13 +14,20 @@
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.242);
 }
 .filter_box{
-    border: 1px solid black;
-    border-radius: 3px;
-    padding: 5px 10px;
+    border: 0.0625rem solid rgb(201, 200, 200);
+    border-radius: 0.1875rem;
+    padding: 0.3125rem 0.5rem;
+    cursor: pointer;
+    transition: all .3s;
+}
+.filter_box:hover svg{
+    transition: all .3s;
+}
+.filter_box:hover{
+   color: var(--dusty_Gold);
 }
 .filter{
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 1.125rem;
 }
 
 

@@ -7,6 +7,7 @@ const mongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
 const hpp = require("hpp");
 const compression = require("compression");
+const cors = require("cors");
 
 const ApiError = require("./utils/ApiError");
 const globalErrorHandler = require("./controllers/errorController");
@@ -16,16 +17,21 @@ const shapeRoutes = require("./routes/shapeRoutes");
 const shopRoutes = require("./routes/shopRoutes");
 const cardRoutes = require("./routes/cardRoutes");
 // const walletRoutes = require("./routes/walletRoutes");
+// const paymentRoutes = require("./routes/paymentRoutes");
 
 const app = express();
 
-// GLOBAL MIDDLEWARES
+// app.set("trust proxy", true);
 
 // Serve static files
 app.use(express.static(path.join(__dirname, "uploads")));
 
 // set security HTTP headers
 app.use(helmet());
+
+// Enable CORS
+app.use(cors());
+app.options("*", cors());
 
 // development logging
 if (process.env.NODE_ENV === "development") {
@@ -34,7 +40,7 @@ if (process.env.NODE_ENV === "development") {
 
 // limit requests from same IP
 const limiter = rateLimit({
-  max: 100,
+  max: 200,
   windowMs: 60 * 60 * 1000,
   message: "Too many requests from this IP, Please try again in an hour!",
 });
@@ -69,6 +75,7 @@ app.use("/api/v1/shapes", shapeRoutes);
 app.use("/api/v1/shops", shopRoutes);
 app.use("/api/v1/cards", cardRoutes);
 // app.use("/api/v1/wallets", walletRoutes);
+// app.use("/api/v1/payments", paymentRoutes);
 
 app.all("*", (req, res, next) => {
   next(new ApiError(`Can't find ${req.originalUrl} on server!`, 404));

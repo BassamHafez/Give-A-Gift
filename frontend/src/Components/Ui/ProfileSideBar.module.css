@@ -1,0 +1,34 @@
+.canvas_continer{
+    height: 50%;
+    width: 18.75rem !important;
+    border-radius: 0 1.25rem 1.25rem 0;
+}
+.canvas_container_ar{
+    border-radius:  1.25rem  0 0 1.25rem ;  
+}
+.list{
+    padding:0
+}
+.list_item{
+    margin-bottom: 0.9375rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all .3s;
+    padding: 0.1875rem;
+    border-radius: 0.3125rem;
+}
+.list_item:hover{
+background-color: var(--ivory_color);
+cursor: pointer;
+scale: 1.03;
+}
+.list_icon{
+    font-size: 1.5625rem;
+    color:var(--slate_blue);
+}
+.canvas_title{
+    width: 100%;
+}

@@ -57,7 +57,7 @@
     padding: 0.75rem 1.25rem;
     border-radius: 0.1875rem;
     font-weight: 700;
-    background-color: var(--sub_color);
+    background-color: var(--dusty_Gold);
     min-width: 12.5rem;
     box-shadow: 0 0 0.1875rem rgba(0, 0, 0, 0.266);
     color: white;
@@ -66,6 +66,7 @@
 }
 .btn_two:hover{
     scale: 1.07;
+    background-color: var(--sub_color);
 }
 
 /* ____________________________btn three______________________________________ */

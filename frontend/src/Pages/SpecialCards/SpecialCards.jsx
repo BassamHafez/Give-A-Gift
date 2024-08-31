@@ -7,11 +7,16 @@ import Card from "react-bootstrap/Card";
 import giftCard from "../../Images/giftCard.jpg";
 import shop from "../../Images/Stores/shop1.png";
 import SearchField from "../../Components/Ui/SearchField";
+import { useTranslation } from 'react-i18next';
 
 const SpecialCards = () => {
+
+  const { t: key } = useTranslation();
+  let isArLang = localStorage.getItem("i18nextLng")==="ar";
+
   return (
     <Container className="my-5">
-    <h2 className="text-center my-3 mb-5">Special Cards For You</h2>
+    <h2 className="text-center my-3 mb-5">{key("specialCardsPageTitle")}</h2>
     <div className="d-flex justify-content-between my-4">
       <div className={styles.filter_box}>
         <span className={styles.filter}>
@@ -30,7 +35,7 @@ const SpecialCards = () => {
       </div>
       <div className="w-25">
         <SearchField
-          text="search Stores"
+          text={key("search")}
         />
       </div>
     </div>
@@ -45,8 +50,8 @@ const SpecialCards = () => {
                 <div className={styles.store_logo}>
                   <img src={shop} alt="shop logo" className="w-100" />
                 </div>
-                <h5 className="me-4 my-3 ms-auto">
-                  400 SAR
+                <h5 className={`${isArLang?"ms-4  me-auto":"me-4  ms-auto"} my-3`}>
+                  400 {key("sar")}
                 </h5>
                 </div>
        
@@ -65,8 +70,8 @@ const SpecialCards = () => {
                 <div className={styles.store_logo}>
                   <img src={shop} alt="shop logo" className="w-100" />
                 </div>
-                <h5 className="me-4 my-3 ms-auto">
-                  400 SAR
+                <h5 className={`${isArLang?"ms-4  me-auto":"me-4  ms-auto"} my-3`}>
+                  400 {key("sar")}
                 </h5>
                 </div>
        
@@ -85,8 +90,8 @@ const SpecialCards = () => {
                 <div className={styles.store_logo}>
                   <img src={shop} alt="shop logo" className="w-100" />
                 </div>
-                <h5 className="me-4 my-3 ms-auto">
-                  400 SAR
+                <h5 className={`${isArLang?"ms-4  me-auto":"me-4  ms-auto"} my-3`}>
+                  400 {key("sar")}
                 </h5>
                 </div>
        
@@ -105,8 +110,8 @@ const SpecialCards = () => {
                 <div className={styles.store_logo}>
                   <img src={shop} alt="shop logo" className="w-100" />
                 </div>
-                <h5 className="me-4 my-3 ms-auto">
-                  400 SAR
+                <h5 className={`${isArLang?"ms-4  me-auto":"me-4  ms-auto"} my-3`}>
+                  400 {key("sar")}
                 </h5>
                 </div>
        
@@ -125,8 +130,8 @@ const SpecialCards = () => {
                 <div className={styles.store_logo}>
                   <img src={shop} alt="shop logo" className="w-100" />
                 </div>
-                <h5 className="me-4 my-3 ms-auto">
-                  400 SAR
+                <h5 className={`${isArLang?"ms-4  me-auto":"me-4  ms-auto"} my-3`}>
+                  400 {key("sar")}
                 </h5>
                 </div>
        
@@ -145,8 +150,8 @@ const SpecialCards = () => {
                 <div className={styles.store_logo}>
                   <img src={shop} alt="shop logo" className="w-100" />
                 </div>
-                <h5 className="me-4 my-3 ms-auto">
-                  400 SAR
+                <h5 className={`${isArLang?"ms-4  me-auto":"me-4  ms-auto"} my-3`}>
+                  400 {key("sar")}
                 </h5>
                 </div>
        
@@ -165,8 +170,8 @@ const SpecialCards = () => {
                 <div className={styles.store_logo}>
                   <img src={shop} alt="shop logo" className="w-100" />
                 </div>
-                <h5 className="me-4 my-3 ms-auto">
-                  400 SAR
+                <h5 className={`${isArLang?"ms-4  me-auto":"me-4  ms-auto"} my-3`}>
+                  400 {key("sar")}
                 </h5>
                 </div>
        
@@ -185,8 +190,8 @@ const SpecialCards = () => {
                 <div className={styles.store_logo}>
                   <img src={shop} alt="shop logo" className="w-100" />
                 </div>
-                <h5 className="me-4 my-3 ms-auto">
-                  400 SAR
+                <h5 className={`${isArLang?"ms-4  me-auto":"me-4  ms-auto"} my-3`}>
+                  400 {key("sar")}
                 </h5>
                 </div>
        
@@ -205,8 +210,8 @@ const SpecialCards = () => {
                 <div className={styles.store_logo}>
                   <img src={shop} alt="shop logo" className="w-100" />
                 </div>
-                <h5 className="me-4 my-3 ms-auto">
-                  400 SAR
+                <h5 className={`${isArLang?"ms-4  me-auto":"me-4  ms-auto"} my-3`}>
+                  400 {key("sar")}
                 </h5>
                 </div>
        

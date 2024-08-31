@@ -6,6 +6,7 @@
     "createCardPageTitle":"أنشئ بطاقة",
     "buyCardPageTitle":"اشتري بطاقة",
     "login":"تسجيل الدخول",
+    "logout":"تسجيل الخروج",
     "register":"أنشئ حساب جديد",
     "getCardBtn":"أحصل علي بطاقة",
     "showCardBtn":"عرض البطاقات",
@@ -35,5 +36,13 @@
     "passwordValidation2":"كلمة المرور مطلوبة",
     "passwordValidation3":"يجب أن تحتوي علي حرف كبير",
     "passwordValidation4":"يجب أن تحتوي علي حرف صغير",
-    "passwordValidation5":"يجب أن تحتوي علي رقم"
+    "passwordValidation5":"يجب أن تحتوي علي رقم",
+    "passwordMismatch":"كلمة المرور غير مطابقة",
+    "dashboard":"لوحة التحكم",
+    "setting":"الإعدادات",
+    "help":"المساعدة",
+    "search":"ابحث هنا",
+    "specialCardsPageTitle":"بطاقات خاصة لك",
+    "storesTitle":"المتاجر التي نعمل معها",
+    "sar":"ر.س"
 }

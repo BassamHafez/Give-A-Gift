@@ -20,10 +20,8 @@ import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { signFormsHandler } from "../../../util/Http";
 import { useTranslation } from "react-i18next";
 
-const LoginForm = () => {
+const LoginForm = ({notifySuccess,notifyError}) => {
   
-  const [isEmailError, setIsEmailError] = useState(false);
-  const [isPasswordError, setIsPasswordError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [ key,control ] = useTranslation();
   let isArLang = control.language === "ar";
@@ -38,8 +36,7 @@ const LoginForm = () => {
       if (res.status === "success") {
         console.log("res", res);
           if (res.data.user.role === "user") {
-            setIsEmailError(false);
-            setIsPasswordError(false);
+            notifySuccess()
             dispatch(userActions.setUserInfo(res.data.user));
             dispatch(userActions.setIsLogin(true));
             dispatch(userActions.setRole("user"));
@@ -50,22 +47,18 @@ const LoginForm = () => {
             dispatch(saveTokenState(res.token));
             navigate("/");
           } else {
-            console.log(res);
-            alert("sorry something went wrong please try again later!");
+            console.log("else res",res);
+            notifyError("sorry something went wrong please try again later!");
           }
         }
     },
     onError: (error) => {
       console.log(error);
-      if (error.status === 404) {
-        setIsEmailError(true);
-        setIsPasswordError(false);
-      } else if (error.status === 401) {
-        setIsEmailError(false);
-        setIsPasswordError(true);
+      if (error.status === 401) {
+        notifyError("Email or Password Incorrect")
       } else {
         console.log(error);
-        alert("sorry something went wrong please try again later!");
+        notifyError();
       }
     },
   });
@@ -113,7 +106,6 @@ const LoginForm = () => {
               placeholder="example@gmail.com"
             />
             <ErrorMessage name="email" component={InputErrorMessage} />
-            {isEmailError && <InputErrorMessage text="email not found!" />}
           </div>
           <div className={styles.user_input_faild}>
             <label htmlFor="passwordInput">{key("password")}</label>
@@ -123,9 +115,6 @@ const LoginForm = () => {
               name="password"
             />
             <ErrorMessage name="password" component={InputErrorMessage} />
-            {isPasswordError && (
-              <InputErrorMessage text="Incorrect Password!" />
-            )}
             <FontAwesomeIcon
               onClick={toggleShowPassword}
               className={`${isArLang?styles.show_password_field_ar:styles.show_password_field}`}

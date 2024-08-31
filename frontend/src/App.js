@@ -10,6 +10,8 @@ import Register from './Pages/Auth/Register/Register';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from "react-redux";
+import { getisLoginState, getRoleState, getToken, getUserInfoFromLocalStorage } from './Store/userInfo-actions';
 
 
 const router=createBrowserRouter([{
@@ -30,6 +32,7 @@ const router=createBrowserRouter([{
 function App() {
 
   const {i18n:control}=useTranslation();
+  const dispatch=useDispatch();
 
   useEffect(() => {
     const updateFontFamily = () => {
@@ -55,6 +58,20 @@ function App() {
     };
   }, [control]);
   
+
+
+  // recieve user data from localStorage with login and role states
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem("userData"))) {
+      dispatch(getUserInfoFromLocalStorage());
+    }
+    if (JSON.parse(localStorage.getItem("token"))) {
+      dispatch(getRoleState());
+      dispatch(getToken());
+    }
+    dispatch(getisLoginState());
+  }, [dispatch]);
+
   const queryClient = new QueryClient();
 
   return (
