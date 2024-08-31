@@ -19,6 +19,7 @@ const shopRoutes = require("./routes/shopRoutes");
 const cardRoutes = require("./routes/cardRoutes");
 const walletRoutes = require("./routes/walletRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
+const configRoutes = require("./routes/configRoutes");
 
 const app = express();
 
@@ -80,6 +81,7 @@ app.use("/api/v1/shops", shopRoutes);
 app.use("/api/v1/cards", cardRoutes);
 app.use("/api/v1/wallets", walletRoutes);
 app.use("/api/v1/payments", paymentRoutes);
+app.use("/api/v1/configs", configRoutes);
 
 app.all("*", (req, res, next) => {
   next(new ApiError(`Can't find ${req.originalUrl} on server!`, 404));
