@@ -96,6 +96,11 @@ ul li{
   top: 50%;
   right:1.25rem;
 }
+.disabled{
+  pointer-events: none;
+  opacity: 0.4;
+}
+
 
 @media screen and (max-width:768px) {
   body,html{
