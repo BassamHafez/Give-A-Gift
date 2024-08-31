@@ -2,6 +2,7 @@ import './App.css';
 import {RouterProvider, createBrowserRouter } from "react-router-dom";
 import Root from "./Pages/Root";
 import Home from './Pages/Home/Home';
+import Stores from './Pages/Stores/Stores';
 import SpecialCards from './Pages/SpecialCards/SpecialCards';
 import About from './Pages/About/About';
 import Login from './Pages/Auth/Login/Login';
@@ -9,6 +10,8 @@ import Register from './Pages/Auth/Register/Register';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from "react-redux";
+import { getisLoginState, getRoleState, getToken, getUserInfoFromLocalStorage } from './Store/userInfo-actions';
 
 
 const router=createBrowserRouter([{
@@ -17,6 +20,7 @@ const router=createBrowserRouter([{
   children:[
     {index:true,element:<Home/>},
     {path:"about",element:<About/>},
+    {path:"stores",element:<Stores/>},
     {path:"login",element:<Login/>},
     {path:"register",element:<Register/>},
     {path:"special-cards",element:<SpecialCards/>}
@@ -28,6 +32,7 @@ const router=createBrowserRouter([{
 function App() {
 
   const {i18n:control}=useTranslation();
+  const dispatch=useDispatch();
 
   useEffect(() => {
     const updateFontFamily = () => {
@@ -53,6 +58,20 @@ function App() {
     };
   }, [control]);
   
+
+
+  // recieve user data from localStorage with login and role states
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem("userData"))) {
+      dispatch(getUserInfoFromLocalStorage());
+    }
+    if (JSON.parse(localStorage.getItem("token"))) {
+      dispatch(getRoleState());
+      dispatch(getToken());
+    }
+    dispatch(getisLoginState());
+  }, [dispatch]);
+
   const queryClient = new QueryClient();
 
   return (

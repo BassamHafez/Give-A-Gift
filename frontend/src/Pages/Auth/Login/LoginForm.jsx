@@ -18,11 +18,13 @@ import saveUserInfoIntoLocalStorag, {
 } from "../../../Store/userInfo-actions";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { signFormsHandler } from "../../../util/Http";
+import { useTranslation } from "react-i18next";
 
-const LoginForm = () => {
-  const [isEmailError, setIsEmailError] = useState(false);
-  const [isPasswordError, setIsPasswordError] = useState(false);
+const LoginForm = ({notifySuccess,notifyError}) => {
+  
   const [showPassword, setShowPassword] = useState(false);
+  const [ key,control ] = useTranslation();
+  let isArLang = control.language === "ar";
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -34,8 +36,7 @@ const LoginForm = () => {
       if (res.status === "success") {
         console.log("res", res);
           if (res.data.user.role === "user") {
-            setIsEmailError(false);
-            setIsPasswordError(false);
+            notifySuccess()
             dispatch(userActions.setUserInfo(res.data.user));
             dispatch(userActions.setIsLogin(true));
             dispatch(userActions.setRole("user"));
@@ -46,22 +47,18 @@ const LoginForm = () => {
             dispatch(saveTokenState(res.token));
             navigate("/");
           } else {
-            console.log(res);
-            alert("sorry something went wrong please try again later!");
+            console.log("else res",res);
+            notifyError("sorry something went wrong please try again later!");
           }
         }
     },
     onError: (error) => {
       console.log(error);
-      if (error.status === 404) {
-        setIsEmailError(true);
-        setIsPasswordError(false);
-      } else if (error.status === 401) {
-        setIsEmailError(false);
-        setIsPasswordError(true);
+      if (error.status === 401) {
+        notifyError("Email or Password Incorrect")
       } else {
         console.log(error);
-        alert("sorry something went wrong please try again later!");
+        notifyError();
       }
     },
   });
@@ -70,17 +67,19 @@ const LoginForm = () => {
     email: "",
     password: "",
   };
+
   const onSubmit = (values) => {
     mutate({ type: "login", formData: values });
   };
+
   const validationSchema = object({
-    email: string().email("Email not valid").required("Email is required"),
+    email:string().email(`${key("emailValidation1")}`).required(`${key("emailValidation2")}`),
     password: string()
-      .min(5, "Min 5 characters")
-      .required("Password is required")
-      .matches(/[A-Z]+/, "Must contain at least one uppercase character")
-      .matches(/[a-z]+/, "Must contain at least one lowercase character")
-      .matches(/[0-9]+/, "Must contain at least one number"),
+    .min(5, `${key("passwordValidation1")}`)
+    .required(`${key("passwordValidation2")}`)
+    .matches(/[A-Z]+/, `${key("passwordValidation3")}`)
+    .matches(/[a-z]+/, `${key("passwordValidation4")}`)
+    .matches(/[0-9]+/, `${key("passwordValidation5")}`)
   });
 
   const toggleShowPassword = () => {
@@ -99,7 +98,7 @@ const LoginForm = () => {
       >
         <Form className={styles.login_form}>
           <div className={styles.user_input_faild}>
-            <label htmlFor="emailInput">Email</label>
+            <label htmlFor="emailInput">{key("email")}</label>
             <Field
               type="email"
               id="emailInput"
@@ -107,23 +106,18 @@ const LoginForm = () => {
               placeholder="example@gmail.com"
             />
             <ErrorMessage name="email" component={InputErrorMessage} />
-            {isEmailError && <InputErrorMessage text="email not found!" />}
           </div>
           <div className={styles.user_input_faild}>
-            <label htmlFor="passwordInput">Password</label>
+            <label htmlFor="passwordInput">{key("password")}</label>
             <Field
               type={passwordType}
               id="passwordInput"
               name="password"
-              placeholder="********"
             />
             <ErrorMessage name="password" component={InputErrorMessage} />
-            {isPasswordError && (
-              <InputErrorMessage text="Incorrect Password!" />
-            )}
             <FontAwesomeIcon
               onClick={toggleShowPassword}
-              className={styles.show_password_field}
+              className={`${isArLang?styles.show_password_field_ar:styles.show_password_field}`}
               icon={eyeShape}
             />
           </div>
@@ -134,16 +128,16 @@ const LoginForm = () => {
             </button>
           ) : (
             <button type="submit" className={styles.login_btn}>
-              Login
+              {key("login")}
             </button>
           )}
 
           <div className={styles.form_options}>
             <span>
-              <Link to={"/forget-password"}>Forgot Password?</Link>
+              <Link to={"/forget-password"}>{key("forgotPassword")}</Link>
             </span>
             <span>
-              create account? <Link to={"/register"} className="text-primary">signup</Link>
+            {key("createAccount")} <Link to={"/register"} className="text-primary">{key("register")}</Link>
             </span>
           </div>
         </Form>

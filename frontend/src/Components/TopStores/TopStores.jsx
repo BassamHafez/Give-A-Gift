@@ -21,12 +21,8 @@ import L14 from "../../Images/Stores/shop14.png";
 import L15 from "../../Images/Stores/shop15.png";
 import L16 from "../../Images/Stores/shop16.png";
 import L17 from "../../Images/Stores/shop17.png";
-import { useTranslation } from "react-i18next";
 
 const TopStores = () => {
-
-  const { i18n:control } = useTranslation();
-  let isArLang = control.language === "ar";
 
   return (
     <div dir="ltr">
