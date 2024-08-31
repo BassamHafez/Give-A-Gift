@@ -10,6 +10,7 @@ const compression = require("compression");
 const cors = require("cors");
 
 const ApiError = require("./utils/ApiError");
+const ensureDirectories = require("./utils/createStaticFiles");
 const globalErrorHandler = require("./controllers/errorController");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
@@ -23,6 +24,7 @@ const app = express();
 
 // app.set("trust proxy", true);
 
+ensureDirectories();
 // Serve static files
 app.use(express.static(path.join(__dirname, "uploads")));
 
@@ -49,7 +51,6 @@ app.use("/api", limiter);
 // Body parser
 app.use(express.json({ limit: "10kb" }));
 app.use(express.urlencoded({ extended: true, limit: "10kb" }));
-app.use(express.json());
 
 // Data sanitization against NoSQL injection
 app.use(mongoSanitize());
