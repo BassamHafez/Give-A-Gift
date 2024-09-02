@@ -78,7 +78,7 @@ const MainNav = () => {
                 className={({ isActive }) =>
                   isActive ? styles.active : undefined
                 }
-                to={"contact"}
+                to={"custom-cards"}
               >
                 {key("createCardPageTitle")}
               </NavLink>

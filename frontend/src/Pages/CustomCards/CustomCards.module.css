@@ -1,0 +1,126 @@
+.canva_body {
+    text-align: center;
+    height: 87vh;
+  }
+  .content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 98%;
+    height: 100%;
+    margin: auto;
+  }
+  .card_side_container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--main_color_lighter);
+    border-radius: 10px;
+    padding: 50px;
+    position: relative;
+  }
+.control_side_container{
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-inline: 1.875rem;
+    scrollbar-color: transparent transparent !important;
+    cursor:ns-resize;
+}
+  .card_side_header{
+    position: absolute;
+    left:0;
+    top: 0;
+    color: black;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    width: 100%;
+    padding: 10px 30px;
+  }
+  .rotate_icon{
+    font-size: 20px;
+    color: var(--slate_blue);
+    cursor: pointer;
+    transition: all .4s;
+  }
+  .rotate_icon:hover{
+    color: black;
+  }
+  
+  .card {
+    height: 270px;
+    width: 480px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow:  0 0 3px rgba(0, 0, 0, 0.275);  
+  }
+
+  .logoThumb{
+    width: 80px;
+    margin: 30px 40px;
+  }
+
+  .choose_color{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+  }
+  .color_input{
+    width: 100px;
+    height:40px ;
+    cursor: pointer;
+  }
+  .choose_shape{
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    scrollbar-color: rgb(240, 234, 234) var(--slate_blue) !important;
+}
+    
+    .shapes_container,.logo_container{
+        justify-content: center;
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.326);
+        border-radius: 10px;
+        padding: 5px 10px;
+        height: 310px;
+        overflow-y: auto;
+        width: 100%;
+    }
+    .shape_div{
+        Width: 100px;
+        height: 80px;
+        margin: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all .4s;
+    }
+
+    .shape_div img{
+        border-radius: 5px;
+        height: 100%;
+    }
+
+    .logo_container{
+        padding:15px;
+    }
+
+    .logo_div{
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all .4s;
+        margin-bottom: 40px;
+    }
+    .logo_div img{
+        border-radius: 50%;
+    }
+
+    .shape_div:hover, .logo_div:hover{
+        scale: 1.08;
+    }

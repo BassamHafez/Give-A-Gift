@@ -3,7 +3,6 @@ import styles from "./Stores.module.css";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Card from "react-bootstrap/Card";
 import shop1 from "../../Images/Stores/shop1.png";
 import shop2 from "../../Images/Stores/shop2.png";
 import shop3 from "../../Images/Stores/shop3.png";
