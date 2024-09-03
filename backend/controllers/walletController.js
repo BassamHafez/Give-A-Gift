@@ -144,3 +144,19 @@ exports.addBalanceToWallet = catchAsync(async (req, res, next) => {
     data: wallet,
   });
 });
+
+exports.addBalanceToAllWallets = catchAsync(async (req, res, next) => {
+  const { amountToIncrease } = req.body;
+
+  const result = await Wallet.updateMany(
+    {},
+    { $inc: { balance: amountToIncrease } }
+  );
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      modifiedCount: result.modifiedCount,
+    },
+  });
+});

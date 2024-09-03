@@ -23,7 +23,13 @@ router.post(
 
 router.use(authController.restrictTo("admin"));
 
-router.get("/", walletController.getAllWallets);
+router
+  .route("/")
+  .get(walletController.getAllWallets)
+  .patch(
+    walletValidator.addBalanceToWalletValidator,
+    walletController.addBalanceToAllWallets
+  );
 
 router
   .route("/:id")
