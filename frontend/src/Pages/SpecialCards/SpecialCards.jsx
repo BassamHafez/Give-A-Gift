@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from "./SpecialCards.module.css";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -13,11 +13,15 @@ const SpecialCards = () => {
 
   const { t: key } = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng")==="ar";
-
+  
+  useEffect(()=>{
+    window.scrollTo(0, 0)
+  },[])
+  
   return (
     <Container className="my-5">
     <h2 className="text-center my-3 mb-5">{key("specialCardsPageTitle")}</h2>
-    <div className="d-flex justify-content-between my-4">
+    <div className={`${styles.controllers} d-flex justify-content-between my-4`}>
       <div className={styles.filter_box}>
         <span className={styles.filter}>
           <svg
@@ -33,14 +37,14 @@ const SpecialCards = () => {
           Filter{" "}
         </span>
       </div>
-      <div className="w-25">
+      <div>
         <SearchField
           text={key("search")}
         />
       </div>
     </div>
     <Row>
-      <Col md={4}>
+      <Col md={4} className='d-flex justify-content-center'>
         <div className={styles.store_card}>
           <Card className={styles.card_body}>
             <Card.Img variant="top" src={giftCard} />
@@ -60,7 +64,7 @@ const SpecialCards = () => {
           </Card>
         </div>
       </Col>
-      <Col md={4}>
+      <Col md={4} className='d-flex justify-content-center'>
         <div className={styles.store_card}>
           <Card className={styles.card_body}>
             <Card.Img variant="top" src={giftCard} />
@@ -80,7 +84,7 @@ const SpecialCards = () => {
           </Card>
         </div>
       </Col>
-      <Col md={4}>
+      <Col md={4} className='d-flex justify-content-center'>
         <div className={styles.store_card}>
           <Card className={styles.card_body}>
             <Card.Img variant="top" src={giftCard} />
@@ -100,7 +104,7 @@ const SpecialCards = () => {
           </Card>
         </div>
       </Col>
-      <Col md={4}>
+      <Col md={4} className='d-flex justify-content-center'>
         <div className={styles.store_card}>
           <Card className={styles.card_body}>
             <Card.Img variant="top" src={giftCard} />
@@ -120,7 +124,7 @@ const SpecialCards = () => {
           </Card>
         </div>
       </Col>
-      <Col md={4}>
+      <Col md={4} className='d-flex justify-content-center'>
         <div className={styles.store_card}>
           <Card className={styles.card_body}>
             <Card.Img variant="top" src={giftCard} />
@@ -140,7 +144,7 @@ const SpecialCards = () => {
           </Card>
         </div>
       </Col>
-      <Col md={4}>
+      <Col md={4} className='d-flex justify-content-center'>
         <div className={styles.store_card}>
           <Card className={styles.card_body}>
             <Card.Img variant="top" src={giftCard} />
@@ -160,7 +164,7 @@ const SpecialCards = () => {
           </Card>
         </div>
       </Col>
-      <Col md={4}>
+      <Col md={4} className='d-flex justify-content-center'>
         <div className={styles.store_card}>
           <Card className={styles.card_body}>
             <Card.Img variant="top" src={giftCard} />
@@ -180,7 +184,7 @@ const SpecialCards = () => {
           </Card>
         </div>
       </Col>
-      <Col md={4}>
+      <Col md={4} className='d-flex justify-content-center'>
         <div className={styles.store_card}>
           <Card className={styles.card_body}>
             <Card.Img variant="top" src={giftCard} />
@@ -200,7 +204,7 @@ const SpecialCards = () => {
           </Card>
         </div>
       </Col>
-      <Col md={4}>
+      <Col md={4} className='d-flex justify-content-center'>
         <div className={styles.store_card}>
           <Card className={styles.card_body}>
             <Card.Img variant="top" src={giftCard} />

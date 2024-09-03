@@ -31,3 +31,8 @@
 }
 
 
+@media screen and (max-width:350px) {
+    .controllers{
+        flex-direction: column-reverse;
+    }
+}

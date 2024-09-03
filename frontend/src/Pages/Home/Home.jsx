@@ -11,10 +11,11 @@ import customGiftCard from "../../Images/customGiftCard.jpg";
 import TopStores from "../../Components/TopStores/TopStores";
 import HomeSections from "../../Components/Ui/HomeSections";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const {t:key} = useTranslation();
-
+  const navigate=useNavigate();
   useEffect(() => {
     AOS.init();
   }, []);
@@ -49,7 +50,7 @@ const Home = () => {
                 <div className={styles.sec1_gift_card}>
                   <img className="w-100" src={giftCard} alt="giftCard" />
                   <div className={styles.sec1_layer}>
-                    <MainButtonThree text="View Cards" />
+                    <MainButtonThree onClick={()=>navigate("/special-cards")} text="View Cards" />
                   </div>
                 </div>
                 <div className="text-center mt-4">
@@ -72,7 +73,7 @@ const Home = () => {
                     alt="customGiftCard"
                   />
                   <div className={styles.sec1_layer}>
-                    <MainButtonThree text="View Cards" />
+                    <MainButtonThree onClick={()=>navigate("/custom-cards")}  text="View Cards" />
                   </div>
                 </div>
                 <div className="text-center mt-4">

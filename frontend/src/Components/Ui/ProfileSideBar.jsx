@@ -83,6 +83,7 @@ const ProfileSideBar = ({ show, setShow }) => {
         <LogoutModal
           show={logoutModalShow}
           onHide={() => setLogoutModalShow(false)}
+          onClose={()=>setShow(false)}
         />
       )}
     </>

@@ -1,12 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Stage, Layer, Rect, Text, Image } from "react-konva";
 import useImage from "use-image";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import styles from "./CustomCards.module.css";
-import cardbg from "../../Images/customGiftCard-removebg-preview.png";
-import cardbg2 from "../../Images/registerImg.jpg";
-import cardbg3 from "../../Images/cardWithDetails.jpg";
+
+import svg6 from "../../Images/bg/svg1.svg";
+import svg5 from "../../Images/bg/svg2.svg";
+import svg1 from "../../Images/bg/svg3.svg";
+import svg2 from "../../Images/bg/svg4.svg";
+import svg3 from "../../Images/bg/svg5.svg";
+import svg4 from "../../Images/bg/svg6.svg";
+
+import cardbg1 from "../../Images/bg/bg1.jpg";
+import cardbg2 from "../../Images/bg/bg2.jpg";
+import cardbg4 from "../../Images/bg/bg4.jpg";
+import cardbg5 from "../../Images/bg/bg5.jpg";
+import cardbg6 from "../../Images/bg/bg6.jpg";
+import cardbg7 from "../../Images/bg/bg7.jpg";
+import cardbg8 from "../../Images/bg/bg8.jpg";
+import cardbg9 from "../../Images/bg/bg9.jpg";
+import cardbg10 from "../../Images/bg/bg10.jpg";
+
+import r1 from "../../Images/bg/removebg1.png";
+import r2 from "../../Images/bg/removebg2.png";
+
 import shop1 from "../../Images/Stores/shop1.png";
 import shop2 from "../../Images/Stores/shop2.png";
 import shop3 from "../../Images/Stores/shop3.png";
@@ -28,36 +46,64 @@ const CustomCards = () => {
   const [cardPrice, setCardPrice] = useState("");
   const [showBack, setShowBack] = useState(true);
 
-  // Load images
   const [shapeImage] = useImage(selectedShape);
   const [logo] = useImage(logoImage);
   const [mainLogoImage] = useImage(mainLogo);
 
-  // Card dimensions
   const CARD_WIDTH = 480;
   const CARD_HEIGHT = 270;
 
-  // Example shapes and logos
   const shapes = [
-    cardbg,
+    cardbg1,
     cardbg2,
-    cardbg3,
-    cardbg,
-    cardbg2,
-    cardbg3,
-    cardbg,
-    cardbg2,
-    cardbg3,
+    cardbg4,
+    cardbg5,
+    cardbg6,
+    cardbg7,
+    cardbg8,
+    cardbg9,
+    cardbg10,
+    r1,
+    r2,
+    svg1,
+    svg2,
+    svg3,
+    svg4,
+    svg5,
+    svg6,
   ];
 
   const logos = [shop1, shop2, shop3, shop4, shop5, shop6, shop7];
 
+  const imageAspectRatio = shapeImage?.width / shapeImage?.height;
+  const cardAspectRatio = CARD_WIDTH / CARD_HEIGHT;
+
+  let scaledWidth,
+    scaledHeight,
+    offsetX = 0,
+    offsetY = 0;
+
+  if (imageAspectRatio > cardAspectRatio) {
+    // Image is wider than the card, scale by height
+    scaledHeight = CARD_HEIGHT;
+    scaledWidth = CARD_HEIGHT * imageAspectRatio;
+    offsetX = (CARD_WIDTH - scaledWidth) / 2;
+  } else {
+    // Image is taller than the card, scale by width
+    scaledWidth = CARD_WIDTH;
+    scaledHeight = CARD_WIDTH / imageAspectRatio;
+    offsetY = (CARD_HEIGHT - scaledHeight) / 2;
+  }
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className={styles.canva_body}>
-      <h1 className="my-2">Build Your Own Card</h1>
       <div className={styles.content}>
-        <Row className="w-100 h-75">
-          <Col md={5} className={styles.card_side_container}>
+        <Row className="w-100 h-75 justify-content-between">
+          <Col lg={6} xl={5} className={styles.card_side_container}>
             <div className={styles.card_side_header}>
               <h3>Card Display ({showBack ? "Back" : "Front"})</h3>
 
@@ -68,7 +114,7 @@ const CustomCards = () => {
                 title="rotate card"
               />
             </div>
-            {/* Konva Canvas */}
+
             <div>
               <Stage
                 className={styles.card}
@@ -76,7 +122,6 @@ const CustomCards = () => {
                 height={CARD_HEIGHT}
               >
                 <Layer>
-                  {/* Card Background */}
                   <Rect
                     width={CARD_WIDTH}
                     height={CARD_HEIGHT}
@@ -84,22 +129,21 @@ const CustomCards = () => {
                     cornerRadius={10}
                   />
 
-                  {/* Shape and Logo */}
                   {shapeImage && showBack && (
                     <Image
                       image={shapeImage}
-                      width={CARD_WIDTH}
-                      height={CARD_HEIGHT}
+                      width={scaledWidth || CARD_WIDTH}
+                      height={scaledHeight || CARD_HEIGHT}
+                      x={offsetX}
+                      y={offsetY}
                       opacity={1}
                       visible={true}
                       cornerRadius={10}
                     />
                   )}
 
-                  {/* Front Side */}
                   {!showBack && (
                     <>
-                      {/* Card Text */}
                       <Text
                         text={cardText}
                         fontSize={20}
@@ -113,7 +157,6 @@ const CustomCards = () => {
                         wrap="char"
                       />
 
-                      {/* Card Price */}
                       {cardPrice && (
                         <Text
                           text={`${cardPrice} SAR`}
@@ -126,7 +169,7 @@ const CustomCards = () => {
                       )}
                     </>
                   )}
-                  {/* Selected Logo */}
+
                   {logo && (
                     <Image
                       image={logo}
@@ -139,7 +182,6 @@ const CustomCards = () => {
                     />
                   )}
 
-                  {/* my logo */}
                   <Image
                     image={mainLogoImage}
                     x={20}
@@ -152,9 +194,16 @@ const CustomCards = () => {
               </Stage>
             </div>
           </Col>
-          <Col md={7} className={styles.control_side_container}>
-            {/* Color Selection */}
-
+          <Col
+            lg={0}
+            xl={1}
+            className="d-flex justify-content-center d-lg-none"
+          >
+            <div
+              style={{ borderLeft: "1px solid #0000009b", height: "100%" }}
+            ></div>
+          </Col>
+          <Col lg={6} xl={6} className={styles.control_side_container}>
             <div className={styles.choose_color}>
               <h4>Card Color</h4>
               <input
@@ -165,8 +214,6 @@ const CustomCards = () => {
               />
             </div>
 
-            {/* Shape Selection */}
-
             <div
               className={`${styles.choose_shape} ${!showBack && "disabled"}`}
             >
@@ -174,12 +221,19 @@ const CustomCards = () => {
               <Row className={styles.shapes_container}>
                 {shapes.map((shape, index) => (
                   <Col
+                    xs={12}
+                    sm={6}
                     md={4}
                     className="d-flex justify-content-center"
                     onClick={() => setSelectedShape(shape)}
                     key={index}
                   >
-                    <div className={styles.shape_div}>
+                    <div
+                      style={{
+                        backgroundColor: cardColor ? cardColor : "#FFFFFF",
+                      }}
+                      className={styles.shape_div}
+                    >
                       <img
                         src={shape}
                         alt={`${shape}_${index}`}
@@ -191,10 +245,7 @@ const CustomCards = () => {
               </Row>
             </div>
 
-            {/* Logo Selection */}
-            <div
-              className={`${styles.choose_shape}  d-flex mx-4`}
-            >
+            <div className={`${styles.choose_shape}  d-flex mx-4`}>
               <h4 className="text-start mb-3">Choose Company</h4>
               <Row className={styles.logo_container}>
                 {logos.map((logo, index) => (
@@ -215,8 +266,6 @@ const CustomCards = () => {
                 ))}
               </Row>
             </div>
-
-            {/* Text and Price Input */}
 
             <div className={`${showBack && "disabled"} text-start`}>
               <div className="my-4">

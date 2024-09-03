@@ -21,10 +21,11 @@ const LogoutModal = (props) => {
       dispatch(userActions.setIsLogin(false));
       dispatch(saveIsLoginState(false));
       props.onHide();
+      props.onClose();
       navigate("/");
     };
   
-
+    
   return (
     <Modal
     {...props}

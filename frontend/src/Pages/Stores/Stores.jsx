@@ -17,10 +17,10 @@ const Stores = () => {
   return (
     <>
       <Container className="my-5">
-        <h2 className="text-center my-3 mb-5">
-          {key("storesTitle")}
-        </h2>
-        <div className="d-flex justify-content-between my-4">
+        <h2 className="text-center my-3 mb-5">{key("storesTitle")}</h2>
+        <div
+          className={`${styles.controllers} d-flex justify-content-between my-4`}
+        >
           <div className={styles.filter_box}>
             <span className={styles.filter}>
               <svg
@@ -36,12 +36,14 @@ const Stores = () => {
               Filter{" "}
             </span>
           </div>
-          <div className="w-25">
+          <div>
             <SearchField text={key("search")} />
           </div>
         </div>
         <Row className="gy-5">
           <Col
+          xs={12}
+            sm={6}
             md={4}
             className="d-flex justify-content-center align-items-center"
           >
@@ -57,6 +59,8 @@ const Stores = () => {
             </div>
           </Col>
           <Col
+          xs={12}
+            sm={6}
             md={4}
             className="d-flex justify-content-center align-items-center"
           >
@@ -72,6 +76,8 @@ const Stores = () => {
             </div>
           </Col>
           <Col
+          xs={12}
+            sm={6}
             md={4}
             className="d-flex justify-content-center align-items-center"
           >
@@ -87,6 +93,8 @@ const Stores = () => {
             </div>
           </Col>
           <Col
+          xs={12}
+            sm={6}
             md={4}
             className="d-flex justify-content-center align-items-center"
           >
@@ -102,6 +110,8 @@ const Stores = () => {
             </div>
           </Col>
           <Col
+          xs={12}
+            sm={6}
             md={4}
             className="d-flex justify-content-center align-items-center"
           >
@@ -116,21 +126,23 @@ const Stores = () => {
               </div>
             </div>
           </Col>
-            <Col
-              md={4}
-              className="d-flex justify-content-center align-items-center"
-            >
-              <div className={styles.store_card}>
-                <div className={styles.store_item}>
-                  <div className={styles.store_logo}>
-                    <img alt="storeLogo" className="w-100" src={shop1} />
-                  </div>
-                  <div>
-                    <h5 className="text-center">ELCT</h5>
-                  </div>
+          <Col
+          xs={12}
+            sm={6}
+            md={4}
+            className="d-flex justify-content-center align-items-center"
+          >
+            <div className={styles.store_card}>
+              <div className={styles.store_item}>
+                <div className={styles.store_logo}>
+                  <img alt="storeLogo" className="w-100" src={shop1} />
+                </div>
+                <div>
+                  <h5 className="text-center">ELCT</h5>
                 </div>
               </div>
-            </Col>
+            </div>
+          </Col>
         </Row>
       </Container>
     </>

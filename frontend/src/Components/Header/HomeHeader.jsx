@@ -5,11 +5,13 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import MainButtonTwo from "../Ui/MainButtonTwo";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const HomeHeader = () => {
 
   const [key,control]=useTranslation();
   let isArLang=control.language==="ar";
+  const navigate =useNavigate();
 
   return (
     <div className={styles.header_container}>
@@ -20,7 +22,7 @@ const HomeHeader = () => {
             <h1>
               {key("title")}
             </h1>
-            <MainButtonTwo text={`${key("getCardBtn")}`}/>
+            <MainButtonTwo onClick={()=>navigate(`/special-cards`)} text={`${key("getCardBtn")}`}/>
             <a href="#firstSec">
               <div className={styles.scroll_down}>
                 <div className={styles.small_circle}></div>
