@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import MainButton from "../Ui/MainButton";
 import styles from "./MainNav.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,14 +20,14 @@ const MainNav = () => {
   let isArLang = localStorage.getItem("i18nextLng")==="ar";
 
   const isLogin = useSelector((state) => state.userInfo.isLogin);
-
+  const navigate=useNavigate()
   return (
     <>
       <nav
         className={`${styles.main_nav} static-top d-flex align-items-center px-3`}
       >
         <ul className={`${styles.nav_list} d-flex align-items-center mt-3`}>
-          <div className={`${styles.brand} ${isArLang ? "ms-5" : "me-5"}`}>
+          <div onClick={()=>navigate('/')} className={`${styles.brand} ${isArLang ? "ms-5" : "me-5"}`}>
             <img src={nav_logo} alt="logo" className="w-100" />
           </div>
 

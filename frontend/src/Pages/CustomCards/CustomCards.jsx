@@ -32,6 +32,17 @@ import shop4 from "../../Images/Stores/shop4.png";
 import shop5 from "../../Images/Stores/shop5.png";
 import shop6 from "../../Images/Stores/shop6.jpg";
 import shop7 from "../../Images/Stores/shop7.jpg";
+import shop8 from "../../Images/Stores/shop8.jpg";
+import shop9 from "../../Images/Stores/shop9.jpg";
+import shop10 from "../../Images/Stores/shop10.jpg";
+import shop11 from "../../Images/Stores/shop11.png";
+import shop12 from "../../Images/Stores/shop12.jpeg";
+import shop13 from "../../Images/Stores/shop13.jpeg";
+import shop14 from "../../Images/Stores/shop14.png";
+import shop15 from "../../Images/Stores/shop15.png";
+import shop16 from "../../Images/Stores/shop16.png";
+import shop17 from "../../Images/Stores/shop17.png";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRotate } from "@fortawesome/free-solid-svg-icons";
 import mainLogo from "../../Images/logo_rem.png";
@@ -73,7 +84,25 @@ const CustomCards = () => {
     svg6,
   ];
 
-  const logos = [shop1, shop2, shop3, shop4, shop5, shop6, shop7];
+  const logos = [
+    shop1,
+    shop2,
+    shop8,
+    shop9,
+    shop10,
+    shop11,
+    shop12,
+    shop13,
+    shop14,
+    shop15,
+    shop16,
+    shop17,
+    shop3,
+    shop4,
+    shop5,
+    shop6,
+    shop7,
+  ];
 
   const imageAspectRatio = shapeImage?.width / shapeImage?.height;
   const cardAspectRatio = CARD_WIDTH / CARD_HEIGHT;
