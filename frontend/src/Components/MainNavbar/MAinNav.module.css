@@ -44,6 +44,7 @@
 
 .brand{
     width:70px;
+    cursor: pointer;
 }
 
 .burger_list{
