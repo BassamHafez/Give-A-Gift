@@ -130,14 +130,11 @@ exports.addBalanceToWallet = catchAsync(async (req, res, next) => {
   const id = req.params.id;
   const { amountToIncrease } = req.body;
 
-  const wallet = await Wallet.findById(id);
-
-  if (!wallet) {
-    return next(new ApiError("Wallet not found", 404));
-  }
-
-  wallet.balance += amountToIncrease;
-  await wallet.save();
+  const wallet = await Wallet.findByIdAndUpdate(
+    id,
+    { $inc: { balance: amountToIncrease } },
+    { new: true }
+  );
 
   res.status(200).json({
     status: "success",
