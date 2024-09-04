@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from "react-redux";
 import { getisLoginState, getRoleState, getToken, getUserInfoFromLocalStorage } from './Store/userInfo-actions';
 import CustomCards from './Pages/CustomCards/CustomCards';
+import Profile from './Pages/Profile/Profile';
 
 
 const router=createBrowserRouter([{
@@ -25,7 +26,8 @@ const router=createBrowserRouter([{
     {path:"login",element:<Login/>},
     {path:"register",element:<Register/>},
     {path:"special-cards",element:<SpecialCards/>},
-    {path:"custom-cards",element:<CustomCards/>}
+    {path:"custom-cards",element:<CustomCards/>},
+    {path:"profile/:userId",element:<Profile/>},
   ]
 }])  
 

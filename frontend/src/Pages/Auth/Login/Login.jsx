@@ -41,7 +41,10 @@ const Login = () => {
           </div>
           <div className={styles.user_login_form}>
             <h3>{key("login")}</h3>
-            <LoginForm notifySuccess={notifySuccess} notifyError={notifyError} />
+            <LoginForm
+              notifySuccess={notifySuccess}
+              notifyError={notifyError}
+            />
           </div>
         </div>
       </div>

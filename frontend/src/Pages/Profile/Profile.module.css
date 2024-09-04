@@ -1,0 +1,43 @@
+.tab_container{
+   margin: 50px 10px;
+   min-height: 80vh;
+}
+
+.side_bar_tab{
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.486);
+}
+.profile_img{
+    width: 60px;
+    border-radius: 50%;
+}
+.profile_img img{
+    width: 100%;
+    border-radius: 50%;
+}
+.side_bar_header{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+.nav_item{
+    margin: 0 0.3125rem 1.5625rem 0.3125rem;
+    color: black;
+    font-weight: 600;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    padding: 0.1875rem;
+    border-radius: 0.3125rem;
+    transition: all .3s;
+}
+.nav_item:hover{
+background-color: var(--ivory_color);
+cursor: pointer;
+scale: 1.03;
+}
+.list_icon{
+    font-size: 1.5625rem;
+    color:var(--slate_blue);
+}

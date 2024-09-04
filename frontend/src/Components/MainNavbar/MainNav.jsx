@@ -3,19 +3,17 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import MainButton from "../Ui/MainButton";
 import styles from "./MainNav.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGlobe} from "@fortawesome/free-solid-svg-icons";
+import { faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { faOpencart } from "@fortawesome/free-brands-svg-icons";
 import ResponsiveMenuSlideBar from "../ResponsiveSideBar/ResponsiveSideBar";
 import nav_logo from "../../Images/LogoNav.jpg";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
-import ProfileSideBar from "../Ui/ProfileSideBar";
 import Badge from "react-bootstrap/Badge";
 
 const MainNav = () => {
   const [openResMenu, setOpenResMenu] = useState(false);
   const [key, control] = useTranslation();
-  const [show, setShow] = useState(false);
 
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const profileData = useSelector((state) => state.userInfo.data);
@@ -101,7 +99,7 @@ const MainNav = () => {
                 0
               </Badge>
             </div>
-       
+
             <div className="dropdown">
               <FontAwesomeIcon
                 className={`${styles.lang_icon} dropdown-toggle`}
@@ -132,12 +130,14 @@ const MainNav = () => {
           </div>
 
           {isLogin ? (
-            <div className={styles.profile_img} onClick={() => setShow(true)}>
-              <img
-                src={`http://127.0.0.1:3001${profileData.photo}`}
-                alt={`${profileData.name}_ptofile_photo`}
-              />
-            </div>
+            <Link to={`profile/${profileData._id}`}>
+              <div className={styles.profile_img}>
+                <img
+                  src={`http://127.0.0.1:3001${profileData.photo}`}
+                  alt={`${profileData.name}_ptofile_photo`}
+                />
+              </div>
+            </Link>
           ) : (
             <>
               <Link to={"login"} className={styles.sign_btn}>
@@ -165,7 +165,6 @@ const MainNav = () => {
         show={openResMenu}
       />
 
-      <ProfileSideBar show={show} setShow={setShow} />
     </>
   );
 };

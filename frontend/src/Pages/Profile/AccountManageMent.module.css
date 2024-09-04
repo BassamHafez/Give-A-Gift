@@ -1,0 +1,41 @@
+.field{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2.5rem;
+    width: 100%;
+    position: relative;
+}
+.field label{
+    font-weight: 700;
+    margin-bottom: 0.3125rem;
+}
+
+.field input{
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.196);  
+}
+.save_btn{
+    background-color: var(--main_color);
+    color: white;
+    padding: 0.625rem 0.9375rem;
+    border-radius: 0.5rem;
+    font-weight: 700;
+    min-width: 6.875rem;
+    transition:all .3s;
+    min-width: 9.375rem
+}
+.save_btn:hover{
+    background-color: var(--dusty_Gold);
+    transform: translateX(0.3125rem);
+}
+
+.user_general_info .field{
+    margin-bottom: 1.875rem;
+}
+
+
+@media screen and (max-width:37.5rem) {
+    .field h4{
+        margin: 0;
+        text-align: center;
+    }
+}

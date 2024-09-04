@@ -44,3 +44,13 @@ export const getShops= async () => {
     console.error(error);
   }
 };
+
+export const UpdatePassword= async () => {
+  try {
+     const response = await axios.get(`${baseServerUrl}shops`);
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};

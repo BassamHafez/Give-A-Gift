@@ -35,6 +35,7 @@ body {
 
 a{
   text-decoration: none !important;
+  color: inherit !important;
 }
 button{
   outline: none;
@@ -101,6 +102,11 @@ ul li{
   opacity: 0.4;
 }
 
+.nav-item .active{
+  background-color: transparent !important;
+  color: var(--dusty_Gold) !important;
+
+}
 
 @media screen and (max-width:768px) {
   body,html{

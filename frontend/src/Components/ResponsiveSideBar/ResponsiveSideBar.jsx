@@ -14,7 +14,6 @@ import {
 import { Link } from "react-router-dom";
 import logo from "../../Images/LogoNav.jpg";
 import { useTranslation } from "react-i18next";
-import Badge from "react-bootstrap/esm/Badge";
 import { faOpencart } from "@fortawesome/free-brands-svg-icons";
 
 const ResponsiveSideBar = ({ onClose, show }) => {

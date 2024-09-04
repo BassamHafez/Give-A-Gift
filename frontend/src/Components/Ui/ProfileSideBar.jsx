@@ -12,6 +12,7 @@ import {
 import LoadingOne from "./LoadingOne";
 import { useTranslation } from "react-i18next";
 import LogoutModal from "./LogoutModal";
+import { Link } from "react-router-dom";
 
 const ProfileSideBar = ({ show, setShow }) => {
   const [logoutModalShow, setLogoutModalShow] = useState(false);
@@ -19,8 +20,7 @@ const ProfileSideBar = ({ show, setShow }) => {
   const [key, control] = useTranslation();
   let isArLang = control.language === "ar";
 
-
-  console.log(profileData)
+  console.log(profileData);
 
   return (
     <>
@@ -37,30 +37,41 @@ const ProfileSideBar = ({ show, setShow }) => {
             <Offcanvas.Header>
               <Offcanvas.Title className={styles.canvas_title}>
                 <div className="text-start d-flex flex-column justify-content-center">
-                  <h4 className="m-0 fw-bolder">{profileData.name}</h4>
+                  <Link to={`profile/${profileData._id}`}>
+                    <h4 className="m-0 fw-bolder">{profileData.name}</h4>
+                  </Link>
                   <span className="mini_word">{profileData.email}</span>
                 </div>
-                <div className={styles.profile_img}>
-                  <img src={`http://127.0.0.1:3001${profileData.photo}`} alt={`${profileData.name}_ptofile_photo`} />
-                </div>
+                <Link to={`profile/${profileData._id}`}>
+                  <div className={styles.profile_img}>
+                    <img
+                      src={`http://127.0.0.1:3001${profileData.photo}`}
+                      alt={`${profileData.name}_ptofile_photo`}
+                    />
+                  </div>
+                </Link>
               </Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
               <ul className={styles.list}>
-                <li className={styles.list_item}>
-                  {key("dashboard")}{" "}
-                  <FontAwesomeIcon
-                    className={styles.list_icon}
-                    icon={faChartPie}
-                  />
-                </li>
-                <li className={styles.list_item}>
-                  {key("setting")}{" "}
-                  <FontAwesomeIcon
-                    className={styles.list_icon}
-                    icon={faGears}
-                  />
-                </li>
+                {profileData.role === "admin" ? (
+                  <li className={styles.list_item}>
+                    {key("dashboard")}{" "}
+                    <FontAwesomeIcon
+                      className={styles.list_icon}
+                      icon={faChartPie}
+                    />
+                  </li>
+                ) : (
+                  <li className={styles.list_item}>
+                    {key("setting")}{" "}
+                    <FontAwesomeIcon
+                      className={styles.list_icon}
+                      icon={faGears}
+                    />
+                  </li>
+                )}
+
                 <li className={styles.list_item}>
                   {key("help")}{" "}
                   <FontAwesomeIcon
