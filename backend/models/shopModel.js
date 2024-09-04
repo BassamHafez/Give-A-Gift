@@ -9,6 +9,9 @@ const shopSchema = new mongoose.Schema(
     logo: {
       type: String,
     },
+    description: {
+      type: String,
+    },
   },
   {
     timestamps: true,

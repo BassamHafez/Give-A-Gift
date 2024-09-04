@@ -6,6 +6,11 @@ exports.createShopValidator = [
 
   check("logo").isString().notEmpty().withMessage("Please provide a logo"),
 
+  check("description")
+    .isString()
+    .notEmpty()
+    .withMessage("Please provide a description"),
+
   validatorMiddleware,
 ];
 
