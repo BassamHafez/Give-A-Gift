@@ -14,7 +14,6 @@ exports.filterUserCards = (req, res, next) => {
 };
 
 exports.getAllCards = factory.getAll(Card, [
-  { path: "user", select: "name email photo role" },
   { path: "shop", select: "name logo" },
   { path: "shape", select: "image" },
 ]);
