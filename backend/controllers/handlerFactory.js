@@ -43,11 +43,11 @@ exports.createOne = (Model) =>
     });
   });
 
-exports.getOne = (Model, popOptions) =>
+exports.getOne = (Model, popOptions = []) =>
   catchAsync(async (req, res, next) => {
     let query = Model.findById(req.params.id);
-    if (popOptions) query = query.populate(popOptions);
-    const doc = await query;
+
+    const doc = await query.populate(popOptions);
 
     if (!doc) {
       return next(new ApiError("No document found with that ID", 404));
@@ -59,7 +59,7 @@ exports.getOne = (Model, popOptions) =>
     });
   });
 
-exports.getAll = (Model) =>
+exports.getAll = (Model, popOptions = []) =>
   catchAsync(async (req, res, next) => {
     let filter = {};
 
@@ -68,8 +68,8 @@ exports.getAll = (Model) =>
       .sort()
       .limitFields()
       .paginate();
-    // const doc = await features.query.explain();
-    const doc = await features.query;
+
+    const doc = await features.query.populate(popOptions);
 
     // SEND RESPONSE
     res.status(200).json({
