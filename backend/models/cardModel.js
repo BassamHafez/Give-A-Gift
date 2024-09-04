@@ -29,6 +29,11 @@ const cardSchema = new mongoose.Schema(
       ref: "Shape",
       required: true,
     },
+    font: {
+      type: mongoose.Schema.ObjectId,
+      ref: "Font",
+      required: true,
+    },
     user: {
       type: mongoose.Schema.ObjectId,
       ref: "User",

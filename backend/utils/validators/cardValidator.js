@@ -32,6 +32,12 @@ exports.createCardValidator = [
     .isMongoId()
     .withMessage("Shape must be a valid MongoDB ID"),
 
+  check("font")
+    .notEmpty()
+    .withMessage("Font is required")
+    .isMongoId()
+    .withMessage("Font must be a valid MongoDB ID"),
+
   validatorMiddleware,
 ];
 
@@ -76,6 +82,11 @@ exports.updateCardValidator = [
     .optional()
     .isMongoId()
     .withMessage("Shape must be a valid MongoDB ID"),
+
+  check("font")
+    .optional()
+    .isMongoId()
+    .withMessage("Font must be a valid MongoDB ID"),
 
   validatorMiddleware,
 ];
