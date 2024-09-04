@@ -6,6 +6,20 @@
 .canvas_container_ar{
     border-radius:  1.25rem  0 0 1.25rem ;  
 }
+.canvas_title{
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.164);
+}
+.profile_img{
+    width: 60px;
+    border-radius: 50%;
+}
+.profile_img img{
+    width: 100%;
+    border-radius: 50%;
+}
 .list{
     padding:0
 }
