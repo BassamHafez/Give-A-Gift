@@ -4,50 +4,16 @@ import useImage from "use-image";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import styles from "./CustomCards.module.css";
-
-import svg6 from "../../Images/bg/svg1.svg";
-import svg5 from "../../Images/bg/svg2.svg";
-import svg1 from "../../Images/bg/svg3.svg";
-import svg2 from "../../Images/bg/svg4.svg";
-import svg3 from "../../Images/bg/svg5.svg";
-import svg4 from "../../Images/bg/svg6.svg";
-
-import cardbg1 from "../../Images/bg/bg1.jpg";
-import cardbg2 from "../../Images/bg/bg2.jpg";
-import cardbg4 from "../../Images/bg/bg4.jpg";
-import cardbg5 from "../../Images/bg/bg5.jpg";
-import cardbg6 from "../../Images/bg/bg6.jpg";
-import cardbg7 from "../../Images/bg/bg7.jpg";
-import cardbg8 from "../../Images/bg/bg8.jpg";
-import cardbg9 from "../../Images/bg/bg9.jpg";
-import cardbg10 from "../../Images/bg/bg10.jpg";
-
-import r1 from "../../Images/bg/removebg1.png";
-import r2 from "../../Images/bg/removebg2.png";
-
-import shop1 from "../../Images/Stores/shop1.png";
-import shop2 from "../../Images/Stores/shop2.png";
-import shop3 from "../../Images/Stores/shop3.png";
-import shop4 from "../../Images/Stores/shop4.png";
-import shop5 from "../../Images/Stores/shop5.png";
-import shop6 from "../../Images/Stores/shop6.jpg";
-import shop7 from "../../Images/Stores/shop7.jpg";
-import shop8 from "../../Images/Stores/shop8.jpg";
-import shop9 from "../../Images/Stores/shop9.jpg";
-import shop10 from "../../Images/Stores/shop10.jpg";
-import shop11 from "../../Images/Stores/shop11.png";
-import shop12 from "../../Images/Stores/shop12.jpeg";
-import shop13 from "../../Images/Stores/shop13.jpeg";
-import shop14 from "../../Images/Stores/shop14.png";
-import shop15 from "../../Images/Stores/shop15.png";
-import shop16 from "../../Images/Stores/shop16.png";
-import shop17 from "../../Images/Stores/shop17.png";
+import {useQuery} from "@tanstack/react-query";
+import LoadingOne from "../../Components/Ui/LoadingOne";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRotate } from "@fortawesome/free-solid-svg-icons";
 import mainLogo from "../../Images/logo_rem.png";
+import { getShapes, getShops } from "../../util/Http";
 
 const CustomCards = () => {
+
   const [cardColor, setCardColor] = useState("#FFFFFF");
   const [textColor, setTextColor] = useState("#000000");
   const [priceColor, setPriceColor] = useState("#000000");
@@ -61,48 +27,22 @@ const CustomCards = () => {
   const [logo] = useImage(logoImage);
   const [mainLogoImage] = useImage(mainLogo);
 
+
+
+  const {data:shapes}=useQuery({
+    queryKey:['shapes'],
+    queryFn:getShapes
+  })
+
+  const {data:shops}=useQuery({
+    queryKey:['shops'],
+    queryFn:getShops
+  })
+
+console.log(shops)
   const CARD_WIDTH = 480;
   const CARD_HEIGHT = 270;
 
-  const shapes = [
-    cardbg1,
-    cardbg2,
-    cardbg4,
-    cardbg5,
-    cardbg6,
-    cardbg7,
-    cardbg8,
-    cardbg9,
-    cardbg10,
-    r1,
-    r2,
-    svg1,
-    svg2,
-    svg3,
-    svg4,
-    svg5,
-    svg6,
-  ];
-
-  const logos = [
-    shop1,
-    shop2,
-    shop8,
-    shop9,
-    shop10,
-    shop11,
-    shop12,
-    shop13,
-    shop14,
-    shop15,
-    shop16,
-    shop17,
-    shop3,
-    shop4,
-    shop5,
-    shop6,
-    shop7,
-  ];
 
   const imageAspectRatio = shapeImage?.width / shapeImage?.height;
   const cardAspectRatio = CARD_WIDTH / CARD_HEIGHT;
@@ -113,12 +53,10 @@ const CustomCards = () => {
     offsetY = 0;
 
   if (imageAspectRatio > cardAspectRatio) {
-    // Image is wider than the card, scale by height
     scaledHeight = CARD_HEIGHT;
     scaledWidth = CARD_HEIGHT * imageAspectRatio;
     offsetX = (CARD_WIDTH - scaledWidth) / 2;
   } else {
-    // Image is taller than the card, scale by width
     scaledWidth = CARD_WIDTH;
     scaledHeight = CARD_WIDTH / imageAspectRatio;
     offsetY = (CARD_HEIGHT - scaledHeight) / 2;
@@ -232,6 +170,7 @@ const CustomCards = () => {
               style={{ borderLeft: "1px solid #0000009b", height: "100%" }}
             ></div>
           </Col>
+
           <Col lg={6} xl={6} className={styles.control_side_container}>
             <div className={styles.choose_color}>
               <h4>Card Color</h4>
@@ -244,18 +183,18 @@ const CustomCards = () => {
             </div>
 
             <div
-              className={`${styles.choose_shape} ${!showBack && "disabled"}`}
+              className={`${styles.choose_shape} ${!showBack && "disabled"} position-relative`}
             >
               <h4 className="text-start mb-3">Card Background</h4>
               <Row className={styles.shapes_container}>
-                {shapes.map((shape, index) => (
+                {shapes?shapes?.data.map((shape) => (
                   <Col
                     xs={12}
                     sm={6}
                     md={4}
                     className="d-flex justify-content-center"
-                    onClick={() => setSelectedShape(shape)}
-                    key={index}
+                    onClick={() => setSelectedShape(`http://127.0.0.1:3001/shapes/${shape.image}`)}
+                    key={shape._id}
                   >
                     <div
                       style={{
@@ -264,30 +203,30 @@ const CustomCards = () => {
                       className={styles.shape_div}
                     >
                       <img
-                        src={shape}
-                        alt={`${shape}_${index}`}
+                        src={`http://127.0.0.1:3001/shapes/${shape.image}`}
+                        alt={`${shape}_${shape._id}`}
                         className="w-100"
                       />
                     </div>
                   </Col>
-                ))}
+                )):<LoadingOne/>}
               </Row>
             </div>
 
             <div className={`${styles.choose_shape}  d-flex mx-4`}>
-              <h4 className="text-start mb-3">Choose Company</h4>
+              <h4 className="text-start mb-3">Choose Store</h4>
               <Row className={styles.logo_container}>
-                {logos.map((logo, index) => (
+                {shops&&shops.data.map((shop) => (
                   <Col
                     md={4}
                     className="d-flex justify-content-center"
-                    onClick={() => setLogoImage(logo)}
-                    key={index}
+                    onClick={() => setLogoImage(`http://127.0.0.1:3001/shops/${shop.logo}`)}
+                    key={shop._id}
                   >
                     <div className={styles.logo_div}>
                       <img
-                        src={logo}
-                        alt={`${logo}_${index}`}
+                        src={`http://127.0.0.1:3001/shops/${shop.logo}`}
+                        alt={`${shop.name}`}
                         className="w-100"
                       />
                     </div>

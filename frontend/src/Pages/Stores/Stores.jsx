@@ -10,10 +10,19 @@ import shop4 from "../../Images/Stores/shop4.png";
 import shop5 from "../../Images/Stores/shop5.png";
 import SearchField from "../../Components/Ui/SearchField";
 import { useTranslation } from "react-i18next";
+import { useQuery } from "@tanstack/react-query";
+import { getShops } from "../../util/Http";
+import LoadingOne from "../../Components/Ui/LoadingOne";
 
 const Stores = () => {
   const { t: key } = useTranslation();
   // let isArLang = localStorage.getItem("i18nextLng") === "ar";
+
+  const { data: shops } = useQuery({
+    queryKey: ["shops"],
+    queryFn: getShops,
+  });
+
   return (
     <>
       <Container className="my-5">
@@ -40,26 +49,34 @@ const Stores = () => {
             <SearchField text={key("search")} />
           </div>
         </div>
-        <Row className="gy-5">
-          <Col
-          xs={12}
-            sm={6}
-            md={4}
-            className="d-flex justify-content-center align-items-center"
-          >
-            <div className={styles.store_card}>
-              <div className={styles.store_item}>
-                <div className={styles.store_logo}>
-                  <img alt="storeLogo" className="w-100" src={shop1} />
+        <Row className="gy-5 position-relative">
+          {shops ? (
+            shops.data.map((shop) => (
+              <Col
+                xs={12}
+                sm={6}
+                md={4}
+                className="d-flex justify-content-center align-items-center"
+                key={shop._id}
+              >
+                <div className={styles.store_card}>
+                  <div className={styles.store_item}>
+                    <div className={styles.store_logo}>
+                      <img alt={shop.name} className="w-100" src={`http://127.0.0.1:3001/shops/${shop.logo}`} />
+                    </div>
+                    <div>
+                      <h5 className="text-center">{shop.name}</h5>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <h5 className="text-center">ELCT</h5>
-                </div>
-              </div>
-            </div>
-          </Col>
+              </Col>
+            ))
+          ) : (
+            <LoadingOne />
+          )}
+
           <Col
-          xs={12}
+            xs={12}
             sm={6}
             md={4}
             className="d-flex justify-content-center align-items-center"
@@ -76,7 +93,7 @@ const Stores = () => {
             </div>
           </Col>
           <Col
-          xs={12}
+            xs={12}
             sm={6}
             md={4}
             className="d-flex justify-content-center align-items-center"
@@ -93,7 +110,7 @@ const Stores = () => {
             </div>
           </Col>
           <Col
-          xs={12}
+            xs={12}
             sm={6}
             md={4}
             className="d-flex justify-content-center align-items-center"
@@ -110,7 +127,7 @@ const Stores = () => {
             </div>
           </Col>
           <Col
-          xs={12}
+            xs={12}
             sm={6}
             md={4}
             className="d-flex justify-content-center align-items-center"
@@ -127,7 +144,7 @@ const Stores = () => {
             </div>
           </Col>
           <Col
-          xs={12}
+            xs={12}
             sm={6}
             md={4}
             className="d-flex justify-content-center align-items-center"

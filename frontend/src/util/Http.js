@@ -23,3 +23,24 @@ export const signFormsHandler = async ({ type, formData, method }) => {
     throw error.message;
   }
 };
+
+
+export const getShapes = async () => {
+  try {
+     const response = await axios.get(`${baseServerUrl}shapes`);
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getShops= async () => {
+  try {
+     const response = await axios.get(`${baseServerUrl}shops`);
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};

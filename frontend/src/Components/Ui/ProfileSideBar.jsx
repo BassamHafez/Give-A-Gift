@@ -19,6 +19,9 @@ const ProfileSideBar = ({ show, setShow }) => {
   const [key, control] = useTranslation();
   let isArLang = control.language === "ar";
 
+
+  console.log(profileData)
+
   return (
     <>
       <Offcanvas
@@ -36,6 +39,9 @@ const ProfileSideBar = ({ show, setShow }) => {
                 <div className="text-start d-flex flex-column justify-content-center">
                   <h4 className="m-0 fw-bolder">{profileData.name}</h4>
                   <span className="mini_word">{profileData.email}</span>
+                </div>
+                <div className={styles.profile_img}>
+                  <img src={`http://127.0.0.1:3001${profileData.photo}`} alt={`${profileData.name}_ptofile_photo`} />
                 </div>
               </Offcanvas.Title>
             </Offcanvas.Header>
@@ -83,7 +89,7 @@ const ProfileSideBar = ({ show, setShow }) => {
         <LogoutModal
           show={logoutModalShow}
           onHide={() => setLogoutModalShow(false)}
-          onClose={()=>setShow(false)}
+          onClose={() => setShow(false)}
         />
       )}
     </>
