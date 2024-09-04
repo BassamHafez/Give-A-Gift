@@ -2,6 +2,7 @@ const Wallet = require("../models/walletModel");
 const User = require("../models/userModel");
 const Card = require("../models/cardModel");
 const Config = require("../models/configModel");
+const factory = require("./handlerFactory");
 const catchAsync = require("../utils/catchAsync");
 const ApiError = require("../utils/ApiError");
 
@@ -96,35 +97,19 @@ exports.buyCard = catchAsync(async (req, res, next) => {
 
 // ADMIN
 
-exports.getAllWallets = catchAsync(async (req, res, next) => {
-  const wallets = await Wallet.find().populate({
+exports.getAllWallets = factory.getAll(Wallet, [
+  {
     path: "user",
     select: "name email photo phone",
-  });
+  },
+]);
 
-  res.status(200).json({
-    status: "success",
-    results: wallets.length,
-    data: wallets,
-  });
-});
-
-exports.getUserWallet = catchAsync(async (req, res, next) => {
-  const id = req.params.id;
-  const wallet = await Wallet.findById(id).populate({
+exports.getUserWallet = factory.getOne(Wallet, [
+  {
     path: "user",
     select: "name email photo phone",
-  });
-
-  if (!wallet) {
-    return next(new ApiError("Wallet not found", 404));
-  }
-
-  res.status(200).json({
-    status: "success",
-    data: wallet,
-  });
-});
+  },
+]);
 
 exports.addBalanceToWallet = catchAsync(async (req, res, next) => {
   const id = req.params.id;

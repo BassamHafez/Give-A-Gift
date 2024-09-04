@@ -1,15 +1,8 @@
 const Transaction = require("../models/transactionModel");
+const factory = require("./handlerFactory");
 const catchAsync = require("../utils/catchAsync");
 
-exports.getAllTransactions = catchAsync(async (req, res, next) => {
-  const transactions = await Transaction.find();
-
-  res.status(200).json({
-    status: "success",
-    results: transactions.length,
-    data: transactions,
-  });
-});
+exports.getAllTransactions = factory.getAll(Transaction);
 
 exports.getTotalSuccessfulInvoiceValue = catchAsync(async (req, res, next) => {
   const result = await Transaction.aggregate([

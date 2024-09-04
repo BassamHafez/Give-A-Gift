@@ -13,7 +13,10 @@ exports.filterUserCards = (req, res, next) => {
   next();
 };
 
-exports.getAllCards = factory.getAll(Card);
+exports.getAllCards = factory.getAll(Card, [
+  { path: "shop", select: "name logo" },
+  { path: "shape", select: "image" },
+]);
 exports.createCard = factory.createOne(Card);
 
 exports.getCard = catchAsync(async (req, res, next) => {
