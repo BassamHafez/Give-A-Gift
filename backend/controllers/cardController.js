@@ -16,7 +16,6 @@ exports.filterUserCards = (req, res, next) => {
 exports.getAllCards = factory.getAll(Card, [
   { path: "shop", select: "name logo" },
   { path: "shape", select: "image" },
-  { path: "font", select: "font" },
 ]);
 exports.createCard = factory.createOne(Card);
 
