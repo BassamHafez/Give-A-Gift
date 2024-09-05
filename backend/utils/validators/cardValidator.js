@@ -28,40 +28,50 @@ exports.createCardValidator = [
 
   check("text")
     .notEmpty()
-    .withMessage("Text is required")
+    .withMessage("Text information is required")
     .isObject()
-    .withMessage("Text must be an object")
-    .custom((text) => {
-      if (!text.message || typeof text.message !== "string") {
-        throw new Error("Message (string) is required");
-      }
+    .withMessage("Text must be an object"),
 
-      if (!text.fontFamily || typeof text.fontFamily !== "string") {
-        throw new Error("Font family (string) is required");
-      }
+  check("text.message")
+    .notEmpty()
+    .withMessage("Text message is required")
+    .isString()
+    .withMessage("Text message must be a string"),
 
-      if (!text.fontSize || typeof text.fontSize !== "number") {
-        throw new Error("Font size (number) is required");
-      }
+  check("text.fontFamily")
+    .notEmpty()
+    .withMessage("Text font family is required")
+    .isString()
+    .withMessage("Text font family must be a string"),
 
-      if (!text.fontColor || typeof text.fontColor !== "string") {
-        throw new Error("Font color (string) is required");
-      }
+  check("text.fontSize")
+    .notEmpty()
+    .withMessage("Text font size is required")
+    .isNumeric()
+    .withMessage("Text font size must be a number"),
 
-      if (text.fontWeight && typeof text.fontWeight !== "number") {
-        throw new Error("Font weight must be a number");
-      }
+  check("text.fontColor")
+    .notEmpty()
+    .withMessage("Text font color is required")
+    .isHexColor()
+    .withMessage("Text font color must be a valid hex color"),
 
-      if (!text.xPosition || typeof text.xPosition !== "number") {
-        throw new Error("X position (number) is required");
-      }
+  check("text.fontWeight")
+    .optional()
+    .isNumeric()
+    .withMessage("Text font weight must be a number"),
 
-      if (!text.yPosition || typeof text.yPosition !== "number") {
-        throw new Error("Y position (number) is required");
-      }
+  check("text.xPosition")
+    .notEmpty()
+    .withMessage("Text X position is required")
+    .isNumeric()
+    .withMessage("Text X position must be a number"),
 
-      return true;
-    }),
+  check("text.yPosition")
+    .notEmpty()
+    .withMessage("Text Y position is required")
+    .isNumeric()
+    .withMessage("Text Y position must be a number"),
 
   validatorMiddleware,
 ];
@@ -103,41 +113,42 @@ exports.updateCardValidator = [
     .isMongoId()
     .withMessage("Shape must be a valid MongoDB ID"),
 
-  check("text")
+  check("text").optional().isObject().withMessage("Text must be an object"),
+
+  check("text.message")
     .optional()
-    .isObject()
-    .withMessage("Text must be an object")
-    .custom((text) => {
-      if (text.message && typeof text.message !== "string") {
-        throw new Error("Message (string) is required");
-      }
+    .isString()
+    .withMessage("Text message must be a string"),
 
-      if (text.fontFamily && typeof text.fontFamily !== "string") {
-        throw new Error("Font family (string) is required");
-      }
+  check("text.fontFamily")
+    .optional()
+    .isString()
+    .withMessage("Text font family must be a string"),
 
-      if (text.fontSize && typeof text.fontSize !== "number") {
-        throw new Error("Font size (number) is required");
-      }
+  check("text.fontSize")
+    .optional()
+    .isNumeric()
+    .withMessage("Text font size must be a number"),
 
-      if (text.fontColor && typeof text.fontColor !== "string") {
-        throw new Error("Font color (string) is required");
-      }
+  check("text.fontColor")
+    .optional()
+    .isHexColor()
+    .withMessage("Text font color must be a valid hex color"),
 
-      if (text.fontWeight && typeof text.fontWeight !== "number") {
-        throw new Error("Font weight must be a number");
-      }
+  check("text.fontWeight")
+    .optional()
+    .isNumeric()
+    .withMessage("Text font weight must be a number"),
 
-      if (text.xPosition && typeof text.xPosition !== "number") {
-        throw new Error("X position (number) is required");
-      }
+  check("text.xPosition")
+    .optional()
+    .isNumeric()
+    .withMessage("Text X position must be a number"),
 
-      if (text.yPosition && typeof text.yPosition !== "number") {
-        throw new Error("Y position (number) is required");
-      }
-
-      return true;
-    }),
+  check("text.yPosition")
+    .optional()
+    .isNumeric()
+    .withMessage("Text Y position must be a number"),
 
   check("recipient")
     .optional()
