@@ -160,10 +160,17 @@ exports.updateCardValidator = [
 
   check("receiveAt")
     .optional()
-    .isDate()
-    .withMessage("Receive at must be a valid date")
-    .isAfter(new Date().toISOString())
-    .withMessage("Receive at must be a future date"),
+    .isISO8601()
+    .withMessage(
+      "Receive at must be a valid date in the format YYYY-MM-DDTHH:MM:SSZ"
+    )
+    .custom((receiveAt) => {
+      if (receiveAt < Date.now()) {
+        throw new Error("Receive at must be a future date");
+      }
+
+      return true;
+    }),
 
   validatorMiddleware,
 ];
