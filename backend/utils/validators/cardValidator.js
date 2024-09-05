@@ -32,11 +32,42 @@ exports.createCardValidator = [
     .isMongoId()
     .withMessage("Shape must be a valid MongoDB ID"),
 
-  check("font")
+  check("text")
     .notEmpty()
-    .withMessage("Font is required")
-    .isMongoId()
-    .withMessage("Font must be a valid MongoDB ID"),
+    .withMessage("Text is required")
+    .isObject()
+    .withMessage("Text must be an object")
+    .custom((text) => {
+      if (!text.message || typeof text.message !== "string") {
+        throw new Error("Message (string) is required");
+      }
+
+      if (!text.fontFamily || typeof text.fontFamily !== "string") {
+        throw new Error("Font family (string) is required");
+      }
+
+      if (!text.fontSize || typeof text.fontSize !== "number") {
+        throw new Error("Font size (number) is required");
+      }
+
+      if (!text.fontColor || typeof text.fontColor !== "string") {
+        throw new Error("Font color (string) is required");
+      }
+
+      if (text.fontWeight && typeof text.fontWeight !== "number") {
+        throw new Error("Font weight must be a number");
+      }
+
+      if (!text.xPosition || typeof text.xPosition !== "number") {
+        throw new Error("X position (number) is required");
+      }
+
+      if (!text.yPosition || typeof text.yPosition !== "number") {
+        throw new Error("Y position (number) is required");
+      }
+
+      return true;
+    }),
 
   validatorMiddleware,
 ];
@@ -83,10 +114,41 @@ exports.updateCardValidator = [
     .isMongoId()
     .withMessage("Shape must be a valid MongoDB ID"),
 
-  check("font")
+  check("text")
     .optional()
-    .isMongoId()
-    .withMessage("Font must be a valid MongoDB ID"),
+    .isObject()
+    .withMessage("Text must be an object")
+    .custom((text) => {
+      if (text.message && typeof text.message !== "string") {
+        throw new Error("Message (string) is required");
+      }
+
+      if (text.fontFamily && typeof text.fontFamily !== "string") {
+        throw new Error("Font family (string) is required");
+      }
+
+      if (text.fontSize && typeof text.fontSize !== "number") {
+        throw new Error("Font size (number) is required");
+      }
+
+      if (text.fontColor && typeof text.fontColor !== "string") {
+        throw new Error("Font color (string) is required");
+      }
+
+      if (text.fontWeight && typeof text.fontWeight !== "number") {
+        throw new Error("Font weight must be a number");
+      }
+
+      if (text.xPosition && typeof text.xPosition !== "number") {
+        throw new Error("X position (number) is required");
+      }
+
+      if (text.yPosition && typeof text.yPosition !== "number") {
+        throw new Error("Y position (number) is required");
+      }
+
+      return true;
+    }),
 
   validatorMiddleware,
 ];
