@@ -41,7 +41,8 @@ exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
     .png({ quality: 98 })
     .toFile(`uploads/users/${req.file.filename}`);
 
-  req.body.photo = `/users/${req.file.filename}`;
+  // req.body.photo = `/users/${req.file.filename}`;
+  req.body.photo = req.file.filename;
 
   next();
 });
