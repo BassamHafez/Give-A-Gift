@@ -26,6 +26,7 @@ router
   .patch(
     cardValidator.updateCardValidator,
     cardController.setUserId,
+    cardController.filterUserCards,
     cardController.updateCard
   )
   .delete(
