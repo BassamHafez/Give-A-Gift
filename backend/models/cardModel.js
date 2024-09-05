@@ -57,6 +57,23 @@ const cardSchema = new mongoose.Schema(
         required: true,
       },
     },
+    isDelivered: {
+      type: Boolean,
+      default: false,
+    },
+    recipient: {
+      name: String,
+      whatsappNumber: String,
+    },
+    receiveAt: {
+      type: Date,
+      validate: {
+        validator: function (value) {
+          return value > Date.now();
+        },
+        message: "Receive at must be a future date",
+      },
+    },
   },
   {
     timestamps: true,

@@ -150,6 +150,32 @@ exports.updateCardValidator = [
       return true;
     }),
 
+  check("recipient")
+    .optional()
+    .isObject()
+    .withMessage("Recipient must be an object")
+    .custom((recipient) => {
+      if (recipient.name && typeof recipient.name !== "string") {
+        throw new Error("Recipient name must be a string");
+      }
+
+      if (
+        recipient.whatsappNumber &&
+        typeof recipient.whatsappNumber !== "string"
+      ) {
+        throw new Error("Recipient whatsapp number must be a string");
+      }
+
+      return true;
+    }),
+
+  check("receiveAt")
+    .optional()
+    .isDate()
+    .withMessage("Receive at must be a valid date")
+    .isAfter(new Date().toISOString())
+    .withMessage("Receive at must be a future date"),
+
   validatorMiddleware,
 ];
 
