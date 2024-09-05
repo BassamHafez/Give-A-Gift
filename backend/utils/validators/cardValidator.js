@@ -2,12 +2,6 @@ const { check } = require("express-validator");
 const validatorMiddleware = require("./validatorMiddleware");
 
 exports.createCardValidator = [
-  check("description")
-    .notEmpty()
-    .withMessage("Description is required")
-    .isString()
-    .withMessage("Description must be a string"),
-
   check("price")
     .notEmpty()
     .withMessage("Price of the card is required")
@@ -88,11 +82,6 @@ exports.updateCardValidator = [
     .withMessage("Card ID is required")
     .isMongoId()
     .withMessage("Card ID must be a valid MongoDB ID"),
-
-  check("description")
-    .optional()
-    .isString()
-    .withMessage("Description must be a string"),
 
   check("price")
     .optional()
