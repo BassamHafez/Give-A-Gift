@@ -22,7 +22,8 @@ exports.resizeShopLogo = catchAsync(async (req, res, next) => {
     .png({ quality: 98 })
     .toFile(`uploads/shops/${filename}`);
 
-  req.body.logo = `/shops/${filename}`;
+  // req.body.logo = `/shops/${filename}`;
+  req.body.logo = filename;
 
   next();
 });
