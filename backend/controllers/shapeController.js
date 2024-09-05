@@ -22,7 +22,8 @@ exports.resizeShapeImage = catchAsync(async (req, res, next) => {
     .png({ quality: 98 })
     .toFile(`uploads/shapes/${filename}`);
 
-  req.body.image = `/shapes/${filename}`;
+  // req.body.image = `/shapes/${filename}`;
+  req.body.image = filename;
 
   next();
 });
