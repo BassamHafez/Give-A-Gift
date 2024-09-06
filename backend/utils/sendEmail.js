@@ -13,7 +13,8 @@ const sendEmail = async (options) => {
     from: "Give A Gift Website",
     to: options.email,
     subject: options.subject,
-    text: options.message,
+    text: options.text,
+    html: options.html,
   };
 
   await transporter.sendMail(mailOpts);
