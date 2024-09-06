@@ -3,11 +3,6 @@ import styles from "./Stores.module.css";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import shop1 from "../../Images/Stores/shop1.png";
-import shop2 from "../../Images/Stores/shop2.png";
-import shop3 from "../../Images/Stores/shop3.png";
-import shop4 from "../../Images/Stores/shop4.png";
-import shop5 from "../../Images/Stores/shop5.png";
 import SearchField from "../../Components/Ui/SearchField";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
@@ -21,6 +16,7 @@ const Stores = () => {
   const { data: shops } = useQuery({
     queryKey: ["shops"],
     queryFn: getShops,
+    staleTime: 300000, 
   });
 
   return (
@@ -74,92 +70,6 @@ const Stores = () => {
           ) : (
             <LoadingOne />
           )}
-
-          <Col
-            xs={12}
-            sm={6}
-            md={4}
-            className="d-flex justify-content-center align-items-center"
-          >
-            <div className={styles.store_card}>
-              <div className={styles.store_item}>
-                <div className={styles.store_logo}>
-                  <img alt="storeLogo" className="w-100" src={shop2} />
-                </div>
-                <div>
-                  <h5 className="text-center">ELCT</h5>
-                </div>
-              </div>
-            </div>
-          </Col>
-          <Col
-            xs={12}
-            sm={6}
-            md={4}
-            className="d-flex justify-content-center align-items-center"
-          >
-            <div className={styles.store_card}>
-              <div className={styles.store_item}>
-                <div className={styles.store_logo}>
-                  <img alt="storeLogo" className="w-100" src={shop3} />
-                </div>
-                <div>
-                  <h5 className="text-center">ELCT</h5>
-                </div>
-              </div>
-            </div>
-          </Col>
-          <Col
-            xs={12}
-            sm={6}
-            md={4}
-            className="d-flex justify-content-center align-items-center"
-          >
-            <div className={styles.store_card}>
-              <div className={styles.store_item}>
-                <div className={styles.store_logo}>
-                  <img alt="storeLogo" className="w-100" src={shop4} />
-                </div>
-                <div>
-                  <h5 className="text-center">ELCT</h5>
-                </div>
-              </div>
-            </div>
-          </Col>
-          <Col
-            xs={12}
-            sm={6}
-            md={4}
-            className="d-flex justify-content-center align-items-center"
-          >
-            <div className={styles.store_card}>
-              <div className={styles.store_item}>
-                <div className={styles.store_logo}>
-                  <img alt="storeLogo" className="w-100" src={shop5} />
-                </div>
-                <div>
-                  <h5 className="text-center">ELCT</h5>
-                </div>
-              </div>
-            </div>
-          </Col>
-          <Col
-            xs={12}
-            sm={6}
-            md={4}
-            className="d-flex justify-content-center align-items-center"
-          >
-            <div className={styles.store_card}>
-              <div className={styles.store_item}>
-                <div className={styles.store_logo}>
-                  <img alt="storeLogo" className="w-100" src={shop1} />
-                </div>
-                <div>
-                  <h5 className="text-center">ELCT</h5>
-                </div>
-              </div>
-            </div>
-          </Col>
         </Row>
       </Container>
     </>

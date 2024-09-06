@@ -25,10 +25,11 @@
     transition: all .3s;
 }
 .filter_box:hover svg{
+    cursor: pointer;
     transition: all .3s;
 }
 .filter_box:hover{
-   color: var(--dusty_Gold);
+   color: var(--dusty_Gold) !important;
 }
 .filter{
     font-size: 1.125rem;

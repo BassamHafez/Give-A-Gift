@@ -37,7 +37,7 @@
     "passwordValidation3":"Must contain at least one uppercase character",
     "passwordValidation4":"Must contain at least one lowercase character",
     "passwordValidation5":"Must contain at least one number",
-    "passwordMismatch":"the passwords do not match",
+    "passwordMismatch":"the password doesn't not match",
     "dashboard":"Dashboard",
     "setting":"Setting",
     "help":"Help",
