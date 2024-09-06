@@ -2,12 +2,6 @@ const { check } = require("express-validator");
 const validatorMiddleware = require("./validatorMiddleware");
 
 exports.createCardValidator = [
-  check("description")
-    .notEmpty()
-    .withMessage("Description is required")
-    .isString()
-    .withMessage("Description must be a string"),
-
   check("price")
     .notEmpty()
     .withMessage("Price of the card is required")
@@ -32,6 +26,53 @@ exports.createCardValidator = [
     .isMongoId()
     .withMessage("Shape must be a valid MongoDB ID"),
 
+  check("text")
+    .notEmpty()
+    .withMessage("Text information is required")
+    .isObject()
+    .withMessage("Text must be an object"),
+
+  check("text.message")
+    .notEmpty()
+    .withMessage("Text message is required")
+    .isString()
+    .withMessage("Text message must be a string"),
+
+  check("text.fontFamily")
+    .notEmpty()
+    .withMessage("Text font family is required")
+    .isString()
+    .withMessage("Text font family must be a string"),
+
+  check("text.fontSize")
+    .notEmpty()
+    .withMessage("Text font size is required")
+    .isNumeric()
+    .withMessage("Text font size must be a number"),
+
+  check("text.fontColor")
+    .notEmpty()
+    .withMessage("Text font color is required")
+    .isHexColor()
+    .withMessage("Text font color must be a valid hex color"),
+
+  check("text.fontWeight")
+    .optional()
+    .isNumeric()
+    .withMessage("Text font weight must be a number"),
+
+  check("text.xPosition")
+    .notEmpty()
+    .withMessage("Text X position is required")
+    .isNumeric()
+    .withMessage("Text X position must be a number"),
+
+  check("text.yPosition")
+    .notEmpty()
+    .withMessage("Text Y position is required")
+    .isNumeric()
+    .withMessage("Text Y position must be a number"),
+
   validatorMiddleware,
 ];
 
@@ -52,11 +93,6 @@ exports.updateCardValidator = [
     .isMongoId()
     .withMessage("Card ID must be a valid MongoDB ID"),
 
-  check("description")
-    .optional()
-    .isString()
-    .withMessage("Description must be a string"),
-
   check("price")
     .optional()
     .isNumeric()
@@ -76,6 +112,76 @@ exports.updateCardValidator = [
     .optional()
     .isMongoId()
     .withMessage("Shape must be a valid MongoDB ID"),
+
+  check("text").optional().isObject().withMessage("Text must be an object"),
+
+  check("text.message")
+    .optional()
+    .isString()
+    .withMessage("Text message must be a string"),
+
+  check("text.fontFamily")
+    .optional()
+    .isString()
+    .withMessage("Text font family must be a string"),
+
+  check("text.fontSize")
+    .optional()
+    .isNumeric()
+    .withMessage("Text font size must be a number"),
+
+  check("text.fontColor")
+    .optional()
+    .isHexColor()
+    .withMessage("Text font color must be a valid hex color"),
+
+  check("text.fontWeight")
+    .optional()
+    .isNumeric()
+    .withMessage("Text font weight must be a number"),
+
+  check("text.xPosition")
+    .optional()
+    .isNumeric()
+    .withMessage("Text X position must be a number"),
+
+  check("text.yPosition")
+    .optional()
+    .isNumeric()
+    .withMessage("Text Y position must be a number"),
+
+  check("recipient")
+    .optional()
+    .isObject()
+    .withMessage("Recipient must be an object")
+    .custom((recipient) => {
+      if (recipient.name && typeof recipient.name !== "string") {
+        throw new Error("Recipient name must be a string");
+      }
+
+      if (
+        recipient.whatsappNumber &&
+        typeof recipient.whatsappNumber !== "string"
+      ) {
+        throw new Error("Recipient whatsapp number must be a string");
+      }
+
+      return true;
+    }),
+
+  check("receiveAt")
+    .optional()
+    .isISO8601()
+    .withMessage(
+      "Receive at must be a valid date in the format YYYY-MM-DDTHH:MM:SSZ"
+    )
+    .custom((receiveAt) => {
+      if (receiveAt < Date.now()) {
+        throw new Error("Receive at must be a future date");
+      }
+
+      return true;
+    }),
 
   validatorMiddleware,
 ];
