@@ -19,6 +19,7 @@ const MainNav = () => {
   const profileData = useSelector((state) => state.userInfo.data);
   const isLogin = useSelector((state) => state.userInfo.isLogin);
   const navigate = useNavigate();
+
   return (
     <>
       <nav
@@ -133,7 +134,7 @@ const MainNav = () => {
             <Link to={`profile/${profileData._id}`}>
               <div className={styles.profile_img}>
                 <img
-                  src={`http://127.0.0.1:3001${profileData.photo}`}
+                  src={`http://127.0.0.1:3001/users/${profileData?.photo}`}
                   alt={`${profileData.name}_ptofile_photo`}
                 />
               </div>

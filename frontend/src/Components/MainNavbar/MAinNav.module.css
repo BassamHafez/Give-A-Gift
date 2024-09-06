@@ -23,12 +23,12 @@
     width:  100%;
 }
 .nav_list li a:hover{
-    color: var(--main_color);
+    color: var(--main_color) !important;
 }
 
 .nav_list li a.active{
     position: relative;
-    color: var(--main_color);
+    color: var(--main_color) !important;
 }
 
 .nav_list li a.active::before{

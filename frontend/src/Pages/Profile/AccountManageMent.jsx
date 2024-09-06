@@ -9,19 +9,20 @@ import { faYinYang } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
 
-const AccountManageMent = () => {
+const AccountManageMent = ({ notifySuccess, notifyError }) => {
   const { t: key } = useTranslation();
 
   const { mutate, isPending } = useMutation({
     mutationFn: UpdatePassword,
     onSuccess: (data) => {
+      console.log(data);
       if (data.data.status === "success") {
-        //success message
+        notifySuccess("Password has been changed successfully");
       }
     },
     onError: (error) => {
       console.log(error);
-      //error message
+      notifyError("Password faild to be change please try again");
     },
   });
 
@@ -63,27 +64,19 @@ const AccountManageMent = () => {
         <Form className={styles.general_info_form}>
           <div className={styles.field}>
             <label htmlFor="currentPass">Current Password</label>
-            <Field type="text" id="currentPass" name="currentPass" />
-            <ErrorMessage name="currentPass" component={InputErrorMessage} />
+            <Field type="password" id="currentPass" name="currentPassword" />
+            <ErrorMessage name="currentPassword" component={InputErrorMessage} />
           </div>
 
           <div className={styles.field}>
             <label htmlFor="newPass">New Password</label>
-            <Field
-              type="text"
-              id="newPass"
-              name="newPass"
-            />
-            <ErrorMessage name="newPass" component={InputErrorMessage} />
+            <Field type="password" id="newPass" name="newPassword" />
+            <ErrorMessage name="newPassword" component={InputErrorMessage} />
           </div>
           <div className={styles.field}>
             <label htmlFor="confirmPass">Confirm Password</label>
-            <Field
-              type="text"
-              id="confirmPass"
-              name="confirmPass"
-            />
-            <ErrorMessage name="confirmPass" component={InputErrorMessage} />
+            <Field type="password" id="confirmPass" name="passwordConfirm" />
+            <ErrorMessage name="passwordConfirm" component={InputErrorMessage} />
           </div>
 
           <div className="d-flex justify-content-end align-items-center mt-3 px-2">

@@ -107,6 +107,10 @@ ul li{
   color: var(--dusty_Gold) !important;
 
 }
+.nav-link{
+  color: black !important;
+  font-weight: 600 !important;
+}
 
 @media screen and (max-width:768px) {
   body,html{

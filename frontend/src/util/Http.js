@@ -45,9 +45,9 @@ export const getShops= async () => {
   }
 };
 
-export const UpdatePassword= async () => {
+export const UpdatePassword= async (formData) => {
   try {
-     const response = await axios.get(`${baseServerUrl}shops`);
+     const response = await axios.patch(`${baseServerUrl}users/updateMyPassword`,formData);
 
     return response.data;
   } catch (error) {
