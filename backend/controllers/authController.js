@@ -145,12 +145,48 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   await user.save();
 
   // 3) Send the reset code via email
-  const message = `Hi ${user.name},\n We received a request to reset the password on your E-shop Account. \n ${resetCode} \n Enter this code to complete the reset. \n Thanks for helping us keep your account secure.\n The E-shop Team`;
+  const text = `Hi ${user.name},\n We received a request to reset the password on your Give-A-Gift Account. \n ${resetCode} \n Enter this code to complete the reset. \n Thanks for helping us keep your account secure.\n The Give-A-Gift Team`;
+
+  const html = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Password Reset</title>
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          line-height: 1.6;
+          color: #333;
+        }
+        .brand {
+          color: #990000;
+          font-weight: bold;
+        }
+        .code {
+          font-size: 24px;
+          font-weight: bold;
+        }
+      </style>
+    </head>
+    <body>
+      <p>Hi <strong>${user.name}</strong>,</p>
+      <p>We received a request to reset the password on your <span class="brand">Give-A-Gift</span> Account.</p>
+      <p class="code">${resetCode}</p>
+      <p>Enter this code to complete the reset.</p>
+      <p>Thanks for helping us keep your account secure.</p>
+      <p>The <span class="brand">Give-A-Gift</span> Team</p>
+    </body>
+    </html>
+  `;
+
   try {
     await sendEmail({
       email: user.email,
       subject: "Your password reset code (valid for 10 min)",
-      message,
+      text,
+      html,
     });
   } catch (err) {
     user.passwordResetCode = undefined;
