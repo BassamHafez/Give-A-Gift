@@ -59,6 +59,57 @@ const uploadSampleData = async () => {
         {
           image: "svg6.svg",
         },
+        {
+          image: "recipientGift.jpg",
+        },
+        {
+          image: "1OSMraS.png",
+        },
+        {
+          image: "8Nnc16G.png",
+        },
+        {
+          image: "e4rKcS0.png",
+        },
+        {
+          image: "F1sU55g.png",
+        },
+        {
+          image: "fhPyEBT.png",
+        },
+        {
+          image: "FruSxNc.png",
+        },
+        {
+          image: "gSHwOPr.png",
+        },
+        {
+          image: "KnIE0ry.png",
+        },
+        {
+          image: "mmetlwc.png",
+        },
+        {
+          image: "mrFHn1o.png",
+        },
+        {
+          image: "oiPl2QX.png",
+        },
+        {
+          image: "P5w31EM.png",
+        },
+        {
+          image: "RmpX0dp.png",
+        },
+        {
+          image: "v0NFtm0.png",
+        },
+        {
+          image: "WBxoxBK.png",
+        },
+        {
+          image: "WjFaCGZ.png",
+        },
       ]),
 
       Shop.insertMany([
