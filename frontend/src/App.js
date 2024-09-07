@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import { getisLoginState, getRoleState, getToken, getUserInfoFromLocalStorage } from './Store/userInfo-actions';
 import CustomCards from './Pages/CustomCards/CustomCards';
 import Profile from './Pages/Profile/Profile';
+import RecipientInformation from './Pages/RecipientInformation/RecipientInformation';
 
 
 const router=createBrowserRouter([{
@@ -28,6 +29,7 @@ const router=createBrowserRouter([{
     {path:"special-cards",element:<SpecialCards/>},
     {path:"custom-cards",element:<CustomCards/>},
     {path:"profile/:userId",element:<Profile/>},
+    {path:"recipient-information/:cardId",element:<RecipientInformation/>},
   ]
 }])  
 

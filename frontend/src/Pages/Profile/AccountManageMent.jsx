@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { UpdatePassword } from "../../util/Http";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorMessage, Form, Formik, Field } from "formik";
@@ -11,13 +11,25 @@ import { useTranslation } from "react-i18next";
 
 const AccountManageMent = ({ notifySuccess, notifyError }) => {
   const { t: key } = useTranslation();
+  const [isCurrentPassError, setIsCurrentPassError] = useState(false);
+  const token = JSON.parse(localStorage.getItem("token"));
 
   const { mutate, isPending } = useMutation({
     mutationFn: UpdatePassword,
     onSuccess: (data) => {
       console.log(data);
-      if (data.data.status === "success") {
+      if (data?.status === "success") {
+        setIsCurrentPassError(false);
         notifySuccess("Password has been changed successfully");
+      } else if (data.response?.data?.message === "current password is wrong") {
+        setIsCurrentPassError(true);
+      } else if (
+        data.response.data.message ===
+        "User recently changed password! Please log in again."
+      ) {
+        notifyError("You recently changed password! Please log in again.");
+      } else {
+        setIsCurrentPassError(false);
       }
     },
     onError: (error) => {
@@ -36,6 +48,7 @@ const AccountManageMent = ({ notifySuccess, notifyError }) => {
     console.log(values);
     mutate({
       formData: values,
+      token: token,
     });
   };
 
@@ -65,7 +78,13 @@ const AccountManageMent = ({ notifySuccess, notifyError }) => {
           <div className={styles.field}>
             <label htmlFor="currentPass">Current Password</label>
             <Field type="password" id="currentPass" name="currentPassword" />
-            <ErrorMessage name="currentPassword" component={InputErrorMessage} />
+            <ErrorMessage
+              name="currentPassword"
+              component={InputErrorMessage}
+            />
+            {isCurrentPassError && (
+              <InputErrorMessage text="Current Password Is Wrong" />
+            )}
           </div>
 
           <div className={styles.field}>
@@ -76,7 +95,10 @@ const AccountManageMent = ({ notifySuccess, notifyError }) => {
           <div className={styles.field}>
             <label htmlFor="confirmPass">Confirm Password</label>
             <Field type="password" id="confirmPass" name="passwordConfirm" />
-            <ErrorMessage name="passwordConfirm" component={InputErrorMessage} />
+            <ErrorMessage
+              name="passwordConfirm"
+              component={InputErrorMessage}
+            />
           </div>
 
           <div className="d-flex justify-content-end align-items-center mt-3 px-2">
