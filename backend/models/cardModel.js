@@ -2,10 +2,6 @@ const mongoose = require("mongoose");
 
 const cardSchema = new mongoose.Schema(
   {
-    price: {
-      type: Number,
-      required: true,
-    },
     color: {
       type: String,
       required: true,
@@ -29,6 +25,25 @@ const cardSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: "User",
       required: true,
+    },
+    price: {
+      value: {
+        type: Number,
+        required: true,
+      },
+      fontFamily: {
+        type: String,
+        required: true,
+      },
+      fontSize: {
+        type: Number,
+        required: true,
+      },
+      fontColor: {
+        type: String,
+        required: true,
+      },
+      fontWeight: Number,
     },
     text: {
       message: {

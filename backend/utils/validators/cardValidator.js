@@ -2,12 +2,6 @@ const { check } = require("express-validator");
 const validatorMiddleware = require("./validatorMiddleware");
 
 exports.createCardValidator = [
-  check("price")
-    .notEmpty()
-    .withMessage("Price of the card is required")
-    .isNumeric()
-    .withMessage("Price of the card must be a number"),
-
   check("shop")
     .notEmpty()
     .withMessage("Shop is required")
@@ -25,6 +19,41 @@ exports.createCardValidator = [
     .withMessage("Shape is required")
     .isMongoId()
     .withMessage("Shape must be a valid MongoDB ID"),
+
+  check("price")
+    .notEmpty()
+    .withMessage("Price information is required")
+    .isObject()
+    .withMessage("Price must be an object"),
+
+  check("price.value")
+    .notEmpty()
+    .withMessage("Price value is required")
+    .isNumeric()
+    .withMessage("Price value must be a number"),
+
+  check("price.fontFamily")
+    .notEmpty()
+    .withMessage("Text font family is required")
+    .isString()
+    .withMessage("Text font family must be a string"),
+
+  check("price.fontSize")
+    .notEmpty()
+    .withMessage("Text font size is required")
+    .isNumeric()
+    .withMessage("Text font size must be a number"),
+
+  check("price.fontColor")
+    .notEmpty()
+    .withMessage("Text font color is required")
+    .isHexColor()
+    .withMessage("Text font color must be a valid hex color"),
+
+  check("price.fontWeight")
+    .optional()
+    .isNumeric()
+    .withMessage("Text font weight must be a number"),
 
   check("text")
     .notEmpty()
