@@ -17,6 +17,7 @@ import LogoutModal from "../../Components/Ui/LogoutModal";
 import AccountManageMent from "./AccountManageMent";
 import ribbon from "../../Images/ribbon.png";
 import LoadingOne from "../../Components/Ui/LoadingOne";
+import MyCards from "./MyCards";
 
 const ProfileVertical = ({ notifySuccess, notifyError }) => {
   const profileData = useSelector((state) => state.userInfo.data);
@@ -61,16 +62,16 @@ const ProfileVertical = ({ notifySuccess, notifyError }) => {
                 <Nav.Item className={styles.nav_item}>
                   <FontAwesomeIcon
                     className={styles.list_icon}
-                    icon={faCircleInfo}
+                    icon={faLayerGroup}
                   />
-                  <Nav.Link eventKey="three">Help</Nav.Link>
+                  <Nav.Link eventKey="myCards">Your Cards</Nav.Link>
                 </Nav.Item>
                 <Nav.Item className={styles.nav_item}>
                   <FontAwesomeIcon
                     className={styles.list_icon}
-                    icon={faLayerGroup}
+                    icon={faCircleInfo}
                   />
-                  <Nav.Link eventKey="four">Your Cards</Nav.Link>
+                  <Nav.Link eventKey="three">Help</Nav.Link>
                 </Nav.Item>
                 <Nav.Item
                   className={styles.nav_item}
@@ -90,7 +91,7 @@ const ProfileVertical = ({ notifySuccess, notifyError }) => {
           <Col
             sm={6}
             md={8}
-            xl={7}
+            xl={9}
             className="d-flex flex-column justify-content-center"
           >
             <Tab.Content>
@@ -102,7 +103,7 @@ const ProfileVertical = ({ notifySuccess, notifyError }) => {
               </Tab.Pane>
               <Tab.Pane eventKey="second">Second tab content</Tab.Pane>
               <Tab.Pane eventKey="three">three tab content</Tab.Pane>
-              <Tab.Pane eventKey="four">four tab content</Tab.Pane>
+              <Tab.Pane eventKey="myCards"><MyCards/></Tab.Pane>
             </Tab.Content>
           </Col>
         </Row>

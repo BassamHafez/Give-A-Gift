@@ -1,6 +1,7 @@
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import AccountManageMent from "./AccountManageMent";
+import MyCards from "./MyCards";
 
 const ProfileHorizontal = ({ notifySuccess, notifyError }) => {
   return (
@@ -20,7 +21,7 @@ const ProfileHorizontal = ({ notifySuccess, notifyError }) => {
           Tab content for Profile
         </Tab>
         <Tab eventKey="Your Cards" title="Your Cards">
-          Tab content for Contact
+          <MyCards/>
         </Tab>
       </Tabs>
     </>

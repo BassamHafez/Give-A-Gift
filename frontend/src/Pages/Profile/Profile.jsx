@@ -12,7 +12,7 @@ const Profile = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsSmallScreen(window.innerWidth < 575);
+      setIsSmallScreen(window.innerWidth < 768);
     };
 
     window.addEventListener("resize", handleResize);
