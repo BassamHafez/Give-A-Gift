@@ -2,28 +2,40 @@
 
 .sec1_gift_card,.sec1_custom_gift_card{
     width: 31.25rem;
-    border-radius: 0.625rem;
     overflow: hidden;
     position: relative;
+    cursor: pointer;
+    border-radius:0.125rem;
 }
+.front_img{
+    width: 100%;
+    transition: all 1s;
+        border-radius:0.125rem;
+
+}
+
 .sec1_layer{
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, .6);
-    backdrop-filter: blur(0.625rem);
-    display: flex;
-    justify-content: center;
-    align-items: center;
     opacity: 0;
-    transition: opacity .4s;
+    transition: all 1s;
+    border-radius: 0.3125rem !important;
+    overflow: hidden;
 }
+.back_img{
+    width: 100%;
+    height: 100%;
+    border-radius:0.125rem;
+   }
 .sec1_gift_card:hover .sec1_layer, .sec1_custom_gift_card:hover .sec1_layer{
     opacity: 1;
 }
-
+.sec1_gift_card:hover .front_img{
+    opacity: 0;
+}
 
 .top_stores{
     padding:1.25rem;

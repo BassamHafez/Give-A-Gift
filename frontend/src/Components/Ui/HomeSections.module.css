@@ -1,22 +1,35 @@
-/* ------------------------------------------------- sec2 quality section----------------------- */
+/* ------------------------------------------------- sec3 quality section----------------------- */
 
 .sec2_quality_img{
-    width: 25rem;
+    width: 600px;
+    height: 338px;
+    border-radius: 5px;
+}
+.sec2_quality_img img{
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 .sec3_caption h2{
     margin-bottom: 3rem;
+    font-size: 55px;
+}
+.sec3_caption p{
+    font-size:18px;
 }
 
-/* ------------------------------------------------- sec3 caption section----------------------- */
+/* ------------------------------------------------- sec4 caption section----------------------- */
 .caption{
-    background-color: var(--main_color_lighter);
+    background-image: url(../../Images/caption.png);
+    background-size: cover;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 60vh;
+    min-height: 55vh;
     width: 85vw;
-    border-radius: 1.875rem;
+    border-radius: 10px;
     padding-inline:3.125rem;
     margin: auto;
     margin-bottom: 3.125rem;
@@ -32,6 +45,16 @@
     font-size:1.25rem;
     font-weight: 700;
     margin-bottom: 1.875rem;
+}
+.caption_text{
+    color: white;
+    background-color: #494361;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+.letter_spacing{
+    letter-spacing: 2px;
 }
 
 @media screen and (max-width:768px){

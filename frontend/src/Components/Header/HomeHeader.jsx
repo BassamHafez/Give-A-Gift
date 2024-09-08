@@ -1,41 +1,23 @@
 import React from "react";
 import styles from "./HomeHeader.module.css";
-import cardHand from "../../Images/headerCard.png";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import MainButtonTwo from "../Ui/MainButtonTwo";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
 
 const HomeHeader = () => {
-
-  const [key,control]=useTranslation();
-  let isArLang=control.language==="ar";
-  const navigate =useNavigate();
+  const {t:key} = useTranslation();
+  let isArLang = localStorage.getItem("i18nextLng") === "ar";
 
   return (
     <div className={styles.header_container}>
-      <div className={`${isArLang?styles.header_layer_ar:styles.header_layer}`}></div>
-      <Row className="h-100">
-        <Col md={7} className={styles.caption_side}>
-          <div>
-            <h1>
-              {key("title")}
-            </h1>
-            <MainButtonTwo onClick={()=>navigate(`/special-cards`)} text={`${key("getCardBtn")}`}/>
-            <a href="#firstSec">
-              <div className={styles.scroll_down}>
-                <div className={styles.small_circle}></div>
-              </div>
-            </a>
+      <div className={styles.header_layer}></div>
+      <div className={`${styles.header_text} ${!isArLang&&styles.letter_spacing}`}>
+        <h1>{key("sec3Title")}</h1>
+        <p >{key("sec3Caption")}</p>
+      </div>
+      <a href="#firstSec">
+          <div className={styles.scroll_down}>
+            <div className={styles.small_circle}></div>
           </div>
-        </Col>
-        <Col md={5} className={styles.img_side}>
-          <div>
-            <img className="w-100" src={cardHand} alt="card Hand" />
-          </div>
-        </Col>
-      </Row>
+        </a>
     </div>
   );
 };

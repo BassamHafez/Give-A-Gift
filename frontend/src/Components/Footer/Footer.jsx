@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../../Images/mainLogo.jpg";
+import logo from "../../Images/logo.png";
 import styles from "./Footer.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -17,7 +17,11 @@ const Footer = () => {
         <img className="w-100" src={logo} alt="logo" />
       </div>
       <div className={styles.footer_links}>
-        <Link>
+        <Link
+          target="_blank"
+          to={`https://wa.me/966557299119`}
+          rel="noopener noreferrer"
+        >
           <FontAwesomeIcon icon={faWhatsapp} />
         </Link>
         <Link>
@@ -26,7 +30,10 @@ const Footer = () => {
         <Link>
           <FontAwesomeIcon icon={faXTwitter} />
         </Link>
-        <Link>
+        <Link
+          target="_blank"
+          to={"https://www.instagram.com/giveagiftsa?igsh=ZzY3bXhneDZ5MDNt"}
+        >
           <FontAwesomeIcon icon={faInstagram} />
         </Link>
       </div>

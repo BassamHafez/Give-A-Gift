@@ -1,52 +1,47 @@
 .header_container{
-    width: 90vw;
-    min-height: 28.125rem;
-    background-color: var(--main_color_lighter);
-    border-radius: 0.625rem;
-    margin-top: 3.125rem;
-    box-shadow: 0 0.1875rem 0.1875rem rgba(0, 0, 0, 0.129);
-    position: relative;
+  width: 100%;
+  height: 100vh;
+  background-image: url(../../Images/banner.png);
+  background-size: cover;
+  background-position:50% 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
-.header_layer,.header_layer_ar{
-    background-color: var(--main_color);
-    width:38%;
-    height: 100%;
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: -1;
-    border-radius: 47%  0.625rem  0.625rem 47% ;
-}
-.header_layer_ar{
-    right: 100%;
-    transform: translateX(100%);
-    top: 0;
-    border-radius: 0.625rem 47%  47%   0.625rem;
-}
-
-.img_side,.caption_side{
-    display: flex;
-    justify-content: center;
-    align-items: end;
-}
-.caption_side{
-    align-items: center;
-    position: relative;
-}
-.caption_side div{
-    margin-left: 0.625rem;
+.header_text{
+    color: white;
+    background-color: rgba(255, 0, 0, 0.395);
+    padding: 40px 50px;
+    border-radius: 5px;
+    backdrop-filter: blur(1px);
+    margin-top: 20px;
+    z-index: 2;
     text-align: center;
 }
-.caption_side div h1{
-    font-size: 3.125rem;
-    font-weight:700;
-    margin-bottom: 2.5rem;
+.header_text h1{
+    font-weight: 900;
+    font-family: var(--jakarta);
+    font-size:2.5rem;
+    margin-bottom: 1.875rem;
 }
-.img_side div{
-    width: 410px;
+.header_text p{
+    font-size:1.25rem;
+    font-weight: 700;
+    margin-bottom: 1.875rem;
 }
-
-
+.header_layer{
+    background-color: rgba(0, 0, 0, 0.471);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+}
+.letter_spacing{
+    letter-spacing: 2px;
+}
 .scroll_down{
     position: absolute;
     width: 1.5625rem;
@@ -62,6 +57,7 @@
     align-items: center;
     cursor: pointer;
     transition: border .3s;
+    z-index: 2;
 }
 .small_circle{
     background-color: var(--main_color);

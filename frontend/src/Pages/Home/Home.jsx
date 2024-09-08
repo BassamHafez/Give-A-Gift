@@ -5,26 +5,24 @@ import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import styles from "./Home.module.css";
 import AOS from "aos";
-import MainButtonThree from "../../Components/Ui/MainButtonThree";
-import giftCard from "../../Images/giftCard.jpg";
-import customGiftCard from "../../Images/customGiftCard.jpg";
+import giftCard from "../../Images/home1.webp";
+import giftCardBack from "../../Images/back.png";
+import customGiftCard from "../../Images/home2.webp";
+import customGiftBack from "../../Images/home2-back.png";
 import TopStores from "../../Components/TopStores/TopStores";
 import HomeSections from "../../Components/Ui/HomeSections";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
 
 const Home = () => {
-  const {t:key} = useTranslation();
-  const navigate=useNavigate();
+  const { t: key } = useTranslation();
+
   useEffect(() => {
     AOS.init();
   }, []);
 
   return (
     <>
-      <div className="d-flex justify-content-center mt-4 mb-5">
-        <HomeHeader />
-      </div>
+      <HomeHeader />
 
       <section className={styles.top_stores}>
         <TopStores />
@@ -48,9 +46,9 @@ const Home = () => {
             >
               <div>
                 <div className={styles.sec1_gift_card}>
-                  <img className="w-100" src={giftCard} alt="giftCard" />
+                  <img className={`${styles.front_img}`} src={giftCard} alt="giftCard" />
                   <div className={styles.sec1_layer}>
-                    <MainButtonThree onClick={()=>navigate("/special-cards")} text="View Cards" />
+                    <img className={`${styles.back_img}`} src={giftCardBack} alt="giftCardBack" />
                   </div>
                 </div>
                 <div className="text-center mt-4">
@@ -73,7 +71,7 @@ const Home = () => {
                     alt="customGiftCard"
                   />
                   <div className={styles.sec1_layer}>
-                    <MainButtonThree onClick={()=>navigate("/custom-cards")}  text="View Cards" />
+                   <img className={`${styles.back_img}`} src={customGiftBack} alt="customGiftBack" />
                   </div>
                 </div>
                 <div className="text-center mt-4">
