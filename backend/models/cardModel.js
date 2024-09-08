@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const cardSchema = new mongoose.Schema(
   {
+    code: String,
     color: {
       type: String,
       required: true,
