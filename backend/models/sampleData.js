@@ -1,5 +1,6 @@
 const Shape = require("./shapeModel");
 const Shop = require("./shopModel");
+const Color = require("./colorModel");
 
 const uploadSampleData = async () => {
   try {
@@ -202,6 +203,99 @@ const uploadSampleData = async () => {
           name: "4TWINS",
           logo: "shop17.png",
           description: "Short description for the shop",
+        },
+      ]),
+
+      Color.insertMany([
+        {
+          hex: "#000000",
+        },
+        {
+          hex: "#FFFFFF",
+        },
+        {
+          hex: "#FF5733",
+        },
+        {
+          hex: "#33FF57",
+        },
+        {
+          hex: "#3357FF",
+        },
+        {
+          hex: "#FF33A8",
+        },
+        {
+          hex: "#F39C12",
+        },
+        {
+          hex: "#8E44AD",
+        },
+        {
+          hex: "#1ABC9C",
+        },
+        {
+          hex: "#C0392B",
+        },
+        {
+          hex: "#34495E",
+        },
+        {
+          hex: "#F1C40F",
+        },
+        {
+          hex: "#E74C3C",
+        },
+        {
+          hex: "#9B59B6",
+        },
+        {
+          hex: "#2ECC71",
+        },
+        {
+          hex: "#3498DB",
+        },
+        {
+          hex: "#E67E22",
+        },
+        {
+          hex: "#16A085",
+        },
+        {
+          hex: "#BDC3C7",
+        },
+        {
+          hex: "#7F8C8D",
+        },
+        {
+          hex: "#D35400",
+        },
+        {
+          hex: "#2C3E50",
+        },
+        {
+          hex: "#2980B9",
+        },
+        {
+          hex: "#27AE60",
+        },
+        {
+          hex: "#E74C3C",
+        },
+        {
+          hex: "#9C640C",
+        },
+        {
+          hex: "#45B39D",
+        },
+        {
+          hex: "#D98880",
+        },
+        {
+          hex: "#A569BD",
+        },
+        {
+          hex: "#D4AC0D",
         },
       ]),
     ]);
