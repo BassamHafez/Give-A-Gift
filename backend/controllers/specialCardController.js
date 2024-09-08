@@ -10,7 +10,7 @@ exports.deleteCard = factory.deleteOne(SpecialCard);
 
 exports.getAllCards = catchAsync(async (req, res, next) => {
   const [cards, frontShape, backShape] = await Promise.all([
-    SpecialCard.find(),
+    SpecialCard.find().populate({ path: "shop", select: "name logo" }),
     Config.findOne({ key: "SPECIAL_FRONT_SHAPE_ID" }),
     Config.findOne({ key: "SPECIAL_BACK_SHAPE_ID" }),
   ]);
