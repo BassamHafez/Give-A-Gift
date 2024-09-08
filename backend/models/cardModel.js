@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const cardSchema = new mongoose.Schema(
   {
+    isSpecial: {
+      type: Boolean,
+      default: false,
+    },
     code: String,
     color: {
       type: mongoose.Schema.ObjectId,
@@ -20,7 +24,6 @@ const cardSchema = new mongoose.Schema(
     shape: {
       type: mongoose.Schema.ObjectId,
       ref: "Shape",
-      required: true,
     },
     user: {
       type: mongoose.Schema.ObjectId,
@@ -32,46 +35,19 @@ const cardSchema = new mongoose.Schema(
         type: Number,
         required: true,
       },
-      fontFamily: {
-        type: String,
-        required: true,
-      },
-      fontSize: {
-        type: Number,
-        required: true,
-      },
-      fontColor: {
-        type: String,
-        required: true,
-      },
+      fontFamily: String,
+      fontSize: Number,
+      fontColor: String,
       fontWeight: Number,
     },
     text: {
-      message: {
-        type: String,
-        required: true,
-      },
-      fontFamily: {
-        type: String,
-        required: true,
-      },
-      fontSize: {
-        type: Number,
-        required: true,
-      },
-      fontColor: {
-        type: String,
-        required: true,
-      },
+      message: String,
+      fontFamily: String,
+      fontSize: Number,
+      fontColor: String,
       fontWeight: Number,
-      xPosition: {
-        type: Number,
-        required: true,
-      },
-      yPosition: {
-        type: Number,
-        required: true,
-      },
+      xPosition: Number,
+      yPosition: Number,
     },
     isDelivered: {
       type: Boolean,

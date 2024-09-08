@@ -2,6 +2,12 @@ const { check } = require("express-validator");
 const validatorMiddleware = require("./validatorMiddleware");
 
 exports.createCardValidator = [
+  check("isSpecial")
+    .notEmpty()
+    .withMessage("isSpecial is required")
+    .isBoolean()
+    .withMessage("isSpecial must be a boolean"),
+
   check("shop")
     .notEmpty()
     .withMessage("Shop is required")
@@ -9,12 +15,14 @@ exports.createCardValidator = [
     .withMessage("Shop must be a valid MongoDB ID"),
 
   check("color")
+    .if((value, { req }) => !req.body.isSpecial)
     .notEmpty()
     .withMessage("Color is required")
     .isMongoId()
     .withMessage("Color must be a valid MongoDB ID"),
 
   check("shape")
+    .if((value, { req }) => !req.body.isSpecial)
     .notEmpty()
     .withMessage("Shape is required")
     .isMongoId()
@@ -33,70 +41,82 @@ exports.createCardValidator = [
     .withMessage("Price value must be a number"),
 
   check("price.fontFamily")
+    .if((value, { req }) => !req.body.isSpecial)
     .notEmpty()
     .withMessage("Text font family is required")
     .isString()
     .withMessage("Text font family must be a string"),
 
   check("price.fontSize")
+    .if((value, { req }) => !req.body.isSpecial)
     .notEmpty()
     .withMessage("Text font size is required")
     .isNumeric()
     .withMessage("Text font size must be a number"),
 
   check("price.fontColor")
+    .if((value, { req }) => !req.body.isSpecial)
     .notEmpty()
     .withMessage("Text font color is required")
     .isHexColor()
     .withMessage("Text font color must be a valid hex color"),
 
   check("price.fontWeight")
+    .if((value, { req }) => !req.body.isSpecial)
     .optional()
     .isNumeric()
     .withMessage("Text font weight must be a number"),
 
   check("text")
+    .if((value, { req }) => !req.body.isSpecial)
     .notEmpty()
     .withMessage("Text information is required")
     .isObject()
     .withMessage("Text must be an object"),
 
   check("text.message")
+    .if((value, { req }) => !req.body.isSpecial)
     .notEmpty()
     .withMessage("Text message is required")
     .isString()
     .withMessage("Text message must be a string"),
 
   check("text.fontFamily")
+    .if((value, { req }) => !req.body.isSpecial)
     .notEmpty()
     .withMessage("Text font family is required")
     .isString()
     .withMessage("Text font family must be a string"),
 
   check("text.fontSize")
+    .if((value, { req }) => !req.body.isSpecial)
     .notEmpty()
     .withMessage("Text font size is required")
     .isNumeric()
     .withMessage("Text font size must be a number"),
 
   check("text.fontColor")
+    .if((value, { req }) => !req.body.isSpecial)
     .notEmpty()
     .withMessage("Text font color is required")
     .isHexColor()
     .withMessage("Text font color must be a valid hex color"),
 
   check("text.fontWeight")
+    .if((value, { req }) => !req.body.isSpecial)
     .optional()
     .isNumeric()
     .withMessage("Text font weight must be a number"),
 
   check("text.xPosition")
+    .if((value, { req }) => !req.body.isSpecial)
     .notEmpty()
     .withMessage("Text X position is required")
     .isNumeric()
     .withMessage("Text X position must be a number"),
 
   check("text.yPosition")
+    .if((value, { req }) => !req.body.isSpecial)
     .notEmpty()
     .withMessage("Text Y position is required")
     .isNumeric()
