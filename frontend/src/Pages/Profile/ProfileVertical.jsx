@@ -15,7 +15,6 @@ import {
 import { useSelector } from "react-redux";
 import LogoutModal from "../../Components/Ui/LogoutModal";
 import AccountManageMent from "./AccountManageMent";
-import ribbon from "../../Images/ribbon.png";
 import LoadingOne from "../../Components/Ui/LoadingOne";
 import MyCards from "./MyCards";
 
@@ -107,9 +106,6 @@ const ProfileVertical = ({ notifySuccess, notifyError }) => {
             </Tab.Content>
           </Col>
         </Row>
-        <div className={styles.ribbon}>
-          <img src={ribbon} alt="ribbon" className="w-100" />
-        </div>
       </Tab.Container>
       {logoutModalShow && (
         <LogoutModal

@@ -88,3 +88,16 @@ export const getMyCards= async (token) => {
     return error
   }
 };
+
+export const getSpecialCards= async (token) => {
+  try {
+     const response = await axios.get(`${baseServerUrl}special-cards`,{
+      headers:{Authorization:`Bearer ${token}`}
+     });
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return error
+  }
+};
