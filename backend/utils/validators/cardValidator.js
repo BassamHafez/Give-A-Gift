@@ -11,8 +11,8 @@ exports.createCardValidator = [
   check("color")
     .notEmpty()
     .withMessage("Color is required")
-    .isHexColor()
-    .withMessage("Color must be a valid hex color"),
+    .isMongoId()
+    .withMessage("Color must be a valid MongoDB ID"),
 
   check("shape")
     .notEmpty()

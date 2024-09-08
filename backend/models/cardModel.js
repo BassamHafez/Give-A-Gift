@@ -4,8 +4,8 @@ const cardSchema = new mongoose.Schema(
   {
     code: String,
     color: {
-      type: String,
-      required: true,
+      type: mongoose.Schema.ObjectId,
+      ref: "Color",
     },
     isPaid: {
       type: Boolean,
