@@ -111,6 +111,12 @@ const uploadSampleData = async () => {
         {
           image: "WjFaCGZ.png",
         },
+        {
+          image: "front-shape.png",
+        },
+        {
+          image: "back-shape.png",
+        },
       ]),
 
       Shop.insertMany([
