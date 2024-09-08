@@ -12,8 +12,9 @@ body {
 }
 :root{
   --main_font:"Playfair Display", serif;
-  --main_color:#AF9A85;
-  --sub_color:#ee8733;
+  --main_color:#C61A32;
+  --white:rgb(238, 237, 237);
+  --sub_color:#2D3A58;
   --main_bg_color:#FEF7EF;
   --dark_white:rgb(129, 129, 129);
   --main_color_lighter:#e0c3a976;

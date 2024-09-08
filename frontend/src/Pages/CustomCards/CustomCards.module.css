@@ -6,7 +6,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 98%;
+    width: 100%;
     height: 100%;
     margin: auto;
   }
@@ -20,15 +20,23 @@
   }
 .control_side_container{
     height: 100%;
-    overflow-x: hidden;
-    overflow-y: auto;
-    scrollbar-color: transparent transparent !important;
-    cursor:ns-resize;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-.vertical_line{
-  transform:rotate(90deg);
-  
+.carousel_body{
+  width: 100%;
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+.carousel_item{
+  height: 68vh;
+  overflow-y: auto;
+  scrollbar-color: rgb(240, 234, 234) var(--slate_blue) !important;
+}
+
   .card_side_header{
     position: absolute;
     left:0;
@@ -55,21 +63,30 @@
     width: 80px;
     margin: 30px 40px;
   }
-
   .choose_color{
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 40px;
+    overflow-x: hidden;
+
   }
-  .color_input,.fontSize_input{
+  .color_circle{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin: 10px 0;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.288);
+    cursor: pointer;
+    transition: all .4s;
+  }
+  .color_circle:hover{
+    scale: 1.08 ;
+  }
+  .color_group{
+    margin: 30px 5px ;
+  }
+.fontSize_input{
     width: 100px;
     height:40px ;
   }
-  .color_input{
-    cursor: pointer;
-  }
   .choose_shape{
-    margin-bottom: 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -79,11 +96,8 @@
     
     .shapes_container,.logo_container{
         justify-content: center;
-        box-shadow: 0 0 3px rgba(0, 0, 0, 0.326);
-        border-radius: 10px;
-        padding: 5px;
-        height: 310px;
         overflow-y: auto;
+        overflow-x: hidden;
         width: 100%;
     }
     .shape_div{
@@ -107,12 +121,12 @@
     }
     
     .logo_div{
-        width: 100px;
-        height: 100px;
+        width: 80px;
+        height: 80px;
         border-radius: 50%;
         cursor: pointer;
         transition: all .4s;
-        margin-bottom: 40px;
+        margin-bottom: 50px;
     }
     .logo_div img{
         border-radius: 50%;
@@ -121,20 +135,31 @@
     .shape_div:hover, .logo_div:hover{
         scale: 1.08;
     }
-    .text_container{
-      box-shadow: 0 0 3px rgba(0, 0, 0, 0.326);
-      border-radius: 10px;
-      padding: 15px;
+    .text_container div input{
+      background-color: transparent !important;
+      border: 1px solid rgba(0, 0, 0, 0.262);
     }
+
     .text_editors{
       display: flex;
       justify-content: space-between;
       width: 100%;
     }
+    
     .select_input{  
       width: 75%;
     }
-
+    .color_input{
+      width: 100px;
+      height: 40px;
+    }
+    .text_input{
+      color: black !important;
+    }
+    .text_containers{
+      width: 98%;
+      overflow-x: hidden;
+    }
     @media screen and (max-width:992px) {
       .canva_body {
         height: auto;
@@ -145,8 +170,18 @@
       }
     }
 
+    @media screen and (max-width:450px) {
+      .text_editors{
+       flex-direction: column;
+      }
+      .text_editors input,.select_input{
+        width: 100%;
+        margin: 20px 0;
+      }
+    }
     @media screen and (max-width:260px) {
       .card_side_header{
        display: none;
       }
     }
+

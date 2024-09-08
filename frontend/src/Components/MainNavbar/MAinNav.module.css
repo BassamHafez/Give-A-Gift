@@ -1,14 +1,30 @@
+.main_nav{
+   transition: all .5s;
+}
+.new_nav{
+    background-color: rgba(255, 255, 255, 0.703);
+    backdrop-filter: blur(2px);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.189);
+}
+.new_nav .nav_list li a{
+    color: black !important;
+}
+.new_nav .lang_icon,.new_nav .cart_icon{
+    color: black !important;
+}
 
+.nav_list{
+    width: 100%;
+    justify-content: center;
+}
 .nav_list li a{
-    color: var(--font_color);
+    color: var(--white) !important;
     font-weight: 700;
-    font-size: 0.9375rem;
+    font-size: 1.0625rem;
     transition: all .3s;
     position: relative;
 }
-.nav_white li a{
-    color: white;
-}
+
 .nav_list li a::after{
     content: '';
     width:0;
@@ -25,13 +41,16 @@
 .nav_list li a:hover{
     color: var(--main_color) !important;
 }
+.new_nav .nav_list li a:hover{
+    color: var(--main_color) !important;
+}
 
-.nav_list li a.active{
+.nav_list li a.active,.new_nav .nav_list li a.active{
     position: relative;
     color: var(--main_color) !important;
 }
 
-.nav_list li a.active::before{
+.nav_list li a.active::before,.new_nav .nav_list li a.active::before{
     content: '';
     width:0;
     height:0.0625rem;
@@ -43,7 +62,7 @@
 }
 
 .brand{
-    width:4.375rem;
+    width:8.75rem;
     cursor: pointer;
 }
 
@@ -57,15 +76,17 @@
 .half_line{
     width: 50%;
     height: 0.1875rem;
-    background-color: black;
+    background-color: var(--white);
     transition: width .3s;
 }
 .full_line{
     width: 100%;
     height: 0.1875rem;
-    background-color:black;
+    background-color:var(--white);
 }
-
+.new_nav .half_line,.new_nav .full_line{
+    background-color: black !important;
+}
 .burger_list:hover .half_line{
     width: 100%;
 }
@@ -79,12 +100,12 @@
 }
 
  .burger_list_white .half_line, .burger_list_white .full_line{
-    background-color: white !important;
+    background-color: var(--white) !important;
 }
 
 .cart_icon,.lang_icon{
     font-size:1.5625rem;
-    fill: var(--main_color) !important;
+    color: var(--white);
     font-weight: 700;
     cursor: pointer;
     transition: all .3s;
@@ -100,7 +121,6 @@
 }
 .cart_icon:hover,.lang_icon:hover{
     scale: 1.08;
-    color: var(--dusty_Gold);
 }
 
 .lang_item{
@@ -108,10 +128,12 @@
     transition: all .6s;
 }
 .active_lang span{
-    background-color: var(--ivory_color);
+    background-color: var(--sub_color);
+    color: var(--white);
 }
 .active_lang span:hover{
-    background-color: var(--ivory_color);
+    background-color: var(--sub_color);
+    color: var(--white);
 }
 .user_icon{
     font-size: 0.9375rem;
@@ -138,6 +160,10 @@
     align-items: center;
 }
 
+.new_pages_nav .nav_list li a{
+   color: black !important;
+}
+
 @media screen and (max-width:1150px) {
     
     .list{
@@ -146,6 +172,9 @@
 
     .special_hidden{
         display: none;
+    }
+    .nav_list{
+        width: auto;
     }
 }
 
