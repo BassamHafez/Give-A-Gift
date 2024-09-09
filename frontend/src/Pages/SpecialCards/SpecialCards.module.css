@@ -89,6 +89,11 @@
     background-color: var(--main_color);
     color: white;
 }
+.card_price{
+    font-family:'Times New Roman', Times, serif;
+    color: black;
+    font-weight: 500;
+}
 @media screen and (max-width:350px) {
     .controllers{
         flex-direction: column-reverse;
