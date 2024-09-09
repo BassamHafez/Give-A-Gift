@@ -17,10 +17,14 @@
     padding: 0.625rem 0.9375rem;
     border-radius: 0.9375rem;
     margin: 0.625rem 0;
-    transition: background-color .3s;
+    border: 1px solid transparent;
+    font-weight: 600;
+    transition: all .3s;
 }
 .register_btn:hover{
-    background-color:var(--sub_color);
+    background-color:transparent;
+    color: var(--main_color);
+    border: 1px solid var(--main_color);
 }
 .confirm_password, .password_field{
     width: 50%;
@@ -28,6 +32,7 @@
 .have_acc_p{
     letter-spacing: 1px;
 }
+
 @media screen and (max-width:1130px) {
     .register_form div{
        margin-inline:0 !important;

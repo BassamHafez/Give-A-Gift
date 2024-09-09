@@ -7,15 +7,6 @@
     padding: 1.25rem;
     position: relative;
 }
-.layer{
-    background:linear-gradient(-156deg,var(--vanilla) 50%,var(--darker_main_color) 50%) ;
-    position: absolute;
-    top: -75px;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    z-index: -1;
-}
 .user_login_content{
     display: flex;
     width: 75%;
@@ -27,7 +18,6 @@
 .user_login_caption{
     min-height: 100%;
     width: 50%;
-    background-color: var(--vanilla);
     border-radius:0.9375rem 0 0 0.9375rem;
     padding: 1.5625rem;
     display: flex;
@@ -58,18 +48,14 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: var(--theme_color);
     border-radius: 0 0.9375rem 0.9375rem 0;
     padding: 1.5625rem;
     overflow: hidden;
 }
 .user_login_form h3{
     font-size: 2.1875rem;
-    color: var(--darker_main_color);
     font-weight: 900;
-    font-family: var(--jakarta);
 }
-
 
 
 @media screen and (max-width:1065px) {

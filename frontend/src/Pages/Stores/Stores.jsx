@@ -9,6 +9,9 @@ import { useQuery } from "@tanstack/react-query";
 import { getShops } from "../../util/Http";
 import Placeholders from "../../Components/Ui/Placeholders";
 import LoadingOne from "../../Components/Ui/LoadingOne";
+import toast, { Toaster } from "react-hot-toast";
+
+const notifySuccess = (message) => toast.success(message);
 
 const Stores = () => {
   const { t: key } = useTranslation();
@@ -22,6 +25,7 @@ const Stores = () => {
   const handleSearch = (e, searchTerm) => {
     e.preventDefault();
     setSearchInput(searchTerm);
+    notifySuccess("Search filter applied successfully.");
   };
 
   const filteredShops = shops
@@ -29,9 +33,10 @@ const Stores = () => {
         shop.name.toLowerCase().includes(searchInput.toLowerCase())
       )
     : [];
-
+      
   return (
     <>
+      <Toaster position="top-right" />
       <Container className="my-5">
         <h2 className="text-center my-3 mb-5">{key("storesTitle")}</h2>
         <div

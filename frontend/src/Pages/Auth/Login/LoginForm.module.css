@@ -19,15 +19,19 @@
 
 .login_btn{
     width: 80%;
-    background-color: var(--main_color);
+    background-color: var(--slate_blue);
     color: white;
+    font-weight: 600;
     padding: 0.625rem 0.9375rem;
     border-radius: 0.9375rem;
     margin: 0.9375rem 0 0.625rem 0;
-    transition: background-color .3s;
+    border: 1px solid transparent;
+    transition: all .3s;
 }
 .login_btn:hover{
-    background-color: var(--sub_color);
+    color: #2360e3;
+    border: 1px solid var(--slate_blue);
+    background-color: transparent;
 }
 .form_options{
     display: flex;
@@ -43,7 +47,7 @@
     letter-spacing: 1px;
 }
 .form_options span a{
-    color: var(--darker_main_color);
+    color:#2360e3 !important;
 }
 .remember_div label{
     font-size: 0.875rem;
@@ -56,44 +60,13 @@
     top: 50%;
     transform: translateY(50%);
     margin-right: 20px;
-    color: var(--main_color);
+    color: var(--slate_blue);
     cursor: pointer;
 }
 .show_password_field_ar{
     right:98%;
     transform: translate(100%,50%);
     margin-right: 0;
-}
-.select_type{
-    margin-inline: 0.625rem;
-    background-color: var(--vanilla);
-    font-size: 0.75rem;
-    padding: 0.4375rem 0.6875rem;
-    border-radius: 0.625rem;
-    color: var(--main_color);
-    cursor: pointer;
-    transition: all .4s;
-}
-.select_type:hover{
-    scale: 1.1;
-}
-.active_type{
-    background-color: var(--main_color);
-    color:white;
-}
-.login_google{
-    transform: translateY(0);
-    opacity: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    transition: all .5s;
-}
-.hidden_google_login{
-    transform: translateY(100%);
-    opacity: 0;
-    transition: all .5s;
 }
 
 @media screen and (max-width:855px) {

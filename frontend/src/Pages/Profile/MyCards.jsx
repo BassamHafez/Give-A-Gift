@@ -144,7 +144,7 @@ const KonvaCard = ({ card }) => {
           <Rect
             width={cardWidth}
             height={cardHeight}
-            fill={card.color || "#FFFFFF"}
+            fill={card.color?.hex || "#FFFFFF"}
             cornerRadius={10}
             className={styles.rect_card}
           />

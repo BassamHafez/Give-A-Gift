@@ -13,7 +13,7 @@ import {
   faDoorOpen,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import logo from "../../Images/LogoNav.jpg";
+import logo from "../../Images/logo.png";
 import { useTranslation } from "react-i18next";
 import { faOpencart } from "@fortawesome/free-brands-svg-icons";
 import { useSelector } from "react-redux";

@@ -24,7 +24,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 
-// const notifySuccess = (message) => toast.success(message);
+const notifySuccess = (message) => toast.success(message);
 const notifyError = (message) => toast.error(message);
 
 const SpecialCards = () => {
@@ -51,14 +51,25 @@ const SpecialCards = () => {
   const searchName = (e, searchTerm) => {
     e.preventDefault();
     setSearchInput(searchTerm);
+    notifySuccess("Search filter applied successfully.");
   };
+
   const searchPrice = (e) => {
     e.preventDefault();
-    const minPrice = e.target.elements.minNum.value;
-    const maxPrice = e.target.elements.maxNum.value;
-    console.log("max", maxPrice);
-    console.log("min", minPrice);
+    const minPrice = Number(e.target.elements.minNum.value);
+    const maxPrice = Number(e.target.elements.maxNum.value);
+
+    if (minPrice < 0 || maxPrice < 0) {
+      notifyError("Price values cannot be negative.");
+      return;
+    }
+
+    if (minPrice > maxPrice) {
+      notifyError("Maximum price must be greater than minimum price.");
+      return;
+    }
     setPriceFilter({ min: minPrice, max: maxPrice });
+    notifySuccess("Price filter applied successfully.");
   };
 
   const buyCard = async () => {
@@ -128,8 +139,8 @@ const SpecialCards = () => {
 
   return (
     <>
-      <Toaster position="top-right" />
       <Container fluid className="my-5">
+        <Toaster position="top-right" />
         <h2 className="text-center my-3 mb-5">
           {key("specialCardsPageTitle")}
         </h2>
@@ -164,6 +175,7 @@ const SpecialCards = () => {
                 onClick={() => {
                   setSearchInput("");
                   setPriceFilter(null);
+                  notifySuccess("Filters cleared Successfully");
                 }}
                 type={"white"}
                 text="Clear Filters"

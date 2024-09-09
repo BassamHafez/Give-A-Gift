@@ -153,7 +153,7 @@ const RegisterForm = ({notifySuccess,notifyError}) => {
           <div>
             <span className="or_span">or</span>
             <p className={`${styles.have_acc_p} mini_word`}>
-              {key("haveAcc")} <Link to={"/login"}>{key("login")}</Link>
+              {key("haveAcc")} <Link className="text-primary fw-bold" to={"/login"}>{key("login")}</Link>
             </p>
           </div>
         </Form>

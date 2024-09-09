@@ -137,7 +137,7 @@ const LoginForm = ({notifySuccess,notifyError}) => {
               <Link to={"/forget-password"}>{key("forgotPassword")}</Link>
             </span>
             <span>
-            {key("createAccount")} <Link to={"/register"} className="text-primary">{key("register")}</Link>
+            {key("createAccount")} <Link to={"/register"}>{key("register")}</Link>
             </span>
           </div>
         </Form>
