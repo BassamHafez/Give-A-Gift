@@ -24,7 +24,7 @@ const ProfileVertical = ({ notifySuccess, notifyError }) => {
 
   return (
     <>
-      <Tab.Container defaultActiveKey="accManage">
+      <Tab.Container defaultActiveKey="myCards">
         <Row>
           <Col sm={6} md={4} xl={3} className="position-relative">
             {profileData ? (
@@ -42,13 +42,12 @@ const ProfileVertical = ({ notifySuccess, notifyError }) => {
                     />
                   </div>
                 </div>
-
                 <Nav.Item className={styles.nav_item}>
                   <FontAwesomeIcon
                     className={styles.list_icon}
-                    icon={faGears}
+                    icon={faLayerGroup}
                   />
-                  <Nav.Link eventKey="accManage">Account Setting</Nav.Link>
+                  <Nav.Link eventKey="myCards">Your Cards</Nav.Link>
                 </Nav.Item>
                 <Nav.Item className={styles.nav_item}>
                   <FontAwesomeIcon
@@ -61,9 +60,9 @@ const ProfileVertical = ({ notifySuccess, notifyError }) => {
                 <Nav.Item className={styles.nav_item}>
                   <FontAwesomeIcon
                     className={styles.list_icon}
-                    icon={faLayerGroup}
+                    icon={faGears}
                   />
-                  <Nav.Link eventKey="myCards">Your Cards</Nav.Link>
+                  <Nav.Link eventKey="accManage">Account Setting</Nav.Link>
                 </Nav.Item>
                 <Nav.Item className={styles.nav_item}>
                   <FontAwesomeIcon
@@ -91,9 +90,9 @@ const ProfileVertical = ({ notifySuccess, notifyError }) => {
             sm={6}
             md={8}
             xl={9}
-            className="d-flex flex-column justify-content-center"
+            className={`${styles.content_side} d-flex flex-column justify-content-center`}
           >
-            <Tab.Content>
+            <Tab.Content className="h-100 w-100">
               <Tab.Pane className="px-5" eventKey="accManage">
                 <AccountManageMent
                   notifySuccess={notifySuccess}
@@ -102,7 +101,9 @@ const ProfileVertical = ({ notifySuccess, notifyError }) => {
               </Tab.Pane>
               <Tab.Pane eventKey="second">Second tab content</Tab.Pane>
               <Tab.Pane eventKey="three">three tab content</Tab.Pane>
-              <Tab.Pane eventKey="myCards"><MyCards/></Tab.Pane>
+              <Tab.Pane eventKey="myCards">
+                <MyCards />
+              </Tab.Pane>
             </Tab.Content>
           </Col>
         </Row>

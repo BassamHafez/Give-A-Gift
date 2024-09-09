@@ -85,6 +85,7 @@
 .fontSize_input{
     width: 100px;
     height:40px ;
+    color: black !important;
   }
   .choose_shape{
     display: flex;

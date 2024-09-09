@@ -7,12 +7,13 @@ import SearchField from "../../Components/Ui/SearchField";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { getShops } from "../../util/Http";
+import Placeholders from "../../Components/Ui/Placeholders";
 import LoadingOne from "../../Components/Ui/LoadingOne";
 
 const Stores = () => {
   const { t: key } = useTranslation();
-  const [searchInput, setSearchInput] = useState(""); // Add state for search input
-  const { data: shops } = useQuery({
+  const [searchInput, setSearchInput] = useState("");
+  const { data: shops, isFetching } = useQuery({
     queryKey: ["shops"],
     queryFn: getShops,
     staleTime: 300000,
@@ -44,35 +45,10 @@ const Stores = () => {
           </div>
         </div>
         <Row className="gy-5 position-relative">
-          {shops ? (
-            filteredShops.length > 0 ? (
-              filteredShops.map((shop) => (
-                <Col
-                  xs={12}
-                  sm={6}
-                  md={4}
-                  className="d-flex justify-content-center align-items-center"
-                  key={shop._id}
-                >
-                  <div className={styles.store_card}>
-                    <div className={styles.store_item}>
-                      <div className={styles.store_logo}>
-                        <img
-                          alt={shop.name}
-                          className="w-100"
-                          src={`http://127.0.0.1:3001/shops/${shop.logo}`}
-                        />
-                      </div>
-                      <div>
-                        <h5 className="text-center">{shop.name}</h5>
-                      </div>
-                    </div>
-                  </div>
-                </Col>
-              ))
-            ) : (
-              <>
-                {shops.data.map((shop) => (
+          {!isFetching ? (
+            shops ? (
+              filteredShops.length > 0 ? (
+                filteredShops.map((shop) => (
                   <Col
                     xs={12}
                     sm={6}
@@ -95,11 +71,40 @@ const Stores = () => {
                       </div>
                     </div>
                   </Col>
-                ))}
-              </>
+                ))
+              ) : (
+                <>
+                  {shops.data.map((shop) => (
+                    <Col
+                      xs={12}
+                      sm={6}
+                      md={4}
+                      className="d-flex justify-content-center align-items-center"
+                      key={shop._id}
+                    >
+                      <div className={styles.store_card}>
+                        <div className={styles.store_item}>
+                          <div className={styles.store_logo}>
+                            <img
+                              alt={shop.name}
+                              className="w-100"
+                              src={`http://127.0.0.1:3001/shops/${shop.logo}`}
+                            />
+                          </div>
+                          <div>
+                            <h5 className="text-center">{shop.name}</h5>
+                          </div>
+                        </div>
+                      </div>
+                    </Col>
+                  ))}
+                </>
+              )
+            ) : (
+              <LoadingOne />
             )
           ) : (
-            <LoadingOne />
+            <Placeholders />
           )}
         </Row>
       </Container>

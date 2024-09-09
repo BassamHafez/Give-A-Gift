@@ -7,9 +7,9 @@ import styles from "./CustomCards.module.css";
 import { useQuery } from "@tanstack/react-query";
 import LoadingOne from "../../Components/Ui/LoadingOne";
 import mainLogo from "../../Images/logo.png";
-import { getShapes, getShops } from "../../util/Http";
+import { getColors, getShapes, getShops } from "../../util/Http";
 import Select from "react-select";
-import { FontsFamilies, myColors } from "../../Components/Logic/Logic";
+import { FontsFamilies } from "../../Components/Logic/Logic";
 import MainButton from "../../Components/Ui/MainButton";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
@@ -24,6 +24,7 @@ const CustomCards = () => {
   const [cardWidth, setCardWidth] = useState(480);
   const [cardHeight, setCardHeight] = useState(270);
   const [cardColor, setCardColor] = useState("#FFFFFF");
+  const [cardColorId, setCardColorId] = useState("");
   const [textColor, setTextColor] = useState("#000000");
   const [priceColor, setPriceColor] = useState("#000000");
   const [selectedShape, setSelectedShape] = useState(null);
@@ -51,16 +52,24 @@ const CustomCards = () => {
   const navigate = useNavigate();
 
   const { data: shapes } = useQuery({
-    queryKey: ["shapes"],
+    queryKey: ["shapes",token],
     queryFn: getShapes,
     staleTime: 300000,
   });
 
   const { data: shops } = useQuery({
-    queryKey: ["shops"],
+    queryKey: ["shops",token],
     queryFn: getShops,
     staleTime: 300000,
   });
+
+  const { data: colors } = useQuery({
+    queryKey: ["colors"],
+    queryFn: getColors,
+    staleTime: 300000,
+  });
+
+  
 
   useEffect(() => {
     const handleResize = () => {
@@ -70,7 +79,7 @@ const CustomCards = () => {
     };
 
     window.addEventListener("resize", handleResize);
-    handleResize(); // Initial resize
+    handleResize();
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -83,15 +92,19 @@ const CustomCards = () => {
     offsetX = 0,
     offsetY = 0;
 
-  if (imageAspectRatio > cardAspectRatio) {
-    scaledHeight = cardHeight;
-    scaledWidth = cardHeight * imageAspectRatio;
-    offsetX = (cardWidth - scaledWidth) / 2;
-  } else {
-    scaledWidth = cardWidth;
-    scaledHeight = cardWidth / imageAspectRatio;
-    offsetY = (cardHeight - scaledHeight) / 2;
-  }
+    if (imageAspectRatio > cardAspectRatio) {
+      scaledWidth = cardWidth;
+      scaledHeight = cardWidth / imageAspectRatio;
+      offsetX = 0;
+      offsetY = (cardHeight - scaledHeight) / 2;
+    } else {
+      scaledHeight = cardHeight;
+      scaledWidth = cardHeight * imageAspectRatio;
+      offsetX = (cardWidth - scaledWidth) / 2;
+      offsetY = 0;
+    }
+    
+  
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -99,6 +112,7 @@ const CustomCards = () => {
 
   const createCard = async () => {
     let formData = {
+      isSpecial:false,
       price: {
         value: cardPrice,
         fontFamily: priceFontFamily,
@@ -106,7 +120,7 @@ const CustomCards = () => {
         fontColor: priceColor,
         fontWeight: 600,
       },
-      color: cardColor,
+      color: cardColorId,
       shop: selectedShopId,
       shape: selectedShapeId,
       text: {
@@ -228,8 +242,8 @@ const CustomCards = () => {
                       image={mainLogoImage}
                       x={20}
                       y={cardHeight - 50}
-                      width={65}
-                      height={40}
+                      width={100}
+                      height={35}
                       visible={true}
                     />
                   </Layer>
@@ -249,15 +263,15 @@ const CustomCards = () => {
                   <div className={styles.choose_color}>
                     <h4 className="text-center mb-4">Choose Card Color</h4>
                     <Row className={styles.color_group}>
-                      {myColors.map((color) => (
-                        <Col key={color} xs={3} sm={2} className="d-flex justify-content-center align-items-center">
+                      {colors?colors.data.map((color) => (
+                        <Col key={color._id} xs={3} sm={2} className="d-flex justify-content-center align-items-center">
                           <div
-                            onClick={() => setCardColor(`${color}`)}
-                            style={{ backgroundColor: `${color}` }}
+                            onClick={() =>{setCardColorId(`${color._id}`); setCardColor(`${color.hex}`)}}
+                            style={{ backgroundColor: `${color.hex}` }}
                             className={styles.color_circle}
                           ></div>
                         </Col>
-                      ))}
+                      )):<LoadingOne/>}
                     </Row>
                   </div>
                 </Carousel.Item>

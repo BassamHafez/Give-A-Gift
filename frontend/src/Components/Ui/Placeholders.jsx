@@ -17,7 +17,7 @@ const Placeholders = () => {
               <Placeholder xs={4} /> <Placeholder xs={6} />{" "}
               <Placeholder xs={8} />
             </Placeholder>
-            <Placeholder.Button variant="primary" xs={6} />
+            <Placeholder.Button variant="danger" xs={6} />
           </Card.Body>
         </Card>
       </Col>
@@ -32,7 +32,7 @@ const Placeholders = () => {
               <Placeholder xs={4} /> <Placeholder xs={6} />{" "}
               <Placeholder xs={8} />
             </Placeholder>
-            <Placeholder.Button variant="primary" xs={6} />
+            <Placeholder.Button variant="danger" xs={6} />
           </Card.Body>
         </Card>
       </Col>
@@ -47,7 +47,7 @@ const Placeholders = () => {
               <Placeholder xs={4} /> <Placeholder xs={6} />{" "}
               <Placeholder xs={8} />
             </Placeholder>
-            <Placeholder.Button variant="primary" xs={6} />
+            <Placeholder.Button variant="danger" xs={6} />
           </Card.Body>
         </Card>
       </Col>
@@ -62,7 +62,7 @@ const Placeholders = () => {
               <Placeholder xs={4} /> <Placeholder xs={6} />{" "}
               <Placeholder xs={8} />
             </Placeholder>
-            <Placeholder.Button variant="primary" xs={6} />
+            <Placeholder.Button variant="danger" xs={6} />
           </Card.Body>
         </Card>
       </Col>
@@ -77,7 +77,7 @@ const Placeholders = () => {
               <Placeholder xs={4} /> <Placeholder xs={6} />{" "}
               <Placeholder xs={8} />
             </Placeholder>
-            <Placeholder.Button variant="primary" xs={6} />
+            <Placeholder.Button variant="danger" xs={6} />
           </Card.Body>
         </Card>
       </Col>

@@ -12,7 +12,7 @@
     max-width: 21.875rem;
     box-shadow: 0 0 0.1875rem rgba(0, 0, 0, 0.242);
     border-radius: 17px !important;
-    min-height: 18.75rem;
+    min-height: 100%;
 }
 .filter_box{
     border: 1px solid transparent;
@@ -77,15 +77,15 @@
     display: flex;
 }
 .cart_icon,.arrow_icon{
-    margin-inline: 10px;
-    padding:8px;
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.332);
+    margin-inline: 0.625rem;
+    padding:0.5rem;
+    box-shadow: 0 0 0.1875rem rgba(0, 0, 0, 0.332);
     border-radius: 50%;
     transition: all .4s;
     cursor: pointer;
 }
 .cart_icon:hover,.arrow_icon:hover{
-    transform: translateY(5px);
+    transform: translateY(0.3125rem);
     background-color: var(--main_color);
     color: white;
 }
@@ -94,8 +94,35 @@
     color: black;
     font-weight: 500;
 }
-@media screen and (max-width:350px) {
+.price_range{
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    align-items: center;
+}
+.price_range input{
+    width: 35%;
+    margin-inline: 0.625rem;
+}
+.price_range button{
+    background-color: white;
+    box-shadow: 0 0 0.1875rem rgba(0, 0, 0, 0.197);
+    padding:0.3125rem 0.9375rem;
+    border-radius: 0.625rem;
+    color: var(--main_color);
+    border: 0.0625rem solid var(--main_color);
+    transition: all .4s;
+}
+.price_range button:hover{
+    color: var(--blue);
+    border: 0.0625rem solid var(--blue);
+}
+
+@media screen and (max-width:480px) {
     .controllers{
         flex-direction: column-reverse;
+    }
+    .search_field{
+        margin-bottom: 10px;
     }
 }
