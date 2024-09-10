@@ -102,12 +102,12 @@ const SpecialCards = () => {
 
   const popover = (
     <Popover id="popover-basic">
-      <Popover.Header as="h3">Price Range</Popover.Header>
+      <Popover.Header as="h3">{key("priceRange")}</Popover.Header>
       <Popover.Body>
         <form onSubmit={searchPrice}>
           <div className={styles.price_range}>
-            <input type="number" name="minNum" placeholder="min" />
-            <input type="number" name="maxNum" placeholder="max" />
+            <input type="number" name="minNum" placeholder={key("min")} />
+            <input type="number" name="maxNum" placeholder={key("max")} />
             <button type="submit">
               <FontAwesomeIcon icon={faMagnifyingGlass} />
             </button>
@@ -166,7 +166,7 @@ const SpecialCards = () => {
                   >
                     <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5" />
                   </svg>{" "}
-                  Filter{" "}
+                  {key("filter")}{" "}
                 </span>
               </div>
             </OverlayTrigger>
@@ -178,13 +178,13 @@ const SpecialCards = () => {
                   notifySuccess("Filters cleared Successfully");
                 }}
                 type={"white"}
-                text="Clear Filters"
+                text={key("default")}
               />
             </div>
           </div>
 
           <div className={styles.search_field}>
-            <SearchField onSearch={searchName} text={key("search by name")} />
+            <SearchField onSearch={searchName} text={key("search")} />
           </div>
         </div>
         <Row>

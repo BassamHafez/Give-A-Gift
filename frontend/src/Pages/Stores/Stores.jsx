@@ -43,7 +43,7 @@ const Stores = () => {
           className={`${styles.controllers} d-flex justify-content-between my-5`}
         >
           <div onClick={() => setSearchInput("")} className={styles.filter_box}>
-            <span className={styles.filter}>All Stores</span>
+            <span className={styles.filter}>{key("default")}</span>
           </div>
           <div>
             <SearchField onSearch={handleSearch} text={key("search")} />

@@ -46,5 +46,22 @@
     "storesTitle":"المتاجر التي نعمل معها",
     "sar":"ر.س",
     "language":"اللغة",
-    "cart":"عربة التسوق"
+    "cart":"عربة التسوق",
+    "priceRange":"نطاق السعر",
+    "min":"الأدنى",
+    "max":"الأقصي",
+    "filter":"تصفية",
+    "default":"الافتراضي",
+    "choose":"اختر",
+    "cardColor":"لون البطاقة",
+    "CardDisplay":"عرض البطاقة",
+    "cardBackground":"خلفية البطاقة",
+    "back":"الوجه الخلفي",
+    "front":"الوجه الأمامي",
+    "store":"المتجر",
+    "size":"الحجم",
+    "fontFamily":"نوع الخط",
+    "cardMessage":"رسالة البطاقة",
+    "cardPrice":"سعر البطاقة",
+    "saveChanges":"حفظ التغييرات"
 }

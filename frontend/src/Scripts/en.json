@@ -46,5 +46,22 @@
     "storesTitle":"Stores we work with",
     "sar":"SAR",
     "language":"Language",
-    "cart":"Your Cart"
+    "cart":"Your Cart",
+    "priceRange":"Price Range",
+    "min":"min",
+    "max":"max",
+    "filter":"Filter",
+    "default":"Default",
+    "choose":"Choose",
+    "cardColor":"Card Color",
+    "CardDisplay":"Card Display",
+    "cardBackground":"Card Background",
+    "back":"Back",
+    "front":"Front",
+    "store":"Store",
+    "size":"Size",
+    "fontFamily":"Font Family",
+    "cardMessage":"Card Message",
+    "cardPrice":"Card Price",
+    "saveChanges":"Save Changes"
 }
