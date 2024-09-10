@@ -93,11 +93,11 @@ exports.buyCard = catchAsync(async (req, res, next) => {
     return next(new ApiError("Wallet not found", 404));
   }
 
-  if (wallet.balance < card.price) {
+  if (wallet.balance < card.price.value) {
     return next(new ApiError("Insufficient balance", 400));
   }
 
-  wallet.balance -= card.price;
+  wallet.balance -= card.price.value;
   card.isPaid = true;
 
   await Promise.all([wallet.save(), card.save()]);
