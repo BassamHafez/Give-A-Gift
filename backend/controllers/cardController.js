@@ -2,7 +2,7 @@ const Card = require("../models/cardModel");
 const factory = require("./handlerFactory");
 const catchAsync = require("../utils/catchAsync");
 const ApiError = require("../utils/ApiError");
-const sendWhatsappMsg = require("../utils/sendWhatsappMsg");
+// const sendWhatsappMsg = require("../utils/sendWhatsappMsg");
 
 exports.setUserId = (req, res, next) => {
   if (!req.body.user) req.body.user = req.user.id;
