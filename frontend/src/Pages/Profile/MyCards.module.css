@@ -11,15 +11,27 @@
     width: 100%;
 }
 
-.truc_icon{
-    color: var(--dusty_Gold);
-    margin-right: 0.625rem;
-}
 .btns_group{
     display: flex;
 }
 .responsive_btns_group{
     display: none;
+}
+
+.list{
+   padding: 0;
+}
+.list_item{
+    margin: 10px 0;
+}
+.list_item span{
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 500;
+}
+.list_icon{
+    font-size: 20px;
+    color: var(--slate_blue);
+    margin-inline: 10px;
 }
 
 @media (max-width: 500px) {

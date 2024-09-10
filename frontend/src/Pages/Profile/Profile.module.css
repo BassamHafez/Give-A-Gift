@@ -35,15 +35,19 @@
     transition: all .3s;
 }
 .nav_item:hover{
-background-color: var(--ivory_color);
-cursor: pointer;
-scale: 1.03;
+    background-color: var(--main_color_lighter);
+    cursor: pointer;
+    scale: 1.02;
 }
 .list_icon{
     font-size: 1.5625rem;
-    color:var(--slate_blue);
+    color:var(--main_color);
 }
-
+.content_side{
+    height: 80vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
 
 /* _____________________________________________________________horizontal proifle______________________________________ */
 

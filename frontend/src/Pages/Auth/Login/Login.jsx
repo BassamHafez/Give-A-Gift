@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styles from "./Login.module.css";
-import loginImg from "../../../Images/loginImg.png";
+import loginImg from "../../../Images/loginVector.png";
 import LoginForm from "./LoginForm";
 import AOS from "aos";
 import { useTranslation } from "react-i18next";
@@ -27,7 +27,6 @@ const Login = () => {
     <>
       <Toaster position="top-right" />
       <div className={styles.user_login_container}>
-        <div className={styles.layer}></div>
         <div
           className={styles.user_login_content}
           data-aos="zoom-in-up"

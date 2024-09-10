@@ -3,10 +3,8 @@ import logo from "../../Images/logo.png";
 import styles from "./Footer.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faFacebook,
   faInstagram,
   faWhatsapp,
-  faXTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import { Link } from "react-router-dom";
 
@@ -23,12 +21,6 @@ const Footer = () => {
           rel="noopener noreferrer"
         >
           <FontAwesomeIcon icon={faWhatsapp} />
-        </Link>
-        <Link>
-          <FontAwesomeIcon icon={faFacebook} />
-        </Link>
-        <Link>
-          <FontAwesomeIcon icon={faXTwitter} />
         </Link>
         <Link
           target="_blank"

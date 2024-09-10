@@ -89,11 +89,19 @@ export const getMyCards= async (token) => {
   }
 };
 
-export const getSpecialCards= async (token) => {
+export const getSpecialCards= async () => {
   try {
-     const response = await axios.get(`${baseServerUrl}special-cards`,{
-      headers:{Authorization:`Bearer ${token}`}
-     });
+     const response = await axios.get(`${baseServerUrl}special-cards`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return error
+  }
+};
+
+export const getColors= async () => {
+  try {
+     const response = await axios.get(`${baseServerUrl}colors`);
 
     return response.data;
   } catch (error) {

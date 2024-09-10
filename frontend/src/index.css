@@ -15,9 +15,10 @@ body {
   --main_color:#C61A32;
   --white:rgb(238, 237, 237);
   --sub_color:#2D3A58;
-  --main_bg_color:#FEF7EF;
+  --blue:#1a429d;
   --dark_white:rgb(129, 129, 129);
-  --main_color_lighter:#e0c3a976;
+  --main_color_lighter:rgba(228, 181, 181, 0.3);
+  --main_bg_color:#FEF7EF;
   --slate_blue:#6A7E8C;
   --ivory_color:#f5f5d7;
   --dusty_Gold:#C2A14D;
@@ -39,6 +40,7 @@ a{
   text-decoration: none !important;
   color: inherit !important;
 }
+
 button{
   outline: none;
   border: none;
@@ -106,7 +108,8 @@ ul li{
 
 .nav-item .active{
   background-color: transparent !important;
-  color: var(--dusty_Gold) !important;
+  color: var(--blue)!important;
+  font-weight: 700 !important;
 
 }
 .nav-link{

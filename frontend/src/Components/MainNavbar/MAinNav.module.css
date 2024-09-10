@@ -13,10 +13,6 @@
     color: black !important;
 }
 
-.nav_list{
-    width: 100%;
-    justify-content: center;
-}
 .nav_list li a{
     color: var(--white) !important;
     font-weight: 700;

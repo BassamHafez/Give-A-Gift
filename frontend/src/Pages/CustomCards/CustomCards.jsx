@@ -7,23 +7,26 @@ import styles from "./CustomCards.module.css";
 import { useQuery } from "@tanstack/react-query";
 import LoadingOne from "../../Components/Ui/LoadingOne";
 import mainLogo from "../../Images/logo.png";
-import { getShapes, getShops } from "../../util/Http";
+import { getColors, getShapes, getShops } from "../../util/Http";
 import Select from "react-select";
-import { FontsFamilies, myColors } from "../../Components/Logic/Logic";
+import { FontsFamilies } from "../../Components/Logic/Logic";
 import MainButton from "../../Components/Ui/MainButton";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import Carousel from "react-bootstrap/Carousel";
+import { useTranslation } from "react-i18next";
 
 const notifySuccess = (message) => toast.success(message);
 const notifyError = (message) => toast.error(message);
 
 const CustomCards = () => {
   const baseServerUrl = process.env.REACT_APP_Base_API_URl;
+  let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const [cardWidth, setCardWidth] = useState(480);
   const [cardHeight, setCardHeight] = useState(270);
   const [cardColor, setCardColor] = useState("#FFFFFF");
+  const [cardColorId, setCardColorId] = useState("");
   const [textColor, setTextColor] = useState("#000000");
   const [priceColor, setPriceColor] = useState("#000000");
   const [selectedShape, setSelectedShape] = useState(null);
@@ -37,7 +40,7 @@ const CustomCards = () => {
     x: cardWidth / 2 - (cardWidth / 2) * 0.8,
     y: cardHeight / 2,
   });
-  const [textFontFamily, setTextFontFamily] = useState("Playfair Display");
+  const [textFontFamily, setTextFontFamily] = useState(isArLang?"Playfair Display":"Cairo");
   const [textFont, setTextFont] = useState(20);
 
   const [priceFontFamily, setPriceFontFamily] = useState(
@@ -49,18 +52,27 @@ const CustomCards = () => {
   const [mainLogoImage] = useImage(mainLogo);
   const token = JSON.parse(localStorage.getItem("token"));
   const navigate = useNavigate();
+  const { t: key } = useTranslation();
 
   const { data: shapes } = useQuery({
-    queryKey: ["shapes"],
+    queryKey: ["shapes",token],
     queryFn: getShapes,
     staleTime: 300000,
   });
 
   const { data: shops } = useQuery({
-    queryKey: ["shops"],
+    queryKey: ["shops",token],
     queryFn: getShops,
     staleTime: 300000,
   });
+
+  const { data: colors } = useQuery({
+    queryKey: ["colors"],
+    queryFn: getColors,
+    staleTime: 300000,
+  });
+
+  
 
   useEffect(() => {
     const handleResize = () => {
@@ -70,7 +82,7 @@ const CustomCards = () => {
     };
 
     window.addEventListener("resize", handleResize);
-    handleResize(); // Initial resize
+    handleResize();
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -83,15 +95,19 @@ const CustomCards = () => {
     offsetX = 0,
     offsetY = 0;
 
-  if (imageAspectRatio > cardAspectRatio) {
-    scaledHeight = cardHeight;
-    scaledWidth = cardHeight * imageAspectRatio;
-    offsetX = (cardWidth - scaledWidth) / 2;
-  } else {
-    scaledWidth = cardWidth;
-    scaledHeight = cardWidth / imageAspectRatio;
-    offsetY = (cardHeight - scaledHeight) / 2;
-  }
+    if (imageAspectRatio > cardAspectRatio) {
+      scaledWidth = cardWidth;
+      scaledHeight = cardWidth / imageAspectRatio;
+      offsetX = 0;
+      offsetY = (cardHeight - scaledHeight) / 2;
+    } else {
+      scaledHeight = cardHeight;
+      scaledWidth = cardHeight * imageAspectRatio;
+      offsetX = (cardWidth - scaledWidth) / 2;
+      offsetY = 0;
+    }
+    
+  
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -99,6 +115,7 @@ const CustomCards = () => {
 
   const createCard = async () => {
     let formData = {
+      isSpecial:false,
       price: {
         value: cardPrice,
         fontFamily: priceFontFamily,
@@ -106,7 +123,7 @@ const CustomCards = () => {
         fontColor: priceColor,
         fontWeight: 600,
       },
-      color: cardColor,
+      color: cardColorId,
       shop: selectedShopId,
       shape: selectedShapeId,
       text: {
@@ -147,10 +164,10 @@ const CustomCards = () => {
           <Row className="w-100 h-75 justify-content-between">
             <Col lg={6} xl={5} className={styles.card_side_container}>
               <div className={styles.card_side_header}>
-                <h3>Card Display ({showBack ? "Back" : "Front"})</h3>
+                <h3>{key("CardDisplay")} ({showBack ? key("back"): key("front")})</h3>
               </div>
 
-              <div>
+              <div> 
                 <Stage
                   className={styles.card}
                   width={cardWidth}
@@ -228,8 +245,8 @@ const CustomCards = () => {
                       image={mainLogoImage}
                       x={20}
                       y={cardHeight - 50}
-                      width={65}
-                      height={40}
+                      width={100}
+                      height={35}
                       visible={true}
                     />
                   </Layer>
@@ -247,23 +264,23 @@ const CustomCards = () => {
               >
                 <Carousel.Item className={styles.carousel_item}>
                   <div className={styles.choose_color}>
-                    <h4 className="text-center mb-4">Choose Card Color</h4>
+                    <h4 className="text-center mb-4">{key("choose")} {key("cardColor")}</h4>
                     <Row className={styles.color_group}>
-                      {myColors.map((color) => (
-                        <Col key={color} xs={3} sm={2} className="d-flex justify-content-center align-items-center">
+                      {colors?colors.data.map((color) => (
+                        <Col key={color._id} xs={3} sm={2} className="d-flex justify-content-center align-items-center">
                           <div
-                            onClick={() => setCardColor(`${color}`)}
-                            style={{ backgroundColor: `${color}` }}
+                            onClick={() =>{setCardColorId(`${color._id}`); setCardColor(`${color.hex}`)}}
+                            style={{ backgroundColor: `${color.hex}` }}
                             className={styles.color_circle}
                           ></div>
                         </Col>
-                      ))}
+                      )):<LoadingOne/>}
                     </Row>
                   </div>
                 </Carousel.Item>
                 <Carousel.Item className={styles.carousel_item}>
                   <div className={`${styles.choose_shape}  position-relative`}>
-                    <h4 className="text-center mb-4">Card Background</h4>
+                    <h4 className="text-center mb-4">{key("cardBackground")}</h4>
                     <Row className={styles.shapes_container}>
                       {shapes ? (
                         shapes?.data.map((shape) => (
@@ -305,7 +322,7 @@ const CustomCards = () => {
                 </Carousel.Item>
                 <Carousel.Item className={styles.carousel_item}>
                   <div className={`${styles.choose_shape}  d-flex mx-4`}>
-                    <h4 className="text-start mb-3">Choose Store</h4>
+                    <h4 className="text-start mb-3">{key("choose")} {key("store")}</h4>
                     <Row className={styles.logo_container}>
                       {shops &&
                         shops.data.map((shop) => (
@@ -335,9 +352,9 @@ const CustomCards = () => {
                 <Carousel.Item className={styles.carousel_item}>
                   <div className={styles.text_containers}>
                     <div className={`${styles.text_container}`}>
-                      <h4>Card Message</h4>
+                      <h4>{key("cardMessage")}</h4>
 
-                      <div className="input-group mb-3">
+                      <div className={`${isArLang?"flex-row-reverse":""} input-group mb-3`}>
                         <input
                           type="text"
                           value={cardText}
@@ -360,14 +377,14 @@ const CustomCards = () => {
                           isClearable={false}
                           isSearchable={true}
                           name="fontFamily"
-                          placeholder="Font Family"
+                          placeholder={key("fontFamily")}
                           options={FontsFamilies}
                           onChange={(value) => setTextFontFamily(value.value)}
                         />
 
                         <input
                           type="number"
-                          placeholder="size"
+                          placeholder={key("size")}
                           onChange={(e) => setTextFont(e.target.value)}
                           className={styles.fontSize_input}
                         />
@@ -375,8 +392,8 @@ const CustomCards = () => {
                     </div>
 
                     <div className={`${styles.text_container} my-5`}>
-                      <h4>Card Price</h4>
-                      <div className="input-group mb-3">
+                      <h4>{key("cardPrice")}</h4>
+                      <div className={`${isArLang?"flex-row-reverse":""} input-group mb-3`}>
                         <input
                           type="number"
                           value={cardPrice}
@@ -395,7 +412,7 @@ const CustomCards = () => {
                         <Select
                           className={styles.select_input}
                           classNamePrefix="FontFamily"
-                          placeholder="Font Family"
+                          placeholder={key("fontFamily")}
                           isClearable={false}
                           isSearchable={true}
                           name="priceFontFamily"
@@ -405,14 +422,14 @@ const CustomCards = () => {
 
                         <input
                           type="number"
-                          placeholder="font size"
+                          placeholder={key("size")}
                           onChange={(e) => setPriceFont(e.target.value)}
                           className={styles.fontSize_input}
                         />
                       </div>
                     </div>
-                    <div className="my-5 mx-3 text-end">
-                      <MainButton onClick={createCard} text={`Save Changes`} />
+                    <div className="my-5 mx-3 text-center">
+                      <MainButton onClick={createCard} text={key("saveChanges")} />
                     </div>
                   </div>
                 </Carousel.Item>
