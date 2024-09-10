@@ -73,8 +73,12 @@ exports.buyCard = catchAsync(async (req, res, next) => {
     Card.findById(cardId),
   ]);
 
-  if (!wallet || !card) {
-    return next(new ApiError("Wallet or Card not found", 404));
+  if (!card) {
+    return next(new ApiError("Card not found", 404));
+  }
+
+  if (!wallet) {
+    return next(new ApiError("Wallet not found", 404));
   }
 
   if (wallet.balance < card.price) {
