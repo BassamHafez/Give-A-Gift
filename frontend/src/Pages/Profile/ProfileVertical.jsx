@@ -17,10 +17,13 @@ import LogoutModal from "../../Components/Ui/LogoutModal";
 import AccountManageMent from "./AccountManageMent";
 import LoadingOne from "../../Components/Ui/LoadingOne";
 import MyCards from "./MyCards";
+import { useTranslation } from "react-i18next";
+import Help from "./Help";
 
 const ProfileVertical = ({ notifySuccess, notifyError }) => {
   const profileData = useSelector((state) => state.userInfo.data);
   const [logoutModalShow, setLogoutModalShow] = useState(false);
+  const { t: key } = useTranslation();
 
   return (
     <>
@@ -47,7 +50,7 @@ const ProfileVertical = ({ notifySuccess, notifyError }) => {
                     className={styles.list_icon}
                     icon={faLayerGroup}
                   />
-                  <Nav.Link eventKey="myCards">Your Cards</Nav.Link>
+                  <Nav.Link eventKey="myCards">{key("yourCards")}</Nav.Link>
                 </Nav.Item>
                 <Nav.Item className={styles.nav_item}>
                   <FontAwesomeIcon
@@ -55,21 +58,25 @@ const ProfileVertical = ({ notifySuccess, notifyError }) => {
                     icon={faCoins}
                   />
 
-                  <Nav.Link eventKey="second">Wallet Management</Nav.Link>
+                  <Nav.Link eventKey="wallet">
+                    {key("walletManagement")}
+                  </Nav.Link>
                 </Nav.Item>
                 <Nav.Item className={styles.nav_item}>
                   <FontAwesomeIcon
                     className={styles.list_icon}
                     icon={faGears}
                   />
-                  <Nav.Link eventKey="accManage">Account Setting</Nav.Link>
+                  <Nav.Link eventKey="accSetting">
+                    {key("accountSetting")}
+                  </Nav.Link>
                 </Nav.Item>
                 <Nav.Item className={styles.nav_item}>
                   <FontAwesomeIcon
                     className={styles.list_icon}
                     icon={faCircleInfo}
                   />
-                  <Nav.Link eventKey="three">Help</Nav.Link>
+                  <Nav.Link eventKey="help">{key("help")}</Nav.Link>
                 </Nav.Item>
                 <Nav.Item
                   className={styles.nav_item}
@@ -79,7 +86,7 @@ const ProfileVertical = ({ notifySuccess, notifyError }) => {
                     className={styles.list_icon}
                     icon={faDoorOpen}
                   />
-                  <Nav.Link>Logout</Nav.Link>
+                  <Nav.Link>{key("logout")}</Nav.Link>
                 </Nav.Item>
               </Nav>
             ) : (
@@ -93,16 +100,19 @@ const ProfileVertical = ({ notifySuccess, notifyError }) => {
             className={`${styles.content_side} d-flex flex-column justify-content-center`}
           >
             <Tab.Content className="h-100 w-100">
-              <Tab.Pane className="px-5" eventKey="accManage">
+              <Tab.Pane eventKey="myCards">
+                <MyCards />
+              </Tab.Pane>
+
+              <Tab.Pane eventKey="wallet">wallet page</Tab.Pane>
+              <Tab.Pane className="px-5" eventKey="accSetting">
                 <AccountManageMent
                   notifySuccess={notifySuccess}
                   notifyError={notifyError}
                 />
               </Tab.Pane>
-              <Tab.Pane eventKey="second">Second tab content</Tab.Pane>
-              <Tab.Pane eventKey="three">three tab content</Tab.Pane>
-              <Tab.Pane eventKey="myCards">
-                <MyCards />
+              <Tab.Pane eventKey="help">
+                <Help />
               </Tab.Pane>
             </Tab.Content>
           </Col>

@@ -11,6 +11,7 @@ import {
   faPenToSquare,
   faGlobe,
   faDoorOpen,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import logo from "../../Images/logo.png";
@@ -48,11 +49,16 @@ const ResponsiveSideBar = ({ onClose, show }) => {
         className={styles.side_bar}
       >
         <Offcanvas.Header className={styles.header}>
-          <Offcanvas.Title>
+          <div className="d-flex justify-content-between align-items-center w-100">
             <img src={logo} className={styles.logo} alt="mykid logo" />
-          </Offcanvas.Title>
-        </Offcanvas.Header>
 
+            <FontAwesomeIcon
+              className={styles.close_icon}
+              onClick={onClose}
+              icon={faXmark}
+            />
+          </div>
+        </Offcanvas.Header>
         <Offcanvas.Body>
           <ul className={styles.contact_list}>
             <Link onClick={onClose} to={"/"} end="true">
@@ -134,7 +140,7 @@ const ResponsiveSideBar = ({ onClose, show }) => {
             </li>
             {isSmallScreen && (
               <li
-                className={`${styles.contact_list_item} ${styles.lang}`}  
+                className={`${styles.contact_list_item} ${styles.lang}`}
                 onClick={() => setLogoutModalShow(true)}
               >
                 {key("logout")}

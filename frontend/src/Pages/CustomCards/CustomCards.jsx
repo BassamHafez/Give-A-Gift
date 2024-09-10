@@ -4,7 +4,7 @@ import useImage from "use-image";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import styles from "./CustomCards.module.css";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import LoadingOne from "../../Components/Ui/LoadingOne";
 import mainLogo from "../../Images/logo.png";
 import { getColors, getShapes, getShops } from "../../util/Http";
@@ -16,13 +16,14 @@ import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import Carousel from "react-bootstrap/Carousel";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import ConfirmationModal from "../../Components/Ui/ConfirmationModal";
 
 const notifySuccess = (message) => toast.success(message);
 const notifyError = (message) => toast.error(message);
 
 const CustomCards = () => {
   const baseServerUrl = process.env.REACT_APP_Base_API_URl;
-  let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const [cardWidth, setCardWidth] = useState(480);
   const [cardHeight, setCardHeight] = useState(270);
   const [cardColor, setCardColor] = useState("#FFFFFF");
@@ -40,7 +41,7 @@ const CustomCards = () => {
     x: cardWidth / 2 - (cardWidth / 2) * 0.8,
     y: cardHeight / 2,
   });
-  const [textFontFamily, setTextFontFamily] = useState(isArLang?"Playfair Display":"Cairo");
+  const [textFontFamily, setTextFontFamily] = useState("Playfair Display");
   const [textFont, setTextFont] = useState(20);
 
   const [priceFontFamily, setPriceFontFamily] = useState(
@@ -50,18 +51,23 @@ const CustomCards = () => {
   const [shapeImage] = useImage(selectedShape);
   const [logo] = useImage(logoImage);
   const [mainLogoImage] = useImage(mainLogo);
+  const [modalShow, setModalShow] = useState(false);
+
   const token = JSON.parse(localStorage.getItem("token"));
   const navigate = useNavigate();
   const { t: key } = useTranslation();
+  let isArLang = localStorage.getItem("i18nextLng") === "ar";
+  const isLogin = useSelector((state) => state.userInfo.isLogin);
+  const queryClient = useQueryClient();
 
   const { data: shapes } = useQuery({
-    queryKey: ["shapes",token],
+    queryKey: ["shapes", token],
     queryFn: getShapes,
     staleTime: 300000,
   });
 
   const { data: shops } = useQuery({
-    queryKey: ["shops",token],
+    queryKey: ["shops", token],
     queryFn: getShops,
     staleTime: 300000,
   });
@@ -72,7 +78,9 @@ const CustomCards = () => {
     staleTime: 300000,
   });
 
-  
+  const navigateToLogin = () => {
+    navigate("/login");
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -95,27 +103,41 @@ const CustomCards = () => {
     offsetX = 0,
     offsetY = 0;
 
-    if (imageAspectRatio > cardAspectRatio) {
-      scaledWidth = cardWidth;
-      scaledHeight = cardWidth / imageAspectRatio;
-      offsetX = 0;
-      offsetY = (cardHeight - scaledHeight) / 2;
-    } else {
-      scaledHeight = cardHeight;
-      scaledWidth = cardHeight * imageAspectRatio;
-      offsetX = (cardWidth - scaledWidth) / 2;
-      offsetY = 0;
-    }
-    
-  
+  if (imageAspectRatio > cardAspectRatio) {
+    scaledWidth = cardWidth;
+    scaledHeight = cardWidth / imageAspectRatio;
+    offsetX = 0;
+    offsetY = (cardHeight - scaledHeight) / 2;
+  } else {
+    scaledHeight = cardHeight;
+    scaledWidth = cardHeight * imageAspectRatio;
+    offsetX = (cardWidth - scaledWidth) / 2;
+    offsetY = 0;
+  }
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   const createCard = async () => {
+    if (!isLogin) {
+      setModalShow(true);
+      return;
+    }
+    if (cardText === "") {
+      notifyError("Card must have a message.");
+      return;
+    }
+    if (cardPrice === "") {
+      notifyError("Card must have a price.");
+      return;
+    }
+    if (selectedShopId === "") {
+      notifyError("Card must be linked to a store.");
+      return;
+    }
     let formData = {
-      isSpecial:false,
+      isSpecial: false,
       price: {
         value: cardPrice,
         fontFamily: priceFontFamily,
@@ -136,7 +158,6 @@ const CustomCards = () => {
         yPosition: textPosition.y,
       },
     };
-    console.log(formData);
 
     try {
       const response = await axios.post(`${baseServerUrl}cards`, formData, {
@@ -147,6 +168,7 @@ const CustomCards = () => {
       console.log(response.data);
       const res = response.data;
       if (res?.status === "success") {
+        queryClient.invalidateQueries(["getCard", token]);
         notifySuccess("Card Saved Successfully");
         navigate(`/recipient-information/${res.data?._id}`);
       }
@@ -164,10 +186,12 @@ const CustomCards = () => {
           <Row className="w-100 h-75 justify-content-between">
             <Col lg={6} xl={5} className={styles.card_side_container}>
               <div className={styles.card_side_header}>
-                <h3>{key("CardDisplay")} ({showBack ? key("back"): key("front")})</h3>
+                <h3>
+                  {key("CardDisplay")} ({showBack ? key("back") : key("front")})
+                </h3>
               </div>
 
-              <div> 
+              <div>
                 <Stage
                   className={styles.card}
                   width={cardWidth}
@@ -214,6 +238,22 @@ const CustomCards = () => {
                           }}
                           align="center"
                           wrap="char"
+                          onMouseEnter={(e) => {
+                            const container = e.target.getStage().container();
+                            container.style.cursor = "grab";
+                          }}
+                          onMouseLeave={(e) => {
+                            const container = e.target.getStage().container();
+                            container.style.cursor = "default";
+                          }}
+                          onMouseDown={(e) => {
+                            const container = e.target.getStage().container();
+                            container.style.cursor = "grabbing";
+                          }}
+                          onMouseUp={(e) => {
+                            const container = e.target.getStage().container();
+                            container.style.cursor = "grab";
+                          }}
                         />
 
                         {cardPrice && (
@@ -264,23 +304,39 @@ const CustomCards = () => {
               >
                 <Carousel.Item className={styles.carousel_item}>
                   <div className={styles.choose_color}>
-                    <h4 className="text-center mb-4">{key("choose")} {key("cardColor")}</h4>
+                    <h4 className="text-center mb-4">
+                      {key("choose")} {key("cardColor")}
+                    </h4>
                     <Row className={styles.color_group}>
-                      {colors?colors.data.map((color) => (
-                        <Col key={color._id} xs={3} sm={2} className="d-flex justify-content-center align-items-center">
-                          <div
-                            onClick={() =>{setCardColorId(`${color._id}`); setCardColor(`${color.hex}`)}}
-                            style={{ backgroundColor: `${color.hex}` }}
-                            className={styles.color_circle}
-                          ></div>
-                        </Col>
-                      )):<LoadingOne/>}
+                      {colors ? (
+                        colors.data.map((color) => (
+                          <Col
+                            key={color._id}
+                            xs={3}
+                            sm={2}
+                            className="d-flex justify-content-center align-items-center"
+                          >
+                            <div
+                              onClick={() => {
+                                setCardColorId(`${color._id}`);
+                                setCardColor(`${color.hex}`);
+                              }}
+                              style={{ backgroundColor: `${color.hex}` }}
+                              className={styles.color_circle}
+                            ></div>
+                          </Col>
+                        ))
+                      ) : (
+                        <LoadingOne />
+                      )}
                     </Row>
                   </div>
                 </Carousel.Item>
                 <Carousel.Item className={styles.carousel_item}>
                   <div className={`${styles.choose_shape}  position-relative`}>
-                    <h4 className="text-center mb-4">{key("cardBackground")}</h4>
+                    <h4 className="text-center mb-4">
+                      {key("cardBackground")}
+                    </h4>
                     <Row className={styles.shapes_container}>
                       {shapes ? (
                         shapes?.data.map((shape) => (
@@ -322,7 +378,9 @@ const CustomCards = () => {
                 </Carousel.Item>
                 <Carousel.Item className={styles.carousel_item}>
                   <div className={`${styles.choose_shape}  d-flex mx-4`}>
-                    <h4 className="text-start mb-3">{key("choose")} {key("store")}</h4>
+                    <h4 className="text-start mb-3">
+                      {key("choose")} {key("store")}
+                    </h4>
                     <Row className={styles.logo_container}>
                       {shops &&
                         shops.data.map((shop) => (
@@ -354,7 +412,11 @@ const CustomCards = () => {
                     <div className={`${styles.text_container}`}>
                       <h4>{key("cardMessage")}</h4>
 
-                      <div className={`${isArLang?"flex-row-reverse":""} input-group mb-3`}>
+                      <div
+                        className={`${
+                          isArLang ? "flex-row-reverse" : ""
+                        } input-group mb-3`}
+                      >
                         <input
                           type="text"
                           value={cardText}
@@ -393,7 +455,11 @@ const CustomCards = () => {
 
                     <div className={`${styles.text_container} my-5`}>
                       <h4>{key("cardPrice")}</h4>
-                      <div className={`${isArLang?"flex-row-reverse":""} input-group mb-3`}>
+                      <div
+                        className={`${
+                          isArLang ? "flex-row-reverse" : ""
+                        } input-group mb-3`}
+                      >
                         <input
                           type="number"
                           value={cardPrice}
@@ -429,7 +495,10 @@ const CustomCards = () => {
                       </div>
                     </div>
                     <div className="my-5 mx-3 text-center">
-                      <MainButton onClick={createCard} text={key("saveChanges")} />
+                      <MainButton
+                        onClick={createCard}
+                        text={key("saveChanges")}
+                      />
                     </div>
                   </div>
                 </Carousel.Item>
@@ -438,6 +507,12 @@ const CustomCards = () => {
           </Row>
         </div>
       </div>
+      <ConfirmationModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        func={navigateToLogin}
+        message={key("loginFirst")}
+      />
     </>
   );
 };

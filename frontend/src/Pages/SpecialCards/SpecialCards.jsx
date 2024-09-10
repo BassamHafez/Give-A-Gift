@@ -8,9 +8,8 @@ import SearchField from "../../Components/Ui/SearchField";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faArrowRight,
-  faMagnifyingGlass,
   faPlus,
+  faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 import { useQuery } from "@tanstack/react-query";
 import { getSpecialCards } from "../../util/Http";
@@ -23,6 +22,7 @@ import ConfirmationModal from "../../Components/Ui/ConfirmationModal";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 const notifySuccess = (message) => toast.success(message);
 const notifyError = (message) => toast.error(message);
@@ -34,6 +34,7 @@ const SpecialCards = () => {
   const [modalShow, setModalShow] = useState(false);
   const [shopId, setShopId] = useState("");
   const [priceValue, setPriceValue] = useState(0);
+  const queryClient = useQueryClient();
 
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const token = JSON.parse(localStorage.getItem("token"));
@@ -87,8 +88,10 @@ const SpecialCards = () => {
       const res = response.data;
       console.log(res);
       if (res.status === "success") {
+        queryClient.invalidateQueries(['getCard', token]);
         setModalShow(false);
         navigate(`/recipient-information/${res.data?._id}`);
+        
       } else {
         setModalShow(false);
         notifyError("The purchase was not completed successfully");
@@ -228,13 +231,8 @@ const SpecialCards = () => {
                                   }
                                 >
                                   <FontAwesomeIcon
-                                    title="Add to cart"
-                                    icon={faPlus}
-                                    className={styles.cart_icon}
-                                  />
-                                  <FontAwesomeIcon
                                     title="Buy card"
-                                    icon={faArrowRight}
+                                    icon={faPlus}
                                     className={styles.arrow_icon}
                                     onClick={() => {
                                       setModalShow(true);
@@ -302,13 +300,8 @@ const SpecialCards = () => {
                                   }
                                 >
                                   <FontAwesomeIcon
-                                    title="Add to cart"
-                                    icon={faPlus}
-                                    className={styles.cart_icon}
-                                  />
-                                  <FontAwesomeIcon
                                     title="Buy card"
-                                    icon={faArrowRight}
+                                    icon={faPlus}
                                     className={styles.arrow_icon}
                                     onClick={() => {
                                       setModalShow(true);
@@ -376,13 +369,8 @@ const SpecialCards = () => {
                                   }
                                 >
                                   <FontAwesomeIcon
-                                    title="Add to cart"
-                                    icon={faPlus}
-                                    className={styles.cart_icon}
-                                  />
-                                  <FontAwesomeIcon
                                     title="Buy card"
-                                    icon={faArrowRight}
+                                    icon={faPlus}
                                     className={styles.arrow_icon}
                                     onClick={() => {
                                       setModalShow(true);

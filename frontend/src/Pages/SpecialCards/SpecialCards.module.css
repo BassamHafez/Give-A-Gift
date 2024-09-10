@@ -66,8 +66,8 @@
 
 .controllers_icon{
     position: absolute;
-    top:-0.625rem;
-    right:-0.9375rem;
+    top:-0.5rem;
+    right:-0.625rem;
     display: flex;
 }
 .controllers_icon_ar{

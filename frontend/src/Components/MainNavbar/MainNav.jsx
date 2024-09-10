@@ -10,16 +10,29 @@ import nav_logo from "../../Images/logo.png";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import Badge from "react-bootstrap/Badge";
+import Cart from "../Cart/Cart";
+import { getMyCards } from "../../util/Http";
+import { useQuery } from "@tanstack/react-query";
 
 const MainNav = () => {
   const [openResMenu, setOpenResMenu] = useState(false);
   const [addNavClass, setAddNavClass] = useState(false);
+  const [showCart, setShowCart] = useState(false);
   const [key, control] = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const profileData = useSelector((state) => state.userInfo.data);
   const isLogin = useSelector((state) => state.userInfo.isLogin);
   const navigate = useNavigate();
   const location = useLocation();
+  const token = JSON.parse(localStorage.getItem("token"));
+
+  const { data: cartItemCount } = useQuery({
+    queryKey: ["getCard", token],
+    queryFn: () => getMyCards(token),
+    enabled: !!token,
+    select: (data) => data.results,
+    staleTime: 300000,
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,7 +42,6 @@ const MainNav = () => {
         setAddNavClass(false);
       }
     };
-
     window.addEventListener("scroll", handleScroll);
 
     return () => {
@@ -40,17 +52,16 @@ const MainNav = () => {
   return (
     <>
       <nav
-        className={`${
-          styles.main_nav
-        } d-flex align-items-center px-3 ${location.pathname==="/"?"fixed-top":"sticky-top"}  ${
-          (addNavClass||location.pathname!=="/") && styles.new_nav
-        } ${location.pathname!=="/"&&styles.new_pages_nav}`}
-
+        className={`${styles.main_nav} d-flex align-items-center px-3 ${
+          location.pathname === "/" ? "fixed-top" : "sticky-top"
+        }  ${(addNavClass || location.pathname !== "/") && styles.new_nav} ${
+          location.pathname !== "/" && styles.new_pages_nav
+        }`}
       >
         <ul className={`${styles.nav_list} d-flex align-items-center mt-2`}>
           <div
             onClick={() => navigate("/")}
-            className={`${styles.brand} ${isArLang ? "ms-5" : "me-5"}`}
+            className={`${styles.brand} ${isArLang ? "ms-3" : "me-3"}`}
           >
             <img src={nav_logo} alt="logo" className="w-100" />
           </div>
@@ -120,10 +131,13 @@ const MainNav = () => {
           }`}
         >
           <div className={styles.nav_controllers}>
-            <div className="position-relative">
+            <div
+              className="position-relative"
+              onClick={() => setShowCart(true)}
+            >
               <FontAwesomeIcon className={styles.cart_icon} icon={faOpencart} />{" "}
               <Badge className={styles.cart_badge} bg="danger">
-                0
+                {cartItemCount}
               </Badge>
             </div>
 
@@ -191,6 +205,7 @@ const MainNav = () => {
         onClose={() => setOpenResMenu(false)}
         show={openResMenu}
       />
+      <Cart onClose={() => setShowCart(false)} show={showCart} />
     </>
   );
 };

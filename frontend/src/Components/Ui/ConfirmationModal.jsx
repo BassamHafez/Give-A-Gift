@@ -3,11 +3,11 @@ import styles from "./LogoutModal.module.css";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-const ConfirmationModal = ({ show, onHide, func, message }) => {
+const ConfirmationModal = ({ show, onHide, func, message, btnMsg }) => {
   return (
     <Modal
-    show={show}
-    onHide={onHide}
+      show={show}
+      onHide={onHide}
       size="md"
       aria-labelledby="contained-modal-title-vcenter"
       centered
@@ -17,19 +17,11 @@ const ConfirmationModal = ({ show, onHide, func, message }) => {
         <h4>{message}</h4>
       </Modal.Body>
       <Modal.Footer className={styles.modal_footer}>
-        <Button
-          variant="primary"
-          className={styles.close_btn}
-          onClick={onHide}
-        >
+        <Button variant="primary" className={styles.close_btn} onClick={onHide}>
           Cancel
         </Button>
-        <Button
-          variant="danger"
-          className={styles.logout_btn}
-          onClick={func}
-        >
-          Continue
+        <Button variant="danger" className={styles.logout_btn} onClick={func}>
+          {btnMsg ? btnMsg : "Continue"}
         </Button>
       </Modal.Footer>
     </Modal>

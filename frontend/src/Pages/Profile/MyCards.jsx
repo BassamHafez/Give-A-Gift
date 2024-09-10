@@ -1,25 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { Stage, Layer, Rect, Text, Image } from "react-konva";
 import useImage from "use-image";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getMyCards } from "../../util/Http";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import styles from "./MyCards.module.css";
 import mainLogo from "../../Images/logo.png";
 import MainButton from "../../Components/Ui/MainButton";
+import Placeholders from "../../Components/Ui/Placeholders";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCalendarDay,
   faClock,
   faComment,
   faCommentSlash,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
+import { useTranslation } from "react-i18next";
+import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
+import giveGiftImg from "../../Images/giveGift.jpg";
+import { Link } from "react-router-dom";
+import ConfirmationModal from "../../Components/Ui/ConfirmationModal";
 
-const MyCards = () => {
-  const token = JSON.parse(localStorage.getItem("token"));
+const token = JSON.parse(localStorage.getItem("token"));
+const notifySuccess = (message) => toast.success(message);
+const notifyError = (message) => toast.error(message);
 
-  const { data } = useQuery({
+const MyCards = () => {  
+  const { data, refetch, isFetching } = useQuery({
     queryKey: ["getCard", token],
     queryFn: () => getMyCards(token),
     enabled: !!token,
@@ -29,26 +39,42 @@ const MyCards = () => {
   return (
     <div>
       <Row>
-        {data?.data?.map((card) => (
-          <Col
-            className="d-flex justify-content-center align-items-center"
-            xlg={6}
-            key={card._id}
-          >
-            <div className={styles.card_body}>
-              <KonvaCard card={card} />
+        {!isFetching ? (
+          data.data.length>0?data.data?.map((card) => (
+            <Col
+              className="d-flex justify-content-center align-items-center"
+              xlg={6}
+              key={card._id}
+            >
+              <div className={styles.card_body}>
+                <KonvaCard card={card} refetch={refetch} />
+              </div>
+            </Col>
+          )):<div className={styles.noCards}>
+            <div className={styles.noCards_img}>
+            <img className="w-100" src={giveGiftImg} alt="giveGiftImg" />
+
             </div>
-          </Col>
-        ))}
+            <div>
+              <span className="mini_word">You don't have any cards right now. Get one <Link className="text-primary" to={"/special-cards"}>here</Link></span>
+            </div>
+          </div>
+        ) : (
+          <Placeholders />
+        )}
       </Row>
     </div>
   );
 };
 
-const KonvaCard = ({ card }) => {
+const KonvaCard = ({ card, refetch }) => {
   const [showBack, setShowBack] = useState(true);
   const [isSmalogo, setIsSmalogo] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
   const [mainLogoImage] = useImage(mainLogo);
+  const { t: key } = useTranslation();
+  let isArLang = localStorage.getItem("i18nextLng") === "ar";
+  const queryClient=useQueryClient();
 
   const [shapeImage] = useImage(
     card.isSpecial
@@ -64,7 +90,7 @@ const KonvaCard = ({ card }) => {
 
   const formatDateTime = (dateTimeString) => {
     const date = new Date(dateTimeString);
-    const formattedDate = date.toLocaleDateString("en-GB"); // or "en-US" for a different format
+    const formattedDate = date.toLocaleDateString("en-GB");
     const formattedTime = date.toLocaleTimeString("en-GB", {
       hour: "2-digit",
       minute: "2-digit",
@@ -74,16 +100,19 @@ const KonvaCard = ({ card }) => {
 
   const receiveAtFormatted = card.receiveAt
     ? formatDateTime(card.receiveAt)
-    : { formattedDate: "N/A", formattedTime: "N/A" };
+    : {
+        formattedDate: key("recDataInComplete"),
+        formattedTime: key("recDataInComplete"),
+      };
   const [cardWidth, setCardWidth] = useState(480);
   const [cardHeight, setCardHeight] = useState(270);
 
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 480) {
-        setIsSmalogo(true)
+        setIsSmalogo(true);
       } else {
-        setIsSmalogo(false)
+        setIsSmalogo(false);
       }
       const width = window.innerWidth < 500 ? window.innerWidth * 0.9 : 480;
       setCardWidth(width);
@@ -133,8 +162,38 @@ const KonvaCard = ({ card }) => {
     offsetY2 = 0;
   }
 
+  const deleteCard = async () => {
+    setModalShow(false)
+    if (card._id && token) {
+      try {
+        const response = await axios.delete(
+          `${process.env.REACT_APP_Base_API_URl}cards/${card._id}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        console.log(response);
+        if (response.status === 204) {
+          queryClient.invalidateQueries(['getCards',token])
+          notifySuccess("Card deleted successfully.");
+          refetch();
+        } else {
+          notifyError("something went wrong please try again later!");
+        }
+      } catch (error) {
+        notifyError("something went wrong please try again later!");
+        console.error(error);
+      }
+    } else {
+      notifyError(
+        "The card no longer exists, or something went wrong. Unable to delete."
+      );
+    }
+  };
+
   return (
     <>
+      <Toaster position="top-right" />
       <Stage
         className={styles.card_stage}
         width={cardWidth}
@@ -184,10 +243,10 @@ const KonvaCard = ({ card }) => {
           {!card.isSpecial && (
             <Image
               image={mainLogoImage}
-              x={isSmalogo?15:20}
-              y={isSmalogo?cardHeight - 30:cardHeight - 50}
-              width={isSmalogo?50: 100}
-              height={isSmalogo?18:35}
+              x={isSmalogo ? 15 : 20}
+              y={isSmalogo ? cardHeight - 30 : cardHeight - 50}
+              width={isSmalogo ? 50 : 100}
+              height={isSmalogo ? 18 : 35}
               visible={true}
             />
           )}
@@ -231,25 +290,35 @@ const KonvaCard = ({ card }) => {
           {logoImage && (
             <Image
               image={logoImage}
-              x={ isSmalogo?cardWidth-50:cardWidth - 70}
+              x={isSmalogo ? cardWidth - 50 : cardWidth - 70}
               y={10}
-              width={isSmalogo?40: 60}
-              height={isSmalogo?40: 60}
+              width={isSmalogo ? 40 : 60}
+              height={isSmalogo ? 40 : 60}
               cornerRadius={30}
             />
           )}
         </Layer>
       </Stage>
-      <div className="my-4 px-3">
+      <div className="my-4 px-3  position-relative">
+        <FontAwesomeIcon
+          onClick={()=>setModalShow(true)}
+          title={`${key("delete")} ${key("card")}`}
+          className={styles.delete_icon}
+          icon={faTrash}
+        />
         <ul className={styles.list}>
-          <li className={styles.list_item}>
+          <li
+            className={`${styles.list_item} ${
+              isArLang ? styles.list_item_ar : styles.list_item_en
+            }`}
+          >
             {card.isDelivered ? (
               <span>
                 <FontAwesomeIcon
                   className={styles.list_icon}
                   icon={faComment}
                 />{" "}
-                Card Recieved
+                {key("cardReceived")}
               </span>
             ) : (
               <span>
@@ -257,26 +326,34 @@ const KonvaCard = ({ card }) => {
                   className={styles.list_icon}
                   icon={faCommentSlash}
                 />
-                Didno't revieve
+                {key("didnotReceive")}
               </span>
             )}
           </li>
-          <li className={styles.list_item}>
+          <li
+            className={`${styles.list_item} ${
+              isArLang ? styles.list_item_ar : styles.list_item_en
+            }`}
+          >
             <span>
               <FontAwesomeIcon
                 icon={faCalendarDay}
                 className={`${styles.list_icon}`}
               />{" "}
-              Date: {receiveAtFormatted.formattedDate}
+              {key("date")}: {receiveAtFormatted.formattedDate}
             </span>
           </li>
-          <li className={styles.list_item}>
+          <li
+            className={`${styles.list_item} ${
+              isArLang ? styles.list_item_ar : styles.list_item_en
+            }`}
+          >
             <span>
               <FontAwesomeIcon
                 icon={faClock}
                 className={`${styles.list_icon}`}
               />{" "}
-              Time: {receiveAtFormatted.formattedTime}
+              {key("time")}: {receiveAtFormatted.formattedTime}
             </span>
           </li>
         </ul>
@@ -288,11 +365,23 @@ const KonvaCard = ({ card }) => {
             onClick={() => setShowBack(!showBack)}
             className={styles.toggle_btn}
             type={"white"}
-            text={showBack ? "Show Front" : "Show Back"}
+            text={
+              showBack
+                ? `${key("show")} ${key("front")}`
+                : `${key("show")} ${key("back")}`
+            }
           />
           <MainButton
             onClick={() => setShowBack(!showBack)}
-            text={card.isPaid ? "Show Card" : "Buy Card"}
+            text={
+              card.isPaid
+                ? card.receiveAt
+                  ? `${key("show")} ${key("card")}`
+                  : key("completeData")
+                : card.receiveAt
+                ? key("payment")
+                : key("completeData")
+            }
           />
         </div>
         <div
@@ -301,10 +390,24 @@ const KonvaCard = ({ card }) => {
           <MainButton
             onClick={() => setShowBack(!showBack)}
             className={styles.show_card_bt}
-            text={card.isPaid ? "Show Card" : "Buy Card"}
+            text={
+              card.isPaid
+                ? card.receiveAt
+                  ? `${key("show")} ${key("card")}`
+                  : key("completeData")
+                : card.receiveAt
+                ? key("payment")
+                : key("completeData")
+            }
           />
         </div>
       </div>
+      <ConfirmationModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        func={deleteCard}
+        message="Are you sure you want to delete card"
+      />
     </>
   );
 };
