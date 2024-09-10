@@ -77,6 +77,18 @@ exports.buyCard = catchAsync(async (req, res, next) => {
     return next(new ApiError("Card not found", 404));
   }
 
+  if (card.isPaid) {
+    return next(new ApiError("Card already paid", 400));
+  }
+
+  if (
+    !card.recipient ||
+    !card.recipient.whatsappNumber ||
+    !card.recipient.name
+  ) {
+    return next(new ApiError("Complete recipient details first", 400));
+  }
+
   if (!wallet) {
     return next(new ApiError("Wallet not found", 404));
   }
