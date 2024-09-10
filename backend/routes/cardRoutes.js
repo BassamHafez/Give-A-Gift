@@ -36,6 +36,6 @@ router
     cardController.deleteCard
   );
 
-router.post("/send", cardValidator.sendCardValidator, cardController.sendCard);
+// router.post("/send", cardValidator.sendCardValidator, cardController.sendCard);
 
 module.exports = router;

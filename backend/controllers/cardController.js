@@ -73,46 +73,46 @@ exports.deleteCard = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.sendCard = catchAsync(async (req, res, next) => {
-  const { cardID } = req.body;
+// exports.sendCard = catchAsync(async (req, res, next) => {
+//   const { cardID } = req.body;
 
-  const card = await Card.findById(cardID);
+//   const card = await Card.findById(cardID);
 
-  if (!card) {
-    return next(new ApiError("No card found with that ID", 404));
-  }
+//   if (!card) {
+//     return next(new ApiError("No card found with that ID", 404));
+//   }
 
-  if (
-    !card.recipient ||
-    !card.recipient.whatsappNumber ||
-    !card.recipient.name
-  ) {
-    return next(
-      new ApiError("Please provide recipient name and whatsapp number", 400)
-    );
-  }
+//   if (
+//     !card.recipient ||
+//     !card.recipient.whatsappNumber ||
+//     !card.recipient.name
+//   ) {
+//     return next(
+//       new ApiError("Please provide recipient name and whatsapp number", 400)
+//     );
+//   }
 
-  if (!card.isPaid) {
-    return next(new ApiError("Card is not paid yet", 400));
-  }
+//   if (!card.isPaid) {
+//     return next(new ApiError("Card is not paid yet", 400));
+//   }
 
-  if (card.isDelivered) {
-    return next(new ApiError("Card is already delivered", 400));
-  }
+//   if (card.isDelivered) {
+//     return next(new ApiError("Card is already delivered", 400));
+//   }
 
-  const message = `
-  Hello ${card.recipient.name},
-  ${card.text.message}
-  `;
-  const phone = card.recipient.whatsappNumber;
+//   const message = `
+//   Hello ${card.recipient.name},
+//   ${card.text.message}
+//   `;
+//   const phone = card.recipient.whatsappNumber;
 
-  await sendWhatsappMsg(phone, message);
+//   await sendWhatsappMsg(phone, message);
 
-  card.isDelivered = true;
-  await card.save();
+//   card.isDelivered = true;
+//   await card.save();
 
-  res.status(200).json({
-    status: "success",
-    data: card,
-  });
-});
+//   res.status(200).json({
+//     status: "success",
+//     data: card,
+//   });
+// });
