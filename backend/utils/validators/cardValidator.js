@@ -244,3 +244,13 @@ exports.deleteCardValidator = [
 
   validatorMiddleware,
 ];
+
+exports.sendCardValidator = [
+  check("cardID")
+    .notEmpty()
+    .withMessage("Card ID is required")
+    .isMongoId()
+    .withMessage("Card ID must be a valid MongoDB ID"),
+
+  validatorMiddleware,
+];
