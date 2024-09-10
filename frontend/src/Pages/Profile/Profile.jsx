@@ -9,7 +9,7 @@ const notifyError = (message) => toast.error(message);
 
 const Profile = () => {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
-
+  
   useEffect(() => {
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth < 768);

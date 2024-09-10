@@ -128,11 +128,13 @@ ul li{
   font-family:Arial, Helvetica, sans-serif;
   width: 100%;
 }
+
 @media screen and (max-width:768px) {
   body,html{
     font-size: 14px;
   }
 }
+
 @media screen and (max-width:305px) {
   .rmdp-input{
     font-size:1.25rem;

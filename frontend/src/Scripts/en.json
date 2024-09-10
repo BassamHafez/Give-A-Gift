@@ -63,5 +63,19 @@
     "fontFamily":"Font Family",
     "cardMessage":"Card Message",
     "cardPrice":"Card Price",
-    "saveChanges":"Save Changes"
+    "saveChanges":"Save Changes",
+    "loginFirst":"Please log in to continue",
+    "yourCards":"Your Cards",
+    "walletManagement":"Wallet Management",
+    "accountSetting":"Account Setting",
+    "cardReceived":"Card Received",
+    "didnotReceive":"Didn't Receive",
+    "date":"Date",
+    "time":"Time",
+    "recDataInComplete":"Receiver data is incomplete",
+    "show":"Show",
+    "completeData":"Complete Data",
+    "payment":"Payment",
+    "card":"Card",
+    "delete":"Delete"    
 }

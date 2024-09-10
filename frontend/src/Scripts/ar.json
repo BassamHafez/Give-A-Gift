@@ -63,5 +63,19 @@
     "fontFamily":"نوع الخط",
     "cardMessage":"رسالة البطاقة",
     "cardPrice":"سعر البطاقة",
-    "saveChanges":"حفظ التغييرات"
+    "saveChanges":"حفظ التغييرات",
+    "loginFirst":"يرجى تسجيل الدخول للمتابعة",
+    "yourCards":"بطاقاتك",
+    "walletManagement":"إدارة المحفظة",
+    "accountSetting":"إعدادات الحساب",
+    "cardReceived":"تم استلام البطاقة",
+    "didnotReceive":"لم يتم الاستلام",
+    "date":"التاريخ",
+    "time":"الوقت",
+    "recDataInComplete":"لم تكمل بيانات المستلم",
+    "show":"عرض",
+    "completeData":"أكمل البيانات",
+    "payment":"الدفع",
+    "card":"البطاقة",
+    "delete":"حذف"            
 }

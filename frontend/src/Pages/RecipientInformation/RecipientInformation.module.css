@@ -29,7 +29,7 @@
     min-width: 8.75rem;
 }
 .save_btn:hover{
-    background-color: var(--dusty_Gold);
+    background-color: var(--sub_color);
     transform: translateX(0.3125rem);
 }
 

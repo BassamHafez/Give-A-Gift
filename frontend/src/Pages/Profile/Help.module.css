@@ -1,0 +1,18 @@
+.support_img{
+    width: 300px;
+}
+.help_body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+@media screen and (max-width:350px) {
+    .support_img{
+        width: 100%;
+    }
+    .help_body div{
+        text-align: start !important;
+    }
+}
