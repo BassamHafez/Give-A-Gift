@@ -77,5 +77,10 @@
     "completeData":"Complete Data",
     "payment":"Payment",
     "card":"Card",
-    "delete":"Delete"    
+    "delete":"Delete",
+    "searchFilterApplied":"Search filter applied successfully",
+    "FilterPrice":"Price filter applied successfully",
+    "negativePrice":"Price values cannot be negative!",
+    "maxOverMin":"Maximum price must be greater than minimum price!",
+    "purchaseFaild":"The purchase was not completed successfully"    
 }

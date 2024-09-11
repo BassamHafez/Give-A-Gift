@@ -4,6 +4,7 @@ import AccountManageMent from "./AccountManageMent";
 import MyCards from "./MyCards";
 import { useTranslation } from "react-i18next";
 import Help from "./Help";
+import MyWallet from "./MyWallet";
 
 const ProfileHorizontal = ({ notifySuccess, notifyError }) => {
   const { t: key } = useTranslation();
@@ -16,7 +17,7 @@ const ProfileHorizontal = ({ notifySuccess, notifyError }) => {
         </Tab>
 
         <Tab eventKey="walletManagement" title={key("walletManagement")}>
-          wallet
+          <MyWallet/>
         </Tab>
 
         <Tab

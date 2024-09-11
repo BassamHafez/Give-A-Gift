@@ -25,7 +25,7 @@ const Stores = () => {
   const handleSearch = (e, searchTerm) => {
     e.preventDefault();
     setSearchInput(searchTerm);
-    notifySuccess("Search filter applied successfully.");
+    notifySuccess(key("searchFilterApplied"));
   };
 
   const filteredShops = shops

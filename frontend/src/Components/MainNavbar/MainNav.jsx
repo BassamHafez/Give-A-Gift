@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import MainButton from "../Ui/MainButton";
-import styles from "./MainNav.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { faOpencart } from "@fortawesome/free-brands-svg-icons";
@@ -13,6 +12,7 @@ import Badge from "react-bootstrap/Badge";
 import Cart from "../Cart/Cart";
 import { getMyCards } from "../../util/Http";
 import { useQuery } from "@tanstack/react-query";
+import styles from "./MainNav.module.css";
 
 const MainNav = () => {
   const [openResMenu, setOpenResMenu] = useState(false);

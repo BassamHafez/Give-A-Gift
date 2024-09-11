@@ -40,7 +40,7 @@ const MyCards = () => {
     <div>
       <Row>
         {!isFetching ? (
-          data.data.length>0?data.data?.map((card) => (
+          data?.data?.length>0?data?.data?.map((card) => (
             <Col
               className="d-flex justify-content-center align-items-center"
               xlg={6}
