@@ -154,66 +154,75 @@ const Cart = ({ onClose, show }) => {
             {isFetching ? (
               <Placeholders isList={true} />
             ) : (
-              data?.data?.map((card) => (
-                <li key={card._id} className={styles.list_item}>
-                  <div className={styles.item}>
-                    <h4>
-                      {card.isSpecial ? key("readyCard") : key("customCards")}
-                    </h4>
-                    <div className={styles.item_content}>
-                      <ul className="p-0">
-                        <li className={styles.sub_list_item}>
-                          <FontAwesomeIcon
-                            className={
-                              isArLang
-                                ? styles.sub_list_icon_ar
-                                : styles.sub_list_icon
-                            }
-                            icon={faStore}
-                          />
-                          <span className="fw-bold">{key("store")}: </span>
-                          {card.shop?.name}
-                        </li>
-                        <li className={styles.sub_list_item}>
-                          <FontAwesomeIcon
-                            className={
-                              isArLang
-                                ? styles.sub_list_icon_ar
-                                : styles.sub_list_icon
-                            }
-                            icon={faHandHoldingDollar}
-                          />
-                          <span className="fw-bold">{key("price")}: </span>
-                          {card.price?.value} {key("sar")}
-                        </li>
-                      </ul>
-                      <div className={styles.controllers}>
-                        <FontAwesomeIcon
-                          className={styles.trash_icon}
-                          icon={faTrash}
-                          onClick={() => {
-                            setCardId(card._id);
-                            setModalShow(true);
-                          }}
-                        />
-                        <FontAwesomeIcon
-                          className={styles.arrow_right_icon}
-                          icon={!isArLang ? faArrowRight : faArrowLeft}
-                          onClick={() =>
-                            card.isPaid
-                              ? card.receiveAt
-                                ? console.log("paid")
-                                : navigate(`/recipient-information/${card._id}`)
-                              : card.receiveAt
-                              ? confirmMethod("pay", card?.price?.value)
-                              : navigate(`/recipient-information/${card._id}`)
-                          }
-                        />
+              data?.data?.map(
+                (card) =>
+                  !card.isPaid && (
+                    <li key={card._id} className={styles.list_item}>
+                      <div className={styles.item}>
+                        <h4>
+                          {card.isSpecial
+                            ? key("readyCard")
+                            : key("customCards")}
+                        </h4>
+                        <div className={styles.item_content}>
+                          <ul className="p-0">
+                            <li className={styles.sub_list_item}>
+                              <FontAwesomeIcon
+                                className={
+                                  isArLang
+                                    ? styles.sub_list_icon_ar
+                                    : styles.sub_list_icon
+                                }
+                                icon={faStore}
+                              />
+                              <span className="fw-bold">{key("store")}: </span>
+                              {card.shop?.name}
+                            </li>
+                            <li className={styles.sub_list_item}>
+                              <FontAwesomeIcon
+                                className={
+                                  isArLang
+                                    ? styles.sub_list_icon_ar
+                                    : styles.sub_list_icon
+                                }
+                                icon={faHandHoldingDollar}
+                              />
+                              <span className="fw-bold">{key("price")}: </span>
+                              {card.price?.value} {key("sar")}
+                            </li>
+                          </ul>
+                          <div className={styles.controllers}>
+                            <FontAwesomeIcon
+                              className={styles.trash_icon}
+                              icon={faTrash}
+                              onClick={() => {
+                                setCardId(card._id);
+                                setModalShow(true);
+                              }}
+                            />
+                            <FontAwesomeIcon
+                              className={styles.arrow_right_icon}
+                              icon={!isArLang ? faArrowRight : faArrowLeft}
+                              onClick={() =>
+                                card.isPaid
+                                  ? card.receiveAt
+                                    ? console.log("paid")
+                                    : navigate(
+                                        `/recipient-information/${card._id}`
+                                      )
+                                  : card.receiveAt
+                                  ? confirmMethod("pay", card?.price?.value)
+                                  : navigate(
+                                      `/recipient-information/${card._id}`
+                                    )
+                              }
+                            />
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                </li>
-              ))
+                    </li>
+                  )
+              )
             )}
           </ul>
         </Offcanvas.Body>

@@ -49,23 +49,26 @@ const MyCards = () => {
       <Row>
         {!isFetching ? (
           data?.data?.length > 0 ? (
-            data?.data?.map((card) => (
-              <Col
-                className="d-flex justify-content-center align-items-center"
-                xlg={6}
-                key={card._id}
-              >
-                <div className={styles.card_body}>
-                  <KonvaCard
-                    walletBalance={walletBalance}
-                    card={card}
-                    refetch={refetch}
-                    notifySuccess={notifySuccess}
-                    notifyError={notifyError}
-                  />
-                </div>
-              </Col>
-            ))
+            data?.data?.map(
+              (card) =>
+                !card.isPaid && (
+                  <Col
+                    className="d-flex justify-content-center align-items-center"
+                    xlg={6}
+                    key={card._id}
+                  >
+                    <div className={styles.card_body}>
+                      <KonvaCard
+                        walletBalance={walletBalance}
+                        card={card}
+                        refetch={refetch}
+                        notifySuccess={notifySuccess}
+                        notifyError={notifyError}
+                      />
+                    </div>
+                  </Col>
+                )
+            )
           ) : (
             <div className={styles.noCards}>
               <div className={styles.noCards_img}>
@@ -396,7 +399,9 @@ const KonvaCard = ({
             confirmMethod("delete");
           }}
           title={`${key("delete")} ${key("card")}`}
-          className={`${!isArLang?styles.delete_icon:styles.delete_icon_ar} `}
+          className={`${
+            !isArLang ? styles.delete_icon : styles.delete_icon_ar
+          } `}
           icon={faTrash}
         />
         <ul className={styles.list}>
