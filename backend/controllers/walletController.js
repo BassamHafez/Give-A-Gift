@@ -2,6 +2,7 @@ const Wallet = require("../models/walletModel");
 const User = require("../models/userModel");
 const Card = require("../models/cardModel");
 const Config = require("../models/configModel");
+const ScheduledMessage = require("../models/scheduledMessageModel");
 const factory = require("./handlerFactory");
 const catchAsync = require("../utils/catchAsync");
 const ApiError = require("../utils/ApiError");
@@ -100,7 +101,22 @@ exports.buyCard = catchAsync(async (req, res, next) => {
   wallet.balance -= card.price.value;
   card.isPaid = true;
 
-  await Promise.all([wallet.save(), card.save()]);
+  const msgData = {
+    phone: card.recipient.whatsappNumber,
+    caption: `(Give A Gift)
+    You have received a gift card from ${req.user.name}. Click here to view: ${
+      req.protocol
+    }://${req.get("host")}/cards/preview/${card.id}`,
+    fileUrl:
+      "https://nypost.com/wp-content/uploads/sites/2/2023/11/gift-card.jpg",
+    scheduledAt: new Date(card.receiveAt),
+  };
+
+  await Promise.all([
+    wallet.save(),
+    card.save(),
+    ScheduledMessage.create(msgData),
+  ]);
 
   res.status(200).json({
     status: "success",
