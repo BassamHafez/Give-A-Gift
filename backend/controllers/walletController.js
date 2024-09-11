@@ -103,10 +103,7 @@ exports.buyCard = catchAsync(async (req, res, next) => {
 
   const msgData = {
     phone: card.recipient.whatsappNumber,
-    caption: `(Give A Gift)
-    You have received a gift card from ${req.user.name}. Click here to view: ${
-      req.protocol
-    }://${req.get("host")}/cards/preview/${card.id}`,
+    caption: `You have received a gift card from ${req.user.name}. Click here to view: https://example.com/cards/previw/${card.id}`,
     fileUrl:
       "https://nypost.com/wp-content/uploads/sites/2/2023/11/gift-card.jpg",
     scheduledAt: new Date(card.receiveAt),
