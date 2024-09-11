@@ -301,7 +301,6 @@ const CustomCards = () => {
             </Col>
 
             <Col lg={6} xl={6} className={styles.control_side_container}>
-              {/* Step Indicators */}
               <div className={styles.steps_indicator}>
                 {stepLabels.map((label, index) => (
                   <div
@@ -322,7 +321,9 @@ const CustomCards = () => {
                 controls={true}
                 indicators={false}
                 interval={null}
+                wrap={false}
                 className={styles.carousel_body}
+                
               >
                 <Carousel.Item className={styles.carousel_item}>
                   <div className={styles.choose_color}>
@@ -354,8 +355,8 @@ const CustomCards = () => {
                     </Row>
                   </div>
                 </Carousel.Item>
-                <Carousel.Item className={styles.carousel_item}>
-                  <div className={`${styles.choose_shape}  position-relative`}>
+                <Carousel.Item className={`${styles.carousel_item} ${styles.special_item}`}>
+                  <div className={`${styles.choose_shape} ${styles.special_shadow}  position-relative`}>
                     <h4 className="text-center mb-4">
                       {key("cardBackground")}
                     </h4>
@@ -398,8 +399,8 @@ const CustomCards = () => {
                     </Row>
                   </div>
                 </Carousel.Item>
-                <Carousel.Item className={styles.carousel_item}>
-                  <div className={`${styles.choose_shape}  d-flex mx-4`}>
+                <Carousel.Item className={`${styles.carousel_item} ${styles.special_item}`}>
+                  <div className={`${styles.choose_shape} ${styles.special_shadow}  d-flex mx-4`}>
                     <h4 className="text-start mb-3">
                       {key("choose")} {key("store")}
                     </h4>

@@ -155,12 +155,6 @@ ul li{
   cursor: pointer;
 }
 
-#__react_toast_container {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 9999;}
-
 @media screen and (max-width:768px) {
   body,html{
     font-size: 14px;

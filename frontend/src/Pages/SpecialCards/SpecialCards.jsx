@@ -275,7 +275,7 @@ const SpecialCards = () => {
                       </Col>
                     ))}
                   </>
-                ) : filteredCards.length > 0 ? (
+                ) : filteredCards?.length > 0 ? (
                   <>
                     {filteredCards.map((card) => (
                       <Col

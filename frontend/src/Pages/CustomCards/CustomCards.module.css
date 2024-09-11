@@ -37,9 +37,18 @@
 .carousel_item{
   height: 68vh;
   overflow-y: auto;
-  scrollbar-color: transparent transparent !important;
 }
-
+.special_shadow{
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.551);
+  padding: 8px;
+  border-radius: 10px;
+  height: 100%;
+}
+.special_item{
+  height: 60vh;
+  overflow-y: auto;
+  padding: 10px;
+}
   .card_side_header{
     position: absolute;
     left:0;
