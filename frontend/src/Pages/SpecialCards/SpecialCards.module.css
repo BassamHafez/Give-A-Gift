@@ -9,7 +9,7 @@
     border-radius: 50%;
 }
 .card_body{
-    max-width: 21.875rem;
+    max-width: 23.75rem;
     box-shadow: 0 0 0.1875rem rgba(0, 0, 0, 0.242);
     border-radius: 17px !important;
     min-height: 100%;
