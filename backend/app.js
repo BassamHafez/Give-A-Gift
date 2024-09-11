@@ -10,6 +10,7 @@ const compression = require("compression");
 const cors = require("cors");
 
 const ApiError = require("./utils/ApiError");
+const startCronJobs = require("./cronJobs");
 const ensureDirectories = require("./utils/createStaticFiles");
 const globalErrorHandler = require("./controllers/errorController");
 const authRoutes = require("./routes/authRoutes");
@@ -28,6 +29,7 @@ const app = express();
 
 app.set("trust proxy", true);
 
+startCronJobs();
 ensureDirectories();
 // Serve static files
 app.use(express.static(path.join(__dirname, "uploads")));
