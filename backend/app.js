@@ -14,6 +14,7 @@ const startCronJobs = require("./cronJobs");
 const ensureDirectories = require("./utils/createStaticFiles");
 const globalErrorHandler = require("./controllers/errorController");
 const authRoutes = require("./routes/authRoutes");
+const webhookRoutes = require("./routes/webhookRoutes");
 const userRoutes = require("./routes/userRoutes");
 const shapeRoutes = require("./routes/shapeRoutes");
 const shopRoutes = require("./routes/shopRoutes");
@@ -80,6 +81,7 @@ app.use(
 app.use(compression());
 
 // ROUTES
+app.use("/api/v1/webhooks", webhookRoutes);
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/shapes", shapeRoutes);
