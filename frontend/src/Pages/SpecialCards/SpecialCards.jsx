@@ -52,7 +52,7 @@ const SpecialCards = () => {
   const searchName = (e, searchTerm) => {
     e.preventDefault();
     setSearchInput(searchTerm);
-    notifySuccess("Search filter applied successfully.");
+    notifySuccess(key("searchFilterApplied"))
   };
 
   const searchPrice = (e) => {
@@ -61,16 +61,16 @@ const SpecialCards = () => {
     const maxPrice = Number(e.target.elements.maxNum.value);
 
     if (minPrice < 0 || maxPrice < 0) {
-      notifyError("Price values cannot be negative.");
+      notifyError(key("negativePrice"));
       return;
     }
 
     if (minPrice > maxPrice) {
-      notifyError("Maximum price must be greater than minimum price.");
+      notifyError(key("maxOverMin"));
       return;
     }
     setPriceFilter({ min: minPrice, max: maxPrice });
-    notifySuccess("Price filter applied successfully.");
+    notifySuccess(key("FilterPrice"));
   };
 
   const buyCard = async () => {
@@ -94,12 +94,12 @@ const SpecialCards = () => {
         
       } else {
         setModalShow(false);
-        notifyError("The purchase was not completed successfully");
+        notifyError(key("purchaseFaild"));
       }
     } catch (error) {
       console.error(error);
       setModalShow(false);
-      notifyError("The purchase was not completed successfully");
+      notifyError(key("purchaseFaild"));
     }
   };
 

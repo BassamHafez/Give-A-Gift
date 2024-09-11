@@ -21,6 +21,7 @@
 .control_side_container{
     height: 100%;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
@@ -30,11 +31,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  padding-bottom: 40px;
 }
 .carousel_item{
   height: 68vh;
   overflow-y: auto;
-  scrollbar-color: rgb(240, 234, 234) var(--slate_blue) !important;
+  scrollbar-color: transparent transparent !important;
 }
 
   .card_side_header{
@@ -161,6 +164,32 @@
       width: 98%;
       overflow-x: hidden;
     }
+
+
+    .steps_indicator {
+      display: flex;
+      justify-content: space-around;
+      margin: 20px 0 5px 0;
+    }
+    
+    .step {
+      font-size: 14px;
+      padding: 10px;
+      color: #ccc;
+    }
+    
+    .active_step {
+      font-weight: bold;
+      color: #000;
+    }
+    
+    .step span {
+      margin-right: 5px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    
+
     @media screen and (max-width:992px) {
       .canva_body {
         height: auto;
@@ -183,6 +212,9 @@
     @media screen and (max-width:260px) {
       .card_side_header{
        display: none;
+      }
+      .steps_indicator{
+        flex-wrap:wrap;
       }
     }
 

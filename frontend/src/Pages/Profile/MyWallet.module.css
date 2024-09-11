@@ -1,0 +1,40 @@
+.wallet_body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+.wallet_balance{
+    background-color: #05034bc7;
+    text-align: center;
+    min-width: 60%;
+    padding:50px 10px 20px 10px;
+    margin-top: 40px;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+}
+.wallet_balance h2{
+    font-size: 20px;
+    color: rgb(209, 209, 209);
+    margin-bottom: 20px;
+    font-weight: 300;
+}
+.wallet_balance h3{
+    font-size: 90px;
+    color: white;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 800;
+}
+.btn_group{
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 30px;
+}
+.wallet_img{
+    width: 100px;
+    position: absolute;
+    right: 2px;
+    top: -10px;
+}

@@ -19,11 +19,25 @@ import LoadingOne from "../../Components/Ui/LoadingOne";
 import MyCards from "./MyCards";
 import { useTranslation } from "react-i18next";
 import Help from "./Help";
+import MyWallet from "./MyWallet";
+import { useQuery } from "@tanstack/react-query";
+import { getMyWallet } from "../../util/Http";
 
 const ProfileVertical = ({ notifySuccess, notifyError }) => {
+
   const profileData = useSelector((state) => state.userInfo.data);
   const [logoutModalShow, setLogoutModalShow] = useState(false);
   const { t: key } = useTranslation();
+  const token = JSON.parse(localStorage.getItem("token"));
+
+
+  const {data:walletBalance}=useQuery({
+    queryKey:["walletBalance",token],
+    queryFn: () => getMyWallet(token),
+    enabled: !!token,
+    staleTime: 300000,
+    select: (data) => data.data?.balance,
+  })
 
   return (
     <>
@@ -38,11 +52,8 @@ const ProfileVertical = ({ notifySuccess, notifyError }) => {
                     <span className="mini_word">{profileData.email}</span>
                   </div>
 
-                  <div className={styles.profile_img}>
-                    <img
-                      src={`http://127.0.0.1:3001/users/${profileData.photo}`}
-                      alt={`${profileData?.name}_ptofile_photo`}
-                    />
+                  <div className={styles.wallet_balance}>
+                   {walletBalance?walletBalance:0} {key("sar")}
                   </div>
                 </div>
                 <Nav.Item className={styles.nav_item}>
@@ -104,7 +115,7 @@ const ProfileVertical = ({ notifySuccess, notifyError }) => {
                 <MyCards />
               </Tab.Pane>
 
-              <Tab.Pane eventKey="wallet">wallet page</Tab.Pane>
+              <Tab.Pane eventKey="wallet"><MyWallet/></Tab.Pane>
               <Tab.Pane className="px-5" eventKey="accSetting">
                 <AccountManageMent
                   notifySuccess={notifySuccess}

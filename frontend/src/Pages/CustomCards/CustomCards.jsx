@@ -52,6 +52,7 @@ const CustomCards = () => {
   const [logo] = useImage(logoImage);
   const [mainLogoImage] = useImage(mainLogo);
   const [modalShow, setModalShow] = useState(false);
+  const [currentStep, setCurrentStep] = useState(0);
 
   const token = JSON.parse(localStorage.getItem("token"));
   const navigate = useNavigate();
@@ -119,6 +120,11 @@ const CustomCards = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  // Step labels for better clarity
+  const stepLabels = ["Colors", "Shapes", "Stores", "Message"];
+  const handleSelect = (selectedIndex) => {
+    setCurrentStep(selectedIndex);
+  };
   const createCard = async () => {
     if (!isLogin) {
       setModalShow(true);
@@ -295,10 +301,26 @@ const CustomCards = () => {
             </Col>
 
             <Col lg={6} xl={6} className={styles.control_side_container}>
+              {/* Step Indicators */}
+              <div className={styles.steps_indicator}>
+                {stepLabels.map((label, index) => (
+                  <div
+                    key={index}
+                    className={`${styles.step} ${
+                      currentStep === index ? styles.active_step : ""
+                    }`}
+                  >
+                    <span>{index + 1}</span> {label}
+                  </div>
+                ))}
+              </div>
+
               <Carousel
+                activeIndex={currentStep}
                 data-bs-theme="dark"
-                indicators={true}
-                controls={false}
+                onSelect={handleSelect}
+                controls={true}
+                indicators={false}
                 interval={null}
                 className={styles.carousel_body}
               >
@@ -385,6 +407,8 @@ const CustomCards = () => {
                       {shops &&
                         shops.data.map((shop) => (
                           <Col
+                            xs={12}
+                            sm={6}
                             md={4}
                             className="d-flex justify-content-center"
                             onClick={() => {

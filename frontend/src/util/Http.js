@@ -109,3 +109,31 @@ export const getColors= async () => {
     return error
   }
 };
+
+export const getMyWallet= async (token) => {
+  try {
+     const response = await axios.get(`${baseServerUrl}wallets/me`,{
+      headers:{Authorization:`Bearer ${token}`}
+     });
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return error
+  }
+};
+
+export const transferMoney= async ({token,formData}) => {
+  try {
+     const response = await axios.post(`${baseServerUrl}wallets/transfer`,formData,{
+      headers:{Authorization:`Bearer ${token}`}
+     });
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return error
+  }
+};
+
+

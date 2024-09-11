@@ -9,7 +9,6 @@ import { saveIsLoginState } from "../../Store/userInfo-actions";
 
 const LogoutModal = (props) => {
 
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
   
