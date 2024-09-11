@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const sendWhatsappMsg = async (phone, message) => {
+const sendWhatsappText = async (phone, message) => {
   try {
     const response = await axios({
       method: "GET",
@@ -45,4 +45,4 @@ const sendWhatsappFile = async (phone, fileUrl, caption) => {
   }
 };
 
-module.exports = { sendWhatsappMsg, sendWhatsappFile };
+module.exports = { sendWhatsappText, sendWhatsappFile };
