@@ -28,18 +28,18 @@ exports.getMyWallet = catchAsync(async (req, res, next) => {
 });
 
 exports.transfer = catchAsync(async (req, res, next) => {
-  const { amount, receiverEmail } = req.body;
+  const { amount, receiverPhone } = req.body;
 
-  if (req.user.email === receiverEmail) {
+  if (req.user.phone === receiverPhone) {
     return next(new ApiError("Cannot transfer to yourself", 400));
   }
 
   const receiver = await User.findOne({
-    email: receiverEmail,
+    phone: receiverPhone,
   });
 
   if (!receiver) {
-    return next(new ApiError("No user found with that email", 404));
+    return next(new ApiError("No user found with that phone number", 404));
   }
 
   const [senderWallet, receiverWallet] = await Promise.all([
