@@ -30,6 +30,7 @@ const cardSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    priceAfterDiscount: Number,
     price: {
       value: {
         type: Number,
@@ -57,15 +58,7 @@ const cardSchema = new mongoose.Schema(
       name: String,
       whatsappNumber: String,
     },
-    receiveAt: {
-      type: Date,
-      validate: {
-        validator: function (value) {
-          return value > Date.now();
-        },
-        message: "Receive at must be a future date",
-      },
-    },
+    receiveAt: Date,
   },
   {
     timestamps: true,

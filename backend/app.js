@@ -10,24 +10,16 @@ const compression = require("compression");
 const cors = require("cors");
 
 const ApiError = require("./utils/ApiError");
+const startCronJobs = require("./cronJobs");
 const ensureDirectories = require("./utils/createStaticFiles");
 const globalErrorHandler = require("./controllers/errorController");
-const authRoutes = require("./routes/authRoutes");
-const userRoutes = require("./routes/userRoutes");
-const shapeRoutes = require("./routes/shapeRoutes");
-const shopRoutes = require("./routes/shopRoutes");
-const colorRoutes = require("./routes/colorRoutes");
-const cardRoutes = require("./routes/cardRoutes");
-const specialCardRoutes = require("./routes/specialCardRoutes");
-const walletRoutes = require("./routes/walletRoutes");
-const paymentRoutes = require("./routes/paymentRoutes");
-const configRoutes = require("./routes/configRoutes");
-const transactionRoutes = require("./routes/transactionRoutes");
+const mountRoutes = require("./routes");
 
 const app = express();
 
 app.set("trust proxy", true);
 
+startCronJobs();
 ensureDirectories();
 // Serve static files
 app.use(express.static(path.join(__dirname, "uploads")));
@@ -77,17 +69,7 @@ app.use(
 app.use(compression());
 
 // ROUTES
-app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/users", userRoutes);
-app.use("/api/v1/shapes", shapeRoutes);
-app.use("/api/v1/shops", shopRoutes);
-app.use("/api/v1/colors", colorRoutes);
-app.use("/api/v1/cards", cardRoutes);
-app.use("/api/v1/special-cards", specialCardRoutes);
-app.use("/api/v1/wallets", walletRoutes);
-app.use("/api/v1/payments", paymentRoutes);
-app.use("/api/v1/configs", configRoutes);
-app.use("/api/v1/transactions", transactionRoutes);
+mountRoutes(app);
 
 app.all("*", (req, res, next) => {
   next(new ApiError(`Can't find ${req.originalUrl} on server!`, 404));

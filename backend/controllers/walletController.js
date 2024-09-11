@@ -2,6 +2,7 @@ const Wallet = require("../models/walletModel");
 const User = require("../models/userModel");
 const Card = require("../models/cardModel");
 const Config = require("../models/configModel");
+const ScheduledMessage = require("../models/scheduledMessageModel");
 const factory = require("./handlerFactory");
 const catchAsync = require("../utils/catchAsync");
 const ApiError = require("../utils/ApiError");
@@ -73,18 +74,48 @@ exports.buyCard = catchAsync(async (req, res, next) => {
     Card.findById(cardId),
   ]);
 
-  if (!wallet || !card) {
-    return next(new ApiError("Wallet or Card not found", 404));
+  if (!card) {
+    return next(new ApiError("Card not found", 404));
   }
 
-  if (wallet.balance < card.price) {
+  if (card.isPaid) {
+    return next(new ApiError("Card already paid", 400));
+  }
+
+  if (
+    !card.recipient ||
+    !card.recipient.whatsappNumber ||
+    !card.recipient.name
+  ) {
+    return next(new ApiError("Complete recipient details first", 400));
+  }
+
+  if (!wallet) {
+    return next(new ApiError("Wallet not found", 404));
+  }
+
+  const cardPrice = card.priceAfterDiscount || card.price.value;
+
+  if (wallet.balance < cardPrice) {
     return next(new ApiError("Insufficient balance", 400));
   }
 
-  wallet.balance -= card.price;
+  wallet.balance -= cardPrice;
   card.isPaid = true;
 
-  await Promise.all([wallet.save(), card.save()]);
+  const msgData = {
+    phone: card.recipient.whatsappNumber,
+    caption: `You have received a gift card from ${req.user.name}. Click here to view: https://example.com/cards/previw/${card.id}`,
+    fileUrl:
+      "https://nypost.com/wp-content/uploads/sites/2/2023/11/gift-card.jpg",
+    scheduledAt: new Date(card.receiveAt),
+  };
+
+  await Promise.all([
+    wallet.save(),
+    card.save(),
+    ScheduledMessage.create(msgData),
+  ]);
 
   res.status(200).json({
     status: "success",
