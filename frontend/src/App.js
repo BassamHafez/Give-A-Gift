@@ -15,6 +15,8 @@ import { getisLoginState, getRoleState, getToken, getUserInfoFromLocalStorage } 
 import CustomCards from './Pages/CustomCards/CustomCards';
 import Profile from './Pages/Profile/Profile';
 import RecipientInformation from './Pages/RecipientInformation/RecipientInformation';
+import Payment from './Pages/PayMethods/Payment';
+import ErrorURL from './Pages/PayMethods/ErrorURL';
 
 
 const router=createBrowserRouter([{
@@ -30,6 +32,8 @@ const router=createBrowserRouter([{
     {path:"custom-cards",element:<CustomCards/>},
     {path:"profile/:userId",element:<Profile/>},
     {path:"recipient-information/:cardId",element:<RecipientInformation/>},
+    {path:"payment/:type/:userId",element:<Payment/>},
+    {path:"payment-faild",element:<ErrorURL/>},
   ]
 }])  
 

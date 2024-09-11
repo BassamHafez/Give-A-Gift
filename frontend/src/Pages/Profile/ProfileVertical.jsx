@@ -23,25 +23,23 @@ import MyWallet from "./MyWallet";
 import { useQuery } from "@tanstack/react-query";
 import { getMyWallet } from "../../util/Http";
 
-const ProfileVertical = ({ notifySuccess, notifyError }) => {
-
+const ProfileVertical = () => {
   const profileData = useSelector((state) => state.userInfo.data);
   const [logoutModalShow, setLogoutModalShow] = useState(false);
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
 
-
-  const {data:walletBalance}=useQuery({
-    queryKey:["walletBalance",token],
+  const { data: walletBalance } = useQuery({
+    queryKey: ["walletBalance", token],
     queryFn: () => getMyWallet(token),
     enabled: !!token,
     staleTime: 300000,
     select: (data) => data.data?.balance,
-  })
+  });
 
   return (
     <>
-      <Tab.Container defaultActiveKey="myCards">
+      <Tab.Container defaultActiveKey="wallet">
         <Row>
           <Col sm={6} md={4} xl={3} className="position-relative">
             {profileData ? (
@@ -53,16 +51,9 @@ const ProfileVertical = ({ notifySuccess, notifyError }) => {
                   </div>
 
                   <div className={styles.wallet_balance}>
-                   {walletBalance?walletBalance:0} {key("sar")}
+                    {walletBalance ? walletBalance : 0} {key("sar")}
                   </div>
                 </div>
-                <Nav.Item className={styles.nav_item}>
-                  <FontAwesomeIcon
-                    className={styles.list_icon}
-                    icon={faLayerGroup}
-                  />
-                  <Nav.Link eventKey="myCards">{key("yourCards")}</Nav.Link>
-                </Nav.Item>
                 <Nav.Item className={styles.nav_item}>
                   <FontAwesomeIcon
                     className={styles.list_icon}
@@ -73,6 +64,14 @@ const ProfileVertical = ({ notifySuccess, notifyError }) => {
                     {key("walletManagement")}
                   </Nav.Link>
                 </Nav.Item>
+                <Nav.Item className={styles.nav_item}>
+                  <FontAwesomeIcon
+                    className={styles.list_icon}
+                    icon={faLayerGroup}
+                  />
+                  <Nav.Link eventKey="myCards">{key("yourCards")}</Nav.Link>
+                </Nav.Item>
+
                 <Nav.Item className={styles.nav_item}>
                   <FontAwesomeIcon
                     className={styles.list_icon}
@@ -110,17 +109,16 @@ const ProfileVertical = ({ notifySuccess, notifyError }) => {
             xl={9}
             className={`${styles.content_side} d-flex flex-column justify-content-center`}
           >
-            <Tab.Content className="h-100 w-100">
+            <Tab.Content className="h-100 w-100 ">
+              <Tab.Pane eventKey="wallet">
+                <MyWallet />
+              </Tab.Pane>
               <Tab.Pane eventKey="myCards">
                 <MyCards />
               </Tab.Pane>
 
-              <Tab.Pane eventKey="wallet"><MyWallet/></Tab.Pane>
               <Tab.Pane className="px-5" eventKey="accSetting">
-                <AccountManageMent
-                  notifySuccess={notifySuccess}
-                  notifyError={notifyError}
-                />
+                <AccountManageMent />
               </Tab.Pane>
               <Tab.Pane eventKey="help">
                 <Help />

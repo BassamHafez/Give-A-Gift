@@ -104,7 +104,7 @@ const Transfer = ({ show, onHide, notifySuccess, notifyError, balance }) => {
             {({ setFieldValue }) => (
               <Form>
                 <div className={styles.field}>
-                  <label htmlFor="amount">Amount</label>
+                  <label htmlFor="amount">Amount (SAR)</label>
                   <Field type="text" id="amount" name="amount" />
                   <ErrorMessage name="amount" component={InputErrorMessage} />
                 </div>

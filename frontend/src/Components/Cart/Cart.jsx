@@ -87,7 +87,7 @@ const Cart = ({ onClose, show }) => {
             {isFetching ? (
               <Placeholders isList={true} />
             ) : (
-              data?.data.map((card) => (
+              data?.data?.map((card) => (
                 <li key={card._id} className={styles.list_item}>
                   <div className={styles.item}>
                     <h4>{card.isSpecial ? "Ready Card" : "Custom Card"}</h4>

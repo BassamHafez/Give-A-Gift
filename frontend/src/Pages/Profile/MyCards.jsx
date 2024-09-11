@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Stage, Layer, Rect, Text, Image } from "react-konva";
 import useImage from "use-image";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getMyCards } from "../../util/Http";
+import { getMyCards, getMyWallet } from "../../util/Http";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import styles from "./MyCards.module.css";
@@ -19,16 +19,16 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
 import giveGiftImg from "../../Images/giveGift.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ConfirmationModal from "../../Components/Ui/ConfirmationModal";
+import toast from "react-hot-toast";
 
 const token = JSON.parse(localStorage.getItem("token"));
 const notifySuccess = (message) => toast.success(message);
 const notifyError = (message) => toast.error(message);
 
-const MyCards = () => {  
+const MyCards = () => {
   const { data, refetch, isFetching } = useQuery({
     queryKey: ["getCard", token],
     queryFn: () => getMyCards(token),
@@ -36,45 +36,79 @@ const MyCards = () => {
     staleTime: 300000,
   });
 
+  const { data: walletBalance } = useQuery({
+    queryKey: ["walletBalance", token],
+    queryFn: () => getMyWallet(token),
+    enabled: !!token,
+    staleTime: 300000,
+    select: (data) => data.data?.balance,
+  });
+
   return (
-    <div>
+    <>
       <Row>
         {!isFetching ? (
-          data?.data?.length>0?data?.data?.map((card) => (
-            <Col
-              className="d-flex justify-content-center align-items-center"
-              xlg={6}
-              key={card._id}
-            >
-              <div className={styles.card_body}>
-                <KonvaCard card={card} refetch={refetch} />
+          data?.data?.length > 0 ? (
+            data?.data?.map((card) => (
+              <Col
+                className="d-flex justify-content-center align-items-center"
+                xlg={6}
+                key={card._id}
+              >
+                <div className={styles.card_body}>
+                  <KonvaCard
+                    walletBalance={walletBalance}
+                    card={card}
+                    refetch={refetch}
+                    notifySuccess={notifySuccess}
+                    notifyError={notifyError}
+                  />
+                </div>
+              </Col>
+            ))
+          ) : (
+            <div className={styles.noCards}>
+              <div className={styles.noCards_img}>
+                <img className="w-100" src={giveGiftImg} alt="giveGiftImg" />
               </div>
-            </Col>
-          )):<div className={styles.noCards}>
-            <div className={styles.noCards_img}>
-            <img className="w-100" src={giveGiftImg} alt="giveGiftImg" />
-
+              <div>
+                <span className="mini_word">
+                  You don't have any cards right now. Get one{" "}
+                  <Link className="text-primary" to={"/special-cards"}>
+                    here
+                  </Link>
+                </span>
+              </div>
             </div>
-            <div>
-              <span className="mini_word">You don't have any cards right now. Get one <Link className="text-primary" to={"/special-cards"}>here</Link></span>
-            </div>
-          </div>
+          )
         ) : (
           <Placeholders />
         )}
       </Row>
-    </div>
+    </>
   );
 };
 
-const KonvaCard = ({ card, refetch }) => {
+const KonvaCard = ({
+  card,
+  refetch,
+  walletBalance,
+  notifySuccess,
+  notifyError,
+}) => {
   const [showBack, setShowBack] = useState(true);
   const [isSmalogo, setIsSmalogo] = useState(false);
   const [modalShow, setModalShow] = useState(false);
+  const [confirmFunc, setConfirmFunc] = useState("");
+  const [confirmMsg, setConfirmMsg] = useState("");
+  const [btnMsg, setBtnMsg] = useState("");
+  const {userId}=useParams();
+
   const [mainLogoImage] = useImage(mainLogo);
+  const navigate = useNavigate();
   const { t: key } = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
-  const queryClient=useQueryClient();
+  const queryClient = useQueryClient();
 
   const [shapeImage] = useImage(
     card.isSpecial
@@ -162,8 +196,29 @@ const KonvaCard = ({ card, refetch }) => {
     offsetY2 = 0;
   }
 
+  const confirmMethod = (method) => {
+    if (method === "delete") {
+      setModalShow(true);
+      setConfirmFunc("delete");
+      setConfirmMsg("Are you sure you want to delete card");
+      setBtnMsg("Delete");
+    } else if (method === "pay") {
+      setModalShow(true);
+      setConfirmFunc("pay");
+      setConfirmMsg(
+        `You are about to purchase a card priced at ${card?.price?.value} and send it to ${card?.recipient?.name} at WhatsApp number ${card?.recipient?.whatsappNumber}. Please confirm to proceed with the transaction.`
+      );
+      setBtnMsg("Confirm");
+    } else {
+      setModalShow(true);
+      setConfirmFunc("charge");
+      setConfirmMsg(`charge your wallet to continue`);
+      setBtnMsg("Charge");
+    }
+  };
+
   const deleteCard = async () => {
-    setModalShow(false)
+    setModalShow(false);
     if (card._id && token) {
       try {
         const response = await axios.delete(
@@ -174,7 +229,7 @@ const KonvaCard = ({ card, refetch }) => {
         );
         console.log(response);
         if (response.status === 204) {
-          queryClient.invalidateQueries(['getCards',token])
+          queryClient.invalidateQueries(["getCards", token]);
           notifySuccess("Card deleted successfully.");
           refetch();
         } else {
@@ -191,9 +246,42 @@ const KonvaCard = ({ card, refetch }) => {
     }
   };
 
+  const payCard = async () => {
+    if (Number(card.price?.value) > Number(walletBalance)) {
+      setModalShow(false);
+      notifyError(
+        "Your balance is insufficient to buy the card. Please recharge to continue."
+      );
+      confirmMethod("charge");
+    } else {
+      try {
+        const response = await axios.post(
+          `${process.env.REACT_APP_Base_API_URl}wallets/buy-card`,
+          { cardId: card._id },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        if (response.status === 200 || response.status === 201) {
+          notifySuccess("Card purchased successfully.");
+          refetch();
+        } else {
+          notifyError("Something went wrong. Please try again later.");
+        }
+      } catch (error) {
+        notifyError("Something went wrong. Please try again later.");
+        console.error("Payment error:", error);
+      }
+    }
+  };
+
+  const goToChargeMethods = () => {
+    navigate(`/payment/payment/${userId}`)
+  };
+
   return (
     <>
-      <Toaster position="top-right" />
       <Stage
         className={styles.card_stage}
         width={cardWidth}
@@ -301,7 +389,9 @@ const KonvaCard = ({ card, refetch }) => {
       </Stage>
       <div className="my-4 px-3  position-relative">
         <FontAwesomeIcon
-          onClick={()=>setModalShow(true)}
+          onClick={() => {
+            confirmMethod("delete");
+          }}
           title={`${key("delete")} ${key("card")}`}
           className={styles.delete_icon}
           icon={faTrash}
@@ -372,7 +462,15 @@ const KonvaCard = ({ card, refetch }) => {
             }
           />
           <MainButton
-            onClick={() => setShowBack(!showBack)}
+            onClick={() =>
+              card.isPaid
+                ? card.receiveAt
+                  ? console.log("show")
+                  : navigate(`/recipient-information/${card._id}`)
+                : card.receiveAt
+                ? confirmMethod("pay")
+                : navigate(`/recipient-information/${card._id}`)
+            }
             text={
               card.isPaid
                 ? card.receiveAt
@@ -388,7 +486,15 @@ const KonvaCard = ({ card, refetch }) => {
           className={`${styles.responsive_btns_group} mt-3 justify-content-center align-items-center`}
         >
           <MainButton
-            onClick={() => setShowBack(!showBack)}
+            onClick={() =>
+              card.isPaid
+                ? card.receiveAt
+                  ? console.log("show")
+                  : navigate(`/recipient-information/${card._id}`)
+                : card.receiveAt
+                ? confirmMethod("pay")
+                : navigate(`/recipient-information/${card._id}`)
+            }
             className={styles.show_card_bt}
             text={
               card.isPaid
@@ -405,8 +511,16 @@ const KonvaCard = ({ card, refetch }) => {
       <ConfirmationModal
         show={modalShow}
         onHide={() => setModalShow(false)}
-        func={deleteCard}
-        message="Are you sure you want to delete card"
+        func={
+          confirmFunc === "delete"
+            ? deleteCard
+            : confirmFunc === "pay"
+            ? payCard
+            : goToChargeMethods
+        }
+        message={confirmMsg}
+        smallSize={confirmFunc === "pay" ? true : false}
+        btnMsg={btnMsg}
       />
     </>
   );

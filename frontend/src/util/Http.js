@@ -89,6 +89,20 @@ export const getMyCards= async (token) => {
   }
 };
 
+export const getCard= async (token,cardId) => {
+  console.log(cardId)
+  try {
+     const response = await axios.get(`${baseServerUrl}cards/${cardId}`,{
+      headers:{Authorization:`Bearer ${token}`}
+     });
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return error
+  }
+};
+
 export const getSpecialCards= async () => {
   try {
      const response = await axios.get(`${baseServerUrl}special-cards`);
@@ -137,3 +151,28 @@ export const transferMoney= async ({token,formData}) => {
 };
 
 
+export const getPaymentMethods= async (token) => {
+  try {
+     const response = await axios.get(`${baseServerUrl}payments/payment-methods`,{
+      headers:{Authorization:`Bearer ${token}`}
+     });
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return error
+  }
+};
+
+export const executePayment= async ({token,formData}) => {
+  try {
+     const response = await axios.post(`${baseServerUrl}payments/execute-payment`,formData,{
+      headers:{Authorization:`Bearer ${token}`}
+     });
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return error
+  }
+};

@@ -6,18 +6,17 @@ import { useTranslation } from "react-i18next";
 import Help from "./Help";
 import MyWallet from "./MyWallet";
 
-const ProfileHorizontal = ({ notifySuccess, notifyError }) => {
+const ProfileHorizontal = () => {
   const { t: key } = useTranslation();
 
   return (
     <>
-      <Tabs defaultActiveKey="yourCards" className="mb-3" fill>
+      <Tabs defaultActiveKey="walletManagement" className="mb-3" fill>
+        <Tab eventKey="walletManagement" title={key("walletManagement")}>
+          <MyWallet />
+        </Tab>
         <Tab eventKey="yourCards" title={key("yourCards")}>
           <MyCards />
-        </Tab>
-
-        <Tab eventKey="walletManagement" title={key("walletManagement")}>
-          <MyWallet/>
         </Tab>
 
         <Tab
@@ -25,10 +24,7 @@ const ProfileHorizontal = ({ notifySuccess, notifyError }) => {
           eventKey="accountSetting"
           title={key("accountSetting")}
         >
-          <AccountManageMent
-            notifySuccess={notifySuccess}
-            notifyError={notifyError}
-          />
+          <AccountManageMent />
         </Tab>
         <Tab eventKey="help" title={key("help")}>
           <Help />

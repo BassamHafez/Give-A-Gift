@@ -8,11 +8,15 @@ import styles from "./AccountManageMent.module.css";
 import { faYinYang } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
+import toast from "react-hot-toast";
 
-const AccountManageMent = ({ notifySuccess, notifyError }) => {
+const AccountManageMent = () => {
   const { t: key } = useTranslation();
   const [isCurrentPassError, setIsCurrentPassError] = useState(false);
   const token = JSON.parse(localStorage.getItem("token"));
+
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
 
   const { mutate, isPending } = useMutation({
     mutationFn: UpdatePassword,

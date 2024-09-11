@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { updateCard } from "../../util/Http";
-import { useMutation } from "@tanstack/react-query";
+import { getCard, getMyWallet, updateCard } from "../../util/Http";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { ErrorMessage, Form, Formik, Field } from "formik";
 import { object, string } from "yup";
 import InputErrorMessage from "../../Components/Ui/InputErrorMessage";
@@ -19,6 +19,8 @@ import { CountriesPhoneNumbers } from "../../Components/Logic/Logic";
 import Button from "react-bootstrap/Button";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import ConfirmationModal from "../../Components/Ui/ConfirmationModal";
+import axios from "axios";
 
 const getPhoneValidationSchema = (country) => {
   const phoneRegex = {
@@ -52,13 +54,30 @@ const RecipientInformation = () => {
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const [dateTime, setDateTime] = useState(null);
   const [selectedCountry, setSelectedCountry] = useState("SA");
-
+  const [modalShow, setModalShow] = useState(false);
+  const [confirmFunc, setConfirmFunc] = useState("");
+  const [confirmMsg, setConfirmMsg] = useState("");
+  const [btnMsg, setBtnMsg] = useState("");
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
   const token = JSON.parse(localStorage.getItem("token"));
   const { cardId } = useParams();
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const profileData = useSelector((state) => state.userInfo.data);
+
+  const { data: walletBalance } = useQuery({
+    queryKey: ["walletBalance", token],
+    queryFn: () => getMyWallet(token),
+    enabled: !!token,
+    staleTime: 300000,
+    select: (data) => data.data?.balance,
+  });
+
+  const { data: card } = useQuery({
+    queryKey: ["card", token],
+    queryFn: () => getCard(token, cardId),
+    staleTime: 300000,
+  });
 
   const { mutate, isPending } = useMutation({
     mutationFn: updateCard,
@@ -66,7 +85,7 @@ const RecipientInformation = () => {
       console.log("data", data);
       if (data?.status === "success") {
         notifySuccess("Recipient Info has been Saved successfully");
-        // navigate to payment
+        confirmMethod("pay");
       } else {
         notifyError("Recipient Info failed to be changed. Please try again.");
       }
@@ -118,6 +137,56 @@ const RecipientInformation = () => {
       token: token,
       cardId: cardId,
     });
+  };
+
+  const confirmMethod = (method) => {
+    if (method === "pay") {
+      setModalShow(true);
+      setConfirmFunc("pay");
+      setConfirmMsg(
+        `You are about to purchase a card priced at ${card?.data?.price?.value} Please confirm to proceed with the transaction.`
+      );
+      setBtnMsg("Confirm");
+    } else {
+      setModalShow(true);
+      setConfirmFunc("charge");
+      setConfirmMsg(`charge your wallet to continue`);
+      setBtnMsg("Charge");
+    }
+  };
+
+  const payCard = async () => {
+    if (Number(card.data?.price?.value) > Number(walletBalance)) {
+      setModalShow(false);
+      notifyError(
+        "Your balance is insufficient to buy the card. Please recharge to continue."
+      );
+      confirmMethod("charge");
+    } else {
+      try {
+        const response = await axios.post(
+          `${process.env.REACT_APP_Base_API_URl}wallets/buy-card`,
+          { cardId: card._id },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        if (response.status === 200 || response.status === 201) {
+          notifySuccess("Card purchased successfully.");
+          navigate(`/profile/${profileData?._id}`);
+        } else {
+          notifyError("Something went wrong. Please try again later.");
+        }
+      } catch (error) {
+        notifyError("Something went wrong. Please try again later.");
+        console.error("Payment error:", error);
+      }
+    }
+  };
+
+  const goToChargeMethods = () => {
+    navigate(`/payment/payment/${profileData?._id}`);
   };
 
   return (
@@ -198,8 +267,14 @@ const RecipientInformation = () => {
                     />
                   </div>
 
-                  <div className={`${styles.btn_group} d-flex justify-content-between align-items-center mt-3 px-2`}>
-                    <Button onClick={()=>navigate(`/profile/${profileData._id}`)} variant="secondary" className={styles.later_btn}>
+                  <div
+                    className={`${styles.btn_group} d-flex justify-content-between align-items-center mt-3 px-2`}
+                  >
+                    <Button
+                      onClick={() => navigate(`/profile/${profileData._id}`)}
+                      variant="secondary"
+                      className={styles.later_btn}
+                    >
                       Later
                     </Button>
                     {isPending ? (
@@ -226,6 +301,14 @@ const RecipientInformation = () => {
           </Col>
         </Row>
       </div>
+      <ConfirmationModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        func={confirmFunc === "pay" ? payCard : goToChargeMethods}
+        message={confirmMsg}
+        smallSize={confirmFunc === "pay" ? true : false}
+        btnMsg={btnMsg}
+      />
     </>
   );
 };

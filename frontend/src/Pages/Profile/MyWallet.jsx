@@ -6,12 +6,20 @@ import { useTranslation } from "react-i18next";
 import MainButton from "../../Components/Ui/MainButton";
 import wallet from "../../Images/wallet.png";
 import Transfer from "../../Components/Transfer/Transfer";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
+import { useNavigate} from "react-router-dom";
+import { useSelector } from "react-redux";
+import ConfirmationModal from "../../Components/Ui/ConfirmationModal";
 
 const MyWallet = () => {
   const [modalShow, setModalShow] = useState(false);
+  const [chargeModalShow, setChargeModalShow] = useState(false);
+  const profileData = useSelector((state) => state.userInfo.data);
   const token = JSON.parse(localStorage.getItem("token"));
   const { t: key } = useTranslation();
+  const navigate=useNavigate
+  ();
+
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
 
@@ -22,9 +30,13 @@ const MyWallet = () => {
     staleTime: 300000,
   });
 
+
+  const goToChargeMethods = () => {
+    navigate(`/payment/payment/${profileData?._id}`);
+  };
+
   return (
     <>
-      <Toaster position="top-right" />
       <div className={styles.wallet_body}>
         <h1>My Wallet</h1>
         <div className={styles.wallet_balance}>
@@ -41,7 +53,7 @@ const MyWallet = () => {
               type="white"
               text={"Transfer"}
             />
-            <MainButton text={"Recharge"} />
+            <MainButton onClick={()=>setChargeModalShow(true)} text={"Charge"} />
           </div>
         </div>
       </div>
@@ -54,6 +66,14 @@ const MyWallet = () => {
           balance={data?.data?.balance}
         />
       )}
+
+      <ConfirmationModal
+        show={chargeModalShow}
+        onHide={() => setChargeModalShow(false)}
+        func={goToChargeMethods}
+        message={"Do you want to charge your wallet"}
+        btnMsg={"Continue"}
+      />
     </>
   );
 };

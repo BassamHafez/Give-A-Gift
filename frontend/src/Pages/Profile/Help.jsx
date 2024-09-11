@@ -31,6 +31,7 @@ const Help = () => {
           for more information. We're happy to help
         </span>
       </div>
+      
     </div>
   );
 };
