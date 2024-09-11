@@ -1,4 +1,5 @@
 const Card = require("../models/cardModel");
+const Coupon = require("../models/couponModel");
 const factory = require("./handlerFactory");
 const catchAsync = require("../utils/catchAsync");
 const ApiError = require("../utils/ApiError");
@@ -69,5 +70,43 @@ exports.deleteCard = catchAsync(async (req, res, next) => {
   res.status(204).json({
     status: "success",
     data: null,
+  });
+});
+
+exports.applyCoupon = catchAsync(async (req, res, next) => {
+  const { couponCode } = req.body;
+  const cardId = req.params.id;
+
+  const [coupon, card] = await Promise.all([
+    Coupon.findOne({
+      name: couponCode,
+      expire: { $gt: Date.now() },
+    }),
+    Card.findById(cardId),
+  ]);
+
+  if (!card) {
+    return next(new ApiError("No card found with that ID", 404));
+  }
+
+  if (!coupon) {
+    return next(new ApiError("Coupon is invalid or expired", 400));
+  }
+
+  if (card.isPaid) {
+    return next(new ApiError("Card is already paid", 400));
+  }
+
+  const totalPrice = card.price.value;
+  card.priceAfterDiscount = (
+    totalPrice -
+    (totalPrice * coupon.discount) / 100
+  ).toFixed(2);
+
+  await card.save();
+
+  res.status(200).json({
+    status: "success",
+    data: card,
   });
 });

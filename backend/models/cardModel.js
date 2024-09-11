@@ -30,6 +30,7 @@ const cardSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    priceAfterDiscount: Number,
     price: {
       value: {
         type: Number,

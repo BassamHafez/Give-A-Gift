@@ -36,6 +36,6 @@ router
     cardController.deleteCard
   );
 
-// router.post("/send", cardValidator.sendCardValidator, cardController.sendCard);
+router.put("/:id/apply-coupon", cardController.applyCoupon);
 
 module.exports = router;
