@@ -36,6 +36,11 @@ const userSchema = new mongoose.Schema(
     passwordResetCode: String,
     passwordResetExpires: Date,
     passwordResetVerified: Boolean,
+    phoneVerificationCode: String,
+    phoneVerified: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

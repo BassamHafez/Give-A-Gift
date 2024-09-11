@@ -46,3 +46,13 @@ exports.updatePasswordValidator = [
 
   validatorMiddleware,
 ];
+
+exports.verifyPhoneValidator = [
+  check("verificationCode")
+    .notEmpty()
+    .withMessage("Verification code is required")
+    .isString()
+    .withMessage("Verification code must be a string"),
+
+  validatorMiddleware,
+];
