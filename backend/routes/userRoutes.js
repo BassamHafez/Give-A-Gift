@@ -21,6 +21,13 @@ router.patch(
   userController.updatePassword
 );
 
+router.get("/phone-wa-code", userController.getPhoneWACode);
+router.post(
+  "/verify-phone",
+  userValidator.verifyPhoneValidator,
+  userController.verifyPhone
+);
+
 router.use(authController.restrictTo("admin"));
 
 router.route("/").get(userController.getAllUsers);

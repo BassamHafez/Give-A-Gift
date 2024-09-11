@@ -11,10 +11,12 @@ const userSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
-      unique: true,
+      unique: [true, "Email already exists"],
     },
     phone: {
       type: String,
+      required: true,
+      unique: [true, "Phone number already exists"],
     },
     photo: {
       type: String,
@@ -34,6 +36,11 @@ const userSchema = new mongoose.Schema(
     passwordResetCode: String,
     passwordResetExpires: Date,
     passwordResetVerified: Boolean,
+    phoneVerificationCode: String,
+    phoneVerified: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

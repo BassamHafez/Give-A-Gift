@@ -1,5 +1,7 @@
+const crypto = require("crypto");
 const sharp = require("sharp");
 const { uploadSingleImage } = require("../utils/uploadImage");
+const { sendWhatsappText } = require("../utils/sendWhatsappMsg");
 
 const User = require("../models/userModel");
 const catchAsync = require("../utils/catchAsync");
@@ -86,5 +88,55 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: "success",
     message: "Password updated successfully",
+  });
+});
+
+exports.getPhoneWACode = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+
+  const verificationCode = Math.floor(
+    100000 + Math.random() * 900000
+  ).toString();
+  const hashedVerificationCode = crypto
+    .createHash("sha256")
+    .update(verificationCode)
+    .digest("hex");
+
+  user.phoneVerificationCode = hashedVerificationCode;
+
+  await Promise.all([
+    user.save(),
+    sendWhatsappText(
+      user.phone,
+      `Your verification code is ${verificationCode}`
+    ),
+  ]);
+
+  res.status(200).json({
+    status: "success",
+    message: "Verification code sent to your whatsapp",
+  });
+});
+
+exports.verifyPhone = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+
+  const hashedVerificationCode = crypto
+    .createHash("sha256")
+    .update(req.body.verificationCode)
+    .digest("hex");
+
+  if (user.phoneVerificationCode !== hashedVerificationCode) {
+    return next(new ApiError("Verification code is wrong", 400));
+  }
+
+  user.phoneVerificationCode = undefined;
+  user.phoneVerified = true;
+
+  await user.save();
+
+  res.status(200).json({
+    status: "success",
+    message: "Phone verified successfully",
   });
 });

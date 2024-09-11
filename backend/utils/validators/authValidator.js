@@ -14,6 +14,14 @@ exports.signupValidator = [
     .isEmail()
     .withMessage("Invalid email address"),
 
+  check("phone")
+    .notEmpty()
+    .withMessage("Phone number required")
+    .isLength({ min: 10 })
+    .withMessage("Invalid phone number")
+    .isMobilePhone()
+    .withMessage("Invalid phone number"),
+
   check("password")
     .notEmpty()
     .withMessage("Password required")
