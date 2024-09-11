@@ -264,7 +264,7 @@ const CustomCards = () => {
 
                         {cardPrice && (
                           <Text
-                            text={`${cardPrice} SAR`}
+                            text={`${cardPrice} ${key("sar")}`}
                             fontSize={Number(priceFont)}
                             fontFamily={priceFontFamily}
                             fill={priceColor}

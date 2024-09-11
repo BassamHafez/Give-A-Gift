@@ -23,3 +23,18 @@
     margin-right: 0 !important;
     margin-left: auto !important;
 }
+
+.close_btn_ar,.logout_btn_ar{
+    border-radius: 1.5625rem !important;
+    min-width: 6.25rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+    box-shadow: 0 0 0.1875rem rgba(0, 0, 0, 0.5);
+    padding: 0.625rem 0.9375rem !important;
+    margin-left: auto !important;
+}
+.logout_btn_ar{
+    margin-left: 0 !important;
+    margin-right: auto !important;
+}
+

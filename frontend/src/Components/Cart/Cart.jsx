@@ -85,8 +85,8 @@ const Cart = ({ onClose, show }) => {
     if (method === "pay") {
       setConfirmModalShow(true);
       setConfirmFunc("pay");
-      setConfirmMsg(`key("purchase") key("purchaseQuestion")`);
-      setBtnMsg("Confirm");
+      setConfirmMsg(`${key("purchase")} ${key("purchaseQuestion")}`);
+      setBtnMsg(key("confirm"));
     } else {
       setConfirmModalShow(true);
       setConfirmFunc("charge");
@@ -223,8 +223,8 @@ const Cart = ({ onClose, show }) => {
           show={modalShow}
           onHide={() => setModalShow(false)}
           func={deleteCard}
-          message="Are you sure you want to delete card"
-          btnMsg="Delete"
+          message={key("confirmDelete")}
+          btnMsg={key("delete")}
         />
       )}
       {confirmModalShow && (

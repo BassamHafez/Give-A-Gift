@@ -137,5 +137,7 @@
     "supportMsg2":"you can visit our Instagram page",
     "supportMsg3":"for more information. We're happy to help",
     "here":"here",
-    "logoutMsg":"Are You Sure You Want to Log out?"
+    "logoutMsg":"Are You Sure You Want to Log out?",
+    "wouldCharge":"Do you want to charge your wallet",
+    "processPurchase":"Would you like to proceed with the purchase, or would you prefer to cancel"
 }

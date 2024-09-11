@@ -13,6 +13,7 @@ const ConfirmationModal = ({
   smallSize,
 }) => {
   const { t: key } = useTranslation();
+  let isArLang = localStorage.getItem("i18nextLng") === "ar";
 
   return (
     <Modal
@@ -27,10 +28,10 @@ const ConfirmationModal = ({
         {smallSize ? <h6>{message}</h6> : <h4>{message}</h4>}
       </Modal.Body>
       <Modal.Footer className={styles.modal_footer}>
-        <Button variant="primary" className={styles.close_btn} onClick={onHide}>
+        <Button variant="primary" className={isArLang?styles.close_btn_ar:styles.close_btn} onClick={onHide}>
           {key("cancel")}
         </Button>
-        <Button variant="danger" className={styles.logout_btn} onClick={func}>
+        <Button variant="danger" className={isArLang?styles.logout_btn_ar:styles.logout_btn} onClick={func}>
           {btnMsg ? btnMsg : key("continue")}
         </Button>
       </Modal.Footer>

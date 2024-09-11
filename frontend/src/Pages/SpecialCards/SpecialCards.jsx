@@ -426,7 +426,7 @@ const SpecialCards = () => {
           show={modalShow}
           onHide={() => setModalShow(false)}
           func={buyCard}
-          message="Would you like to proceed with the purchase, or would you prefer to cancel"
+          message={key("processPurchase")}
         />
       )}
       {loginModalShow && (

@@ -70,8 +70,32 @@ const Transfer = ({ show, onHide, notifySuccess, notifyError, balance }) => {
   };
 
   const onSubmit = (values) => {
-    // console.log(values);
-    setTransferData(values);
+    let phoneBeginning = "966";
+    switch (selectedCountry) {
+      case "SA":
+        phoneBeginning = "966";
+        break;
+      case "EG":
+        phoneBeginning = "20";
+        break;
+      case "UAE":
+        phoneBeginning = "971";
+        break;
+      case "KW":
+        phoneBeginning = "965";
+        break;
+      case "US":
+        phoneBeginning = "1";
+        break;
+
+      default:
+        break;
+    }
+    const updatedValues = {
+      amount: values.amount,
+      phoneNum: `${phoneBeginning}${values.phoneNum}`,
+  };
+    setTransferData(updatedValues);
     setModalShow(true);
   };
 

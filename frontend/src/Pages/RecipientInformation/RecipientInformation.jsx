@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { getCard, getMyWallet, updateCard } from "../../util/Http";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ErrorMessage, Form, Formik, Field } from "formik";
 import { object, string } from "yup";
 import InputErrorMessage from "../../Components/Ui/InputErrorMessage";
@@ -62,6 +62,7 @@ const RecipientInformation = () => {
   const navigate = useNavigate();
   const profileData = useSelector((state) => state.userInfo.data);
   const { t: key } = useTranslation();
+  const queryClient=useQueryClient();
 
   const { data: walletBalance } = useQuery({
     queryKey: ["walletBalance", token],
@@ -82,6 +83,7 @@ const RecipientInformation = () => {
     onSuccess: (data) => {
       console.log("data", data);
       if (data?.status === "success") {
+        queryClient.invalidateQueries(["getCard", token]);
         notifySuccess(key("saveRec"));
         confirmMethod("pay");
       } else {

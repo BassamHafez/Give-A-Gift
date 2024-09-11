@@ -71,8 +71,8 @@ const MyWallet = () => {
         show={chargeModalShow}
         onHide={() => setChargeModalShow(false)}
         func={goToChargeMethods}
-        message={"Do you want to charge your wallet"}
-        btnMsg={"Continue"}
+        message={key("wouldCharge")}
+        btnMsg={key("continue")}
       />
     </>
   );
