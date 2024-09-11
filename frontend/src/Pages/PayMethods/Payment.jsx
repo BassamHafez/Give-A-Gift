@@ -13,6 +13,7 @@ import InputErrorMessage from "../../Components/Ui/InputErrorMessage";
 import styles from "./PayMent.module.css";
 import pay from "../../Images/pay.jpg";
 import toast, { Toaster } from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 const notifySuccess = (message) => toast.success(message);
 const notifyError = (message) => toast.error(message);
@@ -21,6 +22,7 @@ const Payment = () => {
   const token = JSON.parse(localStorage.getItem("token"));
   const { type, userId } = useParams();
   const [activeMethod, setActiveMethod] = useState(0);
+  const {t:key}=useTranslation();
 
   const { data } = useQuery({
     queryKey: ["paymentMethods", token],
@@ -30,22 +32,21 @@ const Payment = () => {
   });
 
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
-  // const navigate = useNavigate();
 
   const { mutate, isPending } = useMutation({
     mutationFn: executePayment,
     onSuccess: (response) => {
       console.log(response);
       if (response.status === "success") {
-        notifySuccess("Please wait a moment while we process your request");
+        notifySuccess(key("redirect"));
         window.open(`${response.data?.Data?.PaymentURL}`, "_blank");
       } else {
-        notifyError("something went wrong please try again later");
+        notifyError(key("wrong"));
       }
     },
     onError: (error) => {
       console.log(error);
-      notifyError("something went wrong please try again later");
+      notifyError(key("wrong"));
     },
   });
 
@@ -69,12 +70,12 @@ const Payment = () => {
 
   const validationSchema = object({
     PaymentMethodId: number()
-      .typeError("Payment Id should be a number")
-      .required("Payment Method is required"),
+      .typeError(key("paymentIdValidate1"))
+      .required(key("paymentIdValidate2")),
     InvoiceValue: number()
-      .typeError("Amount should be a number")
-      .required("Amount is required")
-      .min(5, "Amount must be greater than 5 SAR"),
+      .typeError(key("amountValidate1"))
+      .required(key("amountValidate2"))
+      .min(5, key("amountValidate3")),
   });
 
   return (
@@ -92,7 +93,7 @@ const Payment = () => {
           >
             <Form className={styles.form_container}>
               <div className={`${styles.field} ${styles.checks_group}`}>
-                <h4 className="mb-4">Choose Payment Method</h4>
+                <h4 className="mb-4">{key("chooseMethod")}</h4>
                 <Row
                   className={`${styles.select_group} gy-2`}
                   role="group"
@@ -143,7 +144,7 @@ const Payment = () => {
               </div>
 
               <div className={`${styles.field} ${styles.amount_field} `}>
-                <label htmlFor="Amount">Amount (SAR)</label>
+                <label htmlFor="Amount">{key("amount")} ({key("sar")})</label>
                 <Field type="text" id="Amount" name="InvoiceValue" />
                 <ErrorMessage
                   name="InvoiceValue"
@@ -157,7 +158,7 @@ const Payment = () => {
                 </button>
               ) : (
                 <button type="submit" className={styles.save_btn}>
-                  Charge
+                  {key("charge")}
                 </button>
               )}
             </Form>

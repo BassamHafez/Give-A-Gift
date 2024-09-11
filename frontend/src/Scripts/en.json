@@ -82,5 +82,16 @@
     "FilterPrice":"Price filter applied successfully",
     "negativePrice":"Price values cannot be negative!",
     "maxOverMin":"Maximum price must be greater than minimum price!",
-    "purchaseFaild":"The purchase was not completed successfully"    
+    "purchaseFaild":"The purchase was not completed successfully",
+    "wrong":"something went wrong please try again later",
+    "redirect":"redirect to payment page",
+    "paymentIdValidate1":"Payment Id should be a number",    
+    "paymentIdValidate2":"Payment Method is required",    
+    "amountValidate1":"Amount should be a number",    
+    "amountValidate2":"Amount is required", 
+    "amountValidate3":"Amount must be greater than 5 SAR",
+    "chooseMethod":"Choose Payment Method",
+    "amount":"Amount",
+    "charge":"Charge",
+    "deleteWrong":"The card no longer exists, or something went wrong. Unable to delete."
 }

@@ -277,6 +277,7 @@ const KonvaCard = ({
   };
 
   const goToChargeMethods = () => {
+    setModalShow(false)
     navigate(`/payment/payment/${userId}`)
   };
 
@@ -508,7 +509,7 @@ const KonvaCard = ({
           />
         </div>
       </div>
-      <ConfirmationModal
+      {modalShow&&<ConfirmationModal
         show={modalShow}
         onHide={() => setModalShow(false)}
         func={
@@ -521,7 +522,7 @@ const KonvaCard = ({
         message={confirmMsg}
         smallSize={confirmFunc === "pay" ? true : false}
         btnMsg={btnMsg}
-      />
+      />}
     </>
   );
 };
