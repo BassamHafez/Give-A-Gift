@@ -73,6 +73,10 @@
 .phone_num{
     display: flex;
 }
+.phone_num_ar{
+    flex-direction: row-reverse;
+}
+
 @media only screen and (max-width: 320px) {
     .select_input {
         width: 50%;
@@ -101,3 +105,4 @@
         width: 40%;
     }
 }
+

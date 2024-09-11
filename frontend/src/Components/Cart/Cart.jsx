@@ -3,6 +3,7 @@ import styles from "./Cart.module.css";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faArrowLeft,
   faArrowRight,
   faHandHoldingDollar,
   faStore,
@@ -31,6 +32,7 @@ const Cart = ({ onClose, show }) => {
   const [cardPrice, setCardPrice] = useState("");
   const profileData = useSelector((state) => state.userInfo.data);
   const { t: key } = useTranslation();
+  let isArLang = localStorage.getItem("i18nextLng") === "ar";
 
   const [cardId, setCardId] = useState("");
   const token = JSON.parse(localStorage.getItem("token"));
@@ -79,29 +81,24 @@ const Cart = ({ onClose, show }) => {
   };
 
   const confirmMethod = (method, cardPriceValue) => {
-    console.log("hiu")
     setCardPrice(cardPriceValue);
     if (method === "pay") {
       setConfirmModalShow(true);
       setConfirmFunc("pay");
-      setConfirmMsg(
-        `You are about to purchase a card priced. Please confirm to proceed with the transaction.`
-      );
+      setConfirmMsg(`key("purchase") key("purchaseQuestion")`);
       setBtnMsg("Confirm");
     } else {
       setConfirmModalShow(true);
       setConfirmFunc("charge");
       setConfirmMsg(`charge your wallet to continue`);
-      setBtnMsg("Charge");
+      setBtnMsg(key("charge"));
     }
   };
 
   const payCard = async () => {
     if (Number(cardPrice) > Number(walletBalance)) {
       setConfirmModalShow(false);
-      notifyError(
-        "Your balance is insufficient to buy the card. Please recharge to continue."
-      );
+      notifyError(key("insuffBalance"));
       confirmMethod("charge");
     } else {
       try {
@@ -127,7 +124,7 @@ const Cart = ({ onClose, show }) => {
   };
 
   const goToChargeMethods = () => {
-    setConfirmModalShow(false)
+    setConfirmModalShow(false);
     navigate(`/payment/payment/${profileData._id}`);
   };
 
@@ -143,7 +140,7 @@ const Cart = ({ onClose, show }) => {
       >
         <Offcanvas.Header className={styles.header}>
           <div className="d-flex justify-content-between align-items-center w-100">
-            <h2>Your Cart</h2>
+            <h2>{key("cart")}</h2>
             <FontAwesomeIcon
               className={styles.close_icon}
               onClick={onClose}
@@ -160,24 +157,34 @@ const Cart = ({ onClose, show }) => {
               data?.data?.map((card) => (
                 <li key={card._id} className={styles.list_item}>
                   <div className={styles.item}>
-                    <h4>{card.isSpecial ? "Ready Card" : "Custom Card"}</h4>
+                    <h4>
+                      {card.isSpecial ? key("readyCard") : key("customCards")}
+                    </h4>
                     <div className={styles.item_content}>
                       <ul className="p-0">
                         <li className={styles.sub_list_item}>
                           <FontAwesomeIcon
-                            className={styles.sub_list_icon}
+                            className={
+                              isArLang
+                                ? styles.sub_list_icon_ar
+                                : styles.sub_list_icon
+                            }
                             icon={faStore}
                           />
-                          <span className="fw-bold">Store: </span>
+                          <span className="fw-bold">{key("store")}: </span>
                           {card.shop?.name}
                         </li>
                         <li className={styles.sub_list_item}>
                           <FontAwesomeIcon
-                            className={styles.sub_list_icon}
+                            className={
+                              isArLang
+                                ? styles.sub_list_icon_ar
+                                : styles.sub_list_icon
+                            }
                             icon={faHandHoldingDollar}
                           />
-                          <span className="fw-bold">Price: </span>
-                          {card.price?.value} SAR
+                          <span className="fw-bold">{key("price")}: </span>
+                          {card.price?.value} {key("sar")}
                         </li>
                       </ul>
                       <div className={styles.controllers}>
@@ -191,7 +198,7 @@ const Cart = ({ onClose, show }) => {
                         />
                         <FontAwesomeIcon
                           className={styles.arrow_right_icon}
-                          icon={faArrowRight}
+                          icon={!isArLang ? faArrowRight : faArrowLeft}
                           onClick={() =>
                             card.isPaid
                               ? card.receiveAt

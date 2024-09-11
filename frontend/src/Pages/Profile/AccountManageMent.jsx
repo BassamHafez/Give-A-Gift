@@ -80,7 +80,7 @@ const AccountManageMent = () => {
       >
         <Form className={styles.general_info_form}>
           <div className={styles.field}>
-            <label htmlFor="currentPass">Current Password</label>
+            <label htmlFor="currentPass">{key("currentPass")}</label>
             <Field type="password" id="currentPass" name="currentPassword" />
             <ErrorMessage
               name="currentPassword"
@@ -92,12 +92,12 @@ const AccountManageMent = () => {
           </div>
 
           <div className={styles.field}>
-            <label htmlFor="newPass">New Password</label>
+            <label htmlFor="newPass">{key("newPass")}</label>
             <Field type="password" id="newPass" name="newPassword" />
             <ErrorMessage name="newPassword" component={InputErrorMessage} />
           </div>
           <div className={styles.field}>
-            <label htmlFor="confirmPass">Confirm Password</label>
+            <label htmlFor="confirmPass">{key("confirmPass")}</label>
             <Field type="password" id="confirmPass" name="passwordConfirm" />
             <ErrorMessage
               name="passwordConfirm"
@@ -112,7 +112,7 @@ const AccountManageMent = () => {
               </button>
             ) : (
               <button className={styles.save_btn} type="submit">
-                Save
+                {key("save")}
               </button>
             )}
           </div>

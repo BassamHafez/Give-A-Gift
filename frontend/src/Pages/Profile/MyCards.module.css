@@ -43,14 +43,26 @@
     font-size: 1.125rem;
     background-color: white;
     color: var(--main_color);
-;
     padding: 0.625rem 0.6875rem;
     border-radius: 50%;
     box-shadow:  0 0 0.1875rem rgba(0, 0, 0, 0.456);
     cursor: pointer;
     transition: all .4s;
 }
-.delete_icon:hover{
+.delete_icon_ar{
+    position: absolute;
+    top: -15px;
+    left: 15px;
+    font-size: 1.125rem;
+    background-color: white;
+    color: var(--main_color);
+    padding: 0.625rem 0.6875rem;
+    border-radius: 50%;
+    box-shadow:  0 0 0.1875rem rgba(0, 0, 0, 0.456);
+    cursor: pointer;
+    transition: all .4s;
+}
+.delete_icon:hover,.delete_icon_ar:hover{
     color: white;
     background-color: var(--main_color)
 }

@@ -102,7 +102,7 @@ const KonvaCard = ({
   const [confirmFunc, setConfirmFunc] = useState("");
   const [confirmMsg, setConfirmMsg] = useState("");
   const [btnMsg, setBtnMsg] = useState("");
-  const {userId}=useParams();
+  const { userId } = useParams();
 
   const [mainLogoImage] = useImage(mainLogo);
   const navigate = useNavigate();
@@ -200,20 +200,24 @@ const KonvaCard = ({
     if (method === "delete") {
       setModalShow(true);
       setConfirmFunc("delete");
-      setConfirmMsg("Are you sure you want to delete card");
-      setBtnMsg("Delete");
+      setConfirmMsg(key("confirmDelete"));
+      setBtnMsg(key("delete"));
     } else if (method === "pay") {
       setModalShow(true);
       setConfirmFunc("pay");
       setConfirmMsg(
-        `You are about to purchase a card priced at ${card?.price?.value} and send it to ${card?.recipient?.name} at WhatsApp number ${card?.recipient?.whatsappNumber}. Please confirm to proceed with the transaction.`
+        `${key("purchase")} at ${card?.price?.value} ${key("sendTo")} ${
+          card?.recipient?.name
+        } ${key("whatsAppNum")} ${card?.recipient?.whatsappNumber}. ${key(
+          "purchaseQuestion"
+        )}`
       );
-      setBtnMsg("Confirm");
+      setBtnMsg(key("confirm"));
     } else {
       setModalShow(true);
       setConfirmFunc("charge");
       setConfirmMsg(`charge your wallet to continue`);
-      setBtnMsg("Charge");
+      setBtnMsg(key("charge"));
     }
   };
 
@@ -249,10 +253,8 @@ const KonvaCard = ({
   const payCard = async () => {
     if (Number(card.price?.value) > Number(walletBalance)) {
       setModalShow(false);
-      notifyError(
-        "Your balance is insufficient to buy the card. Please recharge to continue."
-      );
-      confirmMethod("charge");
+      notifyError(key("insuffBalance"));
+      confirmMethod(key("charge"));
     } else {
       try {
         const response = await axios.post(
@@ -267,18 +269,18 @@ const KonvaCard = ({
           notifySuccess("Card purchased successfully.");
           refetch();
         } else {
-          notifyError("Something went wrong. Please try again later.");
+          notifyError(key("wrong"));
         }
       } catch (error) {
-        notifyError("Something went wrong. Please try again later.");
+        notifyError(key("wrong"));
         console.error("Payment error:", error);
       }
     }
   };
 
   const goToChargeMethods = () => {
-    setModalShow(false)
-    navigate(`/payment/payment/${userId}`)
+    setModalShow(false);
+    navigate(`/payment/payment/${userId}`);
   };
 
   return (
@@ -394,7 +396,7 @@ const KonvaCard = ({
             confirmMethod("delete");
           }}
           title={`${key("delete")} ${key("card")}`}
-          className={styles.delete_icon}
+          className={`${!isArLang?styles.delete_icon:styles.delete_icon_ar} `}
           icon={faTrash}
         />
         <ul className={styles.list}>
@@ -509,20 +511,22 @@ const KonvaCard = ({
           />
         </div>
       </div>
-      {modalShow&&<ConfirmationModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-        func={
-          confirmFunc === "delete"
-            ? deleteCard
-            : confirmFunc === "pay"
-            ? payCard
-            : goToChargeMethods
-        }
-        message={confirmMsg}
-        smallSize={confirmFunc === "pay" ? true : false}
-        btnMsg={btnMsg}
-      />}
+      {modalShow && (
+        <ConfirmationModal
+          show={modalShow}
+          onHide={() => setModalShow(false)}
+          func={
+            confirmFunc === "delete"
+              ? deleteCard
+              : confirmFunc === "pay"
+              ? payCard
+              : goToChargeMethods
+          }
+          message={confirmMsg}
+          smallSize={confirmFunc === "pay" ? true : false}
+          btnMsg={btnMsg}
+        />
+      )}
     </>
   );
 };

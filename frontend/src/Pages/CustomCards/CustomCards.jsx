@@ -121,7 +121,7 @@ const CustomCards = () => {
   }, []);
 
   // Step labels for better clarity
-  const stepLabels = ["Colors", "Shapes", "Stores", "Message"];
+  const stepLabels = [key("color"), key("shape"), key("storesPageTitle"), key("message")];
   const handleSelect = (selectedIndex) => {
     setCurrentStep(selectedIndex);
   };

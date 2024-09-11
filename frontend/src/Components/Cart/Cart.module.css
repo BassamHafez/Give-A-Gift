@@ -42,6 +42,10 @@
     margin-right: 0.5rem;
     color: var(--slate_blue);
 }
+.sub_list_icon_ar{
+    margin-left: 0.5rem;
+    color: var(--slate_blue);
+}
 .controllers{
     display: flex;
     justify-content: flex-end;

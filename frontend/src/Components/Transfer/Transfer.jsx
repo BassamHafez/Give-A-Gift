@@ -12,12 +12,15 @@ import { faYinYang } from "@fortawesome/free-solid-svg-icons";
 import { CountriesPhoneNumbers } from "../Logic/Logic";
 import { transferMoney } from "../../util/Http";
 import Select from "react-select";
+import { useTranslation } from "react-i18next";
 
 const Transfer = ({ show, onHide, notifySuccess, notifyError, balance }) => {
   const [modalShow, setModalShow] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState("SA");
   const [transferData, setTransferData] = useState({});
   const token = JSON.parse(localStorage.getItem("token"));
+  const {t:key}=useTranslation();
+  let isArLang = localStorage.getItem("i18nextLng") === "ar";
 
   const getPhoneValidationSchema = (country) => {
     const phoneRegex = {
@@ -30,14 +33,14 @@ const Transfer = ({ show, onHide, notifySuccess, notifyError, balance }) => {
 
     return object({
       amount: number()
-        .typeError("Amount should be a number")
-        .required("Amount is required")
-        .min(5, "Amount must be greater than 5")
-        .max(balance, "Not enough balance. Please recharge."),
+        .typeError(key("amountValidate1"))
+        .required(key("amountValidate2"))
+        .min(5, key("amountValidate3"))
+        .max(balance, key("noBalance")),
 
       phoneNum: string()
-        .matches(phoneRegex[country], "Invalid phone number")
-        .required("Phone Number is required"),
+        .matches(phoneRegex[country], key("invalidPhoneNumber"))
+        .required(key("phoneNumberRequired")),
     });
   };
 
@@ -48,16 +51,16 @@ const Transfer = ({ show, onHide, notifySuccess, notifyError, balance }) => {
       if (res.status === "success") {
         console.log("res", res);
         if (res.status === "success") {
-          notifySuccess("Data transfered successfully");
+          notifySuccess(key("succTransfer"));
         } else {
           console.log("else res", res);
-          notifyError("Couldn'y transfer please try again later!");
+          notifyError(key("faildTransfer"));
         }
       }
     },
     onError: (error) => {
       console.log(error);
-      notifyError("Couldn'y transfer please try again later!");
+      notifyError(key("faildTransfer"));
     },
   });
 
@@ -92,8 +95,8 @@ const Transfer = ({ show, onHide, notifySuccess, notifyError, balance }) => {
         centered
         className={styles.modal_container}
       >
-        <Modal.Header closeButton>
-          <Modal.Title>Transfer Funds to Recipient</Modal.Title>
+        <Modal.Header>
+          <Modal.Title>{key("transferFunds")}</Modal.Title>
         </Modal.Header>
         <Modal.Body className={`${styles.modal_body} text-center`}>
           <Formik
@@ -104,15 +107,15 @@ const Transfer = ({ show, onHide, notifySuccess, notifyError, balance }) => {
             {({ setFieldValue }) => (
               <Form>
                 <div className={styles.field}>
-                  <label htmlFor="amount">Amount (SAR)</label>
+                  <label htmlFor="amount">{key("amount")} ({key("sar")})</label>
                   <Field type="text" id="amount" name="amount" />
                   <ErrorMessage name="amount" component={InputErrorMessage} />
                 </div>
 
                 <div className={`${styles.field} ${styles.phone_num_field}`}>
-                  <label htmlFor="phoneNum">Phone Number</label>
+                  <label htmlFor="phoneNum">{key("phoneNumber")}</label>
 
-                  <div className={styles.phone_num}>
+                  <div className={`${styles.phone_num} ${isArLang&&styles.phone_num_ar}`}>
                     <Select
                       className={styles.select_input}
                       classNamePrefix="Country"
@@ -146,7 +149,7 @@ const Transfer = ({ show, onHide, notifySuccess, notifyError, balance }) => {
                     className={styles.close_btn}
                     onClick={onHide}
                   >
-                    Cancel
+                    {key("cancel")}
                   </Button>
                   {isPending ? (
                     <button type="submit" className={styles.tranfer_btn}>
@@ -154,7 +157,7 @@ const Transfer = ({ show, onHide, notifySuccess, notifyError, balance }) => {
                     </button>
                   ) : (
                     <button type="submit" className={styles.tranfer_btn}>
-                      Transfer
+                      {key("transfer")}
                     </button>
                   )}
                 </div>

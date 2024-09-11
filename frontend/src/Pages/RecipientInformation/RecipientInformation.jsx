@@ -21,8 +21,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ConfirmationModal from "../../Components/Ui/ConfirmationModal";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
-const getPhoneValidationSchema = (country) => {
+const getPhoneValidationSchema = (country, key) => {
   const phoneRegex = {
     EG: /^(\+20)?1[0125][0-9]{8}$/,
     SA: /^(\+966)?5[0-9]{8}$/,
@@ -32,21 +33,17 @@ const getPhoneValidationSchema = (country) => {
   };
 
   return object({
-    RecipientName: string().required("Recipient Name is required"),
+    RecipientName: string().required(key("recNameValidation")),
     RecNumber: string()
-      .matches(phoneRegex[country], "Invalid phone number")
-      .required("Phone Number is required"),
+      .matches(phoneRegex[country], key("invalidPhoneNumber"))
+      .required(key("phoneNumberRequired")),
     DelTime: string()
-      .required("Delivery Time is required")
-      .test(
-        "is-future-time",
-        "Delivery time must be in the future",
-        function (value) {
-          if (!value) return false;
-          const selectedDateTime = new Date(value);
-          return selectedDateTime > new Date();
-        }
-      ),
+      .required(key("deliveryTimeRequired"))
+      .test("is-future-time", key("deliveryTimeFuture"), function (value) {
+        if (!value) return false;
+        const selectedDateTime = new Date(value);
+        return selectedDateTime > new Date();
+      }),
   });
 };
 
@@ -64,6 +61,7 @@ const RecipientInformation = () => {
   const { cardId } = useParams();
   const navigate = useNavigate();
   const profileData = useSelector((state) => state.userInfo.data);
+  const { t: key } = useTranslation();
 
   const { data: walletBalance } = useQuery({
     queryKey: ["walletBalance", token],
@@ -84,17 +82,19 @@ const RecipientInformation = () => {
     onSuccess: (data) => {
       console.log("data", data);
       if (data?.status === "success") {
-        notifySuccess("Recipient Info has been Saved successfully");
+        notifySuccess(key("saveRec"));
         confirmMethod("pay");
       } else {
-        notifyError("Recipient Info failed to be changed. Please try again.");
+        notifyError(key("failRec"));
       }
     },
     onError: (error) => {
       console.error(error);
-      notifyError("Recipient Info failed to be changed. Please try again.");
+      notifyError(key("failRec"));
     },
   });
+
+  const validationSchema = getPhoneValidationSchema(selectedCountry, key);
 
   const initialValues = {
     RecipientName: "",
@@ -143,24 +143,21 @@ const RecipientInformation = () => {
     if (method === "pay") {
       setModalShow(true);
       setConfirmFunc("pay");
-      setConfirmMsg(
-        `You are about to purchase a card priced at ${card?.data?.price?.value} Please confirm to proceed with the transaction.`
-      );
-      setBtnMsg("Confirm");
+      setConfirmMsg(`${key("purchase")} ${key("purchaseQuestion")}`);
+
+      setBtnMsg(key("confirm"));
     } else {
       setModalShow(true);
       setConfirmFunc("charge");
-      setConfirmMsg(`charge your wallet to continue`);
-      setBtnMsg("Charge");
+      setConfirmMsg(key("chargeWallet"));
+      setBtnMsg(key("confirm"));
     }
   };
 
   const payCard = async () => {
     if (Number(card.data?.price?.value) > Number(walletBalance)) {
       setModalShow(false);
-      notifyError(
-        "Your balance is insufficient to buy the card. Please recharge to continue."
-      );
+      notifyError(key("insuffBalance"));
       confirmMethod("charge");
     } else {
       try {
@@ -173,13 +170,13 @@ const RecipientInformation = () => {
         );
 
         if (response.status === 200 || response.status === 201) {
-          notifySuccess("Card purchased successfully.");
+          notifySuccess(key("cardPurchased"));
           navigate(`/profile/${profileData?._id}`);
         } else {
-          notifyError("Something went wrong. Please try again later.");
+          notifyError(key("wrong"));
         }
       } catch (error) {
-        notifyError("Something went wrong. Please try again later.");
+        notifyError(key("wrong"));
         console.error("Payment error:", error);
       }
     }
@@ -193,18 +190,18 @@ const RecipientInformation = () => {
     <>
       <Toaster position="top-right" />
       <div className="my-5 px-3 px-lg-5">
-        <h2 className="text-center mb-4">Recipient Information</h2>
+        <h2 className="text-center mb-4">{key("recipientInformation")}</h2>
         <Row>
           <Col md={6}>
             <Formik
               initialValues={initialValues}
               onSubmit={onSubmit}
-              validationSchema={getPhoneValidationSchema(selectedCountry)}
+              validationSchema={validationSchema}
             >
               {({ setFieldValue }) => (
                 <Form className={styles.general_info_form}>
                   <div className={styles.field}>
-                    <label htmlFor="recName">Recipient Name</label>
+                    <label htmlFor="recName">{key("recName")}</label>
                     <Field type="text" id="recName" name="RecipientName" />
                     <ErrorMessage
                       name="RecipientName"
@@ -213,9 +210,13 @@ const RecipientInformation = () => {
                   </div>
 
                   <div className={styles.field}>
-                    <label htmlFor="phoneNum">Phone Number</label>
+                    <label htmlFor="phoneNum">{key("whatsAppNum2")}</label>
 
-                    <div className={styles.phone_num}>
+                    <div
+                      className={`${styles.phone_num} ${
+                        isArLang && styles.ar_phoneNum
+                      }`}
+                    >
                       <Select
                         className={styles.select_input}
                         classNamePrefix="Country"
@@ -247,7 +248,7 @@ const RecipientInformation = () => {
                   </div>
 
                   <div className={styles.field}>
-                    <label htmlFor="delTime">Delivery Date and Time</label>
+                    <label htmlFor="delTime">{key("dateTime")}</label>
                     <DatePicker
                       value={dateTime}
                       onChange={(value) => {
@@ -275,7 +276,7 @@ const RecipientInformation = () => {
                       variant="secondary"
                       className={styles.later_btn}
                     >
-                      Later
+                      {key("later")}
                     </Button>
                     {isPending ? (
                       <button type="submit" className={styles.save_btn}>
@@ -283,7 +284,7 @@ const RecipientInformation = () => {
                       </button>
                     ) : (
                       <button className={styles.save_btn} type="submit">
-                        Save
+                        {key("save")}
                       </button>
                     )}
                   </div>

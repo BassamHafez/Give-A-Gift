@@ -67,7 +67,7 @@ const ResponsiveSideBar = ({ onClose, show }) => {
                 <FontAwesomeIcon icon={faHome} className={styles.list_icons} />
               </li>
             </Link>
-            <Link onClick={onClose} to={"companies"} end="true">
+            <Link onClick={onClose} to={"about"} end="true">
               <li className={styles.contact_list_item}>
                 {key("aboutPageTitle")}{" "}
                 <FontAwesomeIcon
@@ -76,13 +76,13 @@ const ResponsiveSideBar = ({ onClose, show }) => {
                 />
               </li>
             </Link>
-            <Link onClick={onClose} to={"contact"} end="true">
+            <Link onClick={onClose} to={"stores"} end="true">
               <li className={styles.contact_list_item}>
                 {key("storesPageTitle")}
                 <FontAwesomeIcon icon={faStore} className={styles.list_icons} />
               </li>
             </Link>
-            <Link onClick={onClose} to={"contact"} end="true">
+            <Link onClick={onClose} to={"special-cards"} end="true">
               <li className={styles.contact_list_item}>
                 {key("buyCardPageTitle")}
                 <FontAwesomeIcon
@@ -91,7 +91,7 @@ const ResponsiveSideBar = ({ onClose, show }) => {
                 />
               </li>
             </Link>
-            <Link onClick={onClose} to={"contact"} end="true">
+            <Link onClick={onClose} to={"custom-cards"} end="true">
               <li className={styles.contact_list_item}>
                 {key("createCardPageTitle")}
                 <FontAwesomeIcon
@@ -159,7 +159,7 @@ const ResponsiveSideBar = ({ onClose, show }) => {
               <Link to={"login"} onClick={onClose} className="mx-2">
                 <MainButton text={key("login")} />
               </Link>
-              <Link to={"/"} onClick={onClose} className="mx-2">
+              <Link to={"register"} onClick={onClose} className="mx-2">
                 <MainButton type="white" text={key("register")} />
               </Link>
             </div>

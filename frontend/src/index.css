@@ -138,11 +138,14 @@ ul li{
 .carousel-control-prev{
   margin-left: 35%;
   transform: translateX(-50%);
-
+  height: 50px !important;
+  margin-top: auto;
 }
 .carousel-control-next{
   margin-right: 35%;
   transform: translateX(-50%);
+  height: 50px !important;
+  margin-top: auto;
 
 }
 .carousel-control-next-icon{

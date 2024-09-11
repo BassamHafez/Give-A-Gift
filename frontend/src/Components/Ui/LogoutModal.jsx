@@ -6,8 +6,10 @@ import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
 import { userActions } from "../../Store/userInfo-slice";
 import { saveIsLoginState } from "../../Store/userInfo-actions";
+import { useTranslation } from 'react-i18next';
 
 const LogoutModal = (props) => {
+  const { t: key } = useTranslation();
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -23,7 +25,7 @@ const LogoutModal = (props) => {
       navigate("/");
     };
   
-    
+
   return (
     <Modal
     {...props}
@@ -34,7 +36,7 @@ const LogoutModal = (props) => {
   >
     <Modal.Body className={`${styles.modal_body} text-center`}>
       <h4>
-        Are You Sure You Want to Log out?
+        {key("logoutMsg")}
       </h4>
     </Modal.Body>
     <Modal.Footer className={styles.modal_footer}>
@@ -43,14 +45,14 @@ const LogoutModal = (props) => {
         className={styles.close_btn}
         onClick={props.onHide}
       >
-        Cancel
+        {key("cancel")}
       </Button>
       <Button
         variant="danger"
         className={styles.logout_btn}
         onClick={signOutHandler}
       >
-        Logout
+        {key("logout")}
       </Button>
     </Modal.Footer>
   </Modal>

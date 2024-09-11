@@ -90,7 +90,6 @@ export const getMyCards= async (token) => {
 };
 
 export const getCard= async (token,cardId) => {
-  console.log(cardId)
   try {
      const response = await axios.get(`${baseServerUrl}cards/${cardId}`,{
       headers:{Authorization:`Bearer ${token}`}

@@ -38,12 +38,12 @@ const MyWallet = () => {
   return (
     <>
       <div className={styles.wallet_body}>
-        <h1>My Wallet</h1>
+        <h1>{key("wallet")}</h1>
         <div className={styles.wallet_balance}>
           <div className={styles.wallet_img}>
             <img src={wallet} className="w-100" alt="wallet" />
           </div>
-          <h2>Current Balance</h2>
+          <h2>{key("currentBalance")}</h2>
           <h3>
             {data?.data?.balance} {key("sar")}
           </h3>
@@ -51,9 +51,9 @@ const MyWallet = () => {
             <MainButton
               onClick={() => setModalShow(true)}
               type="white"
-              text={"Transfer"}
+              text={key("transfer")}
             />
-            <MainButton onClick={()=>setChargeModalShow(true)} text={"Charge"} />
+            <MainButton onClick={()=>setChargeModalShow(true)} text={key("charge")} />
           </div>
         </div>
       </div>

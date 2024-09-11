@@ -7,10 +7,7 @@ import Card from "react-bootstrap/Card";
 import SearchField from "../../Components/Ui/SearchField";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPlus,
-  faMagnifyingGlass,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useQuery } from "@tanstack/react-query";
 import { getSpecialCards } from "../../util/Http";
 import Placeholders from "../../Components/Ui/Placeholders";
@@ -23,6 +20,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
+import { useSelector } from "react-redux";
 
 const notifySuccess = (message) => toast.success(message);
 const notifyError = (message) => toast.error(message);
@@ -32,9 +30,11 @@ const SpecialCards = () => {
   const [searchInput, setSearchInput] = useState("");
   const [priceFilter, setPriceFilter] = useState(null);
   const [modalShow, setModalShow] = useState(false);
+  const [loginModalShow, setLoginModalShow] = useState(false);
   const [shopId, setShopId] = useState("");
   const [priceValue, setPriceValue] = useState(0);
   const queryClient = useQueryClient();
+  const isLogin = useSelector((state) => state.userInfo.isLogin);
 
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const token = JSON.parse(localStorage.getItem("token"));
@@ -52,7 +52,7 @@ const SpecialCards = () => {
   const searchName = (e, searchTerm) => {
     e.preventDefault();
     setSearchInput(searchTerm);
-    notifySuccess(key("searchFilterApplied"))
+    notifySuccess(key("searchFilterApplied"));
   };
 
   const searchPrice = (e) => {
@@ -88,10 +88,9 @@ const SpecialCards = () => {
       const res = response.data;
       console.log(res);
       if (res.status === "success") {
-        queryClient.invalidateQueries(['getCard', token]);
+        queryClient.invalidateQueries(["getCard", token]);
         setModalShow(false);
         navigate(`/recipient-information/${res.data?._id}`);
-        
       } else {
         setModalShow(false);
         notifyError(key("purchaseFaild"));
@@ -103,6 +102,9 @@ const SpecialCards = () => {
     }
   };
 
+  const navigateToLogin = () => {
+    navigate("/login");
+  };
   const popover = (
     <Popover id="popover-basic">
       <Popover.Header as="h3">{key("priceRange")}</Popover.Header>
@@ -139,6 +141,16 @@ const SpecialCards = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const checkLogin = (shopId, price) => {
+    if (isLogin) {
+      setModalShow(true);
+      setShopId(`${shopId}`);
+      setPriceValue(price);
+    } else {
+      setLoginModalShow(true);
+    }
+  };
 
   return (
     <>
@@ -234,11 +246,9 @@ const SpecialCards = () => {
                                     title="Buy card"
                                     icon={faPlus}
                                     className={styles.arrow_icon}
-                                    onClick={() => {
-                                      setModalShow(true);
-                                      setShopId(`${card.shop._id}`);
-                                      setPriceValue(card.price);
-                                    }}
+                                    onClick={() =>
+                                      checkLogin(card.shop._id, card.price)
+                                    }
                                   />
                                 </div>
                                 <div
@@ -411,12 +421,22 @@ const SpecialCards = () => {
           )}
         </Row>
       </Container>
-      <ConfirmationModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-        func={buyCard}
-        message="Would you like to proceed with the purchase, or would you prefer to cancel"
-      />
+      {modalShow && (
+        <ConfirmationModal
+          show={modalShow}
+          onHide={() => setModalShow(false)}
+          func={buyCard}
+          message="Would you like to proceed with the purchase, or would you prefer to cancel"
+        />
+      )}
+      {loginModalShow && (
+        <ConfirmationModal
+          show={loginModalShow}
+          onHide={() => setLoginModalShow(false)}
+          func={navigateToLogin}
+          message={key("loginFirst")}
+        />
+      )}
     </>
   );
 };
