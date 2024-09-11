@@ -2,7 +2,6 @@ const Card = require("../models/cardModel");
 const factory = require("./handlerFactory");
 const catchAsync = require("../utils/catchAsync");
 const ApiError = require("../utils/ApiError");
-// const sendWhatsappMsg = require("../utils/sendWhatsappMsg");
 
 exports.setUserId = (req, res, next) => {
   if (!req.body.user) req.body.user = req.user.id;
@@ -72,47 +71,3 @@ exports.deleteCard = catchAsync(async (req, res, next) => {
     data: null,
   });
 });
-
-// exports.sendCard = catchAsync(async (req, res, next) => {
-//   const { cardID } = req.body;
-
-//   const card = await Card.findById(cardID);
-
-//   if (!card) {
-//     return next(new ApiError("No card found with that ID", 404));
-//   }
-
-//   if (
-//     !card.recipient ||
-//     !card.recipient.whatsappNumber ||
-//     !card.recipient.name
-//   ) {
-//     return next(
-//       new ApiError("Please provide recipient name and whatsapp number", 400)
-//     );
-//   }
-
-//   if (!card.isPaid) {
-//     return next(new ApiError("Card is not paid yet", 400));
-//   }
-
-//   if (card.isDelivered) {
-//     return next(new ApiError("Card is already delivered", 400));
-//   }
-
-//   const message = `
-//   Hello ${card.recipient.name},
-//   ${card.text.message}
-//   `;
-//   const phone = card.recipient.whatsappNumber;
-
-//   await sendWhatsappMsg(phone, message);
-
-//   card.isDelivered = true;
-//   await card.save();
-
-//   res.status(200).json({
-//     status: "success",
-//     data: card,
-//   });
-// });
