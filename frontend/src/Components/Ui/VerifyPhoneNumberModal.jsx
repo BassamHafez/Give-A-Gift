@@ -23,11 +23,13 @@ const VerifyPhoneNumberModal = ({ onHide, show }) => {
   const { mutate } = useMutation({
     mutationFn: sendVerificationCode,
     onSuccess: (data) => {
-      console.log(data);
       if (data?.status === "success") {
         notifySuccess("phone verified successfully");
         dispatch(fetchProfileData(token));
-      } else {
+      }else if(data?.response?.data?.message==="Verification code is wrong"){
+         notifyError("verification code is wrong");
+        }
+       else {
         notifyError("verify code faild please Re-send code again");
       }
     },
