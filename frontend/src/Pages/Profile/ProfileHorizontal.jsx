@@ -20,7 +20,7 @@ const ProfileHorizontal = () => {
         </Tab>
 
         <Tab
-          className="px-5 mt-5"
+          className="px-md-5 mt-5"
           eventKey="accountSetting"
           title={key("accountSetting")}
         >

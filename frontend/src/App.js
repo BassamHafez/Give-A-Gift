@@ -10,13 +10,15 @@ import Register from './Pages/Auth/Register/Register';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getisLoginState, getRoleState, getToken, getUserInfoFromLocalStorage } from './Store/userInfo-actions';
 import CustomCards from './Pages/CustomCards/CustomCards';
 import Profile from './Pages/Profile/Profile';
 import RecipientInformation from './Pages/RecipientInformation/RecipientInformation';
 import Payment from './Pages/PayMethods/Payment';
 import ErrorURL from './Pages/PayMethods/ErrorURL';
+import ForgetPassword from './Components/ForgetPassword/ForgetPassword';
+import fetchProfileData from './Store/profileInfo-actions';
 
 
 const router=createBrowserRouter([{
@@ -27,6 +29,7 @@ const router=createBrowserRouter([{
     {path:"about",element:<About/>},
     {path:"stores",element:<Stores/>},
     {path:"login",element:<Login/>},
+    { path: "forget-password", element: <ForgetPassword /> },
     {path:"register",element:<Register/>},
     {path:"special-cards",element:<SpecialCards/>},
     {path:"custom-cards",element:<CustomCards/>},
@@ -43,6 +46,8 @@ function App() {
 
   const {i18n:control}=useTranslation();
   const dispatch=useDispatch();
+  const token = useSelector((state) => state.userInfo.token);
+  const role = useSelector((state) => state.userInfo.role);
 
   useEffect(() => {
     const updateFontFamily = () => {
@@ -69,6 +74,12 @@ function App() {
   }, [control]);
   
 
+  // get profile data from database
+  useEffect(() => {
+      if(role!=="admin"&&token){
+        dispatch(fetchProfileData(token));
+      }
+  }, [dispatch, token,role]);
 
   // recieve user data from localStorage with login and role states
   useEffect(() => {
@@ -82,11 +93,11 @@ function App() {
     dispatch(getisLoginState());
   }, [dispatch]);
 
+
   const queryClient = new QueryClient();
 
   return (
     <QueryClientProvider client={queryClient}>
-
       <RouterProvider router={router}/>
 
     </QueryClientProvider>

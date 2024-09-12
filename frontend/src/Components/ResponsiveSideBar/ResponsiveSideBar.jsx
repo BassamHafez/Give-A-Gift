@@ -30,7 +30,7 @@ const ResponsiveSideBar = ({ onClose, show }) => {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsSmallScreen(window.innerWidth < 575);
+      setIsSmallScreen(window.innerWidth < 770);
     };
 
     window.addEventListener("resize", handleResize);
