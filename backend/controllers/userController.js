@@ -64,6 +64,10 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     filteredBody.photo = req.body.photo;
   }
 
+  if (req.body?.phone) {
+    filteredBody.phoneVerified = false;
+  }
+
   const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
     new: true,
     runValidators: true,
