@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 
 const LogoutModal = (props) => {
   const { t: key } = useTranslation();
+  let isArLang = localStorage.getItem("i18nextLng") === "ar"
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -42,14 +43,14 @@ const LogoutModal = (props) => {
     <Modal.Footer className={styles.modal_footer}>
       <Button
         variant="primary"
-        className={styles.close_btn}
+        className={isArLang?styles.close_btn_ar:styles.close_btn}
         onClick={props.onHide}
       >
         {key("cancel")}
       </Button>
       <Button
         variant="danger"
-        className={styles.logout_btn}
+        className={isArLang?styles.logout_btn_ar:styles.logout_btn}
         onClick={signOutHandler}
       >
         {key("logout")}

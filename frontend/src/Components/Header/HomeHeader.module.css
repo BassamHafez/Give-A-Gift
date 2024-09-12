@@ -14,7 +14,6 @@
     background-color: rgba(255, 0, 0, 0.395);
     padding: 40px 50px;
     border-radius: 5px;
-    backdrop-filter: blur(1px);
     margin-top: 20px;
     z-index: 2;
     text-align: center;

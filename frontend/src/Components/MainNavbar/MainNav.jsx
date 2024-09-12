@@ -20,7 +20,7 @@ const MainNav = () => {
   const [showCart, setShowCart] = useState(false);
   const [key, control] = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
-  const profileData = useSelector((state) => state.userInfo.data);
+  const profileData = useSelector((state) => state.profileInfo.data);
   const isLogin = useSelector((state) => state.userInfo.isLogin);
   const navigate = useNavigate();
   const location = useLocation();
@@ -171,11 +171,11 @@ const MainNav = () => {
           </div>
 
           {isLogin ? (
-            <Link to={`profile/${profileData._id}`}>
+            <Link to={`profile/${profileData?._id}`}>
               <div className={styles.profile_img}>
                 <img
                   src={`http://127.0.0.1:3001/users/${profileData?.photo}`}
-                  alt={`${profileData.name}_ptofile_photo`}
+                  alt={`${profileData?.name}_ptofile_photo`}
                 />
               </div>
             </Link>

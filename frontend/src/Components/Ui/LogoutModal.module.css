@@ -37,4 +37,8 @@
     margin-left: 0 !important;
     margin-right: auto !important;
 }
-
+.verify_code{
+    font-size: 40px;
+    width: 90%;
+    text-align: center;
+}

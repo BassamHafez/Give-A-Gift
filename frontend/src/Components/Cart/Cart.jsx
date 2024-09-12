@@ -66,7 +66,7 @@ const Cart = ({ onClose, show }) => {
         console.log(response);
         if (response.status === 204) {
           queryClient.invalidateQueries(["getCards", token]);
-          notifySuccess("Card deleted successfully.");
+          notifySuccess(key("cardDeleted"));
           refetch();
         } else {
           notifyError(key("wrong"));

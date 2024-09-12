@@ -24,7 +24,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getMyWallet } from "../../util/Http";
 
 const ProfileVertical = () => {
-  const profileData = useSelector((state) => state.userInfo.data);
+  const profileData = useSelector((state) => state.profileInfo.data);
   const [logoutModalShow, setLogoutModalShow] = useState(false);
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));

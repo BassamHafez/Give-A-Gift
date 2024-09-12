@@ -19,30 +19,42 @@
     padding: 0.625rem 0.9375rem;
     border-radius: 0.5rem;
     font-weight: 700;
-    min-width: 8.75rem;
+    min-width: 6.875rem;
+    border: 1px solid transparent;
     transition:all .3s;
-}
-.later_btn{
-    padding: 0.625rem 0.9375rem ;
-    border-radius: 0.5rem;
-    font-weight: 700;
-    min-width: 8.75rem;
+    min-width: 9.375rem
 }
 .save_btn:hover{
-    background-color: var(--sub_color);
+    background-color:transparent;
+    color: var(--main_color);
+    border: 1px solid var(--main_color);
     transform: translateX(0.3125rem);
 }
 
 .user_general_info .field{
     margin-bottom: 1.875rem;
 }
+.photo_field{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+.photo_label{
+    padding: 20px 40px;
+    border: 1px solid var(--dark_white);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all .4s;
+}
+.photo_label:hover{
+    scale: 1.07;
+}
+.img_icon{
+    font-size: 30px;
+    color: var(--slate_blue);
+}
 
-.rec_img{
-    width: 25rem;
-}
-.rec_img img{
-    width: 100%;
-}
 .phone_num{
     display: flex;
 }
@@ -64,49 +76,16 @@
     border-radius: 0 5px 5px  0;
     width: 70%;
     font-family: Arial, Helvetica, sans-serif;
-    color: #f3d2706a;
 }
 
-
-@media screen and (max-width:768px) {
-  .rec_img{
-    display: none;
-  }
-}
 @media screen and (max-width:600px) {
     .field h4{
         margin: 0;
         text-align: center;
     }
 }
-
-@media only screen and (max-width: 370px) {
-    .save_btn,.later_btn {
-        width: 40%;
-    }
+@media screen and (max-width:250px) {
+   .save_btn{
+    min-width: 90%;
+   }
 }
-
-@media only screen and (max-width: 320px) {
-    .select_input {
-        width: 50%;
-    }
-    .phone_input img{
-        width: 50%;
-    }
-    .btn_group{
-        flex-direction: column;
-    }
-    .save_btn,.later_btn{
-        margin: 10px 0;
-        width: 50%;
-    }
-}
-@media only screen and (max-width: 250px) {
-    .select_input {
-        width: 60%;
-    }
-    .phone_input img{
-        width: 40%;
-    }
-}
-

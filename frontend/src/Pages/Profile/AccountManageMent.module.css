@@ -1,44 +1,16 @@
-.field{
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 2.5rem;
-    width: 100%;
-    position: relative;
+.acc_setting_body{
+padding: 20px;
+height: 78vh;
+overflow-y: auto;
+scrollbar-color: transparent transparent ;
 }
-.field label{
-    font-weight: 700;
-    margin-bottom: 0.3125rem;
+.form_container{
+    padding: 15px 10px  10px 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.284);
+    margin-bottom: 20px;
 }
-
-.field input{
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.196);  
-}
-.save_btn{
-    background-color: var(--main_color);
-    color: white;
-    padding: 0.625rem 0.9375rem;
-    border-radius: 0.5rem;
-    font-weight: 700;
-    min-width: 6.875rem;
-    border: 1px solid transparent;
-    transition:all .3s;
-    min-width: 9.375rem
-}
-.save_btn:hover{
-    background-color:transparent;
-    color: var(--main_color);
-    border: 1px solid var(--main_color);
-    transform: translateX(0.3125rem);
+.verify_container{
+    box-shadow: 0 0 3px yellow;
 }
 
-.user_general_info .field{
-    margin-bottom: 1.875rem;
-}
-
-
-@media screen and (max-width:600px) {
-    .field h4{
-        margin: 0;
-        text-align: center;
-    }
-}

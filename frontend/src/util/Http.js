@@ -175,3 +175,51 @@ export const executePayment= async ({token,formData}) => {
     return error
   }
 };
+
+
+export const updateMe = async ({ token, formData }) => {
+  try {
+    const response = await axios.patch(`${baseServerUrl}users/updateMe`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const sendVerificationCode = async ({ token, formData }) => {
+  try {
+    const response = await axios.post(
+      `${process.env.REACT_APP_Base_API_URl}users/verify-phone`,
+      formData,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+};
+
+
+export const getMe= async (token) => {
+  try {
+     const response = await axios.get(`${baseServerUrl}users/me`,{
+      headers:{Authorization:`Bearer ${token}`}
+     });
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return error
+  }
+};

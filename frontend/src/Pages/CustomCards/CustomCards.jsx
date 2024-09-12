@@ -131,15 +131,15 @@ const CustomCards = () => {
       return;
     }
     if (cardText === "") {
-      notifyError("Card must have a message.");
+      notifyError(key("cardMessageError"));
       return;
     }
     if (cardPrice === "") {
-      notifyError("Card must have a price.");
+      notifyError(key("cardPriceError"));
       return;
     }
     if (selectedShopId === "") {
-      notifyError("Card must be linked to a store.");
+      notifyError(key("cardStoreError"));
       return;
     }
     let formData = {
