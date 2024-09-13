@@ -170,5 +170,13 @@
     "sendCode":"Send Code",
     "verifyMsg":"Please take a moment and verify your phone number",
     "verify":"Verify",
-    "sendMsgVerify":"You will receive a verification code via WhatsApp. Please enter the code below to proceed"
+    "sendMsgVerify1":"You will receive a verification code via WhatsApp. Please enter the code below to proceed",
+    "sendMsgVerify2": "Please enter the verification code sent to your phone",
+    "phoneVerifiedSuccess": "Phone verified successfully",
+    "verificationCodeWrong": "Verification code is wrong",
+    "verifyCodeFailResend": "Verification failed, please re-send the code again",
+    "verificationCodeRequired": "Verification code is required",
+    "checkWhatsApp": "Check your WhatsApp",
+    "sendCodeFail": "Couldn't send code, try again later",
+    "emailOrPass":"Email or Password Incorrect"
 }

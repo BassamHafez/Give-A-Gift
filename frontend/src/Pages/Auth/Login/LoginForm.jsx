@@ -48,14 +48,14 @@ const LoginForm = ({notifySuccess,notifyError}) => {
             navigate("/");
           } else {
             console.log("else res",res);
-            notifyError("sorry something went wrong please try again later!");
+            notifyError(key("wrong"));
           }
         }
     },
     onError: (error) => {
       console.log(error);
       if (error.status === 401) {
-        notifyError("Email or Password Incorrect")
+        notifyError(key("emailOrPass"))
       } else {
         console.log(error);
         notifyError();

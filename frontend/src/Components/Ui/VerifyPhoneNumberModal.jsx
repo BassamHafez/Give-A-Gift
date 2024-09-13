@@ -24,18 +24,18 @@ const VerifyPhoneNumberModal = ({ onHide, show }) => {
     mutationFn: sendVerificationCode,
     onSuccess: (data) => {
       if (data?.status === "success") {
-        notifySuccess("phone verified successfully");
+        notifySuccess(key("phoneVerifiedSuccess"));
         dispatch(fetchProfileData(token));
       }else if(data?.response?.data?.message==="Verification code is wrong"){
-         notifyError("verification code is wrong");
+         notifyError(key("verificationCodeWrong"));
         }
        else {
-        notifyError("verify code faild please Re-send code again");
+        notifyError(key("verifyCodeFailResend"));
       }
     },
     onError: (error) => {
       console.log(error);
-      notifyError("verify code faild please Re-send code again");
+      notifyError(key("verifyCodeFailResend"));
     },
   });
 
@@ -53,7 +53,7 @@ const VerifyPhoneNumberModal = ({ onHide, show }) => {
   };
 
   const validationSchema = object({
-    verificationCode: number().required("verification code is required"),
+    verificationCode: number().required(key("verificationCodeRequired")),
   });
 
   return (
@@ -74,7 +74,7 @@ const VerifyPhoneNumberModal = ({ onHide, show }) => {
           >
             <Form className={styles.general_info_form}>
               <div className={styles.field}>
-                <label htmlFor="verifyCode">{key("sendMsgVerify")}</label>
+                <label htmlFor="verifyCode">{key("sendMsgVerify1")}</label>
                 <Field type="text" id="verifyCode" name="verificationCode" />
                 <ErrorMessage
                   name="verificationCode"
