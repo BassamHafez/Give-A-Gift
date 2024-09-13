@@ -11,6 +11,7 @@ const walletRoutes = require("../routes/walletRoutes");
 const paymentRoutes = require("../routes/paymentRoutes");
 const configRoutes = require("../routes/configRoutes");
 const transactionRoutes = require("../routes/transactionRoutes");
+const infoRoutes = require("../routes/infoRoutes");
 
 const mountRoutes = (app) => {
   app.use("/api/v1/webhooks", webhookRoutes);
@@ -26,6 +27,7 @@ const mountRoutes = (app) => {
   app.use("/api/v1/payments", paymentRoutes);
   app.use("/api/v1/configs", configRoutes);
   app.use("/api/v1/transactions", transactionRoutes);
+  app.use("/api/v1/info", infoRoutes);
 };
 
 module.exports = mountRoutes;
