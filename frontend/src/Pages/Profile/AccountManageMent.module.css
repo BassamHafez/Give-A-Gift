@@ -1,16 +1,25 @@
 .acc_setting_body{
-padding: 20px;
-height: 78vh;
-overflow-y: auto;
-scrollbar-color: transparent transparent ;
+    padding: 20px;
+    overflow-y: auto;
+    scrollbar-color: transparent transparent ;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 .form_container{
-    padding: 15px 10px  10px 10px;
+    padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.284);
     margin-bottom: 20px;
+    width: 80%;
 }
 .verify_container{
     box-shadow: 0 0 3px yellow;
 }
 
+@media screen and (max-width:510px) {
+    .form_container{
+        width: 98%;
+    }
+}

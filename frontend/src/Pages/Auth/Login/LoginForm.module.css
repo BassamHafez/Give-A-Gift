@@ -19,7 +19,7 @@
 
 .login_btn{
     width: 80%;
-    background-color: var(--slate_blue);
+    background-color: var(--main_color);
     color: white;
     font-weight: 600;
     padding: 0.625rem 0.9375rem;
@@ -29,8 +29,8 @@
     transition: all .3s;
 }
 .login_btn:hover{
-    color: #2360e3;
-    border: 1px solid var(--slate_blue);
+    color: var(--main_color);
+    border: 1px solid var(--main_color);
     background-color: transparent;
 }
 .form_options{

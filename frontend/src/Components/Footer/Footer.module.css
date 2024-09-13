@@ -1,12 +1,8 @@
 .footer{
-    background-color: white;
     padding: 1.25rem;
-    border-top: 0.0625rem solid var(--dark_white);
+    background-color: #B62026;
 }
 
-.footer_brand{
-    width: 7.5rem;
-}
 .footer_links{
     margin: auto;
     display: flex;
@@ -16,7 +12,7 @@
 .footer_links a svg{
     font-size: 2.1875rem;
     margin-inline: 1.25rem;
-    color: black;
+    color: white;
     transition: all .4s;
 }
 .footer_links a svg:hover{

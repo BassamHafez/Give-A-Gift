@@ -29,6 +29,7 @@ const notifySuccess = (message) => toast.success(message);
 const notifyError = (message) => toast.error(message);
 
 const MyCards = () => {
+
   const { data, refetch, isFetching } = useQuery({
     queryKey: ["getCard", token],
     queryFn: () => getMyCards(token),
@@ -115,14 +116,14 @@ const KonvaCard = ({
 
   const [shapeImage] = useImage(
     card.isSpecial
-      ? `http://127.0.0.1:3001/shapes/back-shape.png`
-      : `http://127.0.0.1:3001/shapes/${card.shape?.image}`
+      ? `${process.env.REACT_APP_Host}shapes/back-shape.png`
+      : `${process.env.REACT_APP_Host}shapes/${card.shape?.image}`
   );
   const [shapeImageFront] = useImage(
-    `http://127.0.0.1:3001/shapes/front-shape.png`
+    `${process.env.REACT_APP_Host}shapes/front-shape.png`
   );
   const [logoImage] = useImage(
-    `http://127.0.0.1:3001/shops/${card.shop?.logo}`
+    `${process.env.REACT_APP_Host}shops/${card.shop?.logo}`
   );
 
   const formatDateTime = (dateTimeString) => {

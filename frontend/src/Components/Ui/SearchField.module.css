@@ -2,7 +2,7 @@
     background-color: transparent !important;
     border: 0.0625rem solid rgb(201, 200, 200) !important;
     border-right: none !important;
-    padding: 0 !important;
+    padding: 5px !important;
     position: relative;
     border-radius: 0.625rem;
     min-width: 18.75rem;
@@ -11,6 +11,7 @@
     background-color: transparent !important;
     border: none;
     outline: none;
+    box-shadow: 0 0 0 transparent;
     width:100%;
     padding:5px 10px;
     height: 100%;

@@ -7,6 +7,15 @@
     justify-content: center;
     align-items: center;
     text-align: center;
+    height: 88vh;
+}
+.message{
+    font-size: 17px;
+}
+@media screen and (max-width:430px) {
+ .help_body{
+    padding-inline: 10px;
+ }
 }
 @media screen and (max-width:350px) {
     .support_img{

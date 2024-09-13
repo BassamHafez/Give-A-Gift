@@ -1,0 +1,92 @@
+.card_body{
+    margin: 3.125rem 0;
+    border: 0.0625rem solid rgba(0, 0, 0, .1);
+    border-bottom: 0.0625rem solid rgba(0, 0, 0, 0.238);
+    border-radius: 0.625rem;
+ }
+ .card_stage{
+     box-shadow: 0 0 0.1875rem rgba(0, 0, 0, 0.159);
+     border-radius: 0.625rem;
+     overflow: hidden;
+     width: 100%;
+ }
+ 
+ .btns_group{
+     display: flex;
+ }
+ .responsive_btns_group{
+     display: none;
+ }
+ .list{
+     padding: 4px 0 0 0;
+ }
+ .list_item{
+     margin: 10px 0;
+ }
+ .list_item_ar span{
+     font-weight: 500;
+ }
+ .list_item_en span{
+     font-family: 'Times New Roman', Times, serif;
+     font-weight: 500;
+ }
+ 
+ .list_icon{
+     font-size: 1.25rem;
+     color: var(--slate_blue);
+     margin-inline: 0.625rem;
+ }
+ .delete_icon{
+     position: absolute;
+     top: -0.9375rem;
+     right: 0.9375rem;
+     font-size: 1.125rem;
+     background-color: white;
+     color: var(--main_color);
+     padding: 0.625rem 0.6875rem;
+     border-radius: 50%;
+     box-shadow:  0 0 0.1875rem rgba(0, 0, 0, 0.456);
+     cursor: pointer;
+     transition: all .4s;
+ }
+ .delete_icon_ar{
+     position: absolute;
+     top: -15px;
+     left: 15px;
+     font-size: 1.125rem;
+     background-color: white;
+     color: var(--main_color);
+     padding: 0.625rem 0.6875rem;
+     border-radius: 50%;
+     box-shadow:  0 0 0.1875rem rgba(0, 0, 0, 0.456);
+     cursor: pointer;
+     transition: all .4s;
+ }
+ .delete_icon:hover,.delete_icon_ar:hover{
+     color: white;
+     background-color: var(--main_color)
+ }
+ .noCards{
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: center;
+     padding: 3.125rem;
+ }
+ .noCards_img{
+     width: 500px;
+ }
+ .gift_icon{
+    color: gold !important;
+ }
+ @media (max-width: 500px) {
+     .btns_group {
+       display: none;
+     }
+     .responsive_btns_group{
+         display: flex;
+     }
+     .noCards_img{
+         width: 100%;
+     }
+   }

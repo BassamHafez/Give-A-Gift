@@ -19,6 +19,10 @@ import Payment from './Pages/PayMethods/Payment';
 import ErrorURL from './Pages/PayMethods/ErrorURL';
 import ForgetPassword from './Components/ForgetPassword/ForgetPassword';
 import fetchProfileData from './Store/profileInfo-actions';
+import Admin from './Pages/Admin/Admin';
+import AccountManageMent from './Pages/Profile/AccountManageMent';
+import Help from './Pages/Profile/Help';
+import ViewCard from './Pages/ViewCard/ViewCard';
 
 
 const router=createBrowserRouter([{
@@ -33,10 +37,15 @@ const router=createBrowserRouter([{
     {path:"register",element:<Register/>},
     {path:"special-cards",element:<SpecialCards/>},
     {path:"custom-cards",element:<CustomCards/>},
+    {path:"view-card/:cardId",element:<ViewCard/>},
     {path:"profile/:userId",element:<Profile/>},
     {path:"recipient-information/:cardId",element:<RecipientInformation/>},
     {path:"payment/:type/:userId",element:<Payment/>},
     {path:"payment-faild",element:<ErrorURL/>},
+    {path:"account-setting",element:<AccountManageMent/>},
+    {path:"help",element:<Help/>},
+    {path:"admin",element:<Admin/>},
+
   ]
 }])  
 
@@ -52,12 +61,10 @@ function App() {
   useEffect(() => {
     const updateFontFamily = () => {
       if (control.language === 'ar') {
-        document.documentElement.style.setProperty('--main_font', '"Cairo", sans-serif');
         document.documentElement.setAttribute('dir', 'rtl');
         document.documentElement.setAttribute('lang', 'ar');
 
       } else {
-        document.documentElement.style.setProperty('--main_font', '"Playfair Display", serif');
         document.documentElement.setAttribute('dir', 'ltr');
         document.documentElement.setAttribute('lang', 'en');
 
@@ -76,7 +83,7 @@ function App() {
 
   // get profile data from database
   useEffect(() => {
-      if(role!=="admin"&&token){
+      if(token){
         dispatch(fetchProfileData(token));
       }
   }, [dispatch, token,role]);

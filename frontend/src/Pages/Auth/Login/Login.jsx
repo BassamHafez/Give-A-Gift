@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import styles from "./Login.module.css";
-import loginImg from "../../../Images/loginVector.png";
 import LoginForm from "./LoginForm";
 import AOS from "aos";
 import { useTranslation } from "react-i18next";
@@ -32,12 +31,6 @@ const Login = () => {
           data-aos="zoom-in-up"
           data-aos-duration="800"
         >
-          <div className={styles.user_login_caption}>
-            <h3>{key("loginTitle")}</h3>
-            <div className={styles.caption_vector}>
-              <img src={loginImg} alt="login Img" />
-            </div>
-          </div>
           <div className={styles.user_login_form}>
             <h3>{key("login")}</h3>
             <LoginForm

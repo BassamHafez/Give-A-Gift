@@ -1,18 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap'); */
+
+@font-face {
+  font-family: 'ARAHAMAH1982';
+  src: url('./fonts/Ara Hamah 1982.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family:var(--main_font);
+  font-family:'ARAHAMAH1982', sans-serif !important;
 }
 body {
   overflow-x: hidden;
   background-color: var(--main_bg_color);
 }
+
 :root{
-  --main_font:"Playfair Display", serif;
-  --main_color:#C61A32;
+  --main_font:'ARAHAMAH1982', sans-serif;
+  --main_color:#b62026;
   --white:rgb(238, 237, 237);
   --sub_color:#2D3A58;
   --blue:#1a429d;
@@ -22,18 +30,6 @@ body {
   --slate_blue:#6A7E8C;
   --ivory_color:#f5f5d7;
   --dusty_Gold:#C2A14D;
-}
-
-::-webkit-scrollbar-thumb{
-  background-color: var(--main_color);
-  border-radius: 0.625rem;
-}   
-::-webkit-scrollbar-track{
-  background-color: var(--main_bg_color);
-}
-::-webkit-scrollbar{
-  background-color: var(--main_bg_color);
-  width:0.3125rem;
 }
 
 a{
@@ -78,7 +74,9 @@ ul li{
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.266);
 }
 
-
+.bg-main {
+  background-color: var(--main_color);
+}
 .or_span{
   position: relative;
   text-align: center;
@@ -131,29 +129,30 @@ ul li{
 
 .carousel-control-prev-icon{
   position: absolute;
-  bottom: 18px;
-  right: 50%;
+  bottom: 0 !important;
+  right:0 !important;
   cursor: pointer;
-}
-.carousel-control-prev{
-  margin-left: 35%;
-  transform: translateX(-50%);
-  height: 50px !important;
-  margin-top: auto;
-}
-.carousel-control-next{
-  margin-right: 35%;
-  transform: translateX(-50%);
-  height: 50px !important;
-  margin-top: auto;
-
 }
 .carousel-control-next-icon{
   position: absolute;
-  bottom: 18px;
-  left: 55%;
+  bottom: 0 !important;
+  left: 0 !important;
   cursor: pointer;
 }
+.carousel-control-prev{
+  height: 30px !important;
+  width: 30px !important;
+  margin-top: auto;  
+  margin-left: 20px !important;
+
+}
+.carousel-control-next{
+  height:30px !important;
+  width: 30px !important;
+  margin-top: auto;
+  margin-right: 20px !important;
+}
+
 
 @media screen and (max-width:768px) {
   body,html{

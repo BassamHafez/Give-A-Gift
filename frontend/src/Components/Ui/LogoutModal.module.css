@@ -38,7 +38,45 @@
     margin-right: auto !important;
 }
 .verify_code{
-    font-size: 40px;
+    font-size: 2.5rem;
     width: 90%;
     text-align: center;
+}
+
+
+.search_field{
+    width: 95%;
+    padding: 0.625rem;
+}
+
+.details_list{
+    text-align:start;
+    border-top: 0.0625rem solid rgba(0, 0, 0, 0.237);
+    padding: 0;
+    padding-top: 1.25rem;
+}
+.details_list li{
+    font-size: 1.25rem;
+    margin: 0.625rem 0;
+    display: flex;
+    align-items: center;
+}
+.details_list li del{
+    font-size: 17px;
+    color: rgba(0, 0, 0, 0.427);
+}
+.coupon_form{
+    margin-inline: 0.625rem;
+    display: flex;
+}
+.coupon_form button{
+    background-color: var(--sub_color);
+    color: white;
+    padding: 0.3125rem 0.625rem;
+    border-radius: 0.625rem;
+    margin-inline: 0.3125rem;
+}
+.list_icon{
+    color: var(--slate_blue);
+    margin-inline: 0.625rem;
 }

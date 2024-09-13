@@ -1,5 +1,4 @@
 import React from "react";
-import logo from "../../Images/logo.png";
 import styles from "./Footer.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -11,9 +10,6 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <footer className={styles.footer}>
-      <div className={styles.footer_brand}>
-        <img className="w-100" src={logo} alt="logo" />
-      </div>
       <div className={styles.footer_links}>
         <Link
           target="_blank"

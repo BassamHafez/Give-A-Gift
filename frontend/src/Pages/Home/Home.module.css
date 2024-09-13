@@ -1,7 +1,7 @@
 /* ------------------------------------------------- sec1 card types section----------------------- */
 
 .sec1_gift_card,.sec1_custom_gift_card{
-    width: 31.25rem;
+    width: 450px;
     overflow: hidden;
     position: relative;
     cursor: pointer;
@@ -10,10 +10,11 @@
 .front_img{
     width: 100%;
     transition: all 1s;
-        border-radius:0.125rem;
-
+    border-radius:0.125rem;
 }
-
+.sec1_title{
+    font-size: 3rem;
+}
 .sec1_layer{
     position: absolute;
     top: 0;

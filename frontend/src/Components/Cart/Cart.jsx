@@ -5,6 +5,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowLeft,
   faArrowRight,
+  faComment,
+  faCommentSlash,
+  faEye,
   faHandHoldingDollar,
   faStore,
   faTrash,
@@ -190,6 +193,33 @@ const Cart = ({ onClose, show }) => {
                               <span className="fw-bold">{key("price")}: </span>
                               {card.price?.value} {key("sar")}
                             </li>
+                            <li className={styles.sub_list_item}>
+                              {card.isDelivered ? (
+                                <span>
+                                  <FontAwesomeIcon
+                                    className={
+                                      isArLang
+                                        ? styles.sub_list_icon_ar
+                                        : styles.sub_list_icon
+                                    }
+                                    icon={faComment}
+                                  />{" "}
+                                  {key("cardReceived")}
+                                </span>
+                              ) : (
+                                <span>
+                                  <FontAwesomeIcon
+                                    className={
+                                      isArLang
+                                        ? styles.sub_list_icon_ar
+                                        : styles.sub_list_icon
+                                    }
+                                    icon={faCommentSlash}
+                                  />
+                                  {key("didnotReceive")}
+                                </span>
+                              )}
+                            </li>
                           </ul>
                           <div className={styles.controllers}>
                             <FontAwesomeIcon
@@ -199,6 +229,12 @@ const Cart = ({ onClose, show }) => {
                                 setCardId(card._id);
                                 setModalShow(true);
                               }}
+                            />
+                            <FontAwesomeIcon
+                              title="view card"
+                              className={styles.eye}
+                              icon={faEye}
+                              onClick={()=>navigate(`/view-card/${card._id}`)}
                             />
                             <FontAwesomeIcon
                               className={styles.arrow_right_icon}

@@ -1,24 +1,26 @@
 .main_nav{
     transition: all .5s;
+    padding: 10px 0;
  }
  .new_nav{
-     background-color: rgba(255, 255, 255, 0.703);
+     background-color: rgba(223, 221, 221, 0.703);
      backdrop-filter: blur(2px);
      box-shadow: 0 0 3px rgba(0, 0, 0, 0.189);
  }
  .new_nav .nav_list li a{
      color: black !important;
  }
- .new_nav .lang_icon,.new_nav .cart_icon{
+ .new_nav .cart_icon, .new_nav .lang_item{
      color: black !important;
  }
- 
- .nav_list li a{
+ .nav_list li a,.lang_item{
      color: var(--white) !important;
      font-weight: 700;
-     font-size: 16px;
+     font-size: 1.25rem;
+     line-height: 1.75rem;
      transition: all .3s;
      position: relative;
+     cursor: pointer;
  }
  
  .nav_list li a::after{
@@ -34,7 +36,7 @@
  .nav_list li a:hover::after{
      width:  100%;
  }
- .nav_list li a:hover{
+ .nav_list li a:hover,.lang_item:hover{
      color: var(--main_color) !important;
  }
  .new_nav .nav_list li a:hover{
@@ -58,7 +60,7 @@
  }
  
  .brand{
-     width:8.75rem;
+     width:120px;
      cursor: pointer;
  }
  
@@ -89,7 +91,10 @@
  }
  
  .sign_btn{
-     margin-inline: 0.625rem;
+     margin:0 10px 0 30px;
+ }
+ .sign_btn_ar{
+     margin:0 30px 0 10px;
  }
  
  .list:hover{
@@ -100,7 +105,7 @@
      background-color: var(--white) !important;
  }
  
- .cart_icon,.lang_icon{
+ .cart_icon{
      font-size:1.5625rem;
      color: var(--white);
      font-weight: 700;
@@ -114,17 +119,11 @@
      transform: translateX(-50%);
      font-family: 'Times New Roman', Times, serif;
  }
- .lang_icon{
-     margin-inline: 1.875rem;
- }
- .cart_icon:hover,.lang_icon:hover{
+
+ .cart_icon:hover{
      scale: 1.08;
  }
- 
- .lang_item{
-     cursor: pointer;
-     transition: all .6s;
- }
+
  .active_lang span{
      background-color: var(--sub_color);
      color: var(--white);
@@ -176,19 +175,25 @@
      }
  }
  
- @media screen and (max-width:536px) {
-     .sign_btn{
-         display: none ;
-     }
+ @media screen and (max-width:768px) {
      .brand{
-         width: 3.75rem;
-     }
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        width: 200px;
+    }
+    .sign_btn,.sign_btn_ar{
+        display: none ;
+    }
  }
- 
- @media screen and (max-width:355px) {
+
+ @media screen and (max-width:650px) {
+
      .brand{
-         width: 3.125rem;
-     }   
+        width: 300px;
+    }
+
+ }
+ @media screen and (max-width:355px) { 
      .main_nav{
          justify-content: center;
       }
@@ -199,5 +204,18 @@
      .nav_controllers{
          display: none !important;
      }
+     .brand{
+        width: 400px;
+    }
+ }
+ @media screen and (max-width:260px) {
+     .brand{
+        width: 900px;
+    }
+ }
+ @media screen and (max-width:230px) {
+     .brand{
+        width: 1500px;
+    }
  }
  

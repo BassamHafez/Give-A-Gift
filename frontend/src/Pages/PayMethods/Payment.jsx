@@ -11,7 +11,6 @@ import { getPaymentMethods } from "../../util/Http";
 import { useParams } from "react-router-dom";
 import InputErrorMessage from "../../Components/Ui/InputErrorMessage";
 import styles from "./PayMent.module.css";
-import pay from "../../Images/pay.jpg";
 import toast, { Toaster } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 
@@ -81,10 +80,8 @@ const Payment = () => {
   return (
     <>
       <Toaster position="top-right" />
-      <Row className={styles.container}>
-        <Col
-          md={7}
-          className="d-flex justify-content-center align-items-center"
+        <div
+          className="d-flex justify-content-center align-items-center my-5"
         >
           <Formik
             initialValues={initialValues}
@@ -163,16 +160,7 @@ const Payment = () => {
               )}
             </Form>
           </Formik>
-        </Col>
-        <Col
-          md={5}
-          className="d-flex justify-content-center align-items-center"
-        >
-          <div className={styles.main_img}>
-            <img className="w-100" src={pay} alt="payment" />
-          </div>
-        </Col>
-      </Row>
+        </div>
     </>
   );
 };

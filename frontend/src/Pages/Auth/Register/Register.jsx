@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import styles from "./Register.module.css";
 import RegisterForm from "./RegisterForm";
-import register_img from "../../../Images/gift.jpg";
 import toast, { Toaster } from "react-hot-toast";
 import AOS from "aos";
 import { useTranslation } from "react-i18next";
@@ -36,9 +35,6 @@ const Register = () => {
         <div className={styles.register_form}>
           <h3>{key("register")}</h3>
           <RegisterForm  notifySuccess={notifySuccess} notifyError={notifyError}/>
-        </div>
-        <div className={styles.register_caption}>
-          <img src={register_img} alt="register vector" />
         </div>
       </div>
     </div>

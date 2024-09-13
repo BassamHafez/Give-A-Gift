@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import HomeHeader from "../../Components/Header/HomeHeader";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import styles from "./Home.module.css";
-import AOS from "aos";
 import giftCard from "../../Images/home1.webp";
 import giftCardBack from "../../Images/back.png";
 import customGiftCard from "../../Images/home2.webp";
@@ -12,13 +11,11 @@ import customGiftBack from "../../Images/home2-back.png";
 import TopStores from "../../Components/TopStores/TopStores";
 import HomeSections from "../../Components/Ui/HomeSections";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const { t: key } = useTranslation();
-
-  useEffect(() => {
-    AOS.init();
-  }, []);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -29,54 +26,64 @@ const Home = () => {
       </section>
 
       <section id="firstSec" className="my-5 py-5">
-        <h2
-          data-aos="zoom-in-up"
-          data-aos-duration="900"
-          className="text-center mt-4"
-        >
-          {key("sec1Title")}
+        <h2 className={`${styles.sec1_title} text-center mt-4`}>
+          -{key("sec1Title")}-
         </h2>
-        <Container fluid>
+        <Container>
           <Row>
             <Col
-              md={6}
-              className="d-flex justify-content-center align-items-center my-5"
-              data-aos="zoom-in-up"
-              data-aos-duration="900"
+              xl={6}
+              className="d-flex justify-content-center align-items-center my-4"
             >
               <div>
-                <div className={styles.sec1_gift_card}>
-                  <img className={`${styles.front_img}`} src={giftCard} alt="giftCard" />
+                <div
+                  className={styles.sec1_gift_card}
+                  onClick={() => navigate("/custom-cards")}
+                >
+                  <img
+                    className={`${styles.front_img}`}
+                    src={giftCard}
+                    alt="giftCard"
+                  />
                   <div className={styles.sec1_layer}>
-                    <img className={`${styles.back_img}`} src={giftCardBack} alt="giftCardBack" />
+                    <img
+                      className={`${styles.back_img}`}
+                      src={giftCardBack}
+                      alt="giftCardBack"
+                    />
                   </div>
                 </div>
                 <div className="text-center mt-4">
                   <h3>{key("giftCards")}</h3>
-                  <span className="mini_word">{key("giftCardsCaption")}</span>
+                  <p>{key("giftCardsCaption")}</p>
                 </div>
               </div>
             </Col>
             <Col
-              md={6}
-              className="d-flex justify-content-center align-items-center my-5"
-              data-aos="zoom-in-up"
-              data-aos-duration="900"
+              xl={6}
+              className="d-flex justify-content-center align-items-center my-4"
             >
               <div>
-                <div className={styles.sec1_custom_gift_card}>
+                <div
+                  className={styles.sec1_custom_gift_card}
+                  onClick={() => navigate("/special-cards")}
+                >
                   <img
                     className="w-100"
                     src={customGiftCard}
                     alt="customGiftCard"
                   />
                   <div className={styles.sec1_layer}>
-                   <img className={`${styles.back_img}`} src={customGiftBack} alt="customGiftBack" />
+                    <img
+                      className={`${styles.back_img}`}
+                      src={customGiftBack}
+                      alt="customGiftBack"
+                    />
                   </div>
                 </div>
                 <div className="text-center mt-4">
                   <h3>{key("customCards")}</h3>
-                  <span className="mini_word">{key("customCardsCaption")}</span>
+                  <p>{key("customCardsCaption")}</p>
                 </div>
               </div>
             </Col>

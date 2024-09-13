@@ -13,7 +13,6 @@ import Row from "react-bootstrap/esm/Row";
 import recGift from "../../Images/recipientGift.jpg";
 import DatePicker from "react-multi-date-picker";
 import TimePicker from "react-multi-date-picker/plugins/time_picker";
-import Ar from "react-date-object/locales/persian_ar";
 import Select from "react-select";
 import { CountriesPhoneNumbers } from "../../Components/Logic/Logic";
 import Button from "react-bootstrap/Button";
@@ -192,7 +191,7 @@ const RecipientInformation = () => {
     <>
       <Toaster position="top-right" />
       <div className="my-5 px-3 px-lg-5">
-        <h2 className="text-center mb-4">{key("recipientInformation")}</h2>
+        <h1 className="text-center mb-4">{key("recipientInformation")}</h1>
         <Row>
           <Col md={6}>
             <Formik
@@ -259,8 +258,7 @@ const RecipientInformation = () => {
                         setFieldValue("DelTime", formattedDateTime);
                       }}
                       format="YYYY/MM/DD HH:mm"
-                      plugins={[<TimePicker position="bottom" />]}
-                      locale={isArLang ? Ar : ""}
+                      plugins={[<TimePicker position="top" />]}
                       placeholder="YYYY/MM/DD HH:mm"
                       className={styles.date_picker}
                     />
@@ -308,9 +306,11 @@ const RecipientInformation = () => {
         show={modalShow}
         onHide={() => setModalShow(false)}
         func={confirmFunc === "pay" ? payCard : goToChargeMethods}
-        message={confirmMsg}
-        smallSize={confirmFunc === "pay" ? true : false}
+        message={confirmMsg?confirmMsg:""}
         btnMsg={btnMsg}
+        balance={walletBalance&&walletBalance}
+        cardPrice={(card?.data?.price?.value)}
+        cardId={cardId}
       />
     </>
   );

@@ -14,7 +14,7 @@ const {t:key}=useTranslation();
         <img className="w-100" src={support} alt="support" />
       </div>
       <div className=" mt-4">
-        <span className="mini_word">
+        <span className={styles.message}>
           {key("supportMsg1")}{" "}
           <Link
             target="_blank"

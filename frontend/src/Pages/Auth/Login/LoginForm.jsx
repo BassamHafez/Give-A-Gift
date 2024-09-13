@@ -35,7 +35,7 @@ const LoginForm = ({notifySuccess,notifyError}) => {
       let res = response.data;
       if (res.status === "success") {
         console.log("res", res);
-          if (res.data.user.role === "user") {
+          if (res.data?.user?.role === "user") {
             notifySuccess()
             dispatch(userActions.setUserInfo(res.data.user));
             dispatch(userActions.setIsLogin(true));
@@ -47,8 +47,15 @@ const LoginForm = ({notifySuccess,notifyError}) => {
             dispatch(saveTokenState(res.token));
             navigate("/");
           } else {
-            console.log("else res",res);
-            notifyError(key("wrong"));
+            dispatch(userActions.setUserInfo(res.data.user));
+            dispatch(userActions.setIsLogin(true));
+            dispatch(userActions.setRole("admin"));
+            dispatch(userActions.setToken(res.token));
+            dispatch(saveUserInfoIntoLocalStorag(res.data.user));
+            dispatch(saveIsLoginState(true));
+            dispatch(saveRoleState("admin"));
+            dispatch(saveTokenState(res.token));
+            navigate("/admin")
           }
         }
     },
@@ -103,7 +110,6 @@ const LoginForm = ({notifySuccess,notifyError}) => {
               type="email"
               id="emailInput"
               name="email"
-              placeholder="example@gmail.com"
             />
             <ErrorMessage name="email" component={InputErrorMessage} />
           </div>

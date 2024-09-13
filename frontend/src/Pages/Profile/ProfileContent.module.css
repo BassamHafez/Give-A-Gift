@@ -1,0 +1,74 @@
+.container_body{
+    min-height: 100vh;
+    margin: 2.5rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.title{
+    font-size: 1.125rem;
+    color: var(--dark_white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.plus_icon{
+    color: green;
+    margin-inline: 0.625rem;
+}
+.integer{
+    font-size: 6.25rem;
+    font-family: 'Times New Roman', Times, serif !important;
+}
+.decimal{
+    font-size: 40px;
+    font-family: 'Times New Roman', Times, serif !important;
+
+}
+.sar{
+    font-size: 1.875rem;
+}
+.list_item{
+    padding: 1.875rem;
+    background-color: white;
+    box-shadow: 0 0 0.1875rem black;
+    margin: 1.875rem 0;
+    min-width: 12.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 1.25rem;
+    cursor: pointer;
+    transition: all .4s;
+}
+
+.list_item span{
+    font-size: 1.4375rem;
+    font-weight: 500;
+}
+.list_item_icon{
+    color: var(--sub_color);
+    font-size: 2.1875rem;
+    margin-bottom: 0.625rem;
+    transition: all .4s;
+
+}
+.list_item:hover{
+    background-color: var(--sub_color);
+    color: white;
+}
+.list_item:hover .list_item_icon{
+    color: white;
+}
+@media screen and (max-width:430px) {
+    .list_item{
+        min-width: 170px;
+    }
+}
+@media screen and (max-width:390px) {
+    .main_row{
+        flex-direction: column !important;
+        align-items: center;
+    }
+}

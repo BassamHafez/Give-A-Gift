@@ -29,7 +29,6 @@ const CustomCards = () => {
   const [cardColor, setCardColor] = useState("#FFFFFF");
   const [cardColorId, setCardColorId] = useState("");
   const [textColor, setTextColor] = useState("#000000");
-  const [priceColor, setPriceColor] = useState("#000000");
   const [selectedShape, setSelectedShape] = useState(null);
   const [selectedShapeId, setSelectedShapeId] = useState("");
   const [selectedShopId, setSelectedShopId] = useState("");
@@ -43,11 +42,6 @@ const CustomCards = () => {
   });
   const [textFontFamily, setTextFontFamily] = useState("Playfair Display");
   const [textFont, setTextFont] = useState(20);
-
-  const [priceFontFamily, setPriceFontFamily] = useState(
-    "'Times New Roman', Times, serif"
-  );
-  const [priceFont, setPriceFont] = useState(50);
   const [shapeImage] = useImage(selectedShape);
   const [logo] = useImage(logoImage);
   const [mainLogoImage] = useImage(mainLogo);
@@ -120,8 +114,12 @@ const CustomCards = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  // Step labels for better clarity
-  const stepLabels = [key("color"), key("shape"), key("storesPageTitle"), key("message")];
+  const stepLabels = [
+    key("color"),
+    key("shape"),
+    key("storesPageTitle"),
+    key("message"),
+  ];
   const handleSelect = (selectedIndex) => {
     setCurrentStep(selectedIndex);
   };
@@ -146,9 +144,9 @@ const CustomCards = () => {
       isSpecial: false,
       price: {
         value: cardPrice,
-        fontFamily: priceFontFamily,
-        fontSize: priceFont,
-        fontColor: priceColor,
+        fontFamily: "'Times New Roman', Times, serif",
+        fontSize: 40,
+        fontColor: textColor,
         fontWeight: 600,
       },
       color: cardColorId,
@@ -190,7 +188,7 @@ const CustomCards = () => {
       <div className={styles.canva_body}>
         <div className={styles.content}>
           <Row className="w-100 h-75 justify-content-between">
-            <Col lg={6} xl={5} className={styles.card_side_container}>
+            <Col sm={12} className={styles.card_side_container}>
               <div className={styles.card_side_header}>
                 <h3>
                   {key("CardDisplay")} ({showBack ? key("back") : key("front")})
@@ -265,9 +263,9 @@ const CustomCards = () => {
                         {cardPrice && (
                           <Text
                             text={`${cardPrice} ${key("sar")}`}
-                            fontSize={Number(priceFont)}
-                            fontFamily={priceFontFamily}
-                            fill={priceColor}
+                            fontSize={40}
+                            fontFamily={"'Times New Roman', Times, serif"}
+                            fill={textColor}
                             x={10}
                             y={10}
                           />
@@ -300,7 +298,7 @@ const CustomCards = () => {
               </div>
             </Col>
 
-            <Col lg={6} xl={6} className={styles.control_side_container}>
+            <Col sm={12} className={styles.control_side_container}>
               <div className={styles.steps_indicator}>
                 {stepLabels.map((label, index) => (
                   <div
@@ -309,7 +307,10 @@ const CustomCards = () => {
                       currentStep === index ? styles.active_step : ""
                     }`}
                   >
-                    <span>{index + 1}</span> {label}
+                    <div className={styles.step_num}>
+                      <span>{index + 1}</span>
+                    </div>{" "}
+                    <span>{label}</span>
                   </div>
                 ))}
               </div>
@@ -323,11 +324,10 @@ const CustomCards = () => {
                 interval={null}
                 wrap={false}
                 className={styles.carousel_body}
-                
               >
                 <Carousel.Item className={styles.carousel_item}>
                   <div className={styles.choose_color}>
-                    <h4 className="text-center mb-4">
+                    <h4 className={`${styles.title} text-center mb-4`}>
                       {key("choose")} {key("cardColor")}
                     </h4>
                     <Row className={styles.color_group}>
@@ -335,7 +335,7 @@ const CustomCards = () => {
                         colors.data.map((color) => (
                           <Col
                             key={color._id}
-                            xs={3}
+                            xs={4}
                             sm={2}
                             className="d-flex justify-content-center align-items-center"
                           >
@@ -355,9 +355,9 @@ const CustomCards = () => {
                     </Row>
                   </div>
                 </Carousel.Item>
-                <Carousel.Item className={`${styles.carousel_item} ${styles.special_item}`}>
-                  <div className={`${styles.choose_shape} ${styles.special_shadow}  position-relative`}>
-                    <h4 className="text-center mb-4">
+                <Carousel.Item className={`${styles.carousel_item}`}>
+                  <div className={`${styles.choose_shape}  position-relative`}>
+                    <h4 className={`${styles.title} text-center mb-4`}>
                       {key("cardBackground")}
                     </h4>
                     <Row className={styles.shapes_container}>
@@ -367,7 +367,7 @@ const CustomCards = () => {
                             xs={12}
                             sm={6}
                             md={4}
-                            className="d-flex justify-content-center"
+                            className="d-flex justify-content-center align-items-center"
                             onClick={() => {
                               setSelectedShape(
                                 `http://127.0.0.1:3001/shapes/${shape.image} `
@@ -399,9 +399,9 @@ const CustomCards = () => {
                     </Row>
                   </div>
                 </Carousel.Item>
-                <Carousel.Item className={`${styles.carousel_item} ${styles.special_item}`}>
-                  <div className={`${styles.choose_shape} ${styles.special_shadow}  d-flex mx-4`}>
-                    <h4 className="text-start mb-3">
+                <Carousel.Item className={`${styles.carousel_item}`}>
+                  <div className={`${styles.choose_shape} d-flex mx-4`}>
+                    <h4 className={`${styles.title} text-start mb-3`}>
                       {key("choose")} {key("store")}
                     </h4>
                     <Row className={styles.logo_container}>
@@ -411,6 +411,7 @@ const CustomCards = () => {
                             xs={12}
                             sm={6}
                             md={4}
+                            lg={3}
                             className="d-flex justify-content-center"
                             onClick={() => {
                               setLogoImage(
@@ -424,7 +425,6 @@ const CustomCards = () => {
                               <img
                                 src={`http://127.0.0.1:3001/shops/${shop.logo}`}
                                 alt={`${shop.name}`}
-                                className="w-100"
                               />
                             </div>
                           </Col>
@@ -433,29 +433,17 @@ const CustomCards = () => {
                   </div>
                 </Carousel.Item>
                 <Carousel.Item className={styles.carousel_item}>
-                  <div className={styles.text_containers}>
+                  <div className={styles.text_containers_parent}>
                     <div className={`${styles.text_container}`}>
                       <h4>{key("cardMessage")}</h4>
-
-                      <div
-                        className={`${
-                          isArLang ? "flex-row-reverse" : ""
-                        } input-group mb-3`}
-                      >
-                        <input
-                          type="text"
+                      <div class="form-floating">
+                        <textarea
+                          id="floatingTextarea"
                           value={cardText}
                           onChange={(e) => setCardText(e.target.value)}
                           onClick={() => setShowBack(false)}
                           className={`${styles.text_input} form-control`}
-                        />
-
-                        <input
-                          type="color"
-                          value={textColor}
-                          onChange={(e) => setTextColor(e.target.value)}
-                          className={styles.color_input}
-                        />
+                        ></textarea>
                       </div>
                       <div className={styles.text_editors}>
                         <Select
@@ -475,6 +463,12 @@ const CustomCards = () => {
                           onChange={(e) => setTextFont(e.target.value)}
                           className={styles.fontSize_input}
                         />
+                        <input
+                          type="color"
+                          value={textColor}
+                          onChange={(e) => setTextColor(e.target.value)}
+                          className={styles.color_input}
+                        />
                       </div>
                     </div>
 
@@ -490,32 +484,7 @@ const CustomCards = () => {
                           value={cardPrice}
                           onChange={(e) => setCardPrice(e.target.value)}
                           onClick={() => setShowBack(false)}
-                          className={`${styles.text_input} form-control`}
-                        />
-                        <input
-                          type="color"
-                          value={priceColor}
-                          onChange={(e) => setPriceColor(e.target.value)}
-                          className={styles.color_input}
-                        />
-                      </div>
-                      <div className={styles.text_editors}>
-                        <Select
-                          className={styles.select_input}
-                          classNamePrefix="FontFamily"
-                          placeholder={key("fontFamily")}
-                          isClearable={false}
-                          isSearchable={true}
-                          name="priceFontFamily"
-                          options={FontsFamilies}
-                          onChange={(value) => setPriceFontFamily(value.value)}
-                        />
-
-                        <input
-                          type="number"
-                          placeholder={key("size")}
-                          onChange={(e) => setPriceFont(e.target.value)}
-                          className={styles.fontSize_input}
+                          className={`text-dark form-control`}
                         />
                       </div>
                     </div>

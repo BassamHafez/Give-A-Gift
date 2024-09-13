@@ -4,13 +4,14 @@
     "aboutPageTitle":"عنا",
     "storesPageTitle":"المتاجر",
     "createCardPageTitle":"أنشئ بطاقة",
-    "buyCardPageTitle":"اشتري بطاقة",
+    "buyCardNavTitle":"اشتري بطاقة",
+    "buyCardPageTitle":"بطاقات جاهزة لك",
     "login":"تسجيل الدخول",
     "logout":"تسجيل الخروج",
     "register":"أنشئ حساب جديد",
     "getCardBtn":"أحصل علي بطاقة",
     "showCardBtn":"عرض البطاقات",
-    "sec1Title":"اختر ما يناسبك",
+    "sec1Title":"اختار ما يناسبك",
     "giftCards":"بطاقات الهدايا",
     "customCards":"بطاقات الهدايا المخصصة",
     "readyCard":"بطاقة جاهزة",
@@ -178,6 +179,12 @@
     "verificationCodeRequired": "رمز التحقق مطلوب",
     "checkWhatsApp": "تحقق من واتساب الخاص بك",
     "sendCodeFail": "تعذر إرسال الرمز، حاول مرة أخرى لاحقاً",
-    "emailOrPass":"البريد الإلكتروني أو الرقم السري خاطئ"
-
+    "emailOrPass":"البريد الإلكتروني أو الرقم السري خاطئ",
+    "results":"النتائج",
+    "applyCoupon":"رمز القسيمة",
+    "couponSuccess": "تم تطبيق رمز القسيمة بنجاح",
+    "couponFaild": "رمز القسيمة غير صحيح",
+    "invalidCoupon": "القسيمة غير صالحة أو منتهية الصلاحية",
+    "appy":"تطبيق",
+    "promoCode": "رمز الترويج"
 }

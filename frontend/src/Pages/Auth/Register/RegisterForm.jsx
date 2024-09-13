@@ -161,8 +161,6 @@ const RegisterForm = ({ notifySuccess, notifyError }) => {
             </div>
 
             <div className={styles.field}>
-              <label htmlFor="phoneNum">{key("whatsAppNum2")}</label>
-
               <div
                 className={`${styles.phone_num} ${
                   isArLang && styles.ar_phoneNum
@@ -173,6 +171,7 @@ const RegisterForm = ({ notifySuccess, notifyError }) => {
                   classNamePrefix="Country"
                   isClearable={false}
                   isSearchable={true}
+                  placeholder={key("whatsAppNum2")}
                   name="Country"
                   options={CountriesPhoneNumbers}
                   defaultValue={CountriesPhoneNumbers[1]}
@@ -183,7 +182,7 @@ const RegisterForm = ({ notifySuccess, notifyError }) => {
                   onChange={(value) => {
                     setSelectedCountry(value.value);
                     setFieldValue("Country", value.value);
-                  }}
+                  }} 
                 />
                 <Field
                   type="text"

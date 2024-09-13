@@ -1,24 +1,39 @@
 import React from "react";
-import styles from "./HomeHeader.module.css";
+import { Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import styles from "./HomeHeader.module.css";
 
 const HomeHeader = () => {
-  const {t:key} = useTranslation();
-  let isArLang = localStorage.getItem("i18nextLng") === "ar";
+  const { t } = useTranslation();
 
   return (
-    <div className={styles.header_container}>
-      <div className={styles.header_layer}></div>
-      <div className={`${styles.header_text} ${!isArLang&&styles.letter_spacing}`}>
-        <h1>{key("sec3Title")}</h1>
-        <p >{key("sec3Caption")}</p>
+    <header className={styles.header_container}>
+      <div
+        className={`${styles.layer} position-absolute w-100 h-100`}
+        style={{ opacity: 0.5 }}
+      ></div>
+
+      <div
+        className={`${styles.caption_div} bg-main d-flex flex-column  shadow-lg position-relative`}
+      >
+        <Typography
+          variant="h2"
+          component="h1"
+          className={`${styles.title} text-center`}
+        >
+          {t("sec3Title")}
+        </Typography>
+        <br />
+        <Typography
+          variant="h5"
+          component="p"
+          className={`${styles.caption} text-center`}
+        >
+          {t("sec3Caption")}
+        </Typography>
       </div>
-      <a href="#firstSec">
-          <div className={styles.scroll_down}>
-            <div className={styles.small_circle}></div>
-          </div>
-        </a>
-    </div>
+    </header>
+    
   );
 };
 

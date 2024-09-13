@@ -50,7 +50,7 @@
     display: flex;
     justify-content: flex-end;
 }
-.trash_icon,.arrow_right_icon{
+.trash_icon,.arrow_right_icon,.eye{
     margin-inline: 0.625rem;
     font-size: 0.9375rem;
     background-color: var(--main_color);
@@ -60,6 +60,16 @@
     cursor: pointer;
     border: 0.0625rem solid transparent;
     transition: all .4s;
+}
+.eye{
+    background-color: white;
+    box-shadow: 0 0 3px black;
+    padding: 8px;
+    color: var(--sub_color);
+}
+.eye:hover{
+    background-color: var(--sub_color);
+    color: white;
 }
 .arrow_right_icon{
     background-color: var(--sub_color);

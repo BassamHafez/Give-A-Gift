@@ -1,31 +1,16 @@
-import React, { useEffect, useState } from "react";
-import styles from "./Profile.module.css";
-import ProfileHorizontal from "./ProfileHorizontal";
-import ProfileVertical from "./ProfileVertical";
+import React from "react";
 import { Toaster } from "react-hot-toast";
+import ProfileContent from "./ProfileContent";
 
 const Profile = () => {
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsSmallScreen(window.innerWidth < 768);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   return (
     <>
-          <Toaster position="top-right" />
-
-      <div className={styles.tab_container}>
+      <Toaster position="top-right" />
+      <ProfileContent/>
+      {/* <div className={styles.tab_container}>
         {isSmallScreen ? <ProfileHorizontal /> : <ProfileVertical />}
-      </div>
+      </div> */}
     </>
   );
 };

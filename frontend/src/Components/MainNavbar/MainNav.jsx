@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import MainButton from "../Ui/MainButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { faOpencart } from "@fortawesome/free-brands-svg-icons";
 import ResponsiveMenuSlideBar from "../ResponsiveSideBar/ResponsiveSideBar";
 import nav_logo from "../../Images/logo.png";
@@ -13,15 +12,19 @@ import Cart from "../Cart/Cart";
 import { getMyCards } from "../../util/Http";
 import { useQuery } from "@tanstack/react-query";
 import styles from "./MainNav.module.css";
+import noAvatar from "../../Images/default.png";
+import LogoutModal from "../Ui/LogoutModal";
 
 const MainNav = () => {
   const [openResMenu, setOpenResMenu] = useState(false);
   const [addNavClass, setAddNavClass] = useState(false);
+  const [logoutModalShow, setLogoutModalShow] = useState(false);
   const [showCart, setShowCart] = useState(false);
   const [key, control] = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const profileData = useSelector((state) => state.profileInfo.data);
   const isLogin = useSelector((state) => state.userInfo.isLogin);
+  const role = useSelector((state) => state.userInfo.role);
   const navigate = useNavigate();
   const location = useLocation();
   const token = JSON.parse(localStorage.getItem("token"));
@@ -52,160 +55,180 @@ const MainNav = () => {
   return (
     <>
       <nav
-        className={`${styles.main_nav} d-flex align-items-center px-3 ${
-          location.pathname === "/" ? "fixed-top" : "sticky-top"
-        }  ${(addNavClass || location.pathname !== "/") && styles.new_nav} ${
-          location.pathname !== "/" && styles.new_pages_nav
-        }`}
+        className={`${
+          styles.main_nav
+        } d-flex align-items-center justify-content-center ${
+          isArLang ? "pe-5" : "ps-5"
+        } ${location.pathname === "/" ? "fixed-top" : "sticky-top"}  ${
+          (addNavClass || location.pathname !== "/") && styles.new_nav
+        } ${location.pathname !== "/" && styles.new_pages_nav}`}
       >
-        <ul className={`${styles.nav_list} d-flex align-items-center mt-2`}>
-          <div
-            onClick={() => navigate("/")}
-            className={`${styles.brand} ${isArLang ? "ms-3" : "me-3"}`}
+        <div onClick={() => navigate("/")} className={`${styles.brand}`}>
+          <img src={nav_logo} alt="logo" className="w-100" />
+        </div>
+        {role !== "admin" && (
+          <ul
+            className={`${styles.nav_list} d-flex align-items-center mt-3 ${
+              isArLang ? "me-5" : "ms-5"
+            } w-75 justify-content-center`}
           >
-            <img src={nav_logo} alt="logo" className="w-100" />
-          </div>
-
-          <>
-            <li
-              className={`${styles.special_hidden} ${
-                isArLang ? "me-5 ms-4" : "ms-5 me-4"
-              }`}
-            >
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? styles.active : undefined
-                }
-                to={"/"}
-                end
-              >
-                {key("homePageTitle")}
-              </NavLink>
-            </li>
-            <li className={`${styles.special_hidden} mx-4`}>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? styles.active : undefined
-                }
-                to={"about"}
-              >
-                {key("aboutPageTitle")}
-              </NavLink>
-            </li>
-            <li className={`${styles.special_hidden} mx-4`}>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? styles.active : undefined
-                }
-                to={"stores"}
-              >
-                {key("storesPageTitle")}
-              </NavLink>
-            </li>
-            <li className={`${styles.special_hidden} mx-4`}>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? styles.active : undefined
-                }
-                to={"special-cards"}
-              >
-                {key("buyCardPageTitle")}
-              </NavLink>
-            </li>
-            <li className={`${styles.special_hidden} mx-4`}>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? styles.active : undefined
-                }
-                to={"custom-cards"}
-              >
-                {key("createCardPageTitle")}
-              </NavLink>
-            </li>
-          </>
-        </ul>
-
+            <>
+              <li className={`${styles.special_hidden} mx-3`}>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? styles.active : undefined
+                  }
+                  to={"/"}
+                  end
+                >
+                  {key("homePageTitle")}
+                </NavLink>
+              </li>
+              <li className={`${styles.special_hidden} mx-3`}>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? styles.active : undefined
+                  }
+                  to={"about"}
+                >
+                  {key("aboutPageTitle")}
+                </NavLink>
+              </li>
+              <li className={`${styles.special_hidden} mx-3`}>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? styles.active : undefined
+                  }
+                  to={"special-cards"}
+                >
+                  {key("buyCardNavTitle")}
+                </NavLink>
+              </li>
+              <li className={`${styles.special_hidden} mx-3`}>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? styles.active : undefined
+                  }
+                  to={"custom-cards"}
+                >
+                  {key("createCardPageTitle")}
+                </NavLink>
+              </li>
+              <li className={`${styles.special_hidden} mx-3`}>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? styles.active : undefined
+                  }
+                  to={"stores"}
+                >
+                  {key("storesPageTitle")}
+                </NavLink>
+              </li>
+              {isArLang ? (
+                <li
+                  onClick={() => control.changeLanguage("en")}
+                  className={`${styles.special_hidden} ${styles.lang_item} mx-3`}
+                >
+                  English
+                </li>
+              ) : (
+                <li
+                  onClick={() => control.changeLanguage("ar")}
+                  className={`${styles.special_hidden} ${styles.lang_item} mx-3`}
+                >
+                  العربية
+                </li>
+              )}
+            </>
+          </ul>
+        )}
         <div
           className={`d-flex align-items-center ${
             isArLang ? "me-auto ms-2" : "ms-auto me-2"
           }`}
         >
           <div className={styles.nav_controllers}>
+            {role !== "admin" && (
+              <>
+                {" "}
+                <div
+                  className="position-relative"
+                  onClick={() => setShowCart(true)}
+                >
+                  <FontAwesomeIcon
+                    className={styles.cart_icon}
+                    icon={faOpencart}
+                  />{" "}
+                  <Badge className={styles.cart_badge} bg="danger">
+                    {cartItemCount}
+                  </Badge>
+                </div>
+              </>
+            )}
+          </div>
+          <>
+            {role !== "admin" ? (
+              isLogin ? (
+                <Link to={`profile/${profileData?._id}`} className="mx-4">
+                  <div className={styles.profile_img}>
+                    <img
+                      src={
+                        profileData
+                          ? profileData.photo
+                            ? `${process.env.REACT_APP_Host}/users/${profileData?.photo}`
+                            : noAvatar
+                          : noAvatar
+                      }
+                      alt={`${profileData?.name}_ptofile_photo`}
+                    />
+                  </div>
+                </Link>
+              ) : (
+                <>
+                  <Link
+                    to={"login"}
+                    className={isArLang ? styles.sign_btn_ar : styles.sign_btn}
+                  >
+                    <MainButton text={`${key("login")}`} />
+                  </Link>
+                </>
+              )
+            ) : (
+              <>
+                <div className={styles.sign_btn}>
+                  <MainButton
+                    onClick={() => setLogoutModalShow(true)}
+                    text={`${key("logout")}`}
+                  />
+                </div>
+              </>
+            )}
+          </>
+          {role !== "admin" && (
             <div
-              className="position-relative"
-              onClick={() => setShowCart(true)}
+              onClick={() => setOpenResMenu(true)}
+              className={`${styles.burger_list} ${styles.list} justify-content-between flex-column mx-3`}
             >
-              <FontAwesomeIcon className={styles.cart_icon} icon={faOpencart} />{" "}
-              <Badge className={styles.cart_badge} bg="danger">
-                {cartItemCount}
-              </Badge>
+              <span className={styles.half_line}></span>
+              <span className={styles.full_line}></span>
+              <span className={`${styles.half_line} ms-auto`}></span>
             </div>
-
-            <div className="dropdown">
-              <FontAwesomeIcon
-                className={`${styles.lang_icon} dropdown-toggle`}
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-                icon={faGlobe}
-              />
-
-              <ul className="dropdown-menu">
-                <li
-                  onClick={() => control.changeLanguage("ar")}
-                  className={`${styles.lang_item} ${
-                    isArLang ? styles.active_lang : ""
-                  }`}
-                >
-                  <span className="dropdown-item">Arabic</span>
-                </li>
-                <li
-                  onClick={() => control.changeLanguage("en")}
-                  className={`${styles.lang_item} ${
-                    !isArLang ? styles.active_lang : ""
-                  }`}
-                >
-                  <span className="dropdown-item">English</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          {isLogin ? (
-            <Link to={`profile/${profileData?._id}`}>
-              <div className={styles.profile_img}>
-                <img
-                  src={`http://127.0.0.1:3001/users/${profileData?.photo}`}
-                  alt={`${profileData?.name}_ptofile_photo`}
-                />
-              </div>
-            </Link>
-          ) : (
-            <>
-              <Link to={"login"} className={styles.sign_btn}>
-                <MainButton text={`${key("login")}`} />
-              </Link>
-
-              <Link to={"register"} className={styles.sign_btn}>
-                <MainButton type="white" text={`${key("register")}`} />
-              </Link>
-            </>
           )}
-
-          <div
-            onClick={() => setOpenResMenu(true)}
-            className={`${styles.burger_list} ${styles.list} justify-content-between flex-column mx-3`}
-          >
-            <span className={styles.half_line}></span>
-            <span className={styles.full_line}></span>
-            <span className={`${styles.half_line} ms-auto`}></span>
-          </div>
         </div>
       </nav>
-      <ResponsiveMenuSlideBar
-        onClose={() => setOpenResMenu(false)}
-        show={openResMenu}
-      />
-      <Cart onClose={() => setShowCart(false)} show={showCart} />
+      {openResMenu && role !== "admin" && (
+        <ResponsiveMenuSlideBar
+          onClose={() => setOpenResMenu(false)}
+          show={openResMenu}
+        />
+      )}
+      {showCart && <Cart onClose={() => setShowCart(false)} show={showCart} />}
+      {logoutModalShow && (
+        <LogoutModal
+          show={logoutModalShow}
+          onHide={() => setLogoutModalShow(false)}
+        />
+      )}
     </>
   );
 };
