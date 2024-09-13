@@ -8,9 +8,6 @@ const Profile = () => {
     <>
       <Toaster position="top-right" />
       <ProfileContent/>
-      {/* <div className={styles.tab_container}>
-        {isSmallScreen ? <ProfileHorizontal /> : <ProfileVertical />}
-      </div> */}
     </>
   );
 };

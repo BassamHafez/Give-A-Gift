@@ -40,7 +40,6 @@ const ViewCard = () => {
 
   let myCardArr = data ? data.data.filter((card) => card._id === cardId) : [];
   let myCard = myCardArr[0];
-  console.log(myCard);
 
   const loadingCard = (
     <Card style={{ width: "18rem" }}>
