@@ -24,10 +24,10 @@ const VerifyPhoneNumber = () => {
 
       console.log(response.data);
       if (response?.data?.status === "success") {
-        notifySuccess("check your whatsapp");
+        notifySuccess(key("checkWhatsApp"));
         setModalShow(true);
       } else {
-        notifyError("couldn't send code try again later");
+        notifyError(key("sendCodeFail"));
       }
     } catch (error) {
       console.error(error);
