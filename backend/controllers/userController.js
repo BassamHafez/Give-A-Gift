@@ -26,6 +26,21 @@ exports.getAllUsers = factory.getAll(User);
 exports.deleteUser = factory.deleteOne(User);
 exports.getUser = factory.getOne(User);
 
+exports.addAdmin = catchAsync(async (req, res, next) => {
+  const newUser = await User.create({
+    name: req.body.name,
+    email: req.body.email,
+    phone: req.body.phone,
+    password: req.body.password,
+    role: "admin",
+  });
+
+  res.status(201).json({
+    status: "success",
+    data: newUser,
+  });
+});
+
 exports.uploadUserPhoto = uploadSingleImage("photo");
 
 exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
