@@ -94,13 +94,16 @@ exports.buyCard = catchAsync(async (req, res, next) => {
     return next(new ApiError("Wallet not found", 404));
   }
 
-  const cardPrice = card.priceAfterDiscount || card.price.value;
+  const VAT = await Config.findOne({ key: "VAT_VALUE" });
 
-  if (wallet.balance < cardPrice) {
+  const cardPrice = card.priceAfterDiscount || card.price.value;
+  const totalAmount = cardPrice + cardPrice * parseFloat(VAT.value / 100);
+
+  if (wallet.balance < totalAmount) {
     return next(new ApiError("Insufficient balance", 400));
   }
 
-  wallet.balance -= cardPrice;
+  wallet.balance -= totalAmount;
   card.isPaid = true;
 
   const msgData = {
