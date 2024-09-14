@@ -122,6 +122,20 @@ exports.createCardValidator = [
     .isNumeric()
     .withMessage("Text Y position must be a number"),
 
+  // NOT ALLOWED
+
+  check("user").isEmpty().withMessage("User cannot be set"),
+
+  check("isPaid").isEmpty().withMessage("isPaid cannot be set"),
+
+  check("code").isEmpty().withMessage("Code cannot be set"),
+
+  check("priceAfterDiscount")
+    .isEmpty()
+    .withMessage("Price after discount cannot be set"),
+
+  check("isDelivered").isEmpty().withMessage("isDelivered cannot be set"),
+
   validatorMiddleware,
 ];
 
@@ -231,6 +245,22 @@ exports.updateCardValidator = [
 
       return true;
     }),
+
+  // NOT ALLOWED TO UPDATE
+
+  check("isSpecial").isEmpty().withMessage("isSpecial cannot be updated"),
+
+  check("isPaid").isEmpty().withMessage("isPaid cannot be updated"),
+
+  check("user").isEmpty().withMessage("User cannot be updated"),
+
+  check("code").isEmpty().withMessage("Code cannot be updated"),
+
+  check("priceAfterDiscount")
+    .isEmpty()
+    .withMessage("PriceAfterDiscount cannot be updated"),
+
+  check("isDelivered").isEmpty().withMessage("isDelivered cannot be updated"),
 
   validatorMiddleware,
 ];
