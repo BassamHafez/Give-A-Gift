@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import HomeHeader from "../../Components/Header/HomeHeader";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
@@ -12,10 +12,19 @@ import TopStores from "../../Components/TopStores/TopStores";
 import HomeSections from "../../Components/Ui/HomeSections";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Home = () => {
   const { t: key } = useTranslation();
   const navigate = useNavigate();
+  const role = useSelector((state) => state.userInfo.role);
+  const profileData = useSelector((state) => state.profileInfo.data);
+
+  useEffect(()=>{
+    if(role==="admin"){
+      navigate(`/admin/${profileData?._id}`)
+    }
+  },[role,navigate,profileData])
 
   return (
     <>
