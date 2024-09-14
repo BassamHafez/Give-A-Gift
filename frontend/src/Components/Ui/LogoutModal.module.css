@@ -48,7 +48,10 @@
     width: 95%;
     padding: 0.625rem;
 }
-
+.field{
+    position: relative;
+    margin: 40px 0;
+}
 .details_list{
     text-align:start;
     border-top: 0.0625rem solid rgba(0, 0, 0, 0.237);

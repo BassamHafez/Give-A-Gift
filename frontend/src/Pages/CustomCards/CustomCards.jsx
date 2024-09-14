@@ -370,7 +370,7 @@ const CustomCards = () => {
                             className="d-flex justify-content-center align-items-center"
                             onClick={() => {
                               setSelectedShape(
-                                `http://127.0.0.1:3001/shapes/${shape.image} `
+                                `${process.env.REACT_APP_Host}shapes/${shape.image} `
                               );
                               setShowBack(true);
                               setSelectedShapeId(shape._id);
@@ -386,7 +386,7 @@ const CustomCards = () => {
                               className={styles.shape_div}
                             >
                               <img
-                                src={`http://127.0.0.1:3001/shapes/${shape.image}`}
+                                src={`${process.env.REACT_APP_Host}shapes/${shape.image}`}
                                 alt={`${shape}_${shape._id}`}
                                 className="w-100"
                               />
@@ -415,7 +415,7 @@ const CustomCards = () => {
                             className="d-flex justify-content-center"
                             onClick={() => {
                               setLogoImage(
-                                `http://127.0.0.1:3001/shops/${shop.logo}`
+                                `${process.env.REACT_APP_Host}shops/${shop.logo}`
                               );
                               setSelectedShopId(shop._id);
                             }}
@@ -423,7 +423,7 @@ const CustomCards = () => {
                           >
                             <div className={styles.logo_div}>
                               <img
-                                src={`http://127.0.0.1:3001/shops/${shop.logo}`}
+                                src={`${process.env.REACT_APP_Host}shops/${shop.logo}`}
                                 alt={`${shop.name}`}
                               />
                             </div>

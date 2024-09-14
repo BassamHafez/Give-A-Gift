@@ -63,7 +63,10 @@
      width:120px;
      cursor: pointer;
  }
- 
+ .admin_brand{
+    width:150px;
+    cursor: pointer;
+ }
  .burger_list{
      width: 2.5rem;
      height: 1.5625rem;
@@ -197,6 +200,9 @@
      .main_nav{
          justify-content: center;
       }
+      .admin_brand{
+        width: 600px;
+      }
  }
  
  
@@ -207,6 +213,9 @@
      .brand{
         width: 400px;
     }
+    .admin_brand{
+        width: 1500px;
+      }
  }
  @media screen and (max-width:260px) {
      .brand{

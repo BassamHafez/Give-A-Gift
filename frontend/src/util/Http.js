@@ -23,8 +23,6 @@ export const signFormsHandler = async ({ type, formData, method }) => {
     throw error.message;
   }
 };
-
-
 export const getShapes = async () => {
   try {
      const response = await axios.get(`${baseServerUrl}shapes`);
@@ -217,6 +215,97 @@ export const getMe= async (token) => {
       headers:{Authorization:`Bearer ${token}`}
      });
 
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return error
+  }
+};
+
+
+// admin pages
+
+
+export const controlColors=async ({token,method,formData}) => {
+  try {
+    let response;
+    if(method==="add"){
+      response = await axios.post(`${baseServerUrl}colors`,formData,{
+        headers:{Authorization:`Bearer ${token}`}
+       });
+    }
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return error
+  }
+};
+
+export const controlShapes=async ({token,formData}) => {
+  try {
+    const response = await axios.post(`${baseServerUrl}shapes`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return error
+  }
+};
+
+export const controlShops=async ({token,formData}) => {
+  try {
+    const response = await axios.post(`${baseServerUrl}shops`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return error
+  }
+};
+
+export const controlCoupons=async ({token,method,formData,couponId}) => {
+  try {
+    let response;
+    if(method==="add"){
+       response = await axios.post(`${baseServerUrl}coupons`,formData,{
+        headers:{Authorization:`Bearer ${token}`}
+       });
+    }else if(method==="update"){
+      response = await axios.patch(`${baseServerUrl}coupons/${couponId}`,formData,{
+        headers:{Authorization:`Bearer ${token}`}
+       });
+    }else if(method==="get"){
+      response = await axios.get(`${baseServerUrl}coupons`,{
+        headers:{Authorization:`Bearer ${token}`}
+       });
+    }
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return error
+  }
+};
+
+export const controlSpecialCards=async ({token,method,formData,cardId}) => {
+  try {
+    let response;
+    if(method==="add"){
+       response = await axios.post(`${baseServerUrl}special-cards`,formData,{
+        headers:{Authorization:`Bearer ${token}`}
+       });
+    }else if(method==="update"){
+      response = await axios.patch(`${baseServerUrl}special-cards/${cardId}`,formData,{
+        headers:{Authorization:`Bearer ${token}`}
+       });
+      }
     return response.data;
   } catch (error) {
     console.error(error);

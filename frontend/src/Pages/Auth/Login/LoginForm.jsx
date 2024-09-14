@@ -47,15 +47,15 @@ const LoginForm = ({notifySuccess,notifyError}) => {
             dispatch(saveTokenState(res.token));
             navigate("/");
           } else {
-            dispatch(userActions.setUserInfo(res.data.user));
+            dispatch(userActions.setUserInfo(res.data?.user));
             dispatch(userActions.setIsLogin(true));
             dispatch(userActions.setRole("admin"));
             dispatch(userActions.setToken(res.token));
-            dispatch(saveUserInfoIntoLocalStorag(res.data.user));
+            dispatch(saveUserInfoIntoLocalStorag(res.data?.user));
             dispatch(saveIsLoginState(true));
             dispatch(saveRoleState("admin"));
             dispatch(saveTokenState(res.token));
-            navigate("/admin")
+            navigate(`/admin/${res.data?.user?._id}`)
           }
         }
     },

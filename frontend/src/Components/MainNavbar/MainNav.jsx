@@ -63,7 +63,7 @@ const MainNav = () => {
           (addNavClass || location.pathname !== "/") && styles.new_nav
         } ${location.pathname !== "/" && styles.new_pages_nav}`}
       >
-        <div onClick={() => navigate("/")} className={`${styles.brand}`}>
+        <div onClick={() => navigate("/")} className={`${role !== "admin"?styles.brand:styles.admin_brand}`}>
           <img src={nav_logo} alt="logo" className="w-100" />
         </div>
         {role !== "admin" && (
@@ -150,7 +150,6 @@ const MainNav = () => {
           <div className={styles.nav_controllers}>
             {role !== "admin" && (
               <>
-                {" "}
                 <div
                   className="position-relative"
                   onClick={() => setShowCart(true)}
@@ -195,12 +194,38 @@ const MainNav = () => {
               )
             ) : (
               <>
-                <div className={styles.sign_btn}>
-                  <MainButton
-                    onClick={() => setLogoutModalShow(true)}
-                    text={`${key("logout")}`}
-                  />
-                </div>
+                <ul className="pt-3">
+                  {isArLang ? (
+                    <li
+                      onClick={() => control.changeLanguage("en")}
+                      className={` ${styles.lang_item} mx-3`}
+                    >
+                      English
+                    </li>
+                  ) : (
+                    <li
+                      onClick={() => control.changeLanguage("ar")}
+                      className={` ${styles.lang_item} mx-3`}
+                    >
+                      العربية
+                    </li>
+                  )}
+                </ul>
+
+                <Link to={`admin/${profileData?._id}`} className="mx-4">
+                  <div className={styles.profile_img}>
+                    <img
+                      src={
+                        profileData
+                          ? profileData.photo
+                            ? `${process.env.REACT_APP_Host}/users/${profileData?.photo}`
+                            : noAvatar
+                          : noAvatar
+                      }
+                      alt={`${profileData?.name}_ptofile_photo`}
+                    />
+                  </div>
+                </Link>
               </>
             )}
           </>

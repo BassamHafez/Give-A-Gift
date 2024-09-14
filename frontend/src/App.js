@@ -23,6 +23,16 @@ import Admin from './Pages/Admin/Admin';
 import AccountManageMent from './Pages/Profile/AccountManageMent';
 import Help from './Pages/Profile/Help';
 import ViewCard from './Pages/ViewCard/ViewCard';
+import Analysis from './Pages/Admin/AdminPages/Analysis';
+import Colors from './Pages/Admin/AdminPages/Colors';
+import Configs from './Pages/Admin/AdminPages/Configs';
+import Coupons from './Pages/Admin/AdminPages/Coupons';
+import Shapes from './Pages/Admin/AdminPages/Shapes';
+import Shops from './Pages/Admin/AdminPages/Shops';
+import AdminSpecialCards from './Pages/Admin/AdminPages/AdminSpecialCards';
+import Transactions from './Pages/Admin/AdminPages/Transactions';
+import Users from './Pages/Admin/AdminPages/Users';
+import Wallets from './Pages/Admin/AdminPages/Wallets';
 
 
 const router=createBrowserRouter([{
@@ -44,7 +54,17 @@ const router=createBrowserRouter([{
     {path:"payment-faild",element:<ErrorURL/>},
     {path:"account-setting",element:<AccountManageMent/>},
     {path:"help",element:<Help/>},
-    {path:"admin",element:<Admin/>},
+    {path:"admin/:adminId",element:<Admin/>},
+    {path:"admin-anaysis",element:<Analysis/>},
+    {path:"admin-colors",element:<Colors/>},
+    {path:"admin-configs",element:<Configs/>},
+    {path:"admin-coupons",element:<Coupons/>},
+    {path:"admin-shapes",element:<Shapes/>},
+    {path:"admin-shops",element:<Shops/>},
+    {path:"admin-specialCards",element:<AdminSpecialCards/>},
+    {path:"admin-transactions",element:<Transactions/>},
+    {path:"admin-users",element:<Users/>},
+    {path:"admin-wallets",element:<Wallets/>},
 
   ]
 }])  
