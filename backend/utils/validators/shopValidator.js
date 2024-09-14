@@ -22,7 +22,11 @@ exports.createShopValidator = [
 ];
 
 exports.deleteShopValidator = [
-  check("id").isMongoId().withMessage("Invalid shop id"),
+  check("id")
+    .notEmpty()
+    .withMessage("Shop ID is required")
+    .isMongoId()
+    .withMessage("Shop ID must be a valid MongoDB ID"),
 
   validatorMiddleware,
 ];
