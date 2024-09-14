@@ -17,16 +17,7 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
-exports.verifyAdminPhone = (req, res, next) => {
-  if (req.body.phone && req.body.role === "admin") {
-    req.body.phoneVerified = true;
-  }
-  next();
-};
-
 exports.getAllUsers = factory.getAll(User);
-
-exports.updateUser = factory.updateOne(User);
 
 exports.deleteUser = factory.deleteOne(User);
 
