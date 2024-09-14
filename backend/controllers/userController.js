@@ -17,6 +17,13 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
+exports.verifyAdminPhone = (req, res, next) => {
+  if (req.body.phone && req.body.role === "admin") {
+    req.body.phoneVerified = true;
+  }
+  next();
+};
+
 exports.getAllUsers = factory.getAll(User);
 
 exports.updateUser = factory.updateOne(User);
@@ -64,7 +71,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     filteredBody.photo = req.body.photo;
   }
 
-  if (req.body?.phone) {
+  if (req.body?.phone && req.user.role !== "admin") {
     filteredBody.phoneVerified = false;
   }
 
