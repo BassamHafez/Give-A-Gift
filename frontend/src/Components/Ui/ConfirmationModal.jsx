@@ -21,6 +21,9 @@ const ConfirmationModal = ({
   balance,
   cardPrice,
   cardId,
+  choosePaymentWay,
+  chargeCase,
+  balanceCase,
 }) => {
   const { t: key } = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
@@ -28,6 +31,8 @@ const ConfirmationModal = ({
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
   const [priceAfterDisc, setPriceAfterDisc] = useState("");
+  const [paymentWay, setPaymentWay] = useState("wallet");
+  const [isBalanced, setIsBalanced] = useState(true);
 
   const applyCoupon = async (e) => {
     e.preventDefault();
@@ -65,6 +70,30 @@ const ConfirmationModal = ({
     }
   };
 
+  const handlePaymentChange = (e) => {
+    setPaymentWay(e.target.value);
+  };
+
+  const checkBalance = () => {
+    if (paymentWay === "wallet") {
+      if (balanceCase) {
+        chargeCase();
+      } else {
+        if (Number(cardPrice) > Number(balance)) {
+          notifyError(key("insuffBalance"));
+          setIsBalanced(false);
+          choosePaymentWay(paymentWay, "noBalance");
+        } else {
+          setIsBalanced(true);
+          choosePaymentWay(paymentWay, "balanced");
+        }
+      }
+    } else {
+      setIsBalanced(true);
+      choosePaymentWay(paymentWay, "balanced");
+    }
+  };
+
   return (
     <Modal
       show={show}
@@ -78,7 +107,7 @@ const ConfirmationModal = ({
         <h4>{message}</h4>
         {balance && cardPrice && (
           <ul className={styles.details_list}>
-            <li>
+            <li className={`${isBalanced ? "" : "text-danger"}`}>
               <FontAwesomeIcon className={styles.list_icon} icon={faCoins} />
               {key("currentBalance")}: {balance} {key("sar")}
             </li>
@@ -90,16 +119,58 @@ const ConfirmationModal = ({
               {key("cardPrice")}:{" "}
               {priceAfterDisc === "" ? (
                 <>
-                  {" "}
                   {cardPrice} {key("sar")}
                 </>
               ) : (
                 <>
                   {priceAfterDisc} {key("sar")}{" "}
-                  <del className="mx-2">{cardPrice} {key("sar")} </del> 
+                  <del className="mx-2">
+                    {cardPrice} {key("sar")}{" "}
+                  </del>
                 </>
               )}{" "}
             </li>
+
+            {choosePaymentWay && (
+              <li className="flex-column align-items-start my-4">
+                <h4>{key("choosePay")}</h4>
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="choosePaymentWay"
+                    id="choosePaymentWay1"
+                    value="payment"
+                    onChange={handlePaymentChange}
+                    checked={paymentWay === "payment" || !isBalanced}
+                  />
+                  <label
+                    className="form-check-label mx-1"
+                    htmlFor="choosePaymentWay1"
+                  >
+                    {key("payment")}
+                  </label>
+                </div>
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="choosePaymentWay"
+                    id="choosePaymentWay2"
+                    value="wallet"
+                    onChange={handlePaymentChange}
+                    checked={paymentWay === "wallet" && isBalanced}
+                    disabled={!isBalanced}
+                  />
+                  <label
+                    className="form-check-label  mx-1"
+                    htmlFor="choosePaymentWay2"
+                  >
+                    {key("wallet")}
+                  </label>
+                </div>
+              </li>
+            )}
             <li>
               <FontAwesomeIcon className={styles.list_icon} icon={faReceipt} />{" "}
               {key("applyCoupon")}
@@ -122,7 +193,7 @@ const ConfirmationModal = ({
         <Button
           variant="danger"
           className={isArLang ? styles.logout_btn_ar : styles.logout_btn}
-          onClick={func}
+          onClick={choosePaymentWay ? checkBalance : func}
         >
           {btnMsg ? btnMsg : key("continue")}
         </Button>

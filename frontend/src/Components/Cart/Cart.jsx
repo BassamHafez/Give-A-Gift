@@ -29,10 +29,10 @@ const notifyError = (message) => toast.error(message);
 const Cart = ({ onClose, show }) => {
   const [modalShow, setModalShow] = useState(false);
   const [confirmModalShow, setConfirmModalShow] = useState(false);
-  const [confirmFunc, setConfirmFunc] = useState("");
   const [confirmMsg, setConfirmMsg] = useState("");
   const [btnMsg, setBtnMsg] = useState("");
   const [cardPrice, setCardPrice] = useState("");
+  const [balanceCase, setBalanceCase] = useState(false);
   const profileData = useSelector((state) => state.userInfo.data);
   const { t: key } = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
@@ -83,27 +83,21 @@ const Cart = ({ onClose, show }) => {
     }
   };
 
-  const confirmMethod = (method, cardPriceValue) => {
+  const confirmMethod = (method, cardPriceValue,cardID) => {
     setCardPrice(cardPriceValue);
+    setCardId(cardID)
     if (method === "pay") {
       setConfirmModalShow(true);
-      setConfirmFunc("pay");
-      setConfirmMsg(`${key("purchase")} ${key("purchaseQuestion")}`);
+      setConfirmMsg(key("purchase"));
       setBtnMsg(key("confirm"));
     } else {
       setConfirmModalShow(true);
-      setConfirmFunc("charge");
       setConfirmMsg(`charge your wallet to continue`);
       setBtnMsg(key("charge"));
     }
   };
 
   const payCard = async () => {
-    if (Number(cardPrice) > Number(walletBalance)) {
-      setConfirmModalShow(false);
-      notifyError(key("insuffBalance"));
-      confirmMethod("charge");
-    } else {
       try {
         const response = await axios.post(
           `${process.env.REACT_APP_Base_API_URl}wallets/buy-card`,
@@ -123,13 +117,26 @@ const Cart = ({ onClose, show }) => {
         notifyError(key("wrong"));
         console.error("Payment error:", error);
       }
-    }
   };
 
   const goToChargeMethods = () => {
     setConfirmModalShow(false);
     navigate(`/payment/payment/${profileData._id}`);
   };
+
+  const choosePaymentWay=(way,isBalanced)=>{
+    if (isBalanced === "balanced") {
+      if (way === "wallet") {
+        payCard();
+      } else if (way === "payment") {
+        goToChargeMethods();
+      }
+    } else {
+      setBtnMsg(key("charge"))
+      setBalanceCase(true)
+    }
+  }
+
 
   return (
     <>
@@ -247,7 +254,7 @@ const Cart = ({ onClose, show }) => {
                                         `/recipient-information/${card._id}`
                                       )
                                   : card.receiveAt
-                                  ? confirmMethod("pay", card?.price?.value)
+                                  ? confirmMethod("pay", card?.price?.value,card._id)
                                   : navigate(
                                       `/recipient-information/${card._id}`
                                     )
@@ -276,10 +283,14 @@ const Cart = ({ onClose, show }) => {
         <ConfirmationModal
           show={confirmModalShow}
           onHide={() => setConfirmModalShow(false)}
-          func={confirmFunc === "pay" ? payCard : goToChargeMethods}
+          choosePaymentWay={choosePaymentWay}
           message={confirmMsg}
-          smallSize={confirmFunc === "pay" ? true : false}
           btnMsg={btnMsg}
+          balance={walletBalance && walletBalance}
+          cardPrice={cardPrice}
+          cardId={cardId}
+          balanceCase={balanceCase}
+          chargeCase={goToChargeMethods}
         />
       )}
     </>

@@ -51,8 +51,8 @@ const RecipientInformation = () => {
   const [dateTime, setDateTime] = useState(null);
   const [selectedCountry, setSelectedCountry] = useState("SA");
   const [modalShow, setModalShow] = useState(false);
-  const [confirmFunc, setConfirmFunc] = useState("");
   const [confirmMsg, setConfirmMsg] = useState("");
+  const [balanceCase, setBalanceCase] = useState(false);
   const [btnMsg, setBtnMsg] = useState("");
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
@@ -61,7 +61,7 @@ const RecipientInformation = () => {
   const navigate = useNavigate();
   const profileData = useSelector((state) => state.userInfo.data);
   const { t: key } = useTranslation();
-  const queryClient=useQueryClient();
+  const queryClient = useQueryClient();
 
   const { data: walletBalance } = useQuery({
     queryKey: ["walletBalance", token],
@@ -143,49 +143,54 @@ const RecipientInformation = () => {
   const confirmMethod = (method) => {
     if (method === "pay") {
       setModalShow(true);
-      setConfirmFunc("pay");
-      setConfirmMsg(`${key("purchase")} ${key("purchaseQuestion")}`);
-
+      setConfirmMsg(key("purchase"));
       setBtnMsg(key("confirm"));
     } else {
       setModalShow(true);
-      setConfirmFunc("charge");
       setConfirmMsg(key("chargeWallet"));
       setBtnMsg(key("confirm"));
     }
   };
 
   const payCard = async () => {
-    if (Number(card.data?.price?.value) > Number(walletBalance)) {
-      setModalShow(false);
-      notifyError(key("insuffBalance"));
-      confirmMethod("charge");
-    } else {
-      try {
-        const response = await axios.post(
-          `${process.env.REACT_APP_Base_API_URl}wallets/buy-card`,
-          { cardId: card._id },
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-
-        if (response.status === 200 || response.status === 201) {
-          notifySuccess(key("cardPurchased"));
-          navigate(`/profile/${profileData?._id}`);
-        } else {
-          notifyError(key("wrong"));
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_Base_API_URl}wallets/buy-card`,
+        { cardId: card._id },
+        {
+          headers: { Authorization: `Bearer ${token}` },
         }
-      } catch (error) {
+      );
+
+      if (response.status === 200 || response.status === 201) {
+        notifySuccess(key("cardPurchased"));
+        navigate(`/profile/${profileData?._id}`);
+      } else {
         notifyError(key("wrong"));
-        console.error("Payment error:", error);
       }
+    } catch (error) {
+      notifyError(key("wrong"));
+      console.error("Payment error:", error);
     }
   };
 
   const goToChargeMethods = () => {
     navigate(`/payment/payment/${profileData?._id}`);
   };
+
+  const choosePaymentWay=(way,isBalanced)=>{
+    if (isBalanced === "balanced") {
+      if (way === "wallet") {
+        payCard();
+      } else if (way === "payment") {
+        goToChargeMethods();
+      }
+    } else {
+      setBtnMsg(key("charge"))
+      setBalanceCase(true)
+    }
+  }
+
 
   return (
     <>
@@ -302,16 +307,20 @@ const RecipientInformation = () => {
           </Col>
         </Row>
       </div>
-      <ConfirmationModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-        func={confirmFunc === "pay" ? payCard : goToChargeMethods}
-        message={confirmMsg?confirmMsg:""}
-        btnMsg={btnMsg}
-        balance={walletBalance&&walletBalance}
-        cardPrice={(card?.data?.price?.value)}
-        cardId={cardId}
-      />
+      {modalShow && (
+        <ConfirmationModal
+          show={modalShow}
+          onHide={() => setModalShow(false)}
+          choosePaymentWay={choosePaymentWay}
+          message={confirmMsg ? confirmMsg : ""}
+          btnMsg={btnMsg}
+          balance={walletBalance && walletBalance}
+          cardPrice={card?.data?.price?.value}
+          cardId={cardId}
+          balanceCase={balanceCase}
+          chargeCase={goToChargeMethods}
+        />
+      )}
     </>
   );
 };

@@ -98,7 +98,7 @@
     "amount":"Amount",
     "charge":"Charge",
     "deleteWrong":"The card no longer exists, or something went wrong. Unable to delete.",
-    "purchase":"You are about to purchase a card priced",
+    "purchase":"You are about to purchase a card",
     "purchaseQuestion":"Please confirm to proceed with the transaction",
     "confirm":"Confirm",
     "insuffBalance":"Your balance is insufficient to buy the card. Please recharge to continue.",
@@ -186,5 +186,6 @@
     "couponFaild":"coupon Code is wrong",
     "invalidCoupon":"Coupon is invalid or expired",
     "appy":"Apply",
-    "promoCode": "Promo Code"
+    "promoCode": "Promo Code",
+    "choosePay":"payment method"
 }
