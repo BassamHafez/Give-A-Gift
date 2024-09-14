@@ -152,7 +152,9 @@ ul li{
   margin-top: auto;
   margin-right: 20px !important;
 }
-
+textarea{
+  background-color: white !important;
+}
 
 @media screen and (max-width:768px) {
   body,html{
