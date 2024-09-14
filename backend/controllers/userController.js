@@ -17,15 +17,13 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
-exports.getAllUsers = factory.getAll(User);
-
-exports.deleteUser = factory.deleteOne(User);
-
 exports.getMe = (req, res, next) => {
   req.params.id = req.user.id;
   next();
 };
 
+exports.getAllUsers = factory.getAll(User);
+exports.deleteUser = factory.deleteOne(User);
 exports.getUser = factory.getOne(User);
 
 exports.uploadUserPhoto = uploadSingleImage("photo");
