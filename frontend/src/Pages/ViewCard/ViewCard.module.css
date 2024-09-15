@@ -84,17 +84,17 @@
 
  .header{
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 1.25rem;
  }
  .header_list{
     display: flex;
     justify-content:center;
  }
  .header_list_item{
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight:500;
-    border-bottom: 4px solid rgb(186, 186, 186);
-    padding-inline: 50px;
+    border-bottom: 0.25rem solid rgb(186, 186, 186);
+    padding-inline: 3.125rem;
     color: rgb(186, 186, 186);
     cursor: pointer;
 
@@ -113,4 +113,12 @@
      .noCards_img{
          width: 100%;
      }
+   }
+
+ @media (max-width: 390px) {
+    .header_list_item{
+        font-size: 15px;
+        padding-inline: 30px;
+    
+         }
    }

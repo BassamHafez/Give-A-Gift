@@ -75,6 +75,18 @@ const ConfirmationModal = ({
   };
 
   const checkBalance = () => {
+    if(Number(cardPrice)===0){
+      setIsBalanced(true);
+      choosePaymentWay("wallet", "balanced",priceAfterDisc);
+      return;
+    }
+    if(priceAfterDisc!==""){
+      if(Number(priceAfterDisc)===0){
+        setIsBalanced(true);
+        choosePaymentWay("wallet", "balanced",priceAfterDisc);
+        return;
+      }
+    }
     if (paymentWay === "wallet") {
       if (balanceCase) {
         if(priceAfterDisc!==""){
