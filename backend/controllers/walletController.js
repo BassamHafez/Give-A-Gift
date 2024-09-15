@@ -96,7 +96,8 @@ exports.buyCard = catchAsync(async (req, res, next) => {
 
   const VAT = await Config.findOne({ key: "VAT_VALUE" });
 
-  const cardPrice = card.priceAfterDiscount || card.price.value;
+  const cardPrice =
+    card?.priceAfterDiscount >= 0 ? card.priceAfterDiscount : card.price.value;
   const totalAmount = cardPrice + cardPrice * parseFloat(VAT.value / 100);
 
   if (wallet.balance < totalAmount) {
