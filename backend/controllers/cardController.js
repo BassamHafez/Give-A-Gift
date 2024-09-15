@@ -14,18 +14,20 @@ exports.filterUserCards = (req, res, next) => {
   next();
 };
 
-exports.getAllCards = factory.getAll(Card, [
+const cardPopulateOptions = [
   { path: "shop", select: "name logo" },
   { path: "shape", select: "image" },
   { path: "color", select: "hex" },
-]);
+];
+
+exports.getAllCards = factory.getAll(Card, cardPopulateOptions);
 exports.createCard = factory.createOne(Card);
 
 exports.getCard = catchAsync(async (req, res, next) => {
   const doc = await Card.findOne({
     _id: req.params.id,
     ...(req.user.role !== "admin" && { user: req.user.id }),
-  });
+  }).populate(cardPopulateOptions);
 
   if (!doc) {
     return next(new ApiError("No document found with that ID", 404));

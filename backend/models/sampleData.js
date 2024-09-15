@@ -7,36 +7,6 @@ const uploadSampleData = async () => {
     await Promise.all([
       Shape.insertMany([
         {
-          image: "bg1.jpg",
-        },
-        {
-          image: "bg2.jpg",
-        },
-        {
-          image: "bg3.jpg",
-        },
-        {
-          image: "bg4.jpg",
-        },
-        {
-          image: "bg5.jpg",
-        },
-        {
-          image: "bg6.jpg",
-        },
-        {
-          image: "bg7.jpg",
-        },
-        {
-          image: "bg8.jpg",
-        },
-        {
-          image: "bg9.jpg",
-        },
-        {
-          image: "bg10.jpg",
-        },
-        {
           image: "removebg1.png",
         },
         {
@@ -47,18 +17,6 @@ const uploadSampleData = async () => {
         },
         {
           image: "svg2.svg",
-        },
-        {
-          image: "svg3.svg",
-        },
-        {
-          image: "svg4.svg",
-        },
-        {
-          image: "svg5.svg",
-        },
-        {
-          image: "svg6.svg",
         },
         {
           image: "recipientGift.jpg",

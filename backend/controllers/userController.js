@@ -17,18 +17,29 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
-exports.getAllUsers = factory.getAll(User);
-
-exports.updateUser = factory.updateOne(User);
-
-exports.deleteUser = factory.deleteOne(User);
-
 exports.getMe = (req, res, next) => {
   req.params.id = req.user.id;
   next();
 };
 
+exports.getAllUsers = factory.getAll(User);
+exports.deleteUser = factory.deleteOne(User);
 exports.getUser = factory.getOne(User);
+
+exports.addAdmin = catchAsync(async (req, res, next) => {
+  const newUser = await User.create({
+    name: req.body.name,
+    email: req.body.email,
+    phone: req.body.phone,
+    password: req.body.password,
+    role: "admin",
+  });
+
+  res.status(201).json({
+    status: "success",
+    data: newUser,
+  });
+});
 
 exports.uploadUserPhoto = uploadSingleImage("photo");
 
@@ -64,7 +75,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     filteredBody.photo = req.body.photo;
   }
 
-  if (req.body?.phone) {
+  if (req.body?.phone && req.user.role !== "admin") {
     filteredBody.phoneVerified = false;
   }
 
