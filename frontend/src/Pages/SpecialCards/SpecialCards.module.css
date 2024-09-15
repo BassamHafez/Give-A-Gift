@@ -15,12 +15,14 @@
 .card_body{
     min-width:23.75rem;
     box-shadow: 0 0 0.1875rem rgba(0, 0, 0, 0.242);
-    border-radius: 17px;
     min-height: 100%;
+    border-radius: 1.875rem 1.875rem 1.25rem 1.25rem !important;
+
 }
 .card_img_div{
-    width: 25rem;
-    height: 14.0625rem;
+    width: 400px;
+    aspect-ratio: 16/9;
+    border-radius: 30px !important;
 }
 .card_img_div img{
     object-fit: cover;
@@ -115,6 +117,17 @@
     }
     .search_field{
         margin-bottom: 10px;
+    }
+}
+@media screen and (max-width:450px) {
+    .card_body{
+        min-width:100%;    
+    }
+    .card_img_div{
+        width: 100%;
+    }
+    .store_card{
+       width: 99%;
     }
 }
 @media screen and (max-width:390px) {

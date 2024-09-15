@@ -31,7 +31,7 @@
 }
 .list_item{
     padding: 1.875rem;
-    background-color: white;
+    background-color: var(--sub_color);
     box-shadow: 0 0 0.1875rem black;
     margin: 1.875rem 0;
     min-width: 12.5rem;
@@ -46,17 +46,18 @@
 .list_item span{
     font-size: 1.4375rem;
     font-weight: 500;
+    color:white
 }
 .list_item_icon{
     color: var(--sub_color);
     font-size: 2.1875rem;
     margin-bottom: 0.625rem;
     transition: all .4s;
+    color:var(--main_color)
 
 }
 .list_item:hover{
-    background-color: var(--sub_color);
-    color: white;
+    opacity: .75;
 }
 .list_item:hover .list_item_icon{
     color: white;

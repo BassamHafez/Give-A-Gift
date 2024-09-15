@@ -156,7 +156,7 @@ const RecipientInformation = () => {
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_Base_API_URl}wallets/buy-card`,
-        { cardId: card._id },
+        { cardId: cardId },
         {
           headers: { Authorization: `Bearer ${token}` },
         }

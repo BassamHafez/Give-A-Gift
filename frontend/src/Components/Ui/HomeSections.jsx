@@ -8,12 +8,13 @@ import { useTranslation } from "react-i18next";
 
 const HomeSections = () => {
   const { t: key } = useTranslation();
+  let isArLang = localStorage.getItem("i18nextLng") === "ar";
 
   return (
     <>
       <section className="my-5 py-5">
         <Container>
-          <Row className="mt-5">
+          <Row className={`${isArLang&&"flex-row-reverse"} mt-5`}>
             <Col
               lg={6}
               className="d-flex p-0 justify-content-center align-items-center"

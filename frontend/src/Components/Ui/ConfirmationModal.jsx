@@ -79,14 +79,28 @@ const ConfirmationModal = ({
       if (balanceCase) {
         chargeCase();
       } else {
-        if (Number(cardPrice) > Number(balance)) {
-          notifyError(key("insuffBalance"));
-          setIsBalanced(false);
-          choosePaymentWay(paymentWay, "noBalance");
-        } else {
-          setIsBalanced(true);
-          choosePaymentWay(paymentWay, "balanced");
+        console.log(priceAfterDisc)
+        if(priceAfterDisc!==""){
+          if (Number(priceAfterDisc) > Number(balance)) {
+            notifyError(key("insuffBalance"));
+            setIsBalanced(false);
+            choosePaymentWay(paymentWay, "noBalance");
+          } else {
+            console.log("lolololo")
+            setIsBalanced(true);
+            choosePaymentWay(paymentWay, "balanced");
+          }
+        }else{
+          if (Number(cardPrice) > Number(balance)) {
+            notifyError(key("insuffBalance"));
+            setIsBalanced(false);
+            choosePaymentWay(paymentWay, "noBalance");
+          } else {
+            setIsBalanced(true);
+            choosePaymentWay(paymentWay, "balanced");
+          }
         }
+       
       }
     } else {
       setIsBalanced(true);

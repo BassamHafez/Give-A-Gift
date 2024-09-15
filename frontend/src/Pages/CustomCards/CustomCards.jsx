@@ -200,13 +200,14 @@ const CustomCards = () => {
                   className={styles.card}
                   width={cardWidth}
                   height={cardHeight}
+                  cornerRadius={30}
                 >
                   <Layer>
                     <Rect
                       width={cardWidth}
                       height={cardHeight}
                       fill={cardColor}
-                      cornerRadius={10}
+                      cornerRadius={30}
                     />
 
                     {shapeImage && showBack && (
@@ -218,7 +219,7 @@ const CustomCards = () => {
                         y={offsetY}
                         opacity={1}
                         visible={true}
-                        cornerRadius={10}
+                        cornerRadius={30}
                       />
                     )}
 
@@ -263,7 +264,7 @@ const CustomCards = () => {
                         {cardPrice && (
                           <Text
                             text={`${cardPrice} ${key("sar")}`}
-                            fontSize={40}
+                            fontSize={20}
                             fontFamily={"'Times New Roman', Times, serif"}
                             fill={textColor}
                             x={10}
@@ -436,7 +437,7 @@ const CustomCards = () => {
                   <div className={styles.text_containers_parent}>
                     <div className={`${styles.text_container}`}>
                       <h4>{key("cardMessage")}</h4>
-                      <div class="form-floating">
+                      <div className="form-floating">
                         <textarea
                           id="floatingTextarea"
                           value={cardText}

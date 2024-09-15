@@ -60,7 +60,9 @@ const SpecialCards = () => {
     } else {
       setFilteredCards(data?.data?.cards);
     }
-    notifySuccess(key("searchFilterApplied"));
+    if(searchInput){
+      notifySuccess(key("searchFilterApplied"));
+    }
   };
 
   const buyCard = async () => {

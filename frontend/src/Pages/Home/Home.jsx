@@ -78,7 +78,7 @@ const Home = () => {
                   onClick={() => navigate("/special-cards")}
                 >
                   <img
-                    className="w-100"
+                    className={`${styles.front_img}`}
                     src={customGiftCard}
                     alt="customGiftCard"
                   />
