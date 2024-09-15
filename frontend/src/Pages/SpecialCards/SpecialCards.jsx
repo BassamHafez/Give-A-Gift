@@ -249,7 +249,7 @@ const SpecialCards = () => {
         <FilterModal
           show={showFilterModal}
           onHide={() => setShowFilterModal(false)}
-          triggerFunc={searchStores} // Passing search function to FilterModal
+          triggerFunc={searchStores}
         />
       )}
     </>

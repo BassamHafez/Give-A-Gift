@@ -19,9 +19,9 @@ const notifyError = (message) => toast.error(message);
 
 const Payment = () => {
   const token = JSON.parse(localStorage.getItem("token"));
-  const { type, userId } = useParams();
+  const { type, userId, price } = useParams();
   const [activeMethod, setActiveMethod] = useState(0);
-  const {t:key}=useTranslation();
+  const { t: key } = useTranslation();
 
   const { data } = useQuery({
     queryKey: ["paymentMethods", token],
@@ -51,7 +51,7 @@ const Payment = () => {
 
   const initialValues = {
     PaymentMethodId: "",
-    InvoiceValue: "",
+    InvoiceValue: type === "payment" ? Number(price) : "",
   };
 
   const onSubmit = (values) => {
@@ -59,11 +59,10 @@ const Payment = () => {
       PaymentMethodId: values.PaymentMethodId,
       InvoiceValue: values.InvoiceValue,
       type: type === "payment" ? "PAYMENT" : "DEPOSIT",
-      successURL: `http://127.0.0.1:3001/profile/${userId}`,
-      errorURL: `http://127.0.0.1:3001/profile/${userId}`,
+      successURL: `${process.env.REACT_APP_Host}profile/${userId}`,
+      errorURL: `${process.env.REACT_APP_Host}profile/${userId}`,
       // errorURL: `http://127.0.0.1:3001/payment-faild`,
     };
-    console.log(updatedFormData);
     mutate({ token: token, formData: updatedFormData });
   };
 
@@ -74,93 +73,88 @@ const Payment = () => {
     InvoiceValue: number()
       .typeError(key("amountValidate1"))
       .required(key("amountValidate2"))
-      .min(5, key("amountValidate3")),
+      // .min(5, key("amountValidate3")),
   });
 
   return (
     <>
       <Toaster position="top-right" />
-        <div
-          className="d-flex justify-content-center align-items-center my-5"
+      <div className={`${styles.container} d-flex justify-content-center align-items-center my-5`}>
+        <Formik
+          initialValues={initialValues}
+          onSubmit={onSubmit}
+          validationSchema={validationSchema}
+          enableReinitialize
         >
-          <Formik
-            initialValues={initialValues}
-            onSubmit={onSubmit}
-            validationSchema={validationSchema}
-          >
-            <Form className={styles.form_container}>
-              <div className={`${styles.field} ${styles.checks_group}`}>
-                <h4 className="mb-4">{key("chooseMethod")}</h4>
-                <Row
-                  className={`${styles.select_group} gy-2`}
-                  role="group"
-                  aria-label="Basic radio toggle button group"
-                >
-                  {data?.data?.map((method, index) => (
-                    <Col
-                      key={method.PaymentMethodId}
-                      className="d-flex flex-column align-items-center justify-content-center my-4"
-                      sm={4}
-                      md={6}
-                      lg={4}
-                    >
-                      <div className={styles.method_img}>
-                        <img
-                          src={method.ImageUrl}
-                          alt={method.PaymentMethodEn}
-                        />
-                      </div>
-                      <div>
-                        <Field
-                          type="radio"
-                          className="btn-check"
-                          name="PaymentMethodId"
-                          id={method.PaymentMethodId}
-                          value={method.PaymentMethodId}
-                          autoComplete="off"
-                        />
-                        <label
-                          onClick={() => setActiveMethod(index)}
-                          className={`${styles.method_label} ${
-                            activeMethod === index && styles.active_method
-                          } btn btn-outline-secondary`}
-                          htmlFor={method.PaymentMethodId}
-                        >
-                          {isArLang
-                            ? method.PaymentMethodAr
-                            : method.PaymentMethodEn}
-                        </label>
-                      </div>
-                    </Col>
-                  ))}
-                </Row>
-                <ErrorMessage
-                  name="PaymentMethodId"
-                  component={InputErrorMessage}
-                />
-              </div>
+          <Form className={styles.form_container}>
+            <div className={`${styles.field} ${styles.checks_group}`}>
+              <h4 className="mb-4">{key("chooseMethod")}</h4>
+              <Row
+                className={`${styles.select_group} gy-2`}
+                role="group"
+                aria-label="Basic radio toggle button group"
+              >
+                {data?.data?.map((method, index) => (
+                  <Col
+                    key={method.PaymentMethodId}
+                    className="d-flex flex-column align-items-center justify-content-center my-4"
+                    sm={4}
+                    md={6}
+                    lg={4}
+                  >
+                    <div className={styles.method_img}>
+                      <img src={method.ImageUrl} alt={method.PaymentMethodEn} />
+                    </div>
+                    <div>
+                      <Field
+                        type="radio"
+                        className="btn-check"
+                        name="PaymentMethodId"
+                        id={method.PaymentMethodId}
+                        value={method.PaymentMethodId}
+                        autoComplete="off"
+                      />
+                      <label
+                        onClick={() => setActiveMethod(index)}
+                        className={`${styles.method_label} ${
+                          activeMethod === index && styles.active_method
+                        } btn btn-outline-secondary`}
+                        htmlFor={method.PaymentMethodId}
+                      >
+                        {isArLang
+                          ? method.PaymentMethodAr
+                          : method.PaymentMethodEn}
+                      </label>
+                    </div>
+                  </Col>
+                ))}
+              </Row>
+              <ErrorMessage
+                name="PaymentMethodId"
+                component={InputErrorMessage}
+              />
+            </div>
 
-              <div className={`${styles.field} ${styles.amount_field} `}>
-                <label htmlFor="Amount">{key("amount")} ({key("sar")})</label>
-                <Field type="text" id="Amount" name="InvoiceValue" />
-                <ErrorMessage
-                  name="InvoiceValue"
-                  component={InputErrorMessage}
-                />
-              </div>
+            <div className={`${styles.field} ${styles.amount_field} ${type === "payment" ?"d-none":""}`}>
+              <label htmlFor="Amount">
+                {key("amount")} ({key("sar")})
+              </label>
+              <Field type="text" id="Amount" name="InvoiceValue" />
+              <ErrorMessage name="InvoiceValue" component={InputErrorMessage} />
+            </div>
 
-              {isPending ? (
-                <button type="submit" className={styles.save_btn}>
-                  <FontAwesomeIcon className="fa-spin" icon={faYinYang} />
-                </button>
-              ) : (
-                <button type="submit" className={styles.save_btn}>
-                  {key("charge")}
-                </button>
-              )}
-            </Form>
-          </Formik>
-        </div>
+            {isPending ? (
+              <button type="submit" className={styles.save_btn}>
+                <FontAwesomeIcon className="fa-spin" icon={faYinYang} />
+              </button>
+            ) : (
+              <button type="submit" className={styles.save_btn}>
+                {key("charge")}
+              </button>
+            )}
+          </Form>
+        </Formik>
+      </div>
     </>
   );
 };

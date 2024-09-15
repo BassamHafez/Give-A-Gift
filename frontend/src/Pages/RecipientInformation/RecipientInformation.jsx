@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getCard, getMyWallet, updateCard } from "../../util/Http";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ErrorMessage, Form, Formik, Field } from "formik";
@@ -10,7 +10,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import toast, { Toaster } from "react-hot-toast";
 import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
-import recGift from "../../Images/recipientGift.jpg";
 import DatePicker from "react-multi-date-picker";
 import TimePicker from "react-multi-date-picker/plugins/time_picker";
 import Select from "react-select";
@@ -21,6 +20,9 @@ import { useSelector } from "react-redux";
 import ConfirmationModal from "../../Components/Ui/ConfirmationModal";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
+import useImage from "use-image";
+import { Image, Layer, Rect, Stage } from "react-konva";
+import mainLogo from "../../Images/logo.png";
 
 const getPhoneValidationSchema = (country, key) => {
   const phoneRegex = {
@@ -174,31 +176,30 @@ const RecipientInformation = () => {
     }
   };
 
-  const goToChargeMethods = () => {
-    navigate(`/payment/payment/${profileData?._id}`);
+  const goToChargeMethods = (price) => {
+    navigate(`/payment/payment/${profileData?._id}/${price}`);
   };
 
-  const choosePaymentWay=(way,isBalanced)=>{
+  const choosePaymentWay = (way, isBalanced,price) => {
     if (isBalanced === "balanced") {
       if (way === "wallet") {
         payCard();
       } else if (way === "payment") {
-        goToChargeMethods();
+        goToChargeMethods(price);
       }
     } else {
-      setBtnMsg(key("charge"))
-      setBalanceCase(true)
+      setBtnMsg(key("charge"));
+      setBalanceCase(true);
     }
-  }
-
+  };
 
   return (
     <>
       <Toaster position="top-right" />
       <div className="my-5 px-3 px-lg-5">
         <h1 className="text-center mb-4">{key("recipientInformation")}</h1>
-        <Row>
-          <Col md={6}>
+        <Row className={styles.rec_row}>
+          <Col xl={6}>
             <Formik
               initialValues={initialValues}
               onSubmit={onSubmit}
@@ -207,8 +208,8 @@ const RecipientInformation = () => {
               {({ setFieldValue }) => (
                 <Form className={styles.general_info_form}>
                   <div className={styles.field}>
-                    <label htmlFor="recName">{key("recName")}</label>
-                    <Field type="text" id="recName" name="RecipientName" />
+                    <label htmlFor="recName" className="text-secondary">{key("name")}</label>
+                    <Field className={styles.name_input} type="text" id="recName" name="RecipientName" />
                     <ErrorMessage
                       name="RecipientName"
                       component={InputErrorMessage}
@@ -216,7 +217,7 @@ const RecipientInformation = () => {
                   </div>
 
                   <div className={styles.field}>
-                    <label htmlFor="phoneNum">{key("whatsAppNum2")}</label>
+                    <label htmlFor="phoneNum" className="text-secondary">{key("whatsAppNum2")}</label>
 
                     <div
                       className={`${styles.phone_num} ${
@@ -254,7 +255,7 @@ const RecipientInformation = () => {
                   </div>
 
                   <div className={styles.field}>
-                    <label htmlFor="delTime">{key("dateTime")}</label>
+                    <label htmlFor="delTime" className="text-secondary">{key("dateTime")}</label>
                     <DatePicker
                       value={dateTime}
                       onChange={(value) => {
@@ -299,11 +300,12 @@ const RecipientInformation = () => {
           </Col>
           <Col
             className="d-flex justify-content-center align-items-center"
-            md={6}
+            xl={6}
           >
-            <div className={styles.rec_img}>
-              <img src={recGift} alt="recipient Gift" />
-            </div>
+            <KonvaCard
+              isSpecial={card?.data?.isSpecial}
+              canvaCard={card?.data}
+            />
           </Col>
         </Row>
       </div>
@@ -320,6 +322,128 @@ const RecipientInformation = () => {
           balanceCase={balanceCase}
           chargeCase={goToChargeMethods}
         />
+      )}
+    </>
+  );
+};
+
+const KonvaCard = ({ canvaCard, isSpecial }) => {
+  const [isSmalogo, setIsSmalogo] = useState(false);
+  const [mainLogoImage] = useImage(mainLogo);
+
+  const imageUrl = !isSpecial && canvaCard?.shape?.image
+    ? `${process.env.REACT_APP_Host}shapes/${canvaCard.shape.image}`
+    : null;
+
+  const [shapeImage] = useImage(imageUrl);
+  const [shapeImageFront] = useImage(
+    `${process.env.REACT_APP_Host}shapes/front-shape.png`
+  );
+
+  const [logoImage] = useImage(
+    canvaCard?.shop?.logo
+      ? `${process.env.REACT_APP_Host}shops/${canvaCard.shop.logo}`
+      : null
+  );
+
+  const [cardWidth, setCardWidth] = useState(480);
+  const [cardHeight, setCardHeight] = useState(270);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 480) {
+        setIsSmalogo(true);
+      } else {
+        setIsSmalogo(false);
+      }
+      const width = window.innerWidth < 500 ? window.innerWidth * 0.9 : 480;
+      setCardWidth(width);
+      setCardHeight((width * 9) / 16);
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const imageAspectRatio = shapeImage?.width && shapeImage?.height ? shapeImage.width / shapeImage.height : 1;
+  const cardAspectRatio = cardWidth / cardHeight;
+
+  let scaledWidth, scaledHeight, offsetX, offsetY;
+
+  if (imageAspectRatio > cardAspectRatio) {
+    scaledWidth = cardWidth;
+    scaledHeight = cardWidth / imageAspectRatio;
+    offsetX = 0;
+    offsetY = (cardHeight - scaledHeight) / 2;
+  } else {
+    scaledWidth = cardHeight * imageAspectRatio;
+    scaledHeight = cardHeight;
+    offsetX = (cardWidth - scaledWidth) / 2;
+    offsetY = 0;
+  }
+
+  return (
+    <>
+      {canvaCard && (
+        <Stage
+          className={styles.card_stage}
+          width={cardWidth}
+          height={cardHeight}
+        >
+          <Layer>
+            <Rect
+              width={cardWidth}
+              height={cardHeight}
+              fill={canvaCard?.color?.hex || "#FFFFFF"}
+              cornerRadius={30}
+              className={styles.rect_canvaCard}
+            />
+
+            {isSpecial ? (
+              <Image
+                image={shapeImageFront}
+                width={cardWidth}
+                height={cardHeight}
+                x={0}
+                y={0}
+                cornerRadius={10}
+              />
+            ) : (
+              <Image
+                image={shapeImage}
+                width={scaledWidth || cardWidth}
+                height={scaledHeight || cardHeight}
+                x={offsetX}
+                y={offsetY}
+                cornerRadius={10}
+              />
+            )}
+
+            {!isSpecial && (
+              <Image
+                image={mainLogoImage}
+                x={isSmalogo ? 15 : 20}
+                y={isSmalogo ? cardHeight - 30 : cardHeight - 50}
+                width={isSmalogo ? 50 : 100}
+                height={isSmalogo ? 18 : 35}
+                visible={true}
+              />
+            )}
+
+            {logoImage && (
+              <Image
+                image={logoImage}
+                x={isSmalogo ? cardWidth - 50 : cardWidth - 70}
+                y={10}
+                width={isSmalogo ? 40 : 60}
+                height={isSmalogo ? 40 : 60}
+                cornerRadius={30}
+              />
+            )}
+          </Layer>
+        </Stage>
       )}
     </>
   );

@@ -119,17 +119,17 @@ const Cart = ({ onClose, show }) => {
       }
   };
 
-  const goToChargeMethods = () => {
+  const goToChargeMethods = (price) => {
     setConfirmModalShow(false);
-    navigate(`/payment/payment/${profileData._id}`);
+    navigate(`/payment/payment/${profileData?._id}/${price}`);
   };
 
-  const choosePaymentWay=(way,isBalanced)=>{
+  const choosePaymentWay=(way,isBalanced,price)=>{
     if (isBalanced === "balanced") {
       if (way === "wallet") {
         payCard();
       } else if (way === "payment") {
-        goToChargeMethods();
+        goToChargeMethods(price);
       }
     } else {
       setBtnMsg(key("charge"))
@@ -241,7 +241,7 @@ const Cart = ({ onClose, show }) => {
                               title="view card"
                               className={styles.eye}
                               icon={faEye}
-                              onClick={()=>navigate(`/view-card/${card._id}`)}
+                              onClick={()=>{navigate(`/view-card/${card._id}`); onClose()}}
                             />
                             <FontAwesomeIcon
                               className={styles.arrow_right_icon}

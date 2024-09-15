@@ -41,7 +41,7 @@ const ProfileContent = () => {
   const notifyError = (message) => toast.error(message);
 
   const goToChargeMethods = () => {
-    navigate(`/payment/payment/${profileData?._id}`);
+    navigate(`/payment/deposite/${profileData?._id}/charge`);
   };
 
   const formattedBalance = data?.data?.balance

@@ -1,12 +1,12 @@
 .card_body{
-    margin: 3.125rem 0;
     border: 0.0625rem solid rgba(0, 0, 0, .1);
     border-bottom: 0.0625rem solid rgba(0, 0, 0, 0.238);
-    border-radius: 0.625rem;
+    border-radius: 1.875rem;
  }
+
  .card_stage{
      box-shadow: 0 0 0.1875rem rgba(0, 0, 0, 0.159);
-     border-radius: 0.625rem;
+     border-radius: 30px;
      overflow: hidden;
      width: 100%;
  }
@@ -34,7 +34,7 @@
  .list_icon{
      font-size: 1.25rem;
      color: var(--slate_blue);
-     margin-inline: 0.625rem;
+     margin-inline: 0.3125rem;
  }
  .delete_icon{
      position: absolute;
@@ -78,6 +78,30 @@
  }
  .gift_icon{
     color: gold !important;
+ }
+
+
+
+ .header{
+    width: 100%;
+    margin-bottom: 20px;
+ }
+ .header_list{
+    display: flex;
+    justify-content:center;
+ }
+ .header_list_item{
+    font-size: 18px;
+    font-weight:500;
+    border-bottom: 4px solid rgb(186, 186, 186);
+    padding-inline: 50px;
+    color: rgb(186, 186, 186);
+    cursor: pointer;
+
+     }
+ .active{
+    color: var(--blue);
+    border-bottom:4px solid var(--blue);
  }
  @media (max-width: 500px) {
      .btns_group {

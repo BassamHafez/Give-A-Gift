@@ -155,7 +155,14 @@ ul li{
 textarea{
   background-color: white !important;
 }
-
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+/* input[type=number]{
+  -moz-appearance: textfield;
+} */
 @media screen and (max-width:768px) {
   body,html{
     font-size: 14px;

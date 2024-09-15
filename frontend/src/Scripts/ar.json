@@ -109,8 +109,8 @@
     "cardPurchased": "تم شراء البطاقة بنجاح.",
     "recipientInformation": "معلومات المستلم",
     "recName": "اسم المستلم",
-    "whatsAppNum2": "رقم الواتساب",
-    "dateTime": "تاريخ ووقت التسليم",
+    "whatsAppNum2": "رقم الهاتف",
+    "dateTime": "التاريخ ووقت ",
     "save": "حفظ",
     "later":"لاحقاً",
     "cardDeleted":"تم حذف البطاقة بنجاح",
@@ -215,6 +215,6 @@
     "shoprec": "حقل المتجر مطلوب",
     "priceVali": "لا يمكن أن يكون السعر أقل من 1",
     "priceRec": "حقل السعر مطلوب",
-    "selectStore": "اختر المتجر"
-
+    "selectStore": "اختر المتجر",
+    "cardReady":"البطاقة جاهزة للاستخدام"
 }

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
-import { getMyCards } from "../../util/Http";
+import { getCard } from "../../util/Http";
 import Placeholder from "react-bootstrap/Placeholder";
 import Card from "react-bootstrap/Card";
 import styles from "./ViewCard.module.css";
@@ -16,30 +16,54 @@ import {
   faCommentSlash,
   faGift,
 } from "@fortawesome/free-solid-svg-icons";
-import MainButton from "../../Components/Ui/MainButton";
 import { useParams } from "react-router-dom";
+import confetti from "canvas-confetti";
 
 const ViewCard = () => {
   const token = JSON.parse(localStorage.getItem("token"));
-
-  //   const { data, isFetching } = useQuery({
-  //     queryKey: ["viewCard", token],
-  //     queryFn: () => getCard(token),
-  //     enabled: !!token,
-  //     staleTime: 300000,
-  //   });
-
   const { cardId } = useParams();
+  const [isFirstVisit, setIsFirstVisit] = useState(true);
+  const [isFrontShape, setIsFrontShape] = useState(false);
 
-  const { data, isFetching } = useQuery({
-    queryKey: ["getCard", token],
-    queryFn: () => getMyCards(token),
+  const { data: myCard, isFetching } = useQuery({
+    queryKey: ["viewCard", token],
+    queryFn: () => getCard(token, cardId),
     enabled: !!token,
-    staleTime: 300000,
   });
 
-  let myCardArr = data ? data.data.filter((card) => card._id === cardId) : [];
-  let myCard = myCardArr[0];
+  useEffect(() => {
+    if (isFirstVisit) {
+      setTimeout(() => {
+        setIsFirstVisit(false);
+      }, 5000);
+    }
+  }, [isFirstVisit]);
+
+  var scalar = 2;
+  var heart = confetti.shapeFromText({ text: "❤️", scalar });
+  var triangle = confetti.shapeFromPath({ path: "M0 10 L5 0 L10 10z" });
+
+  isFirstVisit &&
+    confetti({
+      particleCount: 400,
+      spread: 200,
+      origin: { y: 0.6 },
+      shapes: ["circle", triangle, "square"],
+    });
+  isFirstVisit &&
+    confetti({
+      particleCount: 400,
+      spread: 200,
+      origin: { x: 1, y: 1 },
+      shapes: [heart],
+    });
+  isFirstVisit &&
+    confetti({
+      particleCount: 400,
+      spread: 200,
+      origin: { x: 0, y: 1 },
+      shapes: [heart],
+    });
 
   const loadingCard = (
     <Card style={{ width: "18rem" }}>
@@ -61,12 +85,36 @@ const ViewCard = () => {
       {!isFetching ? (
         myCard ? (
           <div
-            className="d-flex justify-content-center align-items-center"
+            className="d-flex flex-column justify-content-center align-items-center"
             xlg={6}
-            key={myCard._id}
+            key={myCard.data._id}
           >
+            <div className={styles.header}>
+              <ul className={styles.header_list}>
+                <li
+                  className={`${styles.header_list_item} ${
+                    isFrontShape && styles.active
+                  }`}
+                  onClick={() => setIsFrontShape(true)}
+                >
+                  PREVIEW FRONT
+                </li>
+                <li
+                  className={`${styles.header_list_item} ${
+                    !isFrontShape && styles.active
+                  }`}
+                  onClick={() => setIsFrontShape(false)}
+                >
+                  PREVIEW BACK
+                </li>
+              </ul>
+            </div>
             <div className={styles.card_body}>
-              <KonvaCard isPaid={myCard.isPaid} card={myCard} />
+              <KonvaCard
+                isPaid={myCard.data.isPaid}
+                isFrontShape={isFrontShape}
+                card={myCard.data}
+              />
             </div>
           </div>
         ) : (
@@ -79,8 +127,7 @@ const ViewCard = () => {
   );
 };
 
-const KonvaCard = ({ card, isPaid }) => {
-  const [showBack, setShowBack] = useState(true);
+const KonvaCard = ({ card, isPaid, isFrontShape }) => {
   const [isSmalogo, setIsSmalogo] = useState(false);
 
   const [mainLogoImage] = useImage(mainLogo);
@@ -185,12 +232,12 @@ const KonvaCard = ({ card, isPaid }) => {
             width={cardWidth}
             height={cardHeight}
             fill={card.color?.hex || "#FFFFFF"}
-            cornerRadius={10}
+            cornerRadius={30}
             className={styles.rect_card}
           />
 
           {shapeImage &&
-            showBack &&
+            !isFrontShape &&
             (card.isSpecial ? (
               <Image
                 image={shapeImage}
@@ -198,7 +245,7 @@ const KonvaCard = ({ card, isPaid }) => {
                 height={scaledHeight || cardHeight}
                 x={offsetX}
                 y={offsetY}
-                cornerRadius={10}
+                cornerRadius={30}
               />
             ) : (
               <Image
@@ -210,7 +257,7 @@ const KonvaCard = ({ card, isPaid }) => {
                 cornerRadius={10}
               />
             ))}
-          {card.isSpecial && !showBack && (
+          {card.isSpecial && !!isFrontShape && (
             <Image
               image={shapeImageFront}
               width={scaledWidth || cardWidth}
@@ -232,7 +279,7 @@ const KonvaCard = ({ card, isPaid }) => {
             />
           )}
 
-          {card.text && !card.isSpecial && !showBack && (
+          {card.text && !card.isSpecial && !!isFrontShape && (
             <Text
               text={card.text.message}
               fontSize={Number(card.text.fontSize)}
@@ -246,7 +293,7 @@ const KonvaCard = ({ card, isPaid }) => {
             />
           )}
 
-          {card.price && !card.isSpecial && !showBack && (
+          {card.price && !card.isSpecial && !!isFrontShape && (
             <Text
               text={`${card.price.value} SAR`}
               fontSize={Number(card.price.fontSize)}
@@ -257,7 +304,7 @@ const KonvaCard = ({ card, isPaid }) => {
             />
           )}
 
-          {card.isSpecial && !showBack && (
+          {card.isSpecial && !!isFrontShape && (
             <Text
               text={`${card.price.value} SAR`}
               fontSize={25}
@@ -282,20 +329,29 @@ const KonvaCard = ({ card, isPaid }) => {
       </Stage>
       <div className="my-4 px-3  position-relative">
         <ul className={styles.list}>
-          {!    isPaid ? (
-            <li
-              className={`${styles.list_item} ${
-                isArLang ? styles.list_item_ar : styles.list_item_en
-              }`}
-            >
-              <span>
-                <FontAwesomeIcon
-                  icon={faGift}
-                  className={`${styles.list_icon} ${styles.gift_icon}`}
-                />{" "}
-                {key("promoCode")}: 4b0b5dd8508484a33hb
-              </span>
-            </li>
+          {!isPaid ? (
+            <>
+              <li
+                className={`${styles.list_item} ${
+                  isArLang ? styles.list_item_ar : styles.list_item_en
+                } text-center`}
+              >
+                <span>
+                  <FontAwesomeIcon
+                    icon={faGift}
+                    className={`${styles.list_icon} ${styles.gift_icon}`}
+                  />
+                  4b0b5dd8508484a33hb
+                </span>
+              </li>
+              <li
+                className={`${styles.list_item} ${
+                  isArLang ? styles.list_item_ar : styles.list_item_en
+                } text-success text-center`}
+              >
+                {key("cardReady")}
+              </li>
+            </>
           ) : (
             <>
               {" "}
@@ -351,20 +407,6 @@ const KonvaCard = ({ card, isPaid }) => {
             </>
           )}
         </ul>
-
-        <div
-          className={` d-flex mt-4 justify-content-center align-items-center`}
-        >
-          <MainButton
-            onClick={() => setShowBack(!showBack)}
-            className={styles.show_card_bt}
-            text={
-              showBack
-                ? `${key("show")} ${key("front")}`
-                : `${key("show")} ${key("back")}`
-            }
-          />
-        </div>
       </div>
     </>
   );
