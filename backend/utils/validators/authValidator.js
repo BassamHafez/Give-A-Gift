@@ -38,6 +38,10 @@ exports.signupValidator = [
       return true;
     }),
 
+  // NOT ALLOWED
+
+  check("role").isEmpty().withMessage("Role cannot be set"),
+
   validatorMiddleware,
 ];
 

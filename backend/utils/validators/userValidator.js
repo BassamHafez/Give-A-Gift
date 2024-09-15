@@ -14,6 +14,10 @@ exports.updateMeValidator = [
     .isMobilePhone()
     .withMessage("Phone must be a valid phone number"),
 
+  // NOT ALLOWED
+
+  check("role").isEmpty().withMessage("Role cannot be set"),
+
   validatorMiddleware,
 ];
 
