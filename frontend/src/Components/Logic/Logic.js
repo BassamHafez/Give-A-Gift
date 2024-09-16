@@ -7,7 +7,6 @@ import uae from "../../Images/countries/uae.png";
 
 export const FontsFamilies = [
     { label: "'ARAHAMAH1982', sans-serif", value: "'ARAHAMAH1982', sans-serif" },
-    { label: "Cairo", value: "Cairo" },
     { label: "Arial, Helvetica, sans-serif", value: "Arial, Helvetica, sans-serif" },
     { label: "'Times New Roman', Times, serif", value: "'Times New Roman', Times, serif" },
     { label: "Consolas, 'Courier New', monospace", value: "Consolas, 'Courier New', monospace" },

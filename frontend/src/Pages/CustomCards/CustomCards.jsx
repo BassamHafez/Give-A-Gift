@@ -41,7 +41,7 @@ const CustomCards = () => {
     y: cardHeight / 2,
   });
   const [textFontFamily, setTextFontFamily] = useState("Playfair Display");
-  const [textFont, setTextFont] = useState(20);
+  const [textFont, setTextFont] = useState(40);
   const [shapeImage] = useImage(selectedShape);
   const [logo] = useImage(logoImage);
   const [mainLogoImage] = useImage(mainLogo);
@@ -58,19 +58,19 @@ const CustomCards = () => {
   const { data: shapes } = useQuery({
     queryKey: ["shapes", token],
     queryFn: getShapes,
-    staleTime: 300000,
+    staleTime: Infinity,
   });
 
   const { data: shops } = useQuery({
     queryKey: ["shops", token],
     queryFn: getShops,
-    staleTime: 300000,
+    staleTime: Infinity,
   });
 
   const { data: colors } = useQuery({
     queryKey: ["colors"],
     queryFn: getColors,
-    staleTime: 300000,
+    staleTime: Infinity,
   });
 
   const navigateToLogin = () => {
@@ -169,7 +169,7 @@ const CustomCards = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data);
+      // console.log(response.data);
       const res = response.data;
       if (res?.status === "success") {
         queryClient.invalidateQueries(["getCard", token]);
@@ -231,9 +231,10 @@ const CustomCards = () => {
                           fontFamily={textFontFamily}
                           fill={textColor}
                           width={cardWidth * 0.8}
-                          height={cardHeight / 2}
-                          x={textPosition.x}
-                          y={textPosition.y}
+                          x={cardWidth / 2 - (cardWidth * 0.8) / 2}
+                          y={cardHeight / 2 - textFont / 2}
+                          align="center"
+                          wrap="char"
                           draggable
                           onDragEnd={(e) => {
                             setTextPosition({
@@ -241,8 +242,6 @@ const CustomCards = () => {
                               y: e.target.y(),
                             });
                           }}
-                          align="center"
-                          wrap="char"
                           onMouseEnter={(e) => {
                             const container = e.target.getStage().container();
                             container.style.cursor = "grab";
@@ -267,8 +266,8 @@ const CustomCards = () => {
                             fontSize={20}
                             fontFamily={"'Times New Roman', Times, serif"}
                             fill={textColor}
-                            x={10}
-                            y={10}
+                            x={cardWidth / 2 - 40} // Center horizontally
+                            y={cardHeight / 2 + textFont / 2 + 10}
                           />
                         )}
                       </>
@@ -436,8 +435,12 @@ const CustomCards = () => {
                 <Carousel.Item className={styles.carousel_item}>
                   <div className={styles.text_containers_parent}>
                     <div className={`${styles.text_container}`}>
-                      <h4>{key("cardMessage")}</h4>
-                      <div className="form-floating">
+                      <div
+                        className={`${styles.message_container} position-relative`}
+                      >
+                        <h4 className="text-start text-secondary">
+                          {key("cardMessage")}
+                        </h4>
                         <textarea
                           id="floatingTextarea"
                           value={cardText}
@@ -445,36 +448,85 @@ const CustomCards = () => {
                           onClick={() => setShowBack(false)}
                           className={`${styles.text_input} form-control`}
                         ></textarea>
-                      </div>
-                      <div className={styles.text_editors}>
-                        <Select
-                          className={styles.select_input}
-                          classNamePrefix="FontFamily"
-                          isClearable={false}
-                          isSearchable={true}
-                          name="fontFamily"
-                          placeholder={key("fontFamily")}
-                          options={FontsFamilies}
-                          onChange={(value) => setTextFontFamily(value.value)}
-                        />
-
-                        <input
-                          type="number"
-                          placeholder={key("size")}
-                          onChange={(e) => setTextFont(e.target.value)}
-                          className={styles.fontSize_input}
-                        />
-                        <input
-                          type="color"
-                          value={textColor}
-                          onChange={(e) => setTextColor(e.target.value)}
-                          className={styles.color_input}
-                        />
+                        <div className={styles.circle_inputs_div}>
+                          <input
+                            type="number"
+                            placeholder={key("size")}
+                            onChange={(e) => setTextFont(e.target.value)}
+                            className={styles.fontSize_input}
+                          />
+                          <input
+                            type="color"
+                            value={textColor}
+                            onChange={(e) => setTextColor(e.target.value)}
+                            className={styles.color_input}
+                          />
+                          <Select
+                            className={styles.select_input}
+                            classNamePrefix="FontFamily"
+                            isClearable={false}
+                            isSearchable={true}
+                            name="fontFamily"
+                            placeholder={"TT"}
+                            options={FontsFamilies}
+                            onChange={(value) => setTextFontFamily(value.value)}
+                            styles={{
+                              control: (provided) => ({
+                                ...provided,
+                                borderRadius: "50%",
+                                width: "45px",
+                                height: "45px",
+                                padding: "10px",
+                                textAlign: "center",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }),
+                              valueContainer: (provided) => ({
+                                ...provided,
+                                justifyContent: "center",
+                                display: "flex",
+                                alignItems: "center",
+                                padding: "0",
+                              }),
+                              singleValue: (provided) => ({
+                                ...provided,
+                                justifyContent: "center",
+                                display: "flex",
+                                alignItems: "center",
+                                padding: "0",
+                              }),
+                              placeholder: (provided) => ({
+                                ...provided,
+                                justifyContent: "center",
+                                display: "flex",
+                                alignItems: "center",
+                                width: "100%",
+                                textAlign: "center",
+                                fontWeight: "bold",
+                              }),
+                              dropdownIndicator: (provided) => ({
+                                ...provided,
+                                display: "none",
+                              }),
+                              indicatorSeparator: () => ({
+                                display: "none",
+                              }),
+                              menu: (provided) => ({
+                                ...provided,
+                                width: "auto",
+                                minWidth: "150px",
+                              }),
+                            }}
+                          />
+                        </div>
                       </div>
                     </div>
 
                     <div className={`${styles.text_container} my-5`}>
-                      <h4>{key("cardPrice")}</h4>
+                      <h4 className="text-start text-secondary">
+                        {key("cardPrice")}
+                      </h4>
                       <div
                         className={`${
                           isArLang ? "flex-row-reverse" : ""
@@ -485,8 +537,13 @@ const CustomCards = () => {
                           value={cardPrice}
                           onChange={(e) => setCardPrice(e.target.value)}
                           onClick={() => setShowBack(false)}
-                          className={`text-dark form-control`}
+                          className={`${styles.price_input} text-dark form-control`}
                         />
+                        <span
+                          className={` ${styles.sar_span} input-group-text bg-white border-start-0`}
+                        >
+                          SAR
+                        </span>
                       </div>
                     </div>
                     <div className="my-5 mx-3 text-center">

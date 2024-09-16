@@ -34,14 +34,13 @@ const ProfileContent = () => {
     queryKey: ["walletBalance", token],
     queryFn: () => getMyWallet(token),
     enabled: !!token,
-    staleTime: 300000,
   });
 
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
 
   const goToChargeMethods = () => {
-    navigate(`/payment/payment/${profileData?._id}`);
+    navigate(`/payment/deposite/${profileData?._id}/charge`);
   };
 
   const formattedBalance = data?.data?.balance

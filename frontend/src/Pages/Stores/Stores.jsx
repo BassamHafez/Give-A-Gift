@@ -19,7 +19,7 @@ const Stores = () => {
   const { data: shops, isFetching } = useQuery({
     queryKey: ["shops"],
     queryFn: getShops,
-    staleTime: 300000,
+    staleTime: Infinity,
   });
 
   const handleSearch = (e, searchTerm) => {
@@ -33,7 +33,8 @@ const Stores = () => {
         shop.name.toLowerCase().includes(searchInput.toLowerCase())
       )
     : [];
-      
+
+console.log("shops",shops)
   return (
     <>
       <Toaster position="top-right" />
@@ -52,12 +53,11 @@ const Stores = () => {
         <Row className="gy-5 position-relative">
           {!isFetching ? (
             shops ? (
-              filteredShops.length > 0 ? (
-                filteredShops.map((shop) => (
+              filteredShops?.length > 0 ? (
+                filteredShops?.map((shop) => (
                   <Col
-                    xs={12}
                     sm={6}
-                    md={4}
+                    lg={4}
                     className="d-flex justify-content-center align-items-center"
                     key={shop._id}
                   >
@@ -67,11 +67,12 @@ const Stores = () => {
                           <img
                             alt={shop.name}
                             className="w-100"
-                            src={`http://127.0.0.1:3001/shops/${shop.logo}`}
+                            src={`${process.env.REACT_APP_Host}shops/${shop.logo}`}
                           />
                         </div>
-                        <div>
-                          <h5 className="text-center">{shop.name}</h5>
+                        <div className="text-center">
+                          <h5 className=" fw-bold">{shop.name}</h5>
+                          <span className=" text-secondary">{shop.description}</span>
                         </div>
                       </div>
                     </div>
@@ -79,11 +80,11 @@ const Stores = () => {
                 ))
               ) : (
                 <>
-                  {shops.data.map((shop) => (
+                  {shops?.data?.map((shop) => (
                     <Col
                       xs={12}
                       sm={6}
-                      md={4}
+                      lg={4}
                       className="d-flex justify-content-center align-items-center"
                       key={shop._id}
                     >
@@ -93,11 +94,12 @@ const Stores = () => {
                             <img
                               alt={shop.name}
                               className="w-100"
-                              src={`http://127.0.0.1:3001/shops/${shop.logo}`}
+                              src={`${process.env.REACT_APP_Host}shops/${shop.logo}`}
                             />
                           </div>
-                          <div>
-                            <h5 className="text-center">{shop.name}</h5>
+                          <div className="text-center">
+                            <h5 className=" fw-bold">{shop.name}</h5>
+                            <span className="  text-secondary">{shop.description}</span>
                           </div>
                         </div>
                       </div>

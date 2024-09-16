@@ -34,7 +34,6 @@ const MainNav = () => {
     queryFn: () => getMyCards(token),
     enabled: !!token,
     select: (data) => data.results,
-    staleTime: 300000,
   });
 
   useEffect(() => {

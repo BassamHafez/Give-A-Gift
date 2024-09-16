@@ -50,7 +50,7 @@ const router=createBrowserRouter([{
     {path:"view-card/:cardId",element:<ViewCard/>},
     {path:"profile/:userId",element:<Profile/>},
     {path:"recipient-information/:cardId",element:<RecipientInformation/>},
-    {path:"payment/:type/:userId",element:<Payment/>},
+    {path:"payment/:type/:userId/:price",element:<Payment/>},
     {path:"payment-faild",element:<ErrorURL/>},
     {path:"account-setting",element:<AccountManageMent/>},
     {path:"help",element:<Help/>},

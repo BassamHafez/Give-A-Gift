@@ -42,7 +42,7 @@ const SpecialCards = () => {
   const { data, isFetching } = useQuery({
     queryKey: ["special-cards", token],
     queryFn: getSpecialCards,
-    staleTime: 300000,
+    staleTime: Infinity,
   });
 
   useEffect(() => {
@@ -249,7 +249,7 @@ const SpecialCards = () => {
         <FilterModal
           show={showFilterModal}
           onHide={() => setShowFilterModal(false)}
-          triggerFunc={searchStores} // Passing search function to FilterModal
+          triggerFunc={searchStores}
         />
       )}
     </>

@@ -111,8 +111,8 @@
     "cardPurchased":"Card purchased successfully.",
     "recipientInformation":"Recipient Information",
     "recName":"Recipient Name",
-    "whatsAppNum2":"whatsApp Number",
-    "dateTime":"Delivery Date and Time",
+    "whatsAppNum2":"Phone Number",
+    "dateTime":"Date and Time",
     "save":"Save",
     "later":"Later",
     "cardDeleted":"Card deleted successfully.",
@@ -215,5 +215,10 @@
     "shoprec":"Store field is required",
     "priceVali":"Price cannot be less than 1",
     "priceRec":"Price field is required",
-    "selectStore":"Select Store"
+    "selectStore":"Select Store",
+    "cardReady":"card is ready to be use",
+    "paid":"Paid",
+    "nonPaid":"Non-Paid",
+    "previewFront":"PREVIEW FRONT",
+    "previewBack":"PREVIEW BACK"
 }

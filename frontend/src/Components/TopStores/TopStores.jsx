@@ -11,7 +11,7 @@ const TopStores = () => {
   const { data: shops } = useQuery({
     queryKey: ["shops"],
     queryFn: getShops,
-    staleTime:300000
+    staleTime:Infinity
   });
 
   return (

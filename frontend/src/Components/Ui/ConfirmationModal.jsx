@@ -75,36 +75,58 @@ const ConfirmationModal = ({
   };
 
   const checkBalance = () => {
+    if(Number(cardPrice)===0){
+      setIsBalanced(true);
+      choosePaymentWay("wallet", "balanced",priceAfterDisc);
+      return;
+    }
+    if(priceAfterDisc!==""){
+      if(Number(priceAfterDisc)===0){
+        setIsBalanced(true);
+        choosePaymentWay("wallet", "balanced",priceAfterDisc);
+        return;
+      }
+    }
     if (paymentWay === "wallet") {
       if (balanceCase) {
-        chargeCase();
+        if(priceAfterDisc!==""){
+          chargeCase(priceAfterDisc);
+
+        }else{
+          chargeCase(cardPrice);
+
+        }
       } else {
-        console.log(priceAfterDisc)
         if(priceAfterDisc!==""){
           if (Number(priceAfterDisc) > Number(balance)) {
             notifyError(key("insuffBalance"));
             setIsBalanced(false);
-            choosePaymentWay(paymentWay, "noBalance");
+            choosePaymentWay(paymentWay, "noBalance",priceAfterDisc);
           } else {
-            console.log("lolololo")
             setIsBalanced(true);
-            choosePaymentWay(paymentWay, "balanced");
+            choosePaymentWay(paymentWay, "balanced",priceAfterDisc);
           }
         }else{
           if (Number(cardPrice) > Number(balance)) {
             notifyError(key("insuffBalance"));
             setIsBalanced(false);
-            choosePaymentWay(paymentWay, "noBalance");
+            choosePaymentWay(paymentWay, "noBalance",cardPrice);
           } else {
             setIsBalanced(true);
-            choosePaymentWay(paymentWay, "balanced");
+            choosePaymentWay(paymentWay, "balanced",cardPrice);
           }
         }
        
       }
     } else {
-      setIsBalanced(true);
-      choosePaymentWay(paymentWay, "balanced");
+      if(priceAfterDisc!==""){
+        setIsBalanced(true);
+        choosePaymentWay(paymentWay, "balanced",priceAfterDisc);
+      }else{
+        setIsBalanced(true);
+        choosePaymentWay(paymentWay, "balanced",cardPrice);
+      }
+
     }
   };
 
