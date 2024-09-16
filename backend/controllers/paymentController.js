@@ -1,3 +1,4 @@
+const Config = require("../models/configModel");
 const axios = require("axios");
 const catchAsync = require("../utils/catchAsync");
 
@@ -36,6 +37,10 @@ exports.executePayment = catchAsync(async (req, res, next) => {
   const { PaymentMethodId, InvoiceValue, type, successURL, errorURL } =
     req.body;
 
+  const VAT = await Config.findOne({ key: "VAT_VALUE" });
+
+  const totalInvoiceValue = InvoiceValue + InvoiceValue * (+VAT.value / 100);
+
   const response = await axios.post(
     `${baseURL}/v2/ExecutePayment`,
     {
@@ -43,7 +48,7 @@ exports.executePayment = catchAsync(async (req, res, next) => {
       CustomerName: req.user.name,
       DisplayCurrencyIso: "SAR",
       CustomerEmail: req.user.email,
-      InvoiceValue,
+      InvoiceValue: totalInvoiceValue,
       CallBackUrl: successURL,
       ErrorUrl: errorURL,
       UserDefinedField: type, // 'DEPOSIT' or 'PAYMENT'
