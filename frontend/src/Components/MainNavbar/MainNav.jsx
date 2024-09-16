@@ -29,11 +29,12 @@ const MainNav = () => {
   const location = useLocation();
   const token = JSON.parse(localStorage.getItem("token"));
 
-  const { data: cartItemCount } = useQuery({
+  const { data } = useQuery({
     queryKey: ["getCard", token],
     queryFn: () => getMyCards(token),
     enabled: !!token,
-    select: (data) => data.results,
+    staleTime: 300000,
+    // select: (data) => data.results,
   });
 
   useEffect(() => {
@@ -57,7 +58,7 @@ const MainNav = () => {
         className={`${
           styles.main_nav
         } d-flex align-items-center justify-content-center ${
-          isArLang ? "pe-5" : "ps-5"
+          isArLang ? "pe-5 ps-3" : "ps-5 pe-3" 
         } ${location.pathname === "/" ? "fixed-top" : "sticky-top"}  ${
           (addNavClass || location.pathname !== "/") && styles.new_nav
         } ${location.pathname !== "/" && styles.new_pages_nav}`}
@@ -158,7 +159,7 @@ const MainNav = () => {
                     icon={faOpencart}
                   />{" "}
                   <Badge className={styles.cart_badge} bg="danger">
-                    {cartItemCount}
+                    {data?.results}
                   </Badge>
                 </div>
               </>

@@ -48,8 +48,8 @@ const getPhoneValidationSchema = (country, key) => {
 const RegisterForm = ({ notifySuccess, notifyError }) => {
   const [isEmailError, setIsEmailError] = useState(false);
   const navigate = useNavigate();
-  const [key, control] = useTranslation();
-  let isArLang = control.language === "ar";
+  const {t:key} = useTranslation();
+  let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const [selectedCountry, setSelectedCountry] = useState("SA");
 
   const { mutate, isPending } = useMutation({
@@ -74,13 +74,13 @@ const RegisterForm = ({ notifySuccess, notifyError }) => {
         ) {
           setIsEmailError(false);
           notifyError(
-            "sorry! time out please check your network or try again later"
+            key("timeout")
           );
         } else {
           setIsEmailError(true);
         }
       } else {
-        notifyError("sorry something went wrong please try again later!");
+        notifyError(key("wrong"));
       }
     },
   });

@@ -5,15 +5,11 @@ import AOS from "aos";
 import { useTranslation } from "react-i18next";
 import toast, { Toaster } from "react-hot-toast";
 
-const notifySuccess = () => toast.success("Logged in successfully");
-const notifyError = (message) =>
-  message
-    ? toast.error(message)
-    : toast.error("Faild to be logged in please try again later!");
-
 const Login = () => {
   const { t: key } = useTranslation();
-
+  const notifySuccess = () => toast.success(key("logged"));
+  const notifyError = (message) =>
+    message ? toast.error(message) : toast.error(key("loggedFaild"));
   useEffect(() => {
     AOS.init();
   }, []);

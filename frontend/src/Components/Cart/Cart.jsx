@@ -47,7 +47,7 @@ const Cart = ({ onClose, show }) => {
     queryKey: ["getCard", token],
     queryFn: () => getMyCards(token),
     enabled: !!token,
-    staleTime: Infinity,
+    staleTime: 300000,
   });
   const { data: walletBalance } = useQuery({
     queryKey: ["walletBalance", token],

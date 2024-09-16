@@ -25,7 +25,7 @@ const Shapes = () => {
   const { data: shapes, refetch } = useQuery({
     queryKey: ["shapes", token],
     queryFn: getShapes,
-    staleTime: 300000,
+    staleTime: Infinity,
   });
 
   const { mutate, isPending } = useMutation({

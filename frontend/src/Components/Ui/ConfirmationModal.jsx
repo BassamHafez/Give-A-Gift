@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./LogoutModal.module.css";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -6,11 +6,15 @@ import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCoins,
+  faFileInvoiceDollar,
   faMoneyBill,
+  faPercent,
   faReceipt,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useQuery } from "@tanstack/react-query";
+import { getConfig } from "../../util/Http";
 
 const ConfirmationModal = ({
   show,
@@ -33,6 +37,7 @@ const ConfirmationModal = ({
   const [priceAfterDisc, setPriceAfterDisc] = useState("");
   const [paymentWay, setPaymentWay] = useState("wallet");
   const [isBalanced, setIsBalanced] = useState(true);
+  const [VAT, setVAT] = useState("");
 
   const applyCoupon = async (e) => {
     e.preventDefault();
@@ -75,60 +80,76 @@ const ConfirmationModal = ({
   };
 
   const checkBalance = () => {
-    if(Number(cardPrice)===0){
+    if (Number(cardPrice) === 0) {
       setIsBalanced(true);
-      choosePaymentWay("wallet", "balanced",priceAfterDisc);
+      choosePaymentWay("wallet", "balanced", priceAfterDisc);
       return;
     }
-    if(priceAfterDisc!==""){
-      if(Number(priceAfterDisc)===0){
+    if (priceAfterDisc !== "") {
+      if (Number(priceAfterDisc) === 0) {
         setIsBalanced(true);
-        choosePaymentWay("wallet", "balanced",priceAfterDisc);
+        choosePaymentWay("wallet", "balanced", priceAfterDisc);
         return;
       }
     }
     if (paymentWay === "wallet") {
       if (balanceCase) {
-        if(priceAfterDisc!==""){
+        if (priceAfterDisc !== "") {
           chargeCase(priceAfterDisc);
-
-        }else{
+        } else {
           chargeCase(cardPrice);
-
         }
       } else {
-        if(priceAfterDisc!==""){
-          if (Number(priceAfterDisc) > Number(balance)) {
+        if (priceAfterDisc !== "") {
+          if (((Number(VAT)/100)*Number(priceAfterDisc))+Number(priceAfterDisc) > Number(balance)) {
             notifyError(key("insuffBalance"));
             setIsBalanced(false);
-            choosePaymentWay(paymentWay, "noBalance",priceAfterDisc);
+            choosePaymentWay(paymentWay, "noBalance", priceAfterDisc);
           } else {
             setIsBalanced(true);
-            choosePaymentWay(paymentWay, "balanced",priceAfterDisc);
+            choosePaymentWay(paymentWay, "balanced", priceAfterDisc);
           }
-        }else{
-          if (Number(cardPrice) > Number(balance)) {
+        } else {
+          if (((Number(VAT)/100)*Number(cardPrice))+Number(cardPrice) > Number(balance)) {
             notifyError(key("insuffBalance"));
             setIsBalanced(false);
             choosePaymentWay(paymentWay, "noBalance",cardPrice);
           } else {
             setIsBalanced(true);
-            choosePaymentWay(paymentWay, "balanced",cardPrice);
+            choosePaymentWay(paymentWay, "balanced", cardPrice);
           }
         }
-       
       }
     } else {
-      if(priceAfterDisc!==""){
+      if (priceAfterDisc !== "") {
         setIsBalanced(true);
-        choosePaymentWay(paymentWay, "balanced",priceAfterDisc);
-      }else{
+        choosePaymentWay(paymentWay, "balanced", priceAfterDisc);
+      } else {
         setIsBalanced(true);
-        choosePaymentWay(paymentWay, "balanced",cardPrice);
+        choosePaymentWay(paymentWay, "balanced", cardPrice);
       }
-
     }
   };
+
+  const { data: configs } = useQuery({
+    queryKey: ["configs"],
+    queryFn: getConfig,
+    staleTime: Infinity,
+    enabled: !!balance && !!cardPrice,
+  });
+
+  const findConfigByKey = (arr, targetKey) => {
+    return Array.isArray(arr)
+      ? arr.find((config) => config.key === targetKey)
+      : undefined;
+  };
+
+  useEffect(() => {
+    if (configs?.data) {
+      const vatValue = findConfigByKey(configs.data, "VAT_VALUE")?.value || "";
+      setVAT(vatValue);
+    }
+  }, [configs]);
 
   return (
     <Modal
@@ -147,26 +168,59 @@ const ConfirmationModal = ({
               <FontAwesomeIcon className={styles.list_icon} icon={faCoins} />
               {key("currentBalance")}: {balance} {key("sar")}
             </li>
-            <li>
-              <FontAwesomeIcon
-                className={styles.list_icon}
-                icon={faMoneyBill}
-              />{" "}
-              {key("cardPrice")}:{" "}
-              {priceAfterDisc === "" ? (
-                <>
-                  {cardPrice} {key("sar")}
-                </>
-              ) : (
-                <>
-                  {priceAfterDisc} {key("sar")}{" "}
+            
+            {priceAfterDisc === "" ? (
+              <>
+                <li>
+                  <FontAwesomeIcon
+                    className={styles.list_icon}
+                    icon={faMoneyBill}
+                  />
+                  {key("cardPrice")}:{" "}{cardPrice} {key("sar")}
+                </li>
+                <li>
+                  <FontAwesomeIcon
+                    className={styles.list_icon}
+                    icon={faPercent}
+                  />
+                  {key("Vatvalue")}:{" "}{(Number(VAT)/100)*Number(cardPrice)} {key("sar")}
+                </li>
+                <li>
+                  <FontAwesomeIcon
+                    className={styles.list_icon}
+                    icon={faFileInvoiceDollar}
+                  />
+                  {key("totalPrice")}:{" "}{((Number(VAT)/100)*Number(cardPrice))+Number(cardPrice)} {key("sar")}
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <FontAwesomeIcon
+                    className={styles.list_icon}
+                    icon={faMoneyBill}
+                  />
+                  {key("cardPrice")}:{" "}{priceAfterDisc} {key("sar")}{" "}
                   <del className="mx-2">
                     {cardPrice} {key("sar")}{" "}
                   </del>
-                </>
-              )}{" "}
-            </li>
-
+                </li>
+                <li>
+                  <FontAwesomeIcon
+                    className={styles.list_icon}
+                    icon={faPercent}
+                  />
+                  {key("Vatvalue")}:{" "}{(Number(VAT)/100)*Number(priceAfterDisc)} {key("sar")}
+                </li>
+                <li>
+                  <FontAwesomeIcon
+                    className={styles.list_icon}
+                    icon={faFileInvoiceDollar}
+                  />
+                  {key("totalPrice")}:{" "}{((Number(VAT)/100)*Number(priceAfterDisc))+Number(priceAfterDisc)} {key("sar")}
+                </li>
+              </>
+            )}
             {choosePaymentWay && (
               <li className="flex-column align-items-start my-4">
                 <h4>{key("choosePay")}</h4>

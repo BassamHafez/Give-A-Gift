@@ -23,7 +23,7 @@ const FilterModal = ({ onHide, show, triggerFunc }) => {
   const { data } = useQuery({
     queryKey: ["special-cards", token],
     queryFn: getSpecialCards,
-    staleTime: 300000,
+    staleTime: Infinity,
   });
 
   const handleCheckboxChange = (cardName) => {
@@ -65,8 +65,8 @@ const FilterModal = ({ onHide, show, triggerFunc }) => {
           {data ? (
             filteredCards?.length > 0 ? (
               <ul>
-                {filteredCards.map((card) => (
-                  <li key={card.shop?.name} className="my-3 text-end fw-bold">
+                {filteredCards.map((card,index) => (
+                  <li key={`${card.shop?.name}_${index}`} className="my-3 text-end fw-bold">
                     {isArLang ? (
                       <label>
                         <input
