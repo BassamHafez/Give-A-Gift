@@ -42,7 +42,7 @@ const SpecialCards = () => {
   const { data, isFetching } = useQuery({
     queryKey: ["special-cards", token],
     queryFn: getSpecialCards,
-    staleTime: 300000,
+    staleTime: Infinity,
   });
 
   useEffect(() => {

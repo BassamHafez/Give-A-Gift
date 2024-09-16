@@ -36,6 +36,7 @@ const Cart = ({ onClose, show }) => {
   const profileData = useSelector((state) => state.userInfo.data);
   const { t: key } = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
+  const [isPaidCard, setIsPaidCard] = useState(false);
 
   const [cardId, setCardId] = useState("");
   const token = JSON.parse(localStorage.getItem("token"));
@@ -46,7 +47,7 @@ const Cart = ({ onClose, show }) => {
     queryKey: ["getCard", token],
     queryFn: () => getMyCards(token),
     enabled: !!token,
-    staleTime: 300000,
+    staleTime: Infinity,
   });
   const { data: walletBalance } = useQuery({
     queryKey: ["walletBalance", token],
@@ -137,7 +138,6 @@ const Cart = ({ onClose, show }) => {
     }
   }
 
-
   return (
     <>
       <Toaster position="top-right" />
@@ -160,13 +160,33 @@ const Cart = ({ onClose, show }) => {
         </Offcanvas.Header>
 
         <Offcanvas.Body>
+          <div className={styles.header}>
+              <ul className={styles.header_list}>
+                <li
+                  className={`${styles.header_list_item} ${
+                    isPaidCard && styles.active
+                  }`}
+                  onClick={() => setIsPaidCard(true)}
+                >
+                  {key("paid")}
+                </li>
+                <li
+                  className={`${styles.header_list_item} ${
+                    !isPaidCard && styles.active
+                  }`}
+                  onClick={() => setIsPaidCard(false)}
+                >
+                  {key("nonPaid")}
+                </li>
+              </ul>
+            </div>
           <ul className={styles.list}>
             {isFetching ? (
               <Placeholders isList={true} />
             ) : (
               data?.data?.map(
                 (card) =>
-                  !card.isPaid && (
+                  (isPaidCard?card.isPaid:!card.isPaid) && (
                     <li key={card._id} className={styles.list_item}>
                       <div className={styles.item}>
                         <h4>

@@ -34,7 +34,6 @@ const ProfileContent = () => {
     queryKey: ["walletBalance", token],
     queryFn: () => getMyWallet(token),
     enabled: !!token,
-    staleTime: 300000,
   });
 
   const notifySuccess = (message) => toast.success(message);

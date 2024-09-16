@@ -19,7 +19,7 @@ const Stores = () => {
   const { data: shops, isFetching } = useQuery({
     queryKey: ["shops"],
     queryFn: getShops,
-    staleTime: 300000,
+    staleTime: Infinity,
   });
 
   const handleSearch = (e, searchTerm) => {

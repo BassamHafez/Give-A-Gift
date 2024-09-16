@@ -26,7 +26,7 @@ const Payment = () => {
   const { data } = useQuery({
     queryKey: ["paymentMethods", token],
     queryFn: () => getPaymentMethods(token),
-    staleTime: 300000,
+    staleTime: Infinity,
     enabled: !!token,
   });
 

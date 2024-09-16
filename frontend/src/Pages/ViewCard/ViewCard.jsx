@@ -24,6 +24,7 @@ const ViewCard = () => {
   const { cardId } = useParams();
   const [isFirstVisit, setIsFirstVisit] = useState(true);
   const [isFrontShape, setIsFrontShape] = useState(false);
+  const { t: key } = useTranslation();
 
   const { data: myCard, isFetching } = useQuery({
     queryKey: ["viewCard", token],
@@ -97,7 +98,7 @@ const ViewCard = () => {
                   }`}
                   onClick={() => setIsFrontShape(true)}
                 >
-                  PREVIEW FRONT
+                  {key("previewFront")}
                 </li>
                 <li
                   className={`${styles.header_list_item} ${
@@ -105,7 +106,7 @@ const ViewCard = () => {
                   }`}
                   onClick={() => setIsFrontShape(false)}
                 >
-                  PREVIEW BACK
+                  {key("previewBack")}
                 </li>
               </ul>
             </div>
@@ -142,9 +143,9 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
   const [shapeImageFront] = useImage(
     `${process.env.REACT_APP_Host}shapes/front-shape.png`
   );
-  const [logoImage] = useImage(
-    `${process.env.REACT_APP_Host}shops/${card.shop?.logo}`
-  );
+  // const [logoImage] = useImage(
+  //   `${process.env.REACT_APP_Host}shops/${card.shop?.logo}`
+  // );
 
   const formatDateTime = (dateTimeString) => {
     const date = new Date(dateTimeString);
@@ -293,7 +294,7 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
             />
           )}
 
-          {card.price && !card.isSpecial && !!isFrontShape && (
+          {/* {card.price && !card.isSpecial && !!isFrontShape && (
             <Text
               text={`${card.price.value} SAR`}
               fontSize={Number(card.price.fontSize)}
@@ -302,7 +303,7 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
               x={10}
               y={10}
             />
-          )}
+          )} */}
 
           {card.isSpecial && !!isFrontShape && (
             <Text
@@ -310,11 +311,11 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
               fontSize={25}
               fontFamily={"Arial, Helvetica, sans-serif"}
               fill="#FFFFFF"
-              x={10}
-              y={10}
+              x={20}
+              y={20}
             />
           )}
-
+          {/* 
           {logoImage && (
             <Image
               image={logoImage}
@@ -324,13 +325,22 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
               height={isSmalogo ? 40 : 60}
               cornerRadius={30}
             />
-          )}
+          )} */}
         </Layer>
       </Stage>
-      <div className="my-4 px-3  position-relative">
+      <div className="mt-1 px-2  position-relative d-flex justify-content-center flex-column">
+        <div className={styles.shop_logo}>
+          <img
+            src={`${process.env.REACT_APP_Host}shops/${card.shop?.logo}`}
+            alt="shopp_logo"
+          />
+        </div>
         <ul className={styles.list}>
-          {!isPaid ? (
+          {isPaid ? (
             <>
+              <li className={`${styles.list_item} ${styles.price_value} text-center`}>
+                {card.price.value} {key("sar")}
+              </li>
               <li
                 className={`${styles.list_item} ${
                   isArLang ? styles.list_item_ar : styles.list_item_en
@@ -354,7 +364,9 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
             </>
           ) : (
             <>
-              {" "}
+              <li className={`${styles.list_item} ${styles.price_value} text-center`}>
+                {card.price.value} {key("sar")}
+              </li>
               <li
                 className={`${styles.list_item} ${
                   isArLang ? styles.list_item_ar : styles.list_item_en

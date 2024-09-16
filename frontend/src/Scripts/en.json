@@ -216,5 +216,9 @@
     "priceVali":"Price cannot be less than 1",
     "priceRec":"Price field is required",
     "selectStore":"Select Store",
-    "cardReady":"card is ready to be user"
+    "cardReady":"card is ready to be use",
+    "paid":"Paid",
+    "nonPaid":"Non-Paid",
+    "previewFront":"PREVIEW FRONT",
+    "previewBack":"PREVIEW BACK"
 }

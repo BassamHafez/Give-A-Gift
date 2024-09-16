@@ -76,7 +76,7 @@ const RecipientInformation = () => {
   const { data: card } = useQuery({
     queryKey: ["card", token],
     queryFn: () => getCard(token, cardId),
-    staleTime: 300000,
+    staleTime: Infinity,
   });
 
   const { mutate, isPending } = useMutation({

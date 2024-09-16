@@ -58,19 +58,19 @@ const CustomCards = () => {
   const { data: shapes } = useQuery({
     queryKey: ["shapes", token],
     queryFn: getShapes,
-    staleTime: 300000,
+    staleTime: Infinity,
   });
 
   const { data: shops } = useQuery({
     queryKey: ["shops", token],
     queryFn: getShops,
-    staleTime: 300000,
+    staleTime: Infinity,
   });
 
   const { data: colors } = useQuery({
     queryKey: ["colors"],
     queryFn: getColors,
-    staleTime: 300000,
+    staleTime: Infinity,
   });
 
   const navigateToLogin = () => {
