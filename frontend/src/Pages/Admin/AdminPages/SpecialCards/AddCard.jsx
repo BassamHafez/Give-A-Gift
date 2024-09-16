@@ -21,7 +21,7 @@ const AddCard = ({ refetch }) => {
   const { data: shops } = useQuery({
     queryKey: ["shops", token],
     queryFn: getShops,
-    staleTime: 300000,
+    staleTime: Infinity,
   });
 
   useEffect(() => {

@@ -138,22 +138,195 @@
     border-radius:0.625rem 0.625rem 0 0;
 }
 .cop_div{
-    padding: 30px;
-    border-radius: 10px;
-    border: 1px solid rgba(0, 0, 0, 0.392);
-    margin: 30px 0;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.353);
+    padding: 1.875rem;
+    border-radius: 0.625rem;
+    border: 0.0625rem solid rgba(0, 0, 0, 0.392);
+    margin: 1.875rem 0;
+    box-shadow: 0.0625rem 0.0625rem 0.1875rem rgba(0, 0, 0, 0.353);
 }
 .cop_content ul{
     padding: 0;
 }
 
 .cop_content ul li{
-    margin: 5px 0;
-    font-size: 18px;
+    margin: 0.3125rem 0;
+    font-size: 1.125rem;
     font-weight: 600;
 }
 
+/* configs */
+.select_shape{
+    width: 6.25rem;
+}
+.select_shape img{
+    width: 100%;
+}
+.configs_body{
+    width: 70%;
+    margin: auto;
+}
+
+
+/* users */
+
+.field{
+    margin-bottom: 3rem;
+    text-align: start;
+    font-weight: 600;
+    position: relative;
+}
+
+.register_form{
+    padding:15px 20px;
+    width: 100%;
+    text-align: center;
+    overflow: hidden;
+}
+.register_form label{
+    text-align: start;
+    margin-bottom: 3px;
+}
+.register_btn{
+    width: 80%;
+    background-color: var(--main_color);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 15px;
+    margin: 10px 0;
+    border: 0.0625rem solid transparent;
+    font-weight: 600;
+    transition: all .3s;
+}
+.register_btn:hover{
+    background-color:transparent;
+    color: var(--main_color);
+    border: 0.0625rem solid var(--main_color);
+}
+.confirm_password, .password_field{
+    width: 50%;
+}
+.have_acc_p{
+    letter-spacing: 0.0625rem;
+}
+.phone_num{
+    display: flex;
+}
+.ar_phoneNum{
+    flex-direction: row-reverse;
+}
+.select_input{
+    border: 0.0625rem solid rgba(0, 0, 0, 0.311);
+    border-right: 0.0625rem solid rgba(0, 0, 0, 0.097);
+    border-radius: 0.3125rem 0 0 0.3125rem;
+    width:30%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.select_input * {
+    border: none !important;
+}
+.phone_input{
+    border-left: none;
+    border-radius: 0 0.3125rem 0.3125rem  0;
+    width: 70%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.user_div{
+    padding: 1.25rem;
+    box-shadow: 0 0 0.1875rem rgba(0, 0, 0, 0.466);
+    margin: 1.875rem 0;
+    border-radius: 0.625rem;
+    min-width: 240px;
+    position: relative;
+}
+.user_div:hover .delete_icon{
+    opacity: 1;
+}
+.user_header{
+    display: flex;
+}
+.user_header_info{
+    margin-inline: 0.625rem;
+}
+.user_header_info h5{
+    margin: 0 !important;
+    padding: 0 !important;
+    font-weight: 600;
+}
+.user_header_info span{
+    margin: 0 !important;
+    padding: 0 !important;
+    word-break: break-word;
+}
+.user_img{
+    width: 3.125rem;
+    height: 3.125rem;
+    border-radius: 50%;
+}
+.user_img img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.details_list{
+    word-break: break-word;
+}
+.details_list_icon{
+    color: var(--slate_blue);
+    margin-inline: 0.3125rem;
+}
+.filter_box{
+    border: 1px solid transparent;
+    border-radius: 0.1875rem;
+    padding: 0.3125rem 0.5rem;
+    cursor: pointer;
+    background-color: var(--main_color);
+    color: var(--white);
+    font-weight: 600;
+    transition: all .4s;
+}
+.filter_box:hover svg{
+    cursor: pointer;
+    transition: all .3s;
+}
+.filter_box:hover{
+   background-color: white;
+   color: var(--main_color);
+   border: 1px solid var(--main_color);
+}
+.filter{
+    font-size: 1.125rem;
+}
+
+
+/* wallet */
+.cur_pointer{
+    cursor: pointer;
+}
+
+@media screen and (max-width:1130px) {
+    .register_form div{
+       margin-inline:0 !important;
+    }
+    .pass_group{
+        flex-wrap: wrap;
+    }
+    .confirm_password, .password_field{
+        width: 100% !important;
+    }
+    .password_field{
+        margin-bottom: 30px;
+    }
+}
+
+
+@media screen and (max-width:680px) {
+    .configs_body{
+        width: 98%;
+        margin: auto;
+    }
+}
 @media screen and (max-width:400px) {
     .cop_div {
         width: 98%;
@@ -161,5 +334,17 @@
     }
     .main_body{
         padding:5px;
+    }
+    .user_div{
+        min-width:98%;
+    }
+}
+
+@media screen and (max-width:268px) {
+    .register_btn{
+        margin-top: 1.5625rem;
+    }
+    .register_form{
+        padding: 0.125rem;
     }
 }

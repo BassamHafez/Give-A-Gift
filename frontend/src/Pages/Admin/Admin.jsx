@@ -18,15 +18,12 @@ import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import LogoutModal from "../../Components/Ui/LogoutModal";
 
 const Admin = () => {
   const [logoutModalShow, setLogoutModalShow] = useState(false);
-  const profileData = useSelector((state) => state.userInfo.data);
   const navigate = useNavigate();
   const { t: key } = useTranslation();
-  console.log(profileData);
 
   return (
     <>
@@ -63,6 +60,7 @@ const Admin = () => {
               <Col
                 xs={6}
                 className="d-flex justify-content-center align-items-center"
+                onClick={() => navigate("/admin-users")}
               >
                 <div className={styles.list_item}>
                   <FontAwesomeIcon
@@ -75,6 +73,7 @@ const Admin = () => {
               <Col
                 xs={6}
                 className="d-flex justify-content-center align-items-center"
+                onClick={() => navigate("/admin-wallets")}
               >
                 <div className={styles.list_item}>
                   <FontAwesomeIcon
@@ -87,6 +86,7 @@ const Admin = () => {
               <Col
                 xs={6}
                 className="d-flex justify-content-center align-items-center"
+                onClick={() => navigate("/admin-transactions")}
               >
                 <div className={styles.list_item}>
                   <FontAwesomeIcon
@@ -99,13 +99,14 @@ const Admin = () => {
               <Col
                 xs={6}
                 className="d-flex justify-content-center align-items-center"
+                onClick={() => navigate("/admin-configs")}
               >
                 <div className={styles.list_item}>
                   <FontAwesomeIcon
                     className={styles.list_item_icon}
                     icon={faBrush}
                   />
-                  <span>{key("appearance")}</span>
+                  <span>{key("configs")}</span>
                 </div>
               </Col>
               <Col

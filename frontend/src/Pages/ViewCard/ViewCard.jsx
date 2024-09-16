@@ -294,17 +294,6 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
             />
           )}
 
-          {/* {card.price && !card.isSpecial && !!isFrontShape && (
-            <Text
-              text={`${card.price.value} SAR`}
-              fontSize={Number(card.price.fontSize)}
-              fontFamily={card.price.fontFamily}
-              fill={card.price.fontColor}
-              x={10}
-              y={10}
-            />
-          )} */}
-
           {card.isSpecial && !!isFrontShape && (
             <Text
               text={`${card.price.value} SAR`}
@@ -315,17 +304,7 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
               y={20}
             />
           )}
-          {/* 
-          {logoImage && (
-            <Image
-              image={logoImage}
-              x={isSmalogo ? cardWidth - 50 : cardWidth - 70}
-              y={10}
-              width={isSmalogo ? 40 : 60}
-              height={isSmalogo ? 40 : 60}
-              cornerRadius={30}
-            />
-          )} */}
+    
         </Layer>
       </Stage>
       <div className="mt-1 px-2  position-relative d-flex justify-content-center flex-column">

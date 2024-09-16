@@ -15,9 +15,8 @@
 .card_body{
     min-width:23.75rem;
     box-shadow: 0 0 0.1875rem rgba(0, 0, 0, 0.242);
+    border-radius: 30px !important;
     min-height: 100%;
-    border-radius: 1.875rem 1.875rem 1.25rem 1.25rem !important;
-
 }
 .card_img_div{
     width: 400px;

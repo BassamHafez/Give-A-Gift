@@ -79,6 +79,7 @@ const RecipientInformation = () => {
     staleTime: Infinity,
   });
 
+  
   const { mutate, isPending } = useMutation({
     mutationFn: updateCard,
     onSuccess: (data) => {

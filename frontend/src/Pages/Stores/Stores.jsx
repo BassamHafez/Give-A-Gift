@@ -34,7 +34,6 @@ const Stores = () => {
       )
     : [];
 
-console.log("shops",shops)
   return (
     <>
       <Toaster position="top-right" />

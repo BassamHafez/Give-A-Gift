@@ -32,11 +32,10 @@ const AllCards = () => {
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const token = JSON.parse(localStorage.getItem("token"));
 
-  // Fetch the special cards data
   const { data, isFetching, refetch } = useQuery({
     queryKey: ["special-cards", token],
     queryFn: getSpecialCards,
-    staleTime: 300000,
+    staleTime: Infinity,
   });
 
   useEffect(() => {
@@ -54,7 +53,9 @@ const AllCards = () => {
     } else {
       setFilteredCards(data?.data?.cards);
     }
-    notifySuccess(key("searchFilterApplied"));
+    if(searchInput){
+      notifySuccess(key("searchFilterApplied"));
+    }
   };
 
   const deleteCard = async (cardId) => {

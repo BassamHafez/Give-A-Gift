@@ -140,6 +140,14 @@ const CustomCards = () => {
       notifyError(key("cardStoreError"));
       return;
     }
+    if (selectedShapeId === "") {
+      notifyError(key("shapereq"));
+      return;
+    }
+    if (cardColorId === "") {
+      notifyError(key("colorreq"));
+      return;
+    }
     let formData = {
       isSpecial: false,
       price: {
@@ -169,7 +177,6 @@ const CustomCards = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      // console.log(response.data);
       const res = response.data;
       if (res?.status === "success") {
         queryClient.invalidateQueries(["getCard", token]);

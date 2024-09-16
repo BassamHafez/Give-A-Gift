@@ -15,12 +15,13 @@
 .card_body{
     min-width:23.75rem;
     box-shadow: 0 0 0.1875rem rgba(0, 0, 0, 0.242);
-    border-radius: 17px;
+    border-radius: 30px !important;
     min-height: 100%;
 }
 .card_img_div{
-    width: 25rem;
-    height: 14.0625rem;
+    width: 400px;
+    aspect-ratio: 16/9;
+    border-radius: 30px !important;
 }
 .card_img_div img{
     object-fit: cover;

@@ -312,3 +312,70 @@ export const controlSpecialCards=async ({token,method,formData,cardId}) => {
     return error
   }
 };
+
+export const getConfig = async ({ formData, type, token }) => {
+  try {
+    let response;
+    if (type !== "update") {
+      response = await axios.get(`${baseServerUrl}configs`);
+    } else {
+      response = await axios.patch(`${baseServerUrl}configs`, formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+    }
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+};
+
+export const controlUsers = async ({ formData, type, token, userId }) => {
+  try {
+    let response;
+    if (type === "add") {
+      response = await axios.patch(`${baseServerUrl}users/admin`, formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+    } else if (type === "single") {
+      response = await axios.get(`${baseServerUrl}users/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+    } else {
+      response = await axios.get(`${baseServerUrl}users`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+    }
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+};
+
+export const controlWallets = async ({ formData, type, token, walletId }) => {
+  try {
+    let response;
+    if (type === "add") {
+      response = await axios.patch(`${baseServerUrl}wallets`,formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+    } else if (type === "addOne") {
+      console.log(formData)
+      console.log("walletId",walletId)
+      response = await axios.patch(`${baseServerUrl}wallets/${walletId}`,formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+    } else {
+      response = await axios.get(`${baseServerUrl}wallets`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+    }
+    return response;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+};
+
+
