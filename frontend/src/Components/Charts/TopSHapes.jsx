@@ -10,32 +10,7 @@ import {
 } from "recharts";
 import { useMediaQuery } from "react-responsive";
 
-const topShapes = [
-  { _id: "a", image: "1OSMraS.png", cardsCount: 3 },
-  { _id: "b", image: "e4rKcS0.png", cardsCount: 4 },
-  { _id: "c", image: "v0NFtm0.png", cardsCount: 5 },
-  { _id: "d", image: "WBxoxBK.png", cardsCount: 6 },
-  { _id: "e", image: "oiPl2QX.png", cardsCount: 7 },
-  { _id: "f", image: "mmetlwc.png", cardsCount: 3 },
-  { _id: "g", image: "FruSxNc.png", cardsCount: 10 },
-  { _id: "h", image: "fhPyEBT.png", cardsCount: 8 },
-  { _id: "i", image: "RmpX0dp.png", cardsCount: 10 },
-  { _id: "j", image: "P5w31EM.png", cardsCount: 11 },
-  { _id: "k", image: "WjFaCGZ.png", cardsCount: 12 },
-  { _id: "l", image: "gSHwOPr.png", cardsCount: 3 },
-  { _id: "m", image: "KnIE0ry.png", cardsCount: 4 },
-  { _id: "p", image: "8Nnc16G.png", cardsCount: 5 },
-  { _id: "q", image: "removebg1.png", cardsCount: 1 },
-  { _id: "r", image: "removebg2.png", cardsCount: 0 },
-];
-
-const data = topShapes.map((shape) => ({
-  name: shape._id,
-  sales: shape.cardsCount,
-  img: `${process.env.REACT_APP_Host}shapes/${shape.image}`,
-}));
-
-const CustomXAxisTick = ({ x, y, payload }) => {
+const CustomXAxisTick = ({ x, y, payload, data }) => {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const shapeData = data.find((d) => d.name === payload.value);
   if (!shapeData) return null;
@@ -93,9 +68,15 @@ const CustomLabel = ({ x, y, value }) => {
   );
 };
 
-const TopShapes = () => {
+const TopShapes = ({ topShapes }) => {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const barWidth = isMobile ? 10 : 27;
+
+  const data = topShapes?.map((shape,index) => ({
+    name: index,
+    sales: shape.cardsCount,
+    img: `${process.env.REACT_APP_Host}shapes/${shape.image}`,
+  }));
 
   return (
     <div style={{ width: "100%", height: "100%" }}>
@@ -113,7 +94,7 @@ const TopShapes = () => {
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis type="number" />
-            <YAxis dataKey="name" type="category" tick={<CustomXAxisTick />} />
+            <YAxis dataKey="name" type="category" tick={<CustomXAxisTick data={data} />} />
             <Bar
               dataKey="sales"
               fill="#8884d8"
@@ -136,7 +117,7 @@ const TopShapes = () => {
             }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" tick={<CustomXAxisTick />} />
+            <XAxis dataKey="name" tick={<CustomXAxisTick data={data} />} />
             <YAxis />
             <Bar
               dataKey="sales"

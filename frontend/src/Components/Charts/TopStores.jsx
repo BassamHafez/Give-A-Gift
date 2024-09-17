@@ -10,44 +10,20 @@ import {
 } from "recharts";
 import { useMediaQuery } from "react-responsive";
 
-const topShapes = [
-  { _id: "a", image: "shop1.png", cardsCount: 3 },
-  { _id: "b", image: "shop2.png", cardsCount: 4 },
-  { _id: "c", image: "shop3.png", cardsCount: 5 },
-  { _id: "d", image: "shop4.png", cardsCount: 6 },
-  { _id: "e", image: "shop5.png", cardsCount: 7 },
-  { _id: "f", image: "shop6.jpg", cardsCount: 3 },
-  { _id: "g", image: "shop7.png", cardsCount: 10 },
-  { _id: "h", image: "shop8.jpg", cardsCount: 8 },
-  { _id: "i", image: "shop9.jpg", cardsCount: 10 },
-  { _id: "j", image: "shop10.jpg", cardsCount: 11 },
-  { _id: "k", image: "shop11.png", cardsCount: 12 },
-  { _id: "l", image: "shop12.jpeg", cardsCount: 3 },
-  { _id: "m", image: "shop13.jpeg", cardsCount: 4 },
-  { _id: "p", image: "shop14.png", cardsCount: 5 },
-  { _id: "q", image: "shop15.png", cardsCount: 1 },
-  { _id: "r", image: "shop16.png", cardsCount: 0 },
-];
+const CustomXAxisTick = ({ x, y, payload, data }) => {
 
-const data = topShapes.map((shape) => ({
-  name: shape._id,
-  sales: shape.cardsCount,
-  img: `${process.env.REACT_APP_Host}shops/${shape.image}`,
-}));
-
-const CustomXAxisTick = ({ x, y, payload }) => {
-  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
-  const shapeData = data.find((d) => d.name === payload.value);
-  if (!shapeData) return null;
+    const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const shopData = data.find((d) => d.name === payload.value);
+  if (!shopData) return null;
 
   const tickX = isMobile ? x - 40 : x - 20;
   const tickY = isMobile ? y - 20 : y + 15;
 
   return (
     <g transform={`translate(${tickX},${tickY})`}>
-      <svg width={40} height={40} viewBox="0 0 40 40">
+      <svg width={40} height={40}>
         <image
-          href={shapeData.img}
+          href={shopData.img}
           x="0"
           y="0"
           width={40}
@@ -63,7 +39,7 @@ const TinyBar = (props) => {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
   const { fill, x, y, width, height } = props;
-  const adjustedX = isMobile ? x : x + ( width/2 + 2);
+  const adjustedX = isMobile ? x : x + (width / 2 + 2);
   return <rect x={adjustedX} y={y} width={width} height={height} fill={fill} />;
 };
 
@@ -83,9 +59,15 @@ const CustomLabel = ({ x, y, value }) => {
   );
 };
 
-const TopStores = () => {
+const TopStores = ({ topShops }) => {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const barWidth = isMobile ? 10 : 27;
+
+  const data = topShops?.map((shop,index) => ({
+    name: index,
+    sales: shop.cardsCount,
+    img: `${process.env.REACT_APP_Host}shops/${shop.logo}`,
+  }));
 
   return (
     <div style={{ width: "100%", height: "100%" }}>
@@ -103,7 +85,7 @@ const TopStores = () => {
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis type="number" />
-            <YAxis dataKey="name" type="category" tick={<CustomXAxisTick />} />
+            <YAxis dataKey="name" type="category" tick={<CustomXAxisTick data={data} />} />
             <Bar
               dataKey="sales"
               fill="#8884d8"
@@ -126,7 +108,7 @@ const TopStores = () => {
             }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" tick={<CustomXAxisTick />} />
+            <XAxis dataKey="name" tick={<CustomXAxisTick data={data} />} />
             <YAxis />
             <Bar
               dataKey="sales"
