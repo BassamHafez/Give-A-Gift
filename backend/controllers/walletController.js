@@ -112,7 +112,7 @@ exports.buyCard = catchAsync(async (req, res, next) => {
     card?.priceAfterDiscount >= 0 ? card.priceAfterDiscount : card.price.value;
   const totalAmount = cardPrice + cardPrice * parseFloat(VAT.value / 100);
 
-  if (wallet.balance < totalAmount) {
+  if (parseFloat(wallet.balance) < totalAmount) {
     return next(new ApiError("Insufficient balance", 400));
   }
 
