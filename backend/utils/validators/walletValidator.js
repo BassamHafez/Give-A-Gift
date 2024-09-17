@@ -8,11 +8,11 @@ exports.transferValidator = [
     .isNumeric()
     .withMessage("Amount must be a number"),
 
-  check("receiverEmail")
+  check("receiverPhone")
     .notEmpty()
-    .withMessage("Receiver Email is required")
-    .isEmail()
-    .withMessage("Invalid receiver Email"),
+    .withMessage("Receiver Phone is required")
+    .isMobilePhone()
+    .withMessage("Invalid receiver Phone"),
 
   validatorMiddleware,
 ];
