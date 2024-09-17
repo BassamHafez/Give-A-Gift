@@ -59,6 +59,7 @@ const cardSchema = new mongoose.Schema(
       whatsappNumber: String,
     },
     receiveAt: Date,
+    celebrateIcon: String,
   },
   {
     timestamps: true,

@@ -11,8 +11,8 @@ exports.getStatistics = catchAsync(async (req, res, next) => {
     cardsNotPaid,
     usersCount,
     shopsCount,
-    topThreeShapes,
-    topThreeShops,
+    topShapes,
+    topShops,
     lastMonthsIncome,
   ] = await Promise.all([
     Card.countDocuments({ isPaid: true }),
@@ -39,7 +39,7 @@ exports.getStatistics = catchAsync(async (req, res, next) => {
         $sort: { cardsCount: -1 },
       },
       {
-        $limit: 3,
+        $limit: 15,
       },
     ]),
     Shop.aggregate([
@@ -62,7 +62,7 @@ exports.getStatistics = catchAsync(async (req, res, next) => {
         $sort: { cardsCount: -1 },
       },
       {
-        $limit: 3,
+        $limit: 15,
       },
     ]),
     Transaction.aggregate([
@@ -124,8 +124,8 @@ exports.getStatistics = catchAsync(async (req, res, next) => {
       cardsNotPaid,
       usersCount,
       shopsCount,
-      topThreeShapes,
-      topThreeShops,
+      topShapes,
+      topShops,
       lastMonthsIncome,
     },
   });
