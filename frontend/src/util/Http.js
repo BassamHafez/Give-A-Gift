@@ -143,6 +143,7 @@ export const transferMoney= async ({token,formData}) => {
     return response.data;
   } catch (error) {
     console.error(error);
+    console.log(error)
     return error
   }
 };
@@ -379,3 +380,35 @@ export const controlWallets = async ({ formData, type, token, walletId }) => {
 };
 
 
+
+export const controlTransactions = async ({type, token }) => {
+  try {
+    let response;
+    if (type === "successTransactions") {
+      response = await axios.get(`${baseServerUrl}transactions/total-invoice-success`,{
+        headers: { Authorization: `Bearer ${token}` },
+      });
+    } else {
+      response = await axios.get(`${baseServerUrl}transactions`,{
+        headers: { Authorization: `Bearer ${token}` },
+      });
+    }
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+};
+
+
+export const getStatistics = async ({token }) => {
+  try {
+    const response = await axios.get(`${baseServerUrl}info/statistics`,{
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+};

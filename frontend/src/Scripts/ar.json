@@ -237,6 +237,11 @@
     "logged": "تم تسجيل الدخول بنجاح",
     "loggedFaild": "فشل في تسجيل الدخول، يرجى المحاولة لاحقًا",
     "balance":"الرصيد",
-    "addAmountToAll":"إضافة رصيد إلي جميع المستخدمين"
-
+    "addAmountToAll":"إضافة رصيد إلي جميع المستخدمين",
+    "allWallets": "جميع المحافظ",
+    "allUsers": "جميع المستخدمين",
+    "successTrans": "معاملة ناجحة",
+    "allTransactions": "جميع المعاملات",
+    "addAdmin":"إضافة مسؤول",
+    "totalSuccessfulInvoiceValue": "إجمالي قيمة الفواتير الناجحة"
 }

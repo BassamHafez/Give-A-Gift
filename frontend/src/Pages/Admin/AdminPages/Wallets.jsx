@@ -57,7 +57,7 @@ const Wallets = () => {
         <hr />
         <div>
           <div>
-            <h4 className="fw-bold text-secondary">All Wallets</h4>
+            <h4 className="fw-bold text-secondary">{key("allWallets")}</h4>
 
             <div
               className={`${styles.controllers} d-flex justify-content-between my-5`}

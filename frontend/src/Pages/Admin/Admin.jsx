@@ -35,6 +35,7 @@ const Admin = () => {
               <Col
                 xs={6}
                 className="d-flex justify-content-center align-items-center"
+                onClick={() => navigate("/admin-anaysis")}
               >
                 <div className={styles.list_item}>
                   <FontAwesomeIcon
