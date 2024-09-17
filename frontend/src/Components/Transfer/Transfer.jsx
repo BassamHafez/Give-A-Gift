@@ -47,16 +47,14 @@ const Transfer = ({ show, onHide, notifySuccess, notifyError, balance }) => {
   const { mutate, isPending } = useMutation({
     mutationFn: transferMoney,
     onSuccess: (response) => {
-      let res = response.data;
-      if (res.status === "success") {
-        console.log("res", res);
-        if (res.status === "success") {
+      console.log(response)
+        if (response.status === "success") {
           notifySuccess(key("succTransfer"));
+          onHide()
         } else {
-          console.log("else res", res);
+          console.log("else response", response);
           notifyError(key("faildTransfer"));
         }
-      }
     },
     onError: (error) => {
       console.log(error);
@@ -93,7 +91,7 @@ const Transfer = ({ show, onHide, notifySuccess, notifyError, balance }) => {
     }
     const updatedValues = {
       amount: values.amount,
-      phoneNum: `${phoneBeginning}${values.phoneNum}`,
+      receiverPhone: `${phoneBeginning}${values.phoneNum}`,
   };
     setTransferData(updatedValues);
     setModalShow(true);

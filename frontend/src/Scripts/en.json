@@ -251,5 +251,8 @@
     "importantNumbers":"Important Numbers",
     "cardsPaid":"Cards Paid",
     "cardNotPaid":"Cards Not Paid",
-    "LastMonthsIncome":"Last Months Income"
+    "LastMonthsIncome":"Last Months Income",
+    "mainError":"oops! seems that something went wrong",
+    "reloadPage":"Reload the Page",
+    "existError":"Email or Phone Already exist"
 }

@@ -33,39 +33,43 @@ import AdminSpecialCards from './Pages/Admin/AdminPages/AdminSpecialCards';
 import Transactions from './Pages/Admin/AdminPages/Transactions';
 import Users from './Pages/Admin/AdminPages/Users';
 import Wallets from './Pages/Admin/AdminPages/Wallets';
+import Error404 from './Pages/Error404/Error404';
+import MainError from './Pages/MainError/MainError';
+import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute';
 
 
 const router=createBrowserRouter([{
   path:"/",
   element:<Root/>,
+  errorElement: <MainError />,
   children:[
     {index:true,element:<Home/>},
     {path:"about",element:<About/>},
     {path:"stores",element:<Stores/>},
     {path:"login",element:<Login/>},
-    { path: "forget-password", element: <ForgetPassword /> },
+    {path:"forget-password", element: <ForgetPassword /> },
     {path:"register",element:<Register/>},
     {path:"special-cards",element:<SpecialCards/>},
     {path:"custom-cards",element:<CustomCards/>},
-    {path:"view-card/:cardId",element:<ViewCard/>},
-    {path:"profile/:userId",element:<Profile/>},
-    {path:"recipient-information/:cardId",element:<RecipientInformation/>},
-    {path:"payment/:type/:userId/:price",element:<Payment/>},
+    {path:"view-card/:cardId",element:<ProtectedRoute><ViewCard/></ProtectedRoute>},
+    {path:"profile/:userId",element:<ProtectedRoute><Profile/></ProtectedRoute>},
+    {path:"recipient-information/:cardId",element:<ProtectedRoute><RecipientInformation/></ProtectedRoute>},
+    {path:"payment/:type/:userId/:price",element:<ProtectedRoute><Payment/></ProtectedRoute>},
     {path:"payment-faild",element:<ErrorURL/>},
-    {path:"account-setting",element:<AccountManageMent/>},
-    {path:"help",element:<Help/>},
-    {path:"admin/:adminId",element:<Admin/>},
-    {path:"admin-anaysis",element:<Analysis/>},
-    {path:"admin-colors",element:<Colors/>},
-    {path:"admin-configs",element:<Configs/>},
-    {path:"admin-coupons",element:<Coupons/>},
-    {path:"admin-shapes",element:<Shapes/>},
-    {path:"admin-shops",element:<Shops/>},
-    {path:"admin-specialCards",element:<AdminSpecialCards/>},
-    {path:"admin-transactions",element:<Transactions/>},
-    {path:"admin-users",element:<Users/>},
-    {path:"admin-wallets",element:<Wallets/>},
-
+    {path:"account-setting",element:<ProtectedRoute><AccountManageMent/></ProtectedRoute>},
+    {path:"help",element:<ProtectedRoute><Help/></ProtectedRoute>},
+    {path:"admin/:adminId",element:<ProtectedRoute><Admin/></ProtectedRoute>},
+    {path:"admin-anaysis",element:<ProtectedRoute><Analysis/></ProtectedRoute>},
+    {path:"admin-colors",element:<ProtectedRoute><Colors/></ProtectedRoute>},
+    {path:"admin-configs",element:<ProtectedRoute><Configs/></ProtectedRoute>},
+    {path:"admin-coupons",element:<ProtectedRoute><Coupons/></ProtectedRoute>},
+    {path:"admin-shapes",element:<ProtectedRoute><Shapes/></ProtectedRoute>},
+    {path:"admin-shops",element:<ProtectedRoute><Shops/></ProtectedRoute>},
+    {path:"admin-specialCards",element:<ProtectedRoute><AdminSpecialCards/></ProtectedRoute>},
+    {path:"admin-transactions",element:<ProtectedRoute><Transactions/></ProtectedRoute>},
+    {path:"admin-users",element:<ProtectedRoute><Users/></ProtectedRoute>},
+    {path:"admin-wallets",element:<ProtectedRoute><Wallets/></ProtectedRoute>},
+    { path: "*", element: <Error404 /> },
   ]
 }])  
 

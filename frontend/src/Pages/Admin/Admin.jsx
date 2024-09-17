@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   faBrush,
   faChartPie,
@@ -19,12 +19,19 @@ import Col from "react-bootstrap/esm/Col";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import LogoutModal from "../../Components/Ui/LogoutModal";
+import { useSelector } from "react-redux";
 
 const Admin = () => {
   const [logoutModalShow, setLogoutModalShow] = useState(false);
   const navigate = useNavigate();
   const { t: key } = useTranslation();
+  const role = useSelector((state) => state.userInfo.role);
 
+  useEffect(() => {
+    if (role !== "admin") {
+      navigate(`/`);
+    }
+  }, [role, navigate]);
   return (
     <>
       <div className={styles.container_body}>

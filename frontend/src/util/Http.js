@@ -362,8 +362,6 @@ export const controlWallets = async ({ formData, type, token, walletId }) => {
         headers: { Authorization: `Bearer ${token}` },
       });
     } else if (type === "addOne") {
-      console.log(formData)
-      console.log("walletId",walletId)
       response = await axios.patch(`${baseServerUrl}wallets/${walletId}`,formData, {
         headers: { Authorization: `Bearer ${token}` },
       });

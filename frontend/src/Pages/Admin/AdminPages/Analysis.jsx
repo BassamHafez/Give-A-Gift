@@ -85,6 +85,7 @@ import LastMonthsIncome from "../../../Components/Charts/LastMonthsIncome";
 const Analysis = () => {
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
+  let isArLang = localStorage.getItem("i18nextLng") === "ar";
 
   const { data } = useQuery({
     queryKey: ["successTransactions", token],
@@ -97,23 +98,23 @@ const Analysis = () => {
     <div>
       {data ? (
         <>
-          <section className={styles.chart_div}>
-            <h4 className="fw-bold text-secondary mx-3">
+          <section className={styles.chart_div} dir={isArLang ? "ltr" : "ltr"}>
+            <h4 className={`${isArLang?"text-end":"text-start"} fw-bold text-secondary mx-3`}>
               {key("topthreeShops")}
             </h4>
 
             <TopStores topShops={data?.data?.topShops} />
           </section>
-          <section className={styles.chart_div}>
-            <h4 className="fw-bold text-secondary mx-3">
+          <section className={styles.chart_div} dir={isArLang ? "ltr" : "ltr"}>
+            <h4 className={`${isArLang?"text-end":"text-start"} fw-bold text-secondary mx-3`}>
               {key("topthreeShapes")}
             </h4>
 
             <TopShapes topShapes={data?.data?.topShapes} />
           </section>
 
-          <section className={styles.chart_div}>
-            <h4 className="fw-bold text-secondary mx-3">
+          <section className={styles.chart_div} dir={isArLang ? "ltr" : "ltr"}>
+            <h4 className={`${isArLang?"text-end":"text-start"} fw-bold text-secondary mx-3`}>
               {key("LastMonthsIncome")}
             </h4>
 

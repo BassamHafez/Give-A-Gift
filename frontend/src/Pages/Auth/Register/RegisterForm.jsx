@@ -46,7 +46,6 @@ const getPhoneValidationSchema = (country, key) => {
 };
 
 const RegisterForm = ({ notifySuccess, notifyError }) => {
-  const [isEmailError, setIsEmailError] = useState(false);
   const navigate = useNavigate();
   const {t:key} = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
@@ -57,7 +56,6 @@ const RegisterForm = ({ notifySuccess, notifyError }) => {
 
     onSuccess: (response) => {
       if (response.data.status === "success") {
-        setIsEmailError(false);
         notifySuccess();
         navigate("/login");
       } else {
@@ -72,12 +70,11 @@ const RegisterForm = ({ notifySuccess, notifyError }) => {
           error.data.message ===
           "connection <monitor> to 15.185.166.107:27017 timed out"
         ) {
-          setIsEmailError(false);
           notifyError(
             key("timeout")
           );
         } else {
-          setIsEmailError(true);
+          notifyError(key("existError"));
         }
       } else {
         notifyError(key("wrong"));
@@ -155,9 +152,6 @@ const RegisterForm = ({ notifySuccess, notifyError }) => {
                 placeholder={`${key("email")}`}
               />
               <ErrorMessage name="email" component={InputErrorMessage} />
-              {isEmailError && (
-                <InputErrorMessage text="email already exist!" />
-              )}
             </div>
 
             <div className={styles.field}>

@@ -47,7 +47,7 @@ const ProfileContent = () => {
     ? parseFloat(data.data.balance).toFixed(2)
     : "0.00";
   const [integerPart, decimalPart] = formattedBalance.split(".");
-
+console.log(data?.data?.balance)
   return (
     <>
       <div className={styles.container_body}>

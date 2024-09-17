@@ -250,6 +250,8 @@
     "importantNumbers": "الأرقام الهامة",
     "cardsPaid": "البطاقات المدفوعة",
     "cardNotPaid": "البطاقات غير المدفوعة",
-    "LastMonthsIncome": "دخل الأشهر الماضية"
-
+    "LastMonthsIncome": "دخل الأشهر الماضية",
+    "mainError": "عذرًا! يبدو أن هناك خطأ ما",
+    "reloadPage":"إعادة تحميل الصفحة",
+    "existError":"الإيميل أو الهاتف موجود بالفعل"
 }

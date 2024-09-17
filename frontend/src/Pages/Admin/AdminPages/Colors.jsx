@@ -24,7 +24,7 @@ const Colors = () => {
   const { data: Colors,refetch } = useQuery({
     queryKey: ["colors"],
     queryFn: getColors,
-    staleTime: 300000,
+    staleTime: Infinity,
   });
 
   const { mutate, isPending } = useMutation({
