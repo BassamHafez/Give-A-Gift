@@ -10,6 +10,7 @@ exports.getStatistics = catchAsync(async (req, res, next) => {
     cardsPaid,
     cardsNotPaid,
     usersCount,
+    shopsCount,
     topThreeShapes,
     topThreeShops,
     lastMonthsIncome,
@@ -17,6 +18,7 @@ exports.getStatistics = catchAsync(async (req, res, next) => {
     Card.countDocuments({ isPaid: true }),
     Card.countDocuments({ isPaid: false }),
     User.countDocuments({ role: "user" }),
+    Shop.countDocuments(),
     Shape.aggregate([
       {
         $lookup: {
@@ -52,6 +54,7 @@ exports.getStatistics = catchAsync(async (req, res, next) => {
       {
         $project: {
           name: 1,
+          logo: 1,
           cardsCount: { $size: "$cards" },
         },
       },
@@ -120,6 +123,7 @@ exports.getStatistics = catchAsync(async (req, res, next) => {
       cardsPaid,
       cardsNotPaid,
       usersCount,
+      shopsCount,
       topThreeShapes,
       topThreeShops,
       lastMonthsIncome,

@@ -1,6 +1,7 @@
 const crypto = require("crypto");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const Wallet = require("../models/walletModel");
 
 const userSchema = new mongoose.Schema(
   {
@@ -62,6 +63,11 @@ userSchema.pre("save", function (next) {
   if (!this.isModified("password") || this.isNew) return next();
 
   this.passwordChangedAt = Date.now() - 1000;
+  next();
+});
+
+userSchema.post(/delete/i, async function (doc, next) {
+  await Wallet.findOneAndDelete({ user: doc._id });
   next();
 });
 
