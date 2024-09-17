@@ -243,5 +243,12 @@
     "successTrans": "معاملة ناجحة",
     "allTransactions": "جميع المعاملات",
     "addAdmin":"إضافة مسؤول",
-    "totalSuccessfulInvoiceValue": "إجمالي قيمة الفواتير الناجحة"
+    "totalSuccessfulInvoiceValue": "إجمالي قيمة الفواتير الناجحة",
+    "topthreeShapes": "أفضل أشكال",
+    "topthreeShops": "أفضل متاجر",
+    "cardCount": "عدد البطاقات",
+    "importantNumbers": "الأرقام الهامة",
+    "cardsPaid": "البطاقات المدفوعة",
+    "cardNotPaid": "البطاقات غير المدفوعة",
+    "lastMonthIncome": "دخل الشهر الماضي"
 }

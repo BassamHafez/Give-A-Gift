@@ -80,7 +80,7 @@ const AllCards = () => {
 
   return (
     <>
-      <div className="p-4 my-5">
+      <div className={`${styles.configs_body} my-4`}>
         <AddCard refetch={refetch} />
       </div>
       <hr />

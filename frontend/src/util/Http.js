@@ -335,7 +335,7 @@ export const controlUsers = async ({ formData, type, token, userId }) => {
   try {
     let response;
     if (type === "add") {
-      response = await axios.patch(`${baseServerUrl}users/admin`, formData, {
+      response = await axios.post(`${baseServerUrl}users/admin`, formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
     } else if (type === "single") {

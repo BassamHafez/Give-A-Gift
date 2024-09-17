@@ -245,9 +245,11 @@
     "allTransactions":"All Transactions",
     "addAdmin":"Add Admin",
     "totalSuccessfulInvoiceValue": "Total Successful Invoice Value",
-    "topthreeShapes":"Top Three Shapes",
-    "topthreeShops":"Top Three Stores",
+    "topthreeShapes":"Top Shapes",
+    "topthreeShops":"Top Stores",
     "cardCount":"Card Count",
     "importantNumbers":"Important Numbers",
-    "cardsPaid":"Cards Paid"
+    "cardsPaid":"Cards Paid",
+    "cardNotPaid":"Cards Not Paid",
+    "lastMonthIncome":"Last Month Income"
 }
