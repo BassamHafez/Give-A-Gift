@@ -156,9 +156,9 @@ const SpecialCards = () => {
             <Placeholders />
           ) : (
             <>
-              {filteredCards.length > 0 ? (
+              {filteredCards?.length > 0 ? (
                 <>
-                  {filteredCards.map((card) => (
+                  {filteredCards?.map((card) => (
                     <Col
                       key={card._id}
                       lg={6}
