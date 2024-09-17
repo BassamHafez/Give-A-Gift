@@ -30,6 +30,7 @@ const ViewCard = () => {
     queryKey: ["viewCard", token],
     queryFn: () => getCard(token, cardId),
     enabled: !!token,
+    staleTime:Infinity
   });
 
   useEffect(() => {
@@ -49,26 +50,26 @@ const ViewCard = () => {
   // var star = confetti.shapeFromText({ text: "⭐", scalar });
 
   isFirstVisit &&
+    myCard?.data?.isPaid &&
     confetti({
       particleCount: 400,
       spread: 200,
       origin: { y: 0.6 },
       shapes: ["circle", triangle, "square"],
     });
-  isFirstVisit &&
     confetti({
       particleCount: 400,
       spread: 200,
       origin: { x: 1, y: 1 },
       shapes: ["circle", triangle, "square"],
     });
-  isFirstVisit &&
     confetti({
       particleCount: 400,
       spread: 200,
       origin: { x: 0, y: 1 },
       shapes: ["circle", triangle, "square"],
     });
+
 
   const loadingCard = (
     <Card style={{ width: "18rem" }}>
@@ -147,9 +148,6 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
   const [shapeImageFront] = useImage(
     `${process.env.REACT_APP_Host}shapes/front-shape.png`
   );
-  // const [logoImage] = useImage(
-  //   `${process.env.REACT_APP_Host}shops/${card.shop?.logo}`
-  // );
 
   const formatDateTime = (dateTimeString) => {
     const date = new Date(dateTimeString);

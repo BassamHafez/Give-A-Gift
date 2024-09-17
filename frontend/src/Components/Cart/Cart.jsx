@@ -47,15 +47,14 @@ const Cart = ({ onClose, show }) => {
     queryKey: ["getCard", token],
     queryFn: () => getMyCards(token),
     enabled: !!token,
-    staleTime:300000
   });
 
   const { data: walletBalance } = useQuery({
     queryKey: ["walletBalance", token],
     queryFn: () => getMyWallet(token),
     enabled: !!token,
-    staleTime:300000,
     select: (data) => data.data?.balance,
+    staleTime:300000
   });
 
   const deleteCard = async () => {

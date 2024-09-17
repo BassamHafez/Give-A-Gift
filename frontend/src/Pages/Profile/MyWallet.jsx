@@ -27,6 +27,7 @@ const MyWallet = () => {
     queryKey: ["walletBalance", token],
     queryFn: () => getMyWallet(token),
     enabled: !!token,
+    staleTime:Infinity
   });
 
 

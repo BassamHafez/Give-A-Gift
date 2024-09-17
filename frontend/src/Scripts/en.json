@@ -254,5 +254,6 @@
     "LastMonthsIncome":"Last Months Income",
     "mainError":"oops! seems that something went wrong",
     "reloadPage":"Reload the Page",
-    "existError":"Email or Phone Already exist"
+    "existError":"Email or Phone Already exist",
+    "transferYourself":"Cannot tranfer to yourself"
 }

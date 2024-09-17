@@ -11,7 +11,6 @@ const CartIcon = () => {
     queryKey: ["getCard", token],
     queryFn: () => getMyCards(token),
     enabled: !!token,
-    staleTime:300000
   });
 
   return (

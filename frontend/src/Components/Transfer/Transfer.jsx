@@ -3,7 +3,7 @@ import styles from "./Transfer.module.css";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import ConfirmationModal from "../Ui/ConfirmationModal";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation,useQueryClient } from "@tanstack/react-query";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { object, string, number } from "yup";
 import InputErrorMessage from "../Ui/InputErrorMessage";
@@ -14,13 +14,14 @@ import { transferMoney } from "../../util/Http";
 import Select from "react-select";
 import { useTranslation } from "react-i18next";
 
-const Transfer = ({ show, onHide, notifySuccess, notifyError, balance }) => {
+const Transfer = ({ show, onHide, notifySuccess, notifyError, balance,refetch }) => {
   const [modalShow, setModalShow] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState("SA");
   const [transferData, setTransferData] = useState({});
   const token = JSON.parse(localStorage.getItem("token"));
   const {t:key}=useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
+  const queryClient = useQueryClient();
 
   const getPhoneValidationSchema = (country) => {
     const phoneRegex = {
@@ -50,7 +51,11 @@ const Transfer = ({ show, onHide, notifySuccess, notifyError, balance }) => {
       console.log(response)
         if (response.status === "success") {
           notifySuccess(key("succTransfer"));
+          queryClient.invalidateQueries(["walletBalance", token]);
+          refetch()
           onHide()
+        }else if(response.response?.data?.message==="Cannot transfer to yourself"){
+          notifyError(key("transferYourself"))
         } else {
           console.log("else response", response);
           notifyError(key("faildTransfer"));
