@@ -40,9 +40,13 @@ const ViewCard = () => {
     }
   }, [isFirstVisit]);
 
-  var scalar = 2;
-  var heart = confetti.shapeFromText({ text: "❤️", scalar });
+  // var scalar = 2;
+  // var paper = confetti.shapeFromText({ text: "🎉", scalar });
+  // var ribbon  = confetti.shapeFromText({ text: "🎊", scalar });
+
+  // var heart = confetti.shapeFromText({ text: "❤️", scalar });
   var triangle = confetti.shapeFromPath({ path: "M0 10 L5 0 L10 10z" });
+  // var star = confetti.shapeFromText({ text: "⭐", scalar });
 
   isFirstVisit &&
     confetti({
@@ -56,14 +60,14 @@ const ViewCard = () => {
       particleCount: 400,
       spread: 200,
       origin: { x: 1, y: 1 },
-      shapes: [heart],
+      shapes: ["circle", triangle, "square"],
     });
   isFirstVisit &&
     confetti({
       particleCount: 400,
       spread: 200,
       origin: { x: 0, y: 1 },
-      shapes: [heart],
+      shapes: ["circle", triangle, "square"],
     });
 
   const loadingCard = (
@@ -304,7 +308,6 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
               y={20}
             />
           )}
-    
         </Layer>
       </Stage>
       <div className="mt-1 px-2  position-relative d-flex justify-content-center flex-column">
@@ -317,7 +320,9 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
         <ul className={styles.list}>
           {isPaid ? (
             <>
-              <li className={`${styles.list_item} ${styles.price_value} text-center`}>
+              <li
+                className={`${styles.list_item} ${styles.price_value} text-center`}
+              >
                 {card.price.value} {key("sar")}
               </li>
               <li
@@ -343,7 +348,9 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
             </>
           ) : (
             <>
-              <li className={`${styles.list_item} ${styles.price_value} text-center`}>
+              <li
+                className={`${styles.list_item} ${styles.price_value} text-center`}
+              >
                 {card.price.value} {key("sar")}
               </li>
               <li

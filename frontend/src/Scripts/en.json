@@ -124,7 +124,7 @@
     "deliveryTimeFuture":"Delivery time must be in the future",
     "noBalance":"Not enough balance. Please recharge",
     "succTransfer":"Data transfered successfully",
-    "faildTransfer":"Couldn'y transfer please try again later!",
+    "faildTransfer":"Couldn't transfer please try again later!",
     "transferFunds":"Transfer Funds to Recipient",
     "phoneNumber":"Phone Number",
     "cancel":"Cancel",
@@ -238,5 +238,16 @@
     "logged":"Logged in successfully",
     "loggedFaild":"Faild to be logged in please try again later!",
     "balance":"Balance",
-    "addAmountToAll":"Add Balance To All Users"
+    "addAmountToAll":"Add Balance To All Users",
+    "allWallets":"All Wallets",
+    "allUsers":"All Users",
+    "successTrans":"Success Transaction",
+    "allTransactions":"All Transactions",
+    "addAdmin":"Add Admin",
+    "totalSuccessfulInvoiceValue": "Total Successful Invoice Value",
+    "topthreeShapes":"Top Three Shapes",
+    "topthreeShops":"Top Three Stores",
+    "cardCount":"Card Count",
+    "importantNumbers":"Important Numbers",
+    "cardsPaid":"Cards Paid"
 }

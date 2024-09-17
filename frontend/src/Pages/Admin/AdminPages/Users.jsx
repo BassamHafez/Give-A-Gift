@@ -187,7 +187,7 @@ const Users = () => {
       <Toaster position="top-right" />
       <div className={styles.main_body}>
         <div className={styles.configs_body}>
-          <h4 className="fw-bold text-secondary">Add Admin</h4>
+          <h4 className="fw-bold text-secondary">{key("addAdmin")}</h4>
           <Formik
             initialValues={initialValues}
             onSubmit={onSubmit}
@@ -302,7 +302,7 @@ const Users = () => {
         <hr />
         <div>
           <div>
-            <h4 className="fw-bold text-secondary">All Users</h4>
+            <h4 className="fw-bold text-secondary">{key("allUsers")}</h4>
 
             <div
               className={`${styles.controllers} d-flex justify-content-between my-5`}
