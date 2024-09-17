@@ -52,6 +52,7 @@ exports.getStatistics = catchAsync(async (req, res, next) => {
       {
         $project: {
           name: 1,
+          logo: 1,
           cardsCount: { $size: "$cards" },
         },
       },
