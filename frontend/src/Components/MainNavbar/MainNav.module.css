@@ -115,13 +115,6 @@
      cursor: pointer;
      transition: all .3s;
  }
- .cart_badge{
-     position: absolute;
-     left: 110%;
-     top: -15px;
-     transform: translateX(-50%);
-     font-family: 'Times New Roman', Times, serif;
- }
 
  .cart_icon:hover{
      scale: 1.08;

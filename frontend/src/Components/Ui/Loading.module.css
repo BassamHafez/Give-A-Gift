@@ -1,3 +1,13 @@
 .loading_spinner{
     color: var(--slate_blue);
 }
+
+
+/* cart icon */
+.cart_badge{
+    position: absolute;
+    left: 110%;
+    top: -15px;
+    transform: translateX(-50%);
+    font-family: 'Times New Roman', Times, serif;
+}

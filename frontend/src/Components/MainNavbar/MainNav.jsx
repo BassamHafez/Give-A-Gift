@@ -7,13 +7,11 @@ import ResponsiveMenuSlideBar from "../ResponsiveSideBar/ResponsiveSideBar";
 import nav_logo from "../../Images/logo.png";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
-import Badge from "react-bootstrap/Badge";
 import Cart from "../Cart/Cart";
-import { getMyCards } from "../../util/Http";
-import { useQuery } from "@tanstack/react-query";
 import styles from "./MainNav.module.css";
 import noAvatar from "../../Images/default.png";
 import LogoutModal from "../Ui/LogoutModal";
+import CartIcon from "../Ui/CartIcon";
 
 const MainNav = () => {
   const [openResMenu, setOpenResMenu] = useState(false);
@@ -27,15 +25,7 @@ const MainNav = () => {
   const role = useSelector((state) => state.userInfo.role);
   const navigate = useNavigate();
   const location = useLocation();
-  const token = JSON.parse(localStorage.getItem("token"));
-
-  const { data } = useQuery({
-    queryKey: ["getCard", token],
-    queryFn: () => getMyCards(token),
-    enabled: !!token,
-    staleTime: 300000,
-  });
-
+  
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 20) {
@@ -157,9 +147,7 @@ const MainNav = () => {
                     className={styles.cart_icon}
                     icon={faOpencart}
                   />{" "}
-                  <Badge className={styles.cart_badge} bg="danger">
-                    {data?.results}
-                  </Badge>
+                  <CartIcon/>
                 </div>
               </>
             )}
