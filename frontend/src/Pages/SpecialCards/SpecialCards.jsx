@@ -7,7 +7,7 @@ import Card from "react-bootstrap/Card";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery,useQueryClient } from "@tanstack/react-query";
 import { getSpecialCards } from "../../util/Http";
 import Placeholders from "../../Components/Ui/Placeholders";
 import LoadingOne from "../../Components/Ui/LoadingOne";
@@ -16,7 +16,6 @@ import ConfirmationModal from "../../Components/Ui/ConfirmationModal";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
-import { useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import FilterModal from "../../Components/Ui/FilterModal";
 
@@ -157,9 +156,9 @@ const SpecialCards = () => {
             <Placeholders />
           ) : (
             <>
-              {filteredCards.length > 0 ? (
+              {filteredCards?.length > 0 ? (
                 <>
-                  {filteredCards.map((card) => (
+                  {filteredCards?.map((card) => (
                     <Col
                       key={card._id}
                       lg={6}

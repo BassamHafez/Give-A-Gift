@@ -16,6 +16,7 @@ const notifySuccess = (message) => toast.success(message);
 const Stores = () => {
   const { t: key } = useTranslation();
   const [searchInput, setSearchInput] = useState("");
+  
   const { data: shops, isFetching } = useQuery({
     queryKey: ["shops"],
     queryFn: getShops,

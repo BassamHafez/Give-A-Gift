@@ -103,7 +103,10 @@ ul li{
   pointer-events: none;
   opacity: 0.4;
 }
-
+.main_shadow{
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.315) !important;
+  background-color: red !important;
+}
 .nav-item .active{
   background-color: transparent !important;
   color: var(--blue)!important;

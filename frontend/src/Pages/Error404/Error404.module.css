@@ -1,0 +1,40 @@
+.not_found_page,.main_error{
+    width: 100vw;
+    height: 88vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.notFound_img{
+    width: 500px;
+}
+.notFound_img img{
+    width: 100%;
+}
+
+.main_error{
+    flex-direction: column;
+}
+.main_error img{
+    width: 30%;
+}
+
+
+@media screen and (max-width:650px) {
+    .main_error img{
+        width:80%;
+    }
+
+}
+
+
+@media screen and (max-width:600px) {
+    .notFound_img{
+        width: 90%;
+    }
+}
+@media screen and (max-width:400px) {
+    .main_error img{
+        width:100%;
+    }
+}

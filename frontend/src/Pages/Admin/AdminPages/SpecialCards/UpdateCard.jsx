@@ -46,7 +46,7 @@ const UpdateCard = ({ show, onHide, cardId, refetch, shopId }) => {
       if (data?.status === "success") {
         notifySuccess(key("opSuccess"));
         refetch();
-        onHide()
+        onHide();
       } else if (data?.response?.data?.error?.code === 11000) {
         notifyError(key("dupName"));
       } else {
@@ -100,8 +100,11 @@ const UpdateCard = ({ show, onHide, cardId, refetch, shopId }) => {
           >
             {({ setFieldValue }) => (
               <Form>
+                <h4 className="fw-bold">
+                  {key("add")} {key("store")}
+                </h4>
                 <Select
-                  className={`${styles.select_input} mb-3`}
+                  className={`mb-3`}
                   classNamePrefix="FontFamily"
                   isClearable={false}
                   isSearchable={true}
@@ -115,7 +118,7 @@ const UpdateCard = ({ show, onHide, cardId, refetch, shopId }) => {
                   }}
                 />
                 <div className={styles.field}>
-                  <label htmlFor="price">{key("price")}</label>
+                  <label className="text-center mt-3" htmlFor="price">{key("price")}</label>
                   <Field type="text" id="price" name="price" />
                   <ErrorMessage name="price" component={InputErrorMessage} />
                 </div>

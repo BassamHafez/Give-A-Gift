@@ -28,7 +28,7 @@ const Coupons = () => {
     queryKey: ["coupons", token],
     queryFn: () => controlCoupons({ token, method: "get" }),
     enabled: !!token,
-    staleTime: 300000,
+    staleTime: Infinity,
   });
 
   const deleteCoupon = async (couponId) => {

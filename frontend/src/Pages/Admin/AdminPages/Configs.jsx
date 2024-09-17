@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./AdminPages.module.css";
-import {getConfig, getShapes } from "../../../util/Http";
-import { useMutation, useQuery,useQueryClient } from "@tanstack/react-query";
+import { getConfig, getShapes } from "../../../util/Http";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { object, string } from "yup";
 import { faYinYang } from "@fortawesome/free-solid-svg-icons";
@@ -20,7 +20,7 @@ const Configs = () => {
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
 
-  const { data: configs,refetch } = useQuery({
+  const { data: configs, refetch } = useQuery({
     queryKey: ["configs"],
     queryFn: getConfig,
     staleTime: Infinity,
@@ -62,7 +62,7 @@ const Configs = () => {
       if (data?.status === "success") {
         notifySuccess(key("opSuccess"));
         queryClient.invalidateQueries(["configs"]);
-        refetch()
+        refetch();
       } else {
         notifyError(key("wrong"));
       }
@@ -87,7 +87,7 @@ const Configs = () => {
   };
 
   const onSubmit = (values) => {
-    console.log(values)
+    console.log(values);
     mutate({
       type: "update",
       formData: values,
@@ -115,11 +115,11 @@ const Configs = () => {
           enableReinitialize
         >
           {({ setFieldValue }) => (
-            <Form className={styles.general_info_form}>          
+            <Form className={styles.general_info_form}>
               <div className={styles.field}>
                 <h4 className="fw-bold">{key("frontShape")}</h4>
                 <Select
-                  className={`${styles.select_input} mb-3`}
+                  className={` mb-3`}
                   classNamePrefix="SPECIAL_FRONT_SHAPE_ID"
                   isClearable={false}
                   isSearchable={true}
@@ -138,7 +138,7 @@ const Configs = () => {
               <div className={styles.field}>
                 <h4 className="fw-bold">{key("backShape")}</h4>
                 <Select
-                  className={`${styles.select_input} mb-3`}
+                  className={`mb-3`}
                   classNamePrefix="SPECIAL_BACK_SHAPE_ID"
                   isClearable={false}
                   isSearchable={true}

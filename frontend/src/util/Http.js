@@ -335,7 +335,7 @@ export const controlUsers = async ({ formData, type, token, userId }) => {
   try {
     let response;
     if (type === "add") {
-      response = await axios.patch(`${baseServerUrl}users/admin`, formData, {
+      response = await axios.post(`${baseServerUrl}users/admin`, formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
     } else if (type === "single") {
@@ -362,8 +362,6 @@ export const controlWallets = async ({ formData, type, token, walletId }) => {
         headers: { Authorization: `Bearer ${token}` },
       });
     } else if (type === "addOne") {
-      console.log(formData)
-      console.log("walletId",walletId)
       response = await axios.patch(`${baseServerUrl}wallets/${walletId}`,formData, {
         headers: { Authorization: `Bearer ${token}` },
       });

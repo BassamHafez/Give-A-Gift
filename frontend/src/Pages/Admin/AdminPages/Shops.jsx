@@ -25,7 +25,7 @@ const Shops = () => {
   const { data: shops, refetch } = useQuery({
     queryKey: ["shops", token],
     queryFn: getShops,
-    staleTime: 300000,
+    staleTime: Infinity,
   });
 
   const { mutate, isPending } = useMutation({

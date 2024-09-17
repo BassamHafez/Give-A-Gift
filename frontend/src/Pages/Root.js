@@ -101,9 +101,8 @@ const Root = () => {
   };
 
   useEffect(() => {
-    if (data) {
-      const mainColorValue = findConfigByKey(data.data, "MAIN_COLOR")?.value;
-      const subColorValue = findConfigByKey(data.data, "SECONDRY_COLOR")?.value;
+      const mainColorValue = findConfigByKey(data?.data, "MAIN_COLOR")?.value;
+      const subColorValue = findConfigByKey(data?.data, "SECONDRY_COLOR")?.value;
       
       if (mainColorValue) {
         document.documentElement.style.setProperty('--main_color', mainColorValue);
@@ -111,7 +110,6 @@ const Root = () => {
       if (subColorValue) {
         document.documentElement.style.setProperty('--sub_color', subColorValue);
       }
-    }
   }, [data]);
 
 

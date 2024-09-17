@@ -245,9 +245,15 @@
     "allTransactions":"All Transactions",
     "addAdmin":"Add Admin",
     "totalSuccessfulInvoiceValue": "Total Successful Invoice Value",
-    "topthreeShapes":"Top Three Shapes",
-    "topthreeShops":"Top Three Stores",
+    "topthreeShapes":"Top Shapes",
+    "topthreeShops":"Top Stores",
     "cardCount":"Card Count",
     "importantNumbers":"Important Numbers",
-    "cardsPaid":"Cards Paid"
+    "cardsPaid":"Cards Paid",
+    "cardNotPaid":"Cards Not Paid",
+    "LastMonthsIncome":"Last Months Income",
+    "mainError":"oops! seems that something went wrong",
+    "reloadPage":"Reload the Page",
+    "existError":"Email or Phone Already exist",
+    "transferYourself":"Cannot tranfer to yourself"
 }

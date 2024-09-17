@@ -30,10 +30,11 @@ const ProfileContent = () => {
   const navigate = useNavigate();
   const { t: key } = useTranslation();
 
-  const { data } = useQuery({
+  const { data,refetch } = useQuery({
     queryKey: ["walletBalance", token],
     queryFn: () => getMyWallet(token),
     enabled: !!token,
+    staleTime:Infinity
   });
 
   const notifySuccess = (message) => toast.success(message);
@@ -148,6 +149,7 @@ const ProfileContent = () => {
           show={modalShow}
           onHide={() => setModalShow(false)}
           balance={formattedBalance}
+          refetch={refetch}
         />
       )}
 
