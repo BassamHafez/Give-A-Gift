@@ -6,6 +6,7 @@ const rootPath = path.join(__dirname, "../", "uploads");
 const usersPath = path.join(rootPath, "users");
 const shapesPath = path.join(rootPath, "shapes");
 const shopsPath = path.join(rootPath, "shops");
+const colorsPath = path.join(rootPath, "colors");
 
 function ensureDirectories() {
   if (!fs.existsSync(rootPath)) {
@@ -26,6 +27,11 @@ function ensureDirectories() {
   if (!fs.existsSync(shopsPath)) {
     fs.mkdirSync(shopsPath);
     console.log("Created shops directory");
+  }
+
+  if (!fs.existsSync(colorsPath)) {
+    fs.mkdirSync(colorsPath);
+    console.log("Created colors directory");
   }
 }
 
