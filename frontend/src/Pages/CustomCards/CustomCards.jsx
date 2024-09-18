@@ -20,6 +20,8 @@ import { useDispatch, useSelector } from "react-redux";
 import ConfirmationModal from "../../Components/Ui/ConfirmationModal";
 import { cartActions } from "../../Store/cartCounter-slice";
 import { useMediaQuery } from "react-responsive";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCrown } from "@fortawesome/free-solid-svg-icons";
 
 const notifySuccess = (message) => toast.success(message);
 const notifyError = (message) => toast.error(message);
@@ -30,6 +32,7 @@ const CustomCards = () => {
   const [cardWidth, setCardWidth] = useState(480);
   const [cardHeight, setCardHeight] = useState(270);
   const [cardColor, setCardColor] = useState("#FFFFFF");
+  const [cardProColor, setCardProColor] = useState("");
   const [cardColorId, setCardColorId] = useState("");
   const [textColor, setTextColor] = useState("#000000");
   const [selectedShape, setSelectedShape] = useState(null);
@@ -47,10 +50,12 @@ const CustomCards = () => {
   const [textFontFamily, setTextFontFamily] = useState("Playfair Display");
   const [textFont, setTextFont] = useState(40);
   const [shapeImage] = useImage(selectedShape);
+  const [colorShape] = useImage(cardProColor);
   const [logo] = useImage(logoImage);
   const [mainLogoImage] = useImage(mainLogo);
   const [modalShow, setModalShow] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
+  const [isProColor, setIsProColor] = useState(false);
 
   const token = JSON.parse(localStorage.getItem("token"));
   const navigate = useNavigate();
@@ -90,7 +95,7 @@ const CustomCards = () => {
     };
 
     window.addEventListener("resize", handleResize);
-    handleResize(); // Initial call to set sizes
+    handleResize();
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -156,7 +161,7 @@ const CustomCards = () => {
     let formData = {
       isSpecial: false,
       price: {
-        value: cardPrice,
+        value:cardPrice,
         fontFamily: "'Times New Roman', Times, serif",
         fontSize: 40,
         fontColor: textColor,
@@ -216,12 +221,23 @@ const CustomCards = () => {
                   cornerRadius={30}
                 >
                   <Layer>
-                    <Rect
-                      width={cardWidth}
-                      height={cardHeight}
-                      fill={cardColor}
-                      cornerRadius={30}
-                    />
+                    {isProColor ? (
+                      <Image
+                        image={colorShape}
+                        width={cardWidth}
+                        height={cardHeight}
+                        opacity={1}
+                        visible={true}
+                        cornerRadius={30}
+                      />
+                    ) : (
+                      <Rect
+                        width={cardWidth}
+                        height={cardHeight}
+                        fill={cardColor}
+                        cornerRadius={30}
+                      />
+                    )}
 
                     {shapeImage && showBack && (
                       <Image
@@ -241,7 +257,9 @@ const CustomCards = () => {
                         {cardText && (
                           <Text
                             text={cardText}
-                            fontSize={isSmallScreen?textFont/2: Number(textFont)}
+                            fontSize={
+                              isSmallScreen ? textFont / 2 : Number(textFont)
+                            }
                             fontFamily={textFontFamily}
                             fill={textColor}
                             width={cardWidth * 0.8}
@@ -293,7 +311,7 @@ const CustomCards = () => {
                             fontSize={20}
                             fontFamily={"'Times New Roman', Times, serif"}
                             fill={textColor}
-                            x={cardWidth / 2 - 40}
+                            x={cardWidth / 2 - 30}
                             y={cardHeight / 2 + textFont / 2}
                           />
                         )}
@@ -303,10 +321,10 @@ const CustomCards = () => {
                     {logo && (
                       <Image
                         image={logo}
-                        x={isSmallScreen?cardWidth - 60:cardWidth - 70 }
+                        x={isSmallScreen ? cardWidth - 60 : cardWidth - 70}
                         y={10}
-                        width={isSmallScreen?40:60}
-                        height={isSmallScreen?40:60}
+                        width={isSmallScreen ? 40 : 60}
+                        height={isSmallScreen ? 40 : 60}
                         visible={true}
                         cornerRadius={30}
                       />
@@ -315,9 +333,9 @@ const CustomCards = () => {
                     <Image
                       image={mainLogoImage}
                       x={20}
-                      y={isSmallScreen?cardHeight - 30:cardHeight - 50}
-                      width={isSmallScreen?50:100}
-                      height={isSmallScreen?17.5:35}
+                      y={isSmallScreen ? cardHeight - 30 : cardHeight - 50}
+                      width={isSmallScreen ? 50 : 100}
+                      height={isSmallScreen ? 17.5 : 35}
                       visible={true}
                     />
                   </Layer>
@@ -360,23 +378,55 @@ const CustomCards = () => {
                     </h4>
                     <Row className={styles.color_group}>
                       {colors ? (
-                        colors.data.map((color) => (
-                          <Col
-                            key={color._id}
-                            xs={4}
-                            sm={2}
-                            className="d-flex justify-content-center align-items-center"
-                          >
-                            <div
-                              onClick={() => {
-                                setCardColorId(`${color._id}`);
-                                setCardColor(`${color.hex}`);
-                              }}
-                              style={{ backgroundColor: `${color.hex}` }}
-                              className={styles.color_circle}
-                            ></div>
-                          </Col>
-                        ))
+                        <>
+                          {colors.data?.colors.map((color) => (
+                            <Col
+                              key={color._id}
+                              xs={4}
+                              sm={2}
+                              className="d-flex justify-content-center align-items-center"
+                            >
+                              <div
+                                onClick={() => {
+                                  setCardColorId(`${color._id}`);
+                                  setCardColor(`${color.hex}`);
+                                  setIsProColor(false);
+                                }}
+                                style={{ backgroundColor: `${color.hex}` }}
+                                className={styles.color_circle}
+                              ></div>
+                            </Col>
+                          ))}
+                          {colors.data?.proColors.map((color) => (
+                            <Col
+                              key={color._id}
+                              xs={4}
+                              sm={2}
+                              className="d-flex justify-content-center align-items-center"
+                            >
+                              <div
+                                onClick={() => {
+                                  setCardColorId(`${color._id}`);
+                                  setCardProColor(
+                                    `${process.env.REACT_APP_Host}colors/${color.image}`
+                                  );
+                                  setIsProColor(true);
+                                }}
+                                className={`${styles.color_circle} ${styles.color_pro_square} position-relative`}
+                              >
+                                <FontAwesomeIcon
+                                  icon={faCrown}
+                                  className={styles.crown}
+                                />
+
+                                <img
+                                  src={`${process.env.REACT_APP_Host}colors/${color.image}`}
+                                  alt={`${color._id}`}
+                                />
+                              </div>
+                            </Col>
+                          ))}
+                        </>
                       ) : (
                         <LoadingOne />
                       )}
@@ -406,9 +456,7 @@ const CustomCards = () => {
                             }}
                             key={shape._id}
                           >
-                            <div
-                              className={styles.shape_div}
-                            >
+                            <div className={styles.shape_div}>
                               <img
                                 src={`${process.env.REACT_APP_Host}shapes/${shape.image}`}
                                 alt={`${shape}_${shape._id}`}
@@ -566,7 +614,7 @@ const CustomCards = () => {
                         <span
                           className={` ${styles.sar_span} input-group-text bg-white border-start-0`}
                         >
-                          SAR
+                          {key("sar")}
                         </span>
                       </div>
                     </div>

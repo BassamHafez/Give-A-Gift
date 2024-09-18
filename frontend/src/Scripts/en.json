@@ -270,5 +270,7 @@
     "enterCode":"Enter Code that Sent To Your Email",
     "resetInvalid":"Reset code invalid or expired !",
     "cardSaved":"Card Saved Successfully",
-    "download":"download"
+    "download":"download",
+    "addProColor":"Add Pro Colors",
+    "allProColors":"All Pro Colors"
 }
