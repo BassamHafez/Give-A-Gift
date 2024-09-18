@@ -51,18 +51,30 @@ exports.transfer = catchAsync(async (req, res, next) => {
     return next(new ApiError("Sender or Receiver not found", 404));
   }
 
-  if (senderWallet.balance < amount) {
+  if (parseFloat(senderWallet.balance) < amount) {
     return next(new ApiError("Insufficient balance", 400));
   }
 
-  senderWallet.balance -= amount;
-  receiverWallet.balance += amount;
+  await Wallet.bulkWrite([
+    {
+      updateOne: {
+        filter: { user: req.user.id },
+        update: { $inc: { balance: -amount } },
+      },
+    },
+    {
+      updateOne: {
+        filter: { user: receiver.id },
+        update: { $inc: { balance: amount } },
+      },
+    },
+  ]);
 
-  await Promise.all([senderWallet.save(), receiverWallet.save()]);
+  const updatedSenderWallet = await Wallet.findOne({ user: req.user.id });
 
   res.status(200).json({
     status: "success",
-    data: senderWallet,
+    data: updatedSenderWallet,
   });
 });
 
@@ -100,7 +112,7 @@ exports.buyCard = catchAsync(async (req, res, next) => {
     card?.priceAfterDiscount >= 0 ? card.priceAfterDiscount : card.price.value;
   const totalAmount = cardPrice + cardPrice * parseFloat(VAT.value / 100);
 
-  if (wallet.balance < totalAmount) {
+  if (parseFloat(wallet.balance) < totalAmount) {
     return next(new ApiError("Insufficient balance", 400));
   }
 
