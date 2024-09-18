@@ -9,10 +9,12 @@ import {signFormsHandler} from "../../util/Http";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faYinYang } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const ResetPassword = ({ onHide, show, notifySuccess, notifyError }) => {
   const [isRightEmail, setIsRightEmail] = useState(false);
   const navigate = useNavigate();
+  const {t:key}=useTranslation();
 
   const { mutate, isPending } = useMutation({
     mutationFn: signFormsHandler,
@@ -20,11 +22,11 @@ const ResetPassword = ({ onHide, show, notifySuccess, notifyError }) => {
       if (data.data.status === "success") {
         setIsRightEmail(false);
         console.log(data);
-        notifySuccess("Your new Password saved successfully");
+        notifySuccess(key("newPassSaved"));
         navigate("/login");
         onHide();
       } else {
-        notifyError("Your new Password faild to be reset please try again");
+        notifyError(key("newPassFaild"));
       }
     },
     onError: (error) => {
@@ -33,7 +35,7 @@ const ResetPassword = ({ onHide, show, notifySuccess, notifyError }) => {
         setIsRightEmail(true);
       } else {
         setIsRightEmail(false);
-        notifyError("Your new Password faild to be reset please try again");
+        notifyError(key("newPassFaild"));
       }
     },
   });
@@ -52,13 +54,13 @@ const ResetPassword = ({ onHide, show, notifySuccess, notifyError }) => {
   };
 
   const validationSchema = object({
-    email: string().email("Email not valid").required("Email is required"),
+    email: string().email(key("emailValidation1")).required(key("emailValidation2")),
     newPassword: string()
-      .min(5, "Min 5 characters")
-      .required("Password is required")
-      .matches(/[A-Z]+/, "Must contain at least one uppercase character")
-      .matches(/[a-z]+/, "Must contain at least one lowercase character")
-      .matches(/[0-9]+/, "Must contain at least one number"),
+    .min(5, `${key("passwordValidation1")}`)
+    .required(`${key("passwordValidation2")}`)
+    .matches(/[A-Z]+/, `${key("passwordValidation3")}`)
+    .matches(/[a-z]+/, `${key("passwordValidation4")}`)
+    .matches(/[0-9]+/, `${key("passwordValidation5")}`)
   });
 
   return (
@@ -71,7 +73,7 @@ const ResetPassword = ({ onHide, show, notifySuccess, notifyError }) => {
       className={styles.modal_container}
     >
       <Modal.Body className={styles.modal_body}>
-        <h4>Enter Your New Password</h4>
+        <h4>{key("newPass")}</h4>
         <Formik
           initialValues={initialValues}
           onSubmit={onSubmit}
@@ -79,21 +81,20 @@ const ResetPassword = ({ onHide, show, notifySuccess, notifyError }) => {
         >
           <Form>
             <div className={styles.field}>
-              <label htmlFor="resetPasswordEmail">Email</label>
+              <label htmlFor="resetPasswordEmail">{key("email")}</label>
               <Field
                 type="email"
                 id="resetPasswordEmail"
                 name="email"
-                placeholder="example@gmail.com"
               />
               {isRightEmail && (
-                <InputErrorMessage text="there is no Account with this email !" />
+                <InputErrorMessage text={key("noAcc")} />
               )}
               <ErrorMessage name="email" component={InputErrorMessage} />
             </div>
 
             <div className={styles.field}>
-              <label htmlFor="newPass">New Password</label>
+              <label htmlFor="newPass">{key("newPass")}</label>
 
               <Field type="password" id="newPass" name="newPassword" />
               <ErrorMessage name="newPassword" component={InputErrorMessage} />
@@ -106,7 +107,7 @@ const ResetPassword = ({ onHide, show, notifySuccess, notifyError }) => {
                 </button>
               ) : (
                 <button className={styles.save_btn} type="submit">
-                  Submit
+                  {key("confirm")}
                 </button>
               )}
             </div>

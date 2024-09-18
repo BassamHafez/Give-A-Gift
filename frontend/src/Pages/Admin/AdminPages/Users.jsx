@@ -172,8 +172,10 @@ const Users = () => {
 
   const handleSearch = (e, searchTerm) => {
     e.preventDefault();
-    setSearchInput(searchTerm);
-    notifySuccess(key("searchFilterApplied"));
+    if (searchTerm !== ""&&searchTerm!==searchInput) {
+      setSearchInput(searchTerm);
+      notifySuccess(key("searchFilterApplied"));
+    }
   };
 
   const filteredUsers = users

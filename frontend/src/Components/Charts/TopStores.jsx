@@ -12,7 +12,7 @@ import { useMediaQuery } from "react-responsive";
 
 const CustomXAxisTick = ({ x, y, payload, data }) => {
 
-    const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const shopData = data.find((d) => d.name === payload.value);
   if (!shopData) return null;
 

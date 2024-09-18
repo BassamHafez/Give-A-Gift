@@ -81,7 +81,9 @@
     scale: 1.08 ;
   }
   .color_group{
-    margin: 1.875rem 0.3125rem ;
+    margin: 30px 0;
+    width: 80%;
+    margin: auto !important;
   }
 
   .choose_shape{
@@ -97,20 +99,16 @@
         width: 100%;
   }
     .shape_div{
-        Width: 16.875rem; 
-        aspect-ratio:16/9;
-        margin: 1.25rem 0;
-        border-radius: 20px;
+        Width:6.25rem; 
+        margin: 20px 0;
         cursor: pointer;
         transition: all .4s;
-        box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.525);
     }
 
     .shape_div img{
-        border-radius: 0.3125rem;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
     
     .logo_div{
@@ -270,6 +268,11 @@
       }
       .steps_indicator{
         flex-wrap:wrap;
+      }
+    }
+    @media screen and (max-width:260px) {
+      .color_group{
+        width: 100%;
       }
     }
 

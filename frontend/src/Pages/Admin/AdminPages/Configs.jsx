@@ -61,7 +61,7 @@ const Configs = () => {
       console.log(data);
       if (data?.status === "success") {
         notifySuccess(key("opSuccess"));
-        queryClient.invalidateQueries(["configs"]);
+        queryClient.invalidateQueries("configs");
         refetch();
       } else {
         notifyError(key("wrong"));

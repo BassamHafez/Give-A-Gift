@@ -36,6 +36,7 @@ import Wallets from './Pages/Admin/AdminPages/Wallets';
 import Error404 from './Pages/Error404/Error404';
 import MainError from './Pages/MainError/MainError';
 import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute';
+import fetchCartCounter from './Store/cartCounter-actions';
 
 
 const router=createBrowserRouter([{
@@ -107,6 +108,13 @@ function App() {
     };
   }, [control]);
   
+
+  // get cart Counter from database
+  useEffect(() => {
+      if(token){
+        dispatch(fetchCartCounter(token));
+      }
+  }, [dispatch, token]);
 
   // get profile data from database
   useEffect(() => {

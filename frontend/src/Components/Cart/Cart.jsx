@@ -20,8 +20,9 @@ import ConfirmationModal from "../Ui/ConfirmationModal";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
+import { cartActions } from "../../Store/cartCounter-slice";
 
 const notifySuccess = (message) => toast.success(message);
 const notifyError = (message) => toast.error(message);
@@ -42,9 +43,10 @@ const Cart = ({ onClose, show }) => {
   const token = JSON.parse(localStorage.getItem("token"));
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const dispatch=useDispatch();
 
   const { data, isFetching, refetch } = useQuery({
-    queryKey: ["getCard", token],
+    queryKey:["getMyCards", token],
     queryFn: () => getMyCards(token),
     enabled: !!token,
   });
@@ -54,7 +56,7 @@ const Cart = ({ onClose, show }) => {
     queryFn: () => getMyWallet(token),
     enabled: !!token,
     select: (data) => data.data?.balance,
-    staleTime:300000
+    staleTime:Infinity
   });
 
   const deleteCard = async () => {
@@ -69,7 +71,8 @@ const Cart = ({ onClose, show }) => {
         );
         console.log(response);
         if (response.status === 204) {
-          queryClient.invalidateQueries(["getCards", token]);
+          dispatch(cartActions.removeItem())
+          queryClient.invalidateQueries(["getCards",token]);
           notifySuccess(key("cardDeleted"));
           refetch();
         } else {

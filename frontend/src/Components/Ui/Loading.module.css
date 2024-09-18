@@ -11,3 +11,15 @@
     transform: translateX(-50%);
     font-family: 'Times New Roman', Times, serif;
 }
+
+.cart_icon{
+    font-size:1.5625rem;
+    color: white !important;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .3s;
+}
+
+.cart_icon:hover{
+    scale: 1.08;
+}

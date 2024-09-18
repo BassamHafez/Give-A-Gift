@@ -56,8 +56,8 @@ const TopStores = () => {
               <SwiperSlide className={styles.company} key={shop._id}>
                 <div className={styles.single_container}>
                   <img
-                    src={`http://127.0.0.1:3001/shops/${shop.logo}`}
-                    alt={`${shop._name}`}
+                    src={`${process.env.REACT_APP_Host}shops/${shop.logo}`}
+                    alt={`${shop.name}`}
                   />
                 </div>
               </SwiperSlide>

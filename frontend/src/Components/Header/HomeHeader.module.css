@@ -5,29 +5,30 @@
     justify-content: center;
     align-items: center;
     background-image: url(../../Images/banner.png);
-    background-size: cover;
+    background-size:cover;
     background-position: center;
     min-height: 100vh;
-    padding: 0 1rem;
+    padding: 0 16px;
 }
 
 .caption_div{
-    padding: 2rem 3rem 2rem 3rem;
+    padding: 20px 32px 20px 32px;
     border-radius: 1rem;
     z-index: 10;
-    opacity: .8;
+    opacity: 0.8;
 }
 
 .title{
-    font-size: 4.5rem !important;
+    font-size: 72px !important;
     text-transform: capitalize;
     color: #F9FAFB;
-    
+    font-weight: 300;
 }
 .caption{
     font-size: 1.875rem !important;
     text-transform: capitalize;
     color: white;
+    font-weight: 400;
 }
 .layer{
     background-color: black;

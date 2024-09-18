@@ -16,14 +16,17 @@ import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import Carousel from "react-bootstrap/Carousel";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ConfirmationModal from "../../Components/Ui/ConfirmationModal";
+import { cartActions } from "../../Store/cartCounter-slice";
+import { useMediaQuery } from "react-responsive";
 
 const notifySuccess = (message) => toast.success(message);
 const notifyError = (message) => toast.error(message);
 
 const CustomCards = () => {
   const baseServerUrl = process.env.REACT_APP_Base_API_URl;
+  const isSmallScreen = useMediaQuery({ query: "(max-width: 400px)" });
   const [cardWidth, setCardWidth] = useState(480);
   const [cardHeight, setCardHeight] = useState(270);
   const [cardColor, setCardColor] = useState("#FFFFFF");
@@ -40,6 +43,7 @@ const CustomCards = () => {
     x: cardWidth / 2 - (cardWidth / 2) * 0.8,
     y: cardHeight / 2,
   });
+
   const [textFontFamily, setTextFontFamily] = useState("Playfair Display");
   const [textFont, setTextFont] = useState(40);
   const [shapeImage] = useImage(selectedShape);
@@ -54,6 +58,7 @@ const CustomCards = () => {
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const isLogin = useSelector((state) => state.userInfo.isLogin);
   const queryClient = useQueryClient();
+  const dispatch = useDispatch();
 
   const { data: shapes } = useQuery({
     queryKey: ["shapes", token],
@@ -85,7 +90,7 @@ const CustomCards = () => {
     };
 
     window.addEventListener("resize", handleResize);
-    handleResize();
+    handleResize(); // Initial call to set sizes
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -179,12 +184,13 @@ const CustomCards = () => {
       });
       const res = response.data;
       if (res?.status === "success") {
-        queryClient.invalidateQueries(["getCard", token]);
-        notifySuccess("Card Saved Successfully");
+        queryClient.invalidateQueries(["getMyCards", token]);
+        dispatch(cartActions.addItem());
+        notifySuccess(key("cardSaved"));
         navigate(`/recipient-information/${res.data?._id}`);
       }
     } catch (error) {
-      notifyError("Something went wrong. Please try again.");
+      notifyError(key("wrong"));
       console.error(error);
     }
   };
@@ -192,7 +198,7 @@ const CustomCards = () => {
   return (
     <>
       <Toaster position="top-right" />
-      <div className={styles.canva_body}>
+      <div className={`${styles.canva_body} page_height`}>
         <div className={styles.content}>
           <Row className="w-100 h-75 justify-content-between">
             <Col sm={12} className={styles.card_side_container}>
@@ -232,40 +238,54 @@ const CustomCards = () => {
 
                     {!showBack && (
                       <>
-                        <Text
-                          text={cardText}
-                          fontSize={Number(textFont)}
-                          fontFamily={textFontFamily}
-                          fill={textColor}
-                          width={cardWidth * 0.8}
-                          x={cardWidth / 2 - (cardWidth * 0.8) / 2}
-                          y={cardHeight / 2 - textFont / 2}
-                          align="center"
-                          wrap="char"
-                          draggable
-                          onDragEnd={(e) => {
-                            setTextPosition({
-                              x: e.target.x(),
-                              y: e.target.y(),
-                            });
-                          }}
-                          onMouseEnter={(e) => {
-                            const container = e.target.getStage().container();
-                            container.style.cursor = "grab";
-                          }}
-                          onMouseLeave={(e) => {
-                            const container = e.target.getStage().container();
-                            container.style.cursor = "default";
-                          }}
-                          onMouseDown={(e) => {
-                            const container = e.target.getStage().container();
-                            container.style.cursor = "grabbing";
-                          }}
-                          onMouseUp={(e) => {
-                            const container = e.target.getStage().container();
-                            container.style.cursor = "grab";
-                          }}
-                        />
+                        {cardText && (
+                          <Text
+                            text={cardText}
+                            fontSize={isSmallScreen?textFont/2: Number(textFont)}
+                            fontFamily={textFontFamily}
+                            fill={textColor}
+                            width={cardWidth * 0.8}
+                            x={cardWidth / 2 - (cardWidth * 0.8) / 2}
+                            y={textPosition.y}
+                            align="center"
+                            wrap="char"
+                            draggable
+                            onDragEnd={(e) => {
+                              setTextPosition({
+                                x: e.target.x(),
+                                y: e.target.y(),
+                              });
+                            }}
+                            onMouseEnter={(e) => {
+                              const container = e.target.getStage().container();
+                              container.style.cursor = "grab";
+                            }}
+                            onMouseLeave={(e) => {
+                              const container = e.target.getStage().container();
+                              container.style.cursor = "default";
+                            }}
+                            onMouseDown={(e) => {
+                              const container = e.target.getStage().container();
+                              container.style.cursor = "grabbing";
+                            }}
+                            onMouseUp={(e) => {
+                              const container = e.target.getStage().container();
+                              container.style.cursor = "grab";
+                            }}
+                            ref={(node) => {
+                              if (node) {
+                                const textHeight = node.getClientRect().height;
+                                const newTextY = cardHeight / 2 - textHeight;
+                                if (newTextY !== textPosition.y) {
+                                  setTextPosition({
+                                    x: textPosition.x,
+                                    y: newTextY,
+                                  });
+                                }
+                              }
+                            }}
+                          />
+                        )}
 
                         {cardPrice && (
                           <Text
@@ -273,8 +293,8 @@ const CustomCards = () => {
                             fontSize={20}
                             fontFamily={"'Times New Roman', Times, serif"}
                             fill={textColor}
-                            x={cardWidth / 2 - 40} // Center horizontally
-                            y={cardHeight / 2 + textFont / 2 + 10}
+                            x={cardWidth / 2 - 40}
+                            y={cardHeight / 2 + textFont / 2}
                           />
                         )}
                       </>
@@ -283,10 +303,10 @@ const CustomCards = () => {
                     {logo && (
                       <Image
                         image={logo}
-                        x={cardWidth - 70}
+                        x={isSmallScreen?cardWidth - 60:cardWidth - 70 }
                         y={10}
-                        width={60}
-                        height={60}
+                        width={isSmallScreen?40:60}
+                        height={isSmallScreen?40:60}
                         visible={true}
                         cornerRadius={30}
                       />
@@ -295,9 +315,9 @@ const CustomCards = () => {
                     <Image
                       image={mainLogoImage}
                       x={20}
-                      y={cardHeight - 50}
-                      width={100}
-                      height={35}
+                      y={isSmallScreen?cardHeight - 30:cardHeight - 50}
+                      width={isSmallScreen?50:100}
+                      height={isSmallScreen?17.5:35}
                       visible={true}
                     />
                   </Layer>
@@ -331,6 +351,7 @@ const CustomCards = () => {
                 interval={null}
                 wrap={false}
                 className={styles.carousel_body}
+                touch={false}
               >
                 <Carousel.Item className={styles.carousel_item}>
                   <div className={styles.choose_color}>
@@ -371,9 +392,10 @@ const CustomCards = () => {
                       {shapes ? (
                         shapes?.data.map((shape) => (
                           <Col
-                            xs={12}
-                            sm={6}
-                            md={4}
+                            xs={6}
+                            sm={4}
+                            lg={3}
+                            xl={2}
                             className="d-flex justify-content-center align-items-center"
                             onClick={() => {
                               setSelectedShape(
@@ -385,11 +407,6 @@ const CustomCards = () => {
                             key={shape._id}
                           >
                             <div
-                              style={{
-                                backgroundColor: cardColor
-                                  ? cardColor
-                                  : "#FFFFFF",
-                              }}
                               className={styles.shape_div}
                             >
                               <img

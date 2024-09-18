@@ -7,10 +7,11 @@ import InputErrorMessage from "../../Components/Ui/InputErrorMessage";
 import {signFormsHandler} from "../../util/Http";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faYinYang } from "@fortawesome/free-solid-svg-icons";
-import lock from "../../Images/lock.jpg";
+import lock from "../../Images/lock.webp";
 import { Link } from "react-router-dom";
 import VerificationCode from "./VerificationCode";
 import toast, { Toaster } from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 const notifySuccess = (message) => toast.success(message);
 const notifyError = (message) => toast.error(message);
@@ -18,6 +19,7 @@ const notifyError = (message) => toast.error(message);
 const ForgetPassword = () => {
   const [isRightEmail, setIsRightEmail] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const {t:key}=useTranslation();
 
   const { mutate, isPending } = useMutation({
     mutationFn: signFormsHandler,
@@ -25,10 +27,10 @@ const ForgetPassword = () => {
       if (data.data.status === "success") {
         setIsRightEmail(false);
         console.log(data);
-        notifySuccess("Check Your email to reset password");
+        notifySuccess(key("checkResetPass"));
         setShowModal(true);
       } else {
-        notifyError("Faild to be send reset email please try again");
+        notifyError(key("faildResetPass"));
       }
     },
     onError: (error) => {
@@ -37,7 +39,7 @@ const ForgetPassword = () => {
         setIsRightEmail(true);
       } else {
         setIsRightEmail(false);
-        notifyError("Faild to be send reset email please try again");
+        notifyError(key("faildResetPass"));
       }
     },
   });
@@ -55,7 +57,7 @@ const ForgetPassword = () => {
   };
 
   const validationSchema = object({
-    email: string().email("Email not valid").required("Email is required"),
+    email: string().email(key("emailValidation1")).required(key("emailValidation2")),
   });
 
   return (
@@ -72,22 +74,21 @@ const ForgetPassword = () => {
               <div className={styles.lock_img}>
                 <img src={lock} alt="lock" />
               </div>
-              <h3>Having trouble logging in?</h3>
+              <h3>{key("forgetTitle")}</h3>
               <span className="mini_word">
-                Enter your email and we will send you a password reset code
+                {key("enterEmailToSendCode")}
               </span>
             </div>
 
             <div className={styles.field}>
-              <label htmlFor="getPassEmail">Email</label>
+              <label htmlFor="getPassEmail">{key("email")}</label>
               <Field
                 type="email"
                 id="getPassEmail"
                 name="email"
-                placeholder="example@gmail.com"
               />
               {isRightEmail && (
-                <InputErrorMessage text="there is no Account with this email !" />
+                <InputErrorMessage text={key("noAcc")} />
               )}
               <ErrorMessage name="email" component={InputErrorMessage} />
             </div>
@@ -98,16 +99,16 @@ const ForgetPassword = () => {
                 </button>
               ) : (
                 <button className={styles.save_btn} type="submit">
-                  Send Email
+                  {key("sendEmail")}
                 </button>
               )}
             </div>
             <div className={styles.options}>
-              <span className="or_span">or</span>
+              <span className="or_span">{key("or")}</span>
 
               <span className="mini_word">
-                or you can create new account{" "}
-                <Link to={"/user-register"}>Sign Up</Link>
+                {key("youCanCreateAcc")}{" "}
+                <Link to={"/register"} className="text-primary">{key("register")}</Link>
               </span>
             </div>
           </Form>

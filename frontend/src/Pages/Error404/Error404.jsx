@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./Error404.module.css";
-import notFound from "../../Images/404.jpg";
+import notFound from "../../Images/404.webp";
 
 const Error404 = () => {
 
