@@ -112,3 +112,61 @@ exports.addAdminValidator = [
 
   validatorMiddleware,
 ];
+
+exports.addMerchantValidator = [
+  check("name")
+    .notEmpty()
+    .withMessage("User name required")
+    .isLength({ min: 3 })
+    .withMessage("Too short User name"),
+
+  check("email")
+    .notEmpty()
+    .withMessage("Email required")
+    .isEmail()
+    .withMessage("Invalid email address"),
+
+  check("phone")
+    .notEmpty()
+    .withMessage("Phone number required")
+    .isLength({ min: 10 })
+    .withMessage("Invalid phone number")
+    .isMobilePhone()
+    .withMessage("Invalid phone number"),
+
+  check("password")
+    .notEmpty()
+    .withMessage("Password required")
+    .isLength({ min: 6 })
+    .withMessage("Password must be at least 6 characters"),
+
+  check("passwordConfirm")
+    .notEmpty()
+    .withMessage("Password confirmation required")
+    .custom((passwordConfirm, { req }) => {
+      if (passwordConfirm !== req.body.password) {
+        throw new Error("Password Confirmation incorrect");
+      }
+      return true;
+    }),
+
+  check("merchantShop")
+    .notEmpty()
+    .withMessage("Merchant shop id required")
+    .isMongoId()
+    .withMessage("Invalid merchant shop id"),
+
+  // NOT ALLOWED
+
+  check("role").isEmpty().withMessage("Role cannot be set"),
+
+  check("phoneVerified")
+    .isEmpty()
+    .withMessage("Phone verification cannot be set"),
+
+  check("passwordResetCode")
+    .isEmpty()
+    .withMessage("Password reset code cannot be set here"),
+
+  validatorMiddleware,
+];

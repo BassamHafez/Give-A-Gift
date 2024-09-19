@@ -42,6 +42,29 @@ exports.addAdmin = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.addMerchant = catchAsync(async (req, res, next) => {
+  const shop = await User.findOne({ merchantShop: req.body.merchantShop });
+
+  if (shop) {
+    return next(new ApiError("Shop already in use", 400));
+  }
+
+  const newUser = await User.create({
+    name: req.body.name,
+    email: req.body.email,
+    phone: req.body.phone,
+    password: req.body.password,
+    phoneVerified: true,
+    role: "merchant",
+    merchantShop: req.body.merchantShop,
+  });
+
+  res.status(201).json({
+    status: "success",
+    data: newUser,
+  });
+});
+
 exports.uploadUserPhoto = uploadSingleImage("photo");
 
 exports.resizeUserPhoto = catchAsync(async (req, res, next) => {

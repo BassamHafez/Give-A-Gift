@@ -34,6 +34,10 @@ router
   .route("/admin")
   .post(userValidator.addAdminValidator, userController.addAdmin);
 
+router
+  .route("/merchant")
+  .post(userValidator.addMerchantValidator, userController.addMerchant);
+
 router.route("/").get(userController.getAllUsers);
 
 router
