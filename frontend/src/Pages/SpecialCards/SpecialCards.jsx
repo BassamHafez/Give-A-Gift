@@ -16,7 +16,7 @@ import ConfirmationModal from "../../Components/Ui/ConfirmationModal";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import FilterModal from "../../Components/Ui/FilterModal";
 import { cartActions } from "../../Store/cartCounter-slice";
 
@@ -29,11 +29,10 @@ const SpecialCards = () => {
   const [searchInput, setSearchInput] = useState("");
   const [modalShow, setModalShow] = useState(false);
   const [showFilterModal, setShowFilterModal] = useState(false);
-  const [loginModalShow, setLoginModalShow] = useState(false);
   const [shopId, setShopId] = useState("");
   const [priceValue, setPriceValue] = useState(0);
   const queryClient = useQueryClient();
-  const isLogin = useSelector((state) => state.userInfo.isLogin);
+
   const navigate = useNavigate();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const token = JSON.parse(localStorage.getItem("token"));
@@ -94,18 +93,11 @@ const SpecialCards = () => {
     }
   };
 
-  const navigateToLogin = () => {
-    navigate("/login");
-  };
 
   const checkLogin = (shopId, price) => {
-    if (isLogin) {
       setModalShow(true);
       setShopId(`${shopId}`);
       setPriceValue(price);
-    } else {
-      setLoginModalShow(true);
-    }
   };
 
   return (
@@ -236,14 +228,6 @@ const SpecialCards = () => {
           onHide={() => setModalShow(false)}
           func={buyCard}
           message={key("processPurchase")}
-        />
-      )}
-      {loginModalShow && (
-        <ConfirmationModal
-          show={loginModalShow}
-          onHide={() => setLoginModalShow(false)}
-          func={navigateToLogin}
-          message={key("loginFirst")}
         />
       )}
       {showFilterModal && (

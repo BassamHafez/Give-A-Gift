@@ -272,5 +272,10 @@
     "cardSaved":"Card Saved Successfully",
     "download":"download",
     "addProColor":"Add Pro Colors",
-    "allProColors":"All Pro Colors"
+    "allProColors":"All Pro Colors",
+    "thanks":"Thank you for your purchase! 🎉 Your gift card is on its way, and we hope it brings joy to your recipient",
+    "cardPaid":"card is Already Paid",
+    "userId":"user Id",
+    "walletId":"wallet Id",
+    "cardId":"card Id"
 }

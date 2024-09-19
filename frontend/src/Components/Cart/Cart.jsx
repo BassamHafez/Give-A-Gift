@@ -23,6 +23,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { cartActions } from "../../Store/cartCounter-slice";
+import DetailsAfterBuying from "../../Pages/DetailsAfterBuying/DetailsAfterBuying";
 
 const notifySuccess = (message) => toast.success(message);
 const notifyError = (message) => toast.error(message);
@@ -34,6 +35,10 @@ const Cart = ({ onClose, show }) => {
   const [btnMsg, setBtnMsg] = useState("");
   const [cardPrice, setCardPrice] = useState("");
   const [balanceCase, setBalanceCase] = useState(false);
+  const [detailsShow, setDetailsShow] = useState(false);
+  const [cardDetails, setCardDetails] = useState({});
+  const [walletDetails, setWalletDetails] = useState({});
+
   const profileData = useSelector((state) => state.userInfo.data);
   const { t: key } = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
@@ -43,10 +48,10 @@ const Cart = ({ onClose, show }) => {
   const token = JSON.parse(localStorage.getItem("token"));
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
 
   const { data, isFetching, refetch } = useQuery({
-    queryKey:["getMyCards", token],
+    queryKey: ["getMyCards", token],
     queryFn: () => getMyCards(token),
     enabled: !!token,
   });
@@ -56,7 +61,7 @@ const Cart = ({ onClose, show }) => {
     queryFn: () => getMyWallet(token),
     enabled: !!token,
     select: (data) => data.data?.balance,
-    staleTime:Infinity
+    staleTime: Infinity,
   });
 
   const deleteCard = async () => {
@@ -71,8 +76,8 @@ const Cart = ({ onClose, show }) => {
         );
         console.log(response);
         if (response.status === 204) {
-          dispatch(cartActions.removeItem())
-          queryClient.invalidateQueries(["getCards",token]);
+          dispatch(cartActions.removeItem());
+          queryClient.invalidateQueries(["getCards", token]);
           notifySuccess(key("cardDeleted"));
           refetch();
         } else {
@@ -87,9 +92,9 @@ const Cart = ({ onClose, show }) => {
     }
   };
 
-  const confirmMethod = (method, cardPriceValue,cardID) => {
+  const confirmMethod = (method, cardPriceValue, cardID) => {
     setCardPrice(cardPriceValue);
-    setCardId(cardID)
+    setCardId(cardID);
     if (method === "pay") {
       setConfirmModalShow(true);
       setConfirmMsg(key("purchase"));
@@ -102,25 +107,32 @@ const Cart = ({ onClose, show }) => {
   };
 
   const payCard = async () => {
-      try {
-        const response = await axios.post(
-          `${process.env.REACT_APP_Base_API_URl}wallets/buy-card`,
-          { cardId: cardId },
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-
-        if (response.status === 200 || response.status === 201) {
-          notifySuccess("Card purchased successfully.");
-          refetch();
-        } else {
-          notifyError(key("wrong"));
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_Base_API_URl}wallets/buy-card`,
+        { cardId: cardId },
+        {
+          headers: { Authorization: `Bearer ${token}` },
         }
-      } catch (error) {
+      );
+
+      if (response.status === 200 || response.status === 201) {
+        notifySuccess(key("cardPurchased"));
+        setCardDetails(response.data?.data?.card);
+        setWalletDetails(response.data?.data?.wallet);
+        setConfirmModalShow(false)
+        setDetailsShow(true);
+      } else {
         notifyError(key("wrong"));
-        console.error("Payment error:", error);
       }
+    } catch (error) {
+      console.error("Payment error:", error);
+      if (error?.response?.data?.message === "Card already paid") {
+        notifyError(key("cardPaid"));
+      } else {
+        notifyError(key("wrong"));
+      }
+    }
   };
 
   const goToChargeMethods = (price) => {
@@ -128,7 +140,7 @@ const Cart = ({ onClose, show }) => {
     navigate(`/payment/payment/${profileData?._id}/${price}`);
   };
 
-  const choosePaymentWay=(way,isBalanced,price)=>{
+  const choosePaymentWay = (way, isBalanced, price) => {
     if (isBalanced === "balanced") {
       if (way === "wallet") {
         payCard();
@@ -136,10 +148,10 @@ const Cart = ({ onClose, show }) => {
         goToChargeMethods(price);
       }
     } else {
-      setBtnMsg(key("charge"))
-      setBalanceCase(true)
+      setBtnMsg(key("charge"));
+      setBalanceCase(true);
     }
-  }
+  };
 
   return (
     <>
@@ -164,32 +176,32 @@ const Cart = ({ onClose, show }) => {
 
         <Offcanvas.Body>
           <div className={styles.header}>
-              <ul className={styles.header_list}>
-                <li
-                  className={`${styles.header_list_item} ${
-                    isPaidCard && styles.active
-                  }`}
-                  onClick={() => setIsPaidCard(true)}
-                >
-                  {key("paid")}
-                </li>
-                <li
-                  className={`${styles.header_list_item} ${
-                    !isPaidCard && styles.active
-                  }`}
-                  onClick={() => setIsPaidCard(false)}
-                >
-                  {key("nonPaid")}
-                </li>
-              </ul>
-            </div>
+            <ul className={styles.header_list}>
+              <li
+                className={`${styles.header_list_item} ${
+                  isPaidCard && styles.active
+                }`}
+                onClick={() => setIsPaidCard(true)}
+              >
+                {key("paid")}
+              </li>
+              <li
+                className={`${styles.header_list_item} ${
+                  !isPaidCard && styles.active
+                }`}
+                onClick={() => setIsPaidCard(false)}
+              >
+                {key("nonPaid")}
+              </li>
+            </ul>
+          </div>
           <ul className={styles.list}>
             {isFetching ? (
               <Placeholders isList={true} />
             ) : (
               data?.data?.map(
                 (card) =>
-                  (isPaidCard?card.isPaid:!card.isPaid) && (
+                  (isPaidCard ? card.isPaid : !card.isPaid) && (
                     <li key={card._id} className={styles.list_item}>
                       <div className={styles.item}>
                         <h4>
@@ -264,7 +276,10 @@ const Cart = ({ onClose, show }) => {
                               title="view card"
                               className={styles.eye}
                               icon={faEye}
-                              onClick={()=>{navigate(`/view-card/${card._id}`); onClose()}}
+                              onClick={() => {
+                                navigate(`/view-card/${card._id}`);
+                                onClose();
+                              }}
                             />
                             <FontAwesomeIcon
                               className={styles.arrow_right_icon}
@@ -277,7 +292,11 @@ const Cart = ({ onClose, show }) => {
                                         `/recipient-information/${card._id}`
                                       )
                                   : card.receiveAt
-                                  ? confirmMethod("pay", card?.price?.value,card._id)
+                                  ? confirmMethod(
+                                      "pay",
+                                      card?.price?.value,
+                                      card._id
+                                    )
                                   : navigate(
                                       `/recipient-information/${card._id}`
                                     )
@@ -314,6 +333,14 @@ const Cart = ({ onClose, show }) => {
           cardId={cardId}
           balanceCase={balanceCase}
           chargeCase={goToChargeMethods}
+        />
+      )}
+      {detailsShow && (
+        <DetailsAfterBuying
+          show={detailsShow}
+          onHide={() => setDetailsShow(false)}
+          cardDetails={cardDetails}
+          walletDetails={walletDetails}
         />
       )}
     </>

@@ -69,7 +69,11 @@ const ResponsiveSideBar = ({ onClose, show }) => {
                 <FontAwesomeIcon icon={faStore} className={styles.list_icons} />
               </li>
             </Link>
-            <Link onClick={onClose} to={"/special-cards"} end="true">
+            <Link
+              onClick={onClose}
+              to={`${isLogin ? "/special-cards" : "/login"}`}
+              end="true"
+            >
               <li className={styles.contact_list_item}>
                 {key("buyCardNavTitle")}
                 <FontAwesomeIcon
@@ -78,7 +82,11 @@ const ResponsiveSideBar = ({ onClose, show }) => {
                 />
               </li>
             </Link>
-            <Link onClick={onClose} to={"/custom-cards"} end="true">
+            <Link
+              onClick={onClose}
+              to={`${isLogin ? "/custom-cards" : "/login"}`}
+              end="true"
+            >
               <li className={styles.contact_list_item}>
                 {key("createCardPageTitle")}
                 <FontAwesomeIcon
@@ -88,21 +96,20 @@ const ResponsiveSideBar = ({ onClose, show }) => {
               </li>
             </Link>
             {isArLang ? (
-                <li
-                  onClick={() => control.changeLanguage("en")}
-                  className={`${styles.contact_list_item} ${styles.lang}`}
-                >
-                  English
-                </li>
-              ) : (
-                <li
-                  onClick={() => control.changeLanguage("ar")}
-                  className={`${styles.contact_list_item} ${styles.lang}`}
-                >
-                  العربية
-                </li>
-              )}
-
+              <li
+                onClick={() => control.changeLanguage("en")}
+                className={`${styles.contact_list_item} ${styles.lang}`}
+              >
+                English
+              </li>
+            ) : (
+              <li
+                onClick={() => control.changeLanguage("ar")}
+                className={`${styles.contact_list_item} ${styles.lang}`}
+              >
+                العربية
+              </li>
+            )}
 
             {isSmallScreen && isLogin && (
               <li

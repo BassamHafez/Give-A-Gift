@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Stage, Layer, Rect, Text, Image } from "react-konva";
 import useImage from "use-image";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import styles from "./CustomCards.module.css";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import LoadingOne from "../../Components/Ui/LoadingOne";
+import { useQueryClient } from "@tanstack/react-query";
 import mainLogo from "../../Images/logo.png";
-import { getColors, getShapes, getShops } from "../../util/Http";
 import Select from "react-select";
 import { FontsFamilies } from "../../Components/Logic/Logic";
 import MainButton from "../../Components/Ui/MainButton";
@@ -16,19 +13,19 @@ import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import Carousel from "react-bootstrap/Carousel";
 import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
-import ConfirmationModal from "../../Components/Ui/ConfirmationModal";
+import { useDispatch } from "react-redux";
 import { cartActions } from "../../Store/cartCounter-slice";
-import { useMediaQuery } from "react-responsive";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCrown } from "@fortawesome/free-solid-svg-icons";
+import CustomCardColors from "./CustomCardColors";
+import CustomCardShapes from "./CustomCardShapes";
+import CustomCardShops from "./CustomCardShops";
+import CustomeCardStage from "./CustomeCardStage";
 
 const notifySuccess = (message) => toast.success(message);
 const notifyError = (message) => toast.error(message);
+const baseServerUrl = process.env.REACT_APP_Base_API_URl;
 
 const CustomCards = () => {
-  const baseServerUrl = process.env.REACT_APP_Base_API_URl;
-  const isSmallScreen = useMediaQuery({ query: "(max-width: 400px)" });
+
   const [cardWidth, setCardWidth] = useState(480);
   const [cardHeight, setCardHeight] = useState(270);
   const [cardColor, setCardColor] = useState("#FFFFFF");
@@ -46,46 +43,24 @@ const CustomCards = () => {
     x: cardWidth / 2 - (cardWidth / 2) * 0.8,
     y: cardHeight / 2,
   });
-
-  const [textFontFamily, setTextFontFamily] = useState("Playfair Display");
+  const [textFontFamily, setTextFontFamily] = useState("'ARAHAMAH1982', sans-serif");
   const [textFont, setTextFont] = useState(40);
   const [shapeImage] = useImage(selectedShape);
   const [colorShape] = useImage(cardProColor);
   const [logo] = useImage(logoImage);
   const [mainLogoImage] = useImage(mainLogo);
-  const [modalShow, setModalShow] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [isProColor, setIsProColor] = useState(false);
+  const [isDragged, setIsDragged] = useState(false);
+
 
   const token = JSON.parse(localStorage.getItem("token"));
   const navigate = useNavigate();
   const { t: key } = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
-  const isLogin = useSelector((state) => state.userInfo.isLogin);
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
 
-  const { data: shapes } = useQuery({
-    queryKey: ["shapes", token],
-    queryFn: getShapes,
-    staleTime: Infinity,
-  });
-
-  const { data: shops } = useQuery({
-    queryKey: ["shops", token],
-    queryFn: getShops,
-    staleTime: Infinity,
-  });
-
-  const { data: colors } = useQuery({
-    queryKey: ["colors"],
-    queryFn: getColors,
-    staleTime: Infinity,
-  });
-
-  const navigateToLogin = () => {
-    navigate("/login");
-  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -100,8 +75,37 @@ const CustomCards = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+
+  const saveColorValues = (type, value, colorId) => {
+    if (type === "pro") {
+      setCardColorId(`${colorId}`);
+      setCardProColor(`${process.env.REACT_APP_Host}colors/${value}`);
+      setIsProColor(true);
+    } else {
+      setCardColorId(`${colorId}`);
+      setCardColor(`${value}`);
+      setIsProColor(false);
+    }
+  };
+
+  const saveShape = (value, shapeId, showBack) => {
+    setSelectedShape(`${process.env.REACT_APP_Host}shapes/${value} `);
+    setShowBack(showBack);
+    setSelectedShapeId(shapeId);
+  };
+
+  const saveShop = (value, shopId) => {
+    setLogoImage(`${process.env.REACT_APP_Host}shops/${value}`);
+    setSelectedShopId(shopId);
+  };
+
   const imageAspectRatio = shapeImage?.width / shapeImage?.height;
   const cardAspectRatio = cardWidth / cardHeight;
+  const priceSafeY = cardHeight * 0.55;
 
   let scaledWidth,
     scaledHeight,
@@ -120,10 +124,6 @@ const CustomCards = () => {
     offsetY = 0;
   }
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   const stepLabels = [
     key("color"),
     key("shape"),
@@ -134,10 +134,6 @@ const CustomCards = () => {
     setCurrentStep(selectedIndex);
   };
   const createCard = async () => {
-    if (!isLogin) {
-      setModalShow(true);
-      return;
-    }
     if (cardText === "") {
       notifyError(key("cardMessageError"));
       return;
@@ -161,7 +157,7 @@ const CustomCards = () => {
     let formData = {
       isSpecial: false,
       price: {
-        value:cardPrice,
+        value: cardPrice,
         fontFamily: "'Times New Roman', Times, serif",
         fontSize: 40,
         fontColor: textColor,
@@ -214,132 +210,31 @@ const CustomCards = () => {
               </div>
 
               <div>
-                <Stage
-                  className={styles.card}
-                  width={cardWidth}
-                  height={cardHeight}
-                  cornerRadius={30}
-                >
-                  <Layer>
-                    {isProColor ? (
-                      <Image
-                        image={colorShape}
-                        width={cardWidth}
-                        height={cardHeight}
-                        opacity={1}
-                        visible={true}
-                        cornerRadius={30}
-                      />
-                    ) : (
-                      <Rect
-                        width={cardWidth}
-                        height={cardHeight}
-                        fill={cardColor}
-                        cornerRadius={30}
-                      />
-                    )}
-
-                    {shapeImage && showBack && (
-                      <Image
-                        image={shapeImage}
-                        width={scaledWidth || cardWidth}
-                        height={scaledHeight || cardHeight}
-                        x={offsetX}
-                        y={offsetY}
-                        opacity={1}
-                        visible={true}
-                        cornerRadius={30}
-                      />
-                    )}
-
-                    {!showBack && (
-                      <>
-                        {cardText && (
-                          <Text
-                            text={cardText}
-                            fontSize={
-                              isSmallScreen ? textFont / 2 : Number(textFont)
-                            }
-                            fontFamily={textFontFamily}
-                            fill={textColor}
-                            width={cardWidth * 0.8}
-                            x={cardWidth / 2 - (cardWidth * 0.8) / 2}
-                            y={textPosition.y}
-                            align="center"
-                            wrap="char"
-                            draggable
-                            onDragEnd={(e) => {
-                              setTextPosition({
-                                x: e.target.x(),
-                                y: e.target.y(),
-                              });
-                            }}
-                            onMouseEnter={(e) => {
-                              const container = e.target.getStage().container();
-                              container.style.cursor = "grab";
-                            }}
-                            onMouseLeave={(e) => {
-                              const container = e.target.getStage().container();
-                              container.style.cursor = "default";
-                            }}
-                            onMouseDown={(e) => {
-                              const container = e.target.getStage().container();
-                              container.style.cursor = "grabbing";
-                            }}
-                            onMouseUp={(e) => {
-                              const container = e.target.getStage().container();
-                              container.style.cursor = "grab";
-                            }}
-                            ref={(node) => {
-                              if (node) {
-                                const textHeight = node.getClientRect().height;
-                                const newTextY = cardHeight / 2 - textHeight;
-                                if (newTextY !== textPosition.y) {
-                                  setTextPosition({
-                                    x: textPosition.x,
-                                    y: newTextY,
-                                  });
-                                }
-                              }
-                            }}
-                          />
-                        )}
-
-                        {cardPrice && (
-                          <Text
-                            text={`${cardPrice} ${key("sar")}`}
-                            fontSize={20}
-                            fontFamily={"'Times New Roman', Times, serif"}
-                            fill={textColor}
-                            x={cardWidth / 2 - 30}
-                            y={cardHeight / 2 + textFont / 2}
-                          />
-                        )}
-                      </>
-                    )}
-
-                    {logo && (
-                      <Image
-                        image={logo}
-                        x={isSmallScreen ? cardWidth - 60 : cardWidth - 70}
-                        y={10}
-                        width={isSmallScreen ? 40 : 60}
-                        height={isSmallScreen ? 40 : 60}
-                        visible={true}
-                        cornerRadius={30}
-                      />
-                    )}
-
-                    <Image
-                      image={mainLogoImage}
-                      x={20}
-                      y={isSmallScreen ? cardHeight - 30 : cardHeight - 50}
-                      width={isSmallScreen ? 50 : 100}
-                      height={isSmallScreen ? 17.5 : 35}
-                      visible={true}
-                    />
-                  </Layer>
-                </Stage>
+                <CustomeCardStage
+                  cardWidth={cardWidth}
+                  cardHeight={cardHeight}
+                  isProColor={isProColor}
+                  colorShape={colorShape}
+                  cardColor={cardColor}
+                  shapeImage={shapeImage}
+                  showBack={showBack}
+                  scaledWidth={scaledWidth}
+                  scaledHeight={scaledHeight}
+                  offsetX={offsetX}
+                  offsetY={offsetY}
+                  cardText={cardText}
+                  textFont={textFont}
+                  textFontFamily={textFontFamily}
+                  textColor={textColor}
+                  textPosition={textPosition}
+                  setTextPosition={setTextPosition}
+                  setIsDragged={setIsDragged}
+                  isDragged={isDragged}
+                  priceSafeY={priceSafeY}
+                  cardPrice={cardPrice}
+                  logo={logo}
+                  mainLogoImage={mainLogoImage}
+                />
               </div>
             </Col>
 
@@ -372,137 +267,13 @@ const CustomCards = () => {
                 touch={false}
               >
                 <Carousel.Item className={styles.carousel_item}>
-                  <div className={styles.choose_color}>
-                    <h4 className={`${styles.title} text-center mb-4`}>
-                      {key("choose")} {key("cardColor")}
-                    </h4>
-                    <Row className={styles.color_group}>
-                      {colors ? (
-                        <>
-                          {colors.data?.colors.map((color) => (
-                            <Col
-                              key={color._id}
-                              xs={4}
-                              sm={2}
-                              className="d-flex justify-content-center align-items-center"
-                            >
-                              <div
-                                onClick={() => {
-                                  setCardColorId(`${color._id}`);
-                                  setCardColor(`${color.hex}`);
-                                  setIsProColor(false);
-                                }}
-                                style={{ backgroundColor: `${color.hex}` }}
-                                className={styles.color_circle}
-                              ></div>
-                            </Col>
-                          ))}
-                          {colors.data?.proColors.map((color) => (
-                            <Col
-                              key={color._id}
-                              xs={4}
-                              sm={2}
-                              className="d-flex justify-content-center align-items-center"
-                            >
-                              <div
-                                onClick={() => {
-                                  setCardColorId(`${color._id}`);
-                                  setCardProColor(
-                                    `${process.env.REACT_APP_Host}colors/${color.image}`
-                                  );
-                                  setIsProColor(true);
-                                }}
-                                className={`${styles.color_circle} ${styles.color_pro_square} position-relative`}
-                              >
-                                <FontAwesomeIcon
-                                  icon={faCrown}
-                                  className={styles.crown}
-                                />
-
-                                <img
-                                  src={`${process.env.REACT_APP_Host}colors/${color.image}`}
-                                  alt={`${color._id}`}
-                                />
-                              </div>
-                            </Col>
-                          ))}
-                        </>
-                      ) : (
-                        <LoadingOne />
-                      )}
-                    </Row>
-                  </div>
+                  <CustomCardColors saveColorValues={saveColorValues} />
                 </Carousel.Item>
                 <Carousel.Item className={`${styles.carousel_item}`}>
-                  <div className={`${styles.choose_shape}  position-relative`}>
-                    <h4 className={`${styles.title} text-center mb-4`}>
-                      {key("cardBackground")}
-                    </h4>
-                    <Row className={styles.shapes_container}>
-                      {shapes ? (
-                        shapes?.data.map((shape) => (
-                          <Col
-                            xs={6}
-                            sm={4}
-                            lg={3}
-                            xl={2}
-                            className="d-flex justify-content-center align-items-center"
-                            onClick={() => {
-                              setSelectedShape(
-                                `${process.env.REACT_APP_Host}shapes/${shape.image} `
-                              );
-                              setShowBack(true);
-                              setSelectedShapeId(shape._id);
-                            }}
-                            key={shape._id}
-                          >
-                            <div className={styles.shape_div}>
-                              <img
-                                src={`${process.env.REACT_APP_Host}shapes/${shape.image}`}
-                                alt={`${shape}_${shape._id}`}
-                                className="w-100"
-                              />
-                            </div>
-                          </Col>
-                        ))
-                      ) : (
-                        <LoadingOne />
-                      )}
-                    </Row>
-                  </div>
+                  <CustomCardShapes saveShape={saveShape} />
                 </Carousel.Item>
                 <Carousel.Item className={`${styles.carousel_item}`}>
-                  <div className={`${styles.choose_shape} d-flex mx-4`}>
-                    <h4 className={`${styles.title} text-start mb-3`}>
-                      {key("choose")} {key("store")}
-                    </h4>
-                    <Row className={styles.logo_container}>
-                      {shops &&
-                        shops.data.map((shop) => (
-                          <Col
-                            xs={12}
-                            sm={6}
-                            md={4}
-                            lg={3}
-                            className="d-flex justify-content-center"
-                            onClick={() => {
-                              setLogoImage(
-                                `${process.env.REACT_APP_Host}shops/${shop.logo}`
-                              );
-                              setSelectedShopId(shop._id);
-                            }}
-                            key={shop._id}
-                          >
-                            <div className={styles.logo_div}>
-                              <img
-                                src={`${process.env.REACT_APP_Host}shops/${shop.logo}`}
-                                alt={`${shop.name}`}
-                              />
-                            </div>
-                          </Col>
-                        ))}
-                    </Row>
-                  </div>
+                  <CustomCardShops saveShop={saveShop} />
                 </Carousel.Item>
                 <Carousel.Item className={styles.carousel_item}>
                   <div className={styles.text_containers_parent}>
@@ -605,7 +376,7 @@ const CustomCards = () => {
                         } input-group mb-3`}
                       >
                         <input
-                          type="number"
+                          type="text"
                           value={cardPrice}
                           onChange={(e) => setCardPrice(e.target.value)}
                           onClick={() => setShowBack(false)}
@@ -631,12 +402,6 @@ const CustomCards = () => {
           </Row>
         </div>
       </div>
-      <ConfirmationModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-        func={navigateToLogin}
-        message={key("loginFirst")}
-      />
     </>
   );
 };

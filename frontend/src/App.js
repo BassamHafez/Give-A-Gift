@@ -37,6 +37,7 @@ import Error404 from './Pages/Error404/Error404';
 import MainError from './Pages/MainError/MainError';
 import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute';
 import fetchCartCounter from './Store/cartCounter-actions';
+import DetailsAfterBuying from './Pages/DetailsAfterBuying/DetailsAfterBuying';
 
 
 const router=createBrowserRouter([{
@@ -50,8 +51,8 @@ const router=createBrowserRouter([{
     {path:"login",element:<Login/>},
     {path:"forget-password", element: <ForgetPassword /> },
     {path:"register",element:<Register/>},
-    {path:"special-cards",element:<SpecialCards/>},
-    {path:"custom-cards",element:<CustomCards/>},
+    {path:"special-cards",element:<ProtectedRoute><SpecialCards/></ProtectedRoute>},
+    {path:"custom-cards",element:<ProtectedRoute><CustomCards/></ProtectedRoute>},
     {path:"view-card/:cardId",element:<ProtectedRoute><ViewCard/></ProtectedRoute>},
     {path:"profile/:userId",element:<ProtectedRoute><Profile/></ProtectedRoute>},
     {path:"recipient-information/:cardId",element:<ProtectedRoute><RecipientInformation/></ProtectedRoute>},
@@ -70,6 +71,7 @@ const router=createBrowserRouter([{
     {path:"admin-transactions",element:<ProtectedRoute><Transactions/></ProtectedRoute>},
     {path:"admin-users",element:<ProtectedRoute><Users/></ProtectedRoute>},
     {path:"admin-wallets",element:<ProtectedRoute><Wallets/></ProtectedRoute>},
+    {path:"details-after-buying/:cardPrice",element:<ProtectedRoute><DetailsAfterBuying/></ProtectedRoute>},
     { path: "*", element: <Error404 /> },
   ]
 }])  
