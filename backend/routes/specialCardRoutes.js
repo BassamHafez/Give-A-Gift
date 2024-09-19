@@ -26,4 +26,11 @@ router
     specialCardController.deleteCard
   );
 
+router
+  .route("/shapes")
+  .put(
+    specialCardController.uploadSpecialCardImages,
+    specialCardController.updateSpecialShapes
+  );
+
 module.exports = router;
