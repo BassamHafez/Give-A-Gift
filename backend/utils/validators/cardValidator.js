@@ -15,11 +15,16 @@ exports.createCardValidator = [
     .withMessage("Shop must be a valid MongoDB ID"),
 
   check("color")
-    .if((value, { req }) => !req.body.isSpecial)
-    .notEmpty()
-    .withMessage("Color is required")
+    .optional()
     .isMongoId()
     .withMessage("Color must be a valid MongoDB ID"),
+
+  check("proColor")
+    .if((value, { req }) => !req.body.isSpecial && !req.body.color)
+    .notEmpty()
+    .withMessage("ProColor is required (no color provided)")
+    .isMongoId()
+    .withMessage("ProColor must be a valid MongoDB ID"),
 
   check("shape")
     .if((value, { req }) => !req.body.isSpecial)
