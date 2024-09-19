@@ -107,7 +107,11 @@ exports.buyCard = catchAsync(async (req, res, next) => {
     return next(new ApiError("Wallet not found", 404));
   }
 
-  const VAT = await Config.findOne({ key: "VAT_VALUE" });
+  const [VAT, iconPrice, linkPrice] = await Promise.all([
+    Config.findOne({ key: "VAT_VALUE" }),
+    Config.findOne({ key: "CELEBRATE_ICON_PRICE" }),
+    Config.findOne({ key: "CELEBRATE_LINK_PRICE" }),
+  ]);
 
   let cardPrice =
     card?.priceAfterDiscount >= 0 ? card.priceAfterDiscount : card.price.value;
@@ -115,6 +119,12 @@ exports.buyCard = catchAsync(async (req, res, next) => {
   if (card.proColor) {
     const proColor = await ProColor.findById(card.proColor);
     cardPrice += parseFloat(proColor.price);
+  }
+  if (card.celebrateIcon) {
+    cardPrice += parseFloat(iconPrice.value);
+  }
+  if (card.celebrateQR) {
+    cardPrice += parseFloat(linkPrice.value);
   }
 
   const totalAmount = cardPrice + cardPrice * parseFloat(VAT.value / 100);
