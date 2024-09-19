@@ -25,7 +25,6 @@ const notifyError = (message) => toast.error(message);
 const baseServerUrl = process.env.REACT_APP_Base_API_URl;
 
 const CustomCards = () => {
-
   const [cardWidth, setCardWidth] = useState(480);
   const [cardHeight, setCardHeight] = useState(270);
   const [cardColor, setCardColor] = useState("#FFFFFF");
@@ -43,7 +42,9 @@ const CustomCards = () => {
     x: cardWidth / 2 - (cardWidth / 2) * 0.8,
     y: cardHeight / 2,
   });
-  const [textFontFamily, setTextFontFamily] = useState("'ARAHAMAH1982', sans-serif");
+  const [textFontFamily, setTextFontFamily] = useState(
+    "'ARAHAMAH1982', sans-serif"
+  );
   const [textFont, setTextFont] = useState(40);
   const [shapeImage] = useImage(selectedShape);
   const [colorShape] = useImage(cardProColor);
@@ -53,14 +54,12 @@ const CustomCards = () => {
   const [isProColor, setIsProColor] = useState(false);
   const [isDragged, setIsDragged] = useState(false);
 
-
   const token = JSON.parse(localStorage.getItem("token"));
   const navigate = useNavigate();
   const { t: key } = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
-
 
   useEffect(() => {
     const handleResize = () => {
@@ -78,7 +77,6 @@ const CustomCards = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
 
   const saveColorValues = (type, value, colorId) => {
     if (type === "pro") {
@@ -130,9 +128,11 @@ const CustomCards = () => {
     key("storesPageTitle"),
     key("message"),
   ];
+  
   const handleSelect = (selectedIndex) => {
     setCurrentStep(selectedIndex);
   };
+
   const createCard = async () => {
     if (cardText === "") {
       notifyError(key("cardMessageError"));
@@ -154,28 +154,45 @@ const CustomCards = () => {
       notifyError(key("colorreq"));
       return;
     }
-    let formData = {
-      isSpecial: false,
-      price: {
-        value: cardPrice,
-        fontFamily: "'Times New Roman', Times, serif",
-        fontSize: 40,
-        fontColor: textColor,
-        fontWeight: 600,
-      },
-      color: cardColorId,
-      shop: selectedShopId,
-      shape: selectedShapeId,
-      text: {
-        message: cardText,
-        fontFamily: textFontFamily,
-        fontSize: textFont,
-        fontColor: textColor,
-        fontWeight: 600,
-        xPosition: textPosition.x,
-        yPosition: textPosition.y,
-      },
+
+    const priceValues = {
+      value: cardPrice,
+      fontFamily: "'Times New Roman', Times, serif",
+      fontSize: 40,
+      fontColor: textColor,
+      fontWeight: 600,
     };
+    const textValues = {
+      message: cardText,
+      fontFamily: textFontFamily,
+      fontSize: textFont,
+      fontColor: textColor,
+      fontWeight: 600,
+      xPosition: textPosition.x,
+      yPosition: textPosition.y,
+    };
+
+    let formData = {};
+
+    if (isProColor) {
+      formData = {
+        isSpecial: false,
+        price: priceValues,
+        proColor: cardColorId,
+        shop: selectedShopId,
+        shape: selectedShapeId,
+        text: textValues,
+      };
+    } else {
+      formData = {
+        isSpecial: false,
+        price: priceValues,
+        color: cardColorId,
+        shop: selectedShopId,
+        shape: selectedShapeId,
+        text: textValues,
+      };
+    }
 
     try {
       const response = await axios.post(`${baseServerUrl}cards`, formData, {
