@@ -4,6 +4,14 @@ const validatorMiddleware = require("./validatorMiddleware");
 exports.createColorValidator = [
   check("image").notEmpty().withMessage("Image is required"),
 
+  check("price")
+    .notEmpty()
+    .withMessage("Price is required")
+    .isNumeric()
+    .withMessage("Price must be a number")
+    .isFloat({ min: 0 })
+    .withMessage("Price must be a positive number"),
+
   validatorMiddleware,
 ];
 
