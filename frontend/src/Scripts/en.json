@@ -255,5 +255,22 @@
     "mainError":"oops! seems that something went wrong",
     "reloadPage":"Reload the Page",
     "existError":"Email or Phone Already exist",
-    "transferYourself":"Cannot tranfer to yourself"
+    "transferYourself":"Cannot tranfer to yourself",
+    "checkResetPass":"Check Your email to reset password",
+    "faildResetPass":"Faild to be send please try again",
+    "forgetTitle":"Having trouble logging in?",
+    "enterEmailToSendCode":"Enter your email and we will send you a password reset code",
+    "noAcc":"There is no Account with this email !",
+    "sendEmail":"Send Email",
+    "youCanCreateAcc":"You can create new account",
+    "or":"or",
+    "newPassSaved":"Your new Password saved successfully",
+    "newPassFaild":"Your new Password faild to be reset please try again",
+    "codeRec":"Code is Required",
+    "enterCode":"Enter Code that Sent To Your Email",
+    "resetInvalid":"Reset code invalid or expired !",
+    "cardSaved":"Card Saved Successfully",
+    "download":"download",
+    "addProColor":"Add Pro Colors",
+    "allProColors":"All Pro Colors"
 }

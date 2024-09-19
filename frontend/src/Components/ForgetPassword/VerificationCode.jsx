@@ -9,10 +9,12 @@ import { signFormsHandler } from "../../util/Http";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faYinYang } from "@fortawesome/free-solid-svg-icons";
 import ResetPassword from "./ResetPassword";
+import { useTranslation } from "react-i18next";
 
 const VerificationCode = ({ onHide, show, notifySuccess, notifyError }) => {
   const [isCodeWrong, setIsCodeWrong] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const {t:key}=useTranslation();
 
   const { mutate, isPending } = useMutation({
     mutationFn: signFormsHandler,
@@ -23,7 +25,7 @@ const VerificationCode = ({ onHide, show, notifySuccess, notifyError }) => {
         setShowModal(true);
         onHide();
       } else {
-        notifyError("faild to be send reset email please try again");
+        notifyError(key("faildResetPass"));
       }
     },
     onError: (error) => {
@@ -32,7 +34,7 @@ const VerificationCode = ({ onHide, show, notifySuccess, notifyError }) => {
         setIsCodeWrong(true);
       } else {
         setIsCodeWrong(false);
-        notifyError("faild to be send reset email please try again");
+        notifyError(key("faildResetPass"));
       }
     },
   });
@@ -50,7 +52,7 @@ const VerificationCode = ({ onHide, show, notifySuccess, notifyError }) => {
   };
 
   const validationSchema = object({
-    resetCode: string().required("code is required"),
+    resetCode: string().required(key("codeRec")),
   });
 
   return (
@@ -64,7 +66,7 @@ const VerificationCode = ({ onHide, show, notifySuccess, notifyError }) => {
         className={styles.modal_container}
       >
         <Modal.Body className={styles.modal_body}>
-          <h4>Enter Code that Sent To Your Email</h4>
+          <h4>{key("enterCode")}</h4>
           <Formik
             initialValues={initialValues}
             onSubmit={onSubmit}
@@ -79,7 +81,7 @@ const VerificationCode = ({ onHide, show, notifySuccess, notifyError }) => {
                   placeholder="######"
                 />
                 {isCodeWrong && (
-                  <InputErrorMessage text="Reset code invalid or expired !" />
+                  <InputErrorMessage text={key("resetInvalid")} />
                 )}
                 <ErrorMessage name="resetCode" component={InputErrorMessage} />
               </div>
@@ -91,7 +93,7 @@ const VerificationCode = ({ onHide, show, notifySuccess, notifyError }) => {
                   </button>
                 ) : (
                   <button className={styles.save_btn} type="submit">
-                    Verify
+                    {key("verify")}
                   </button>
                 )}
               </div>

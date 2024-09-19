@@ -73,7 +73,10 @@ ul li{
 .main_shadow{
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.266);
 }
-
+.page_height{
+  min-height: 100vh;
+  position: relative;
+}
 .bg-main {
   background-color: var(--main_color);
 }

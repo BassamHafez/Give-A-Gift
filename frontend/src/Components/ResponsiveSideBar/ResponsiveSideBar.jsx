@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "./ResponsiveSideBar.module.css";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import MainButton from "../Ui/MainButton";
@@ -9,16 +9,15 @@ import {
   faStore,
   faLayerGroup,
   faPenToSquare,
-  faGlobe,
   faDoorOpen,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import logo from "../../Images/logo.png";
 import { useTranslation } from "react-i18next";
-import { faOpencart } from "@fortawesome/free-brands-svg-icons";
 import { useSelector } from "react-redux";
 import LogoutModal from "../Ui/LogoutModal";
+import { useMediaQuery } from "react-responsive";
 
 const ResponsiveSideBar = ({ onClose, show }) => {
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
@@ -26,19 +25,7 @@ const ResponsiveSideBar = ({ onClose, show }) => {
   const isLogin = useSelector((state) => state.userInfo.isLogin);
   const [logoutModalShow, setLogoutModalShow] = useState(false);
 
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsSmallScreen(window.innerWidth < 770);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  const isSmallScreen = useMediaQuery({ query: "(max-width: 770px)" });
 
   return (
     <>
@@ -82,16 +69,16 @@ const ResponsiveSideBar = ({ onClose, show }) => {
                 <FontAwesomeIcon icon={faStore} className={styles.list_icons} />
               </li>
             </Link>
-            <Link onClick={onClose} to={"special-cards"} end="true">
+            <Link onClick={onClose} to={"/special-cards"} end="true">
               <li className={styles.contact_list_item}>
-                {key("buyCardPageTitle")}
+                {key("buyCardNavTitle")}
                 <FontAwesomeIcon
                   icon={faLayerGroup}
                   className={styles.list_icons}
                 />
               </li>
             </Link>
-            <Link onClick={onClose} to={"custom-cards"} end="true">
+            <Link onClick={onClose} to={"/custom-cards"} end="true">
               <li className={styles.contact_list_item}>
                 {key("createCardPageTitle")}
                 <FontAwesomeIcon
@@ -100,45 +87,24 @@ const ResponsiveSideBar = ({ onClose, show }) => {
                 />
               </li>
             </Link>
-            <li className={`${styles.contact_list_item} ${styles.lang}`}>
-              <div className="dropdown">
-                <div
-                  className={`${styles.lang}`}
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
+            {isArLang ? (
+                <li
+                  onClick={() => control.changeLanguage("en")}
+                  className={`${styles.contact_list_item} ${styles.lang}`}
                 >
-                  <span>{key("language")}</span>
-                </div>
+                  English
+                </li>
+              ) : (
+                <li
+                  onClick={() => control.changeLanguage("ar")}
+                  className={`${styles.contact_list_item} ${styles.lang}`}
+                >
+                  العربية
+                </li>
+              )}
 
-                <ul className="dropdown-menu">
-                  <li
-                    onClick={() => control.changeLanguage("ar")}
-                    className={`${styles.lang_item} ${
-                      isArLang ? styles.active_lang : ""
-                    }`}
-                  >
-                    <span className="dropdown-item">Arabic</span>
-                  </li>
-                  <li
-                    onClick={() => control.changeLanguage("en")}
-                    className={`${styles.lang_item} ${
-                      !isArLang ? styles.active_lang : ""
-                    }`}
-                  >
-                    <span className="dropdown-item">English</span>
-                  </li>
-                </ul>
-              </div>
-              <FontAwesomeIcon className={styles.list_icons} icon={faGlobe} />
-            </li>
-            <li className={`${styles.contact_list_item} ${styles.lang}`}>
-              {key("cart")}
-              <FontAwesomeIcon
-                className={styles.list_icons}
-                icon={faOpencart}
-              />
-            </li>
-            {isSmallScreen && (
+
+            {isSmallScreen && isLogin && (
               <li
                 className={`${styles.contact_list_item} ${styles.lang}`}
                 onClick={() => setLogoutModalShow(true)}
@@ -152,7 +118,7 @@ const ResponsiveSideBar = ({ onClose, show }) => {
             )}
           </ul>
 
-          {!isLogin && (
+          {!isLogin && isSmallScreen && (
             <div
               className={`${styles.side_bar_signing_btns} my-5 d-flex align-items-center justify-content-evenly`}
             >

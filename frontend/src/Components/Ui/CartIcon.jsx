@@ -1,22 +1,19 @@
-import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import { getMyCards } from "../../util/Http";
+
 import Badge from "react-bootstrap/Badge";
 import styles from "./Loading.module.css";
+import { useSelector } from "react-redux";
 
 const CartIcon = () => {
-  const token = JSON.parse(localStorage.getItem("token"));
-
-  const { data } = useQuery({
-    queryKey: ["getCard", token],
-    queryFn: () => getMyCards(token),
-    enabled: !!token,
-  });
+  const cartCount = useSelector((state) => state.cartCounter.counter);
+  const isLogin = useSelector((state) => state.userInfo.isLogin);
 
   return (
-    <Badge className={styles.cart_badge} bg="danger">
-      {data?.results}
-    </Badge>
+    <>
+      <Badge className={styles.cart_badge} bg="danger">
+        {isLogin?cartCount:0}
+      </Badge>
+    </>
   );
 };
 

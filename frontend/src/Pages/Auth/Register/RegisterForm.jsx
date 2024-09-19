@@ -229,7 +229,7 @@ const RegisterForm = ({ notifySuccess, notifyError }) => {
               </button>
             )}
             <div>
-              <span className="or_span">or</span>
+              <span className="or_span">{key("or")}</span>
               <p className={`${styles.have_acc_p} mini_word`}>
                 {key("haveAcc")}{" "}
                 <Link className="text-primary fw-bold" to={"/login"}>

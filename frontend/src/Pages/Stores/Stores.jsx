@@ -16,7 +16,7 @@ const notifySuccess = (message) => toast.success(message);
 const Stores = () => {
   const { t: key } = useTranslation();
   const [searchInput, setSearchInput] = useState("");
-  
+
   const { data: shops, isFetching } = useQuery({
     queryKey: ["shops"],
     queryFn: getShops,
@@ -25,8 +25,10 @@ const Stores = () => {
 
   const handleSearch = (e, searchTerm) => {
     e.preventDefault();
-    setSearchInput(searchTerm);
-    notifySuccess(key("searchFilterApplied"));
+    if (searchTerm !== "" && searchTerm !== searchInput) {
+      setSearchInput(searchTerm);
+      notifySuccess(key("searchFilterApplied"));
+    }
   };
 
   const filteredShops = shops
@@ -38,7 +40,7 @@ const Stores = () => {
   return (
     <>
       <Toaster position="top-right" />
-      <Container className="my-5">
+      <Container className="my-5 page_height">
         <h2 className="text-center my-3 mb-5">{key("storesTitle")}</h2>
         <div
           className={`${styles.controllers} d-flex justify-content-between my-5`}
@@ -72,7 +74,9 @@ const Stores = () => {
                         </div>
                         <div className="text-center">
                           <h5 className=" fw-bold">{shop.name}</h5>
-                          <span className=" text-secondary">{shop.description}</span>
+                          <span className=" text-secondary">
+                            {shop.description}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -99,7 +103,9 @@ const Stores = () => {
                           </div>
                           <div className="text-center">
                             <h5 className=" fw-bold">{shop.name}</h5>
-                            <span className="  text-secondary">{shop.description}</span>
+                            <span className="  text-secondary">
+                              {shop.description}
+                            </span>
                           </div>
                         </div>
                       </div>

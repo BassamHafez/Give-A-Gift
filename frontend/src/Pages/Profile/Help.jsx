@@ -1,5 +1,5 @@
 import React from "react";
-import support from "../../Images/support.jpg";
+import support from "../../Images/support.webp";
 import styles from "./Help.module.css";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";

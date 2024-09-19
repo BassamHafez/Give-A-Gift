@@ -16,8 +16,9 @@ import ConfirmationModal from "../../Components/Ui/ConfirmationModal";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import FilterModal from "../../Components/Ui/FilterModal";
+import { cartActions } from "../../Store/cartCounter-slice";
 
 const notifySuccess = (message) => toast.success(message);
 const notifyError = (message) => toast.error(message);
@@ -36,8 +37,8 @@ const SpecialCards = () => {
   const navigate = useNavigate();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const token = JSON.parse(localStorage.getItem("token"));
+  const dispatch=useDispatch();
 
-  // Fetch the special cards data
   const { data, isFetching } = useQuery({
     queryKey: ["special-cards", token],
     queryFn: getSpecialCards,
@@ -78,7 +79,8 @@ const SpecialCards = () => {
       );
       const res = response.data;
       if (res.status === "success") {
-        queryClient.invalidateQueries(["getCard", token]);
+        dispatch(cartActions.addItem())
+        queryClient.invalidateQueries(["getMyCards",token]);
         setModalShow(false);
         navigate(`/recipient-information/${res.data?._id}`);
       } else {
@@ -108,7 +110,7 @@ const SpecialCards = () => {
 
   return (
     <>
-      <Container fluid className="my-5">
+      <Container fluid className={`page_height my-5`}>
         <Toaster position="top-right" />
         <h2 className="text-center my-3 mb-5">{key("buyCardPageTitle")}</h2>
         <div

@@ -1,5 +1,4 @@
 import React from "react";
-import { Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import styles from "./HomeHeader.module.css";
 
@@ -16,24 +15,10 @@ const HomeHeader = () => {
       <div
         className={`${styles.caption_div} bg-main d-flex flex-column  shadow-lg position-relative`}
       >
-        <Typography
-          variant="h2"
-          component="h1"
-          className={`${styles.title} text-center`}
-        >
-          {t("sec3Title")}
-        </Typography>
-        <br />
-        <Typography
-          variant="h5"
-          component="p"
-          className={`${styles.caption} text-center`}
-        >
-          {t("sec3Caption")}
-        </Typography>
+        <h1 className={`${styles.title} text-center`}>{t("sec3Title")}</h1>
+        <p className={`${styles.caption} text-center`}>{t("sec3Caption")}</p>
       </div>
     </header>
-    
   );
 };
 

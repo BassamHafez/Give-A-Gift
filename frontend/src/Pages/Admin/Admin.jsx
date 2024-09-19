@@ -32,6 +32,7 @@ const Admin = () => {
       navigate(`/`);
     }
   }, [role, navigate]);
+  
   return (
     <>
       <div className={styles.container_body}>

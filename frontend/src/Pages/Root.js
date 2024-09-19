@@ -100,7 +100,7 @@ const Root = () => {
     return Array.isArray(arr) ? arr.find(config => config.key === targetKey) : undefined;
   };
 
-  useEffect(() => {
+
       const mainColorValue = findConfigByKey(data?.data, "MAIN_COLOR")?.value;
       const subColorValue = findConfigByKey(data?.data, "SECONDRY_COLOR")?.value;
       
@@ -110,15 +110,17 @@ const Root = () => {
       if (subColorValue) {
         document.documentElement.style.setProperty('--sub_color', subColorValue);
       }
-  }, [data]);
 
 
   return (
     <>
       <Toaster position="top-right"/>
+      <div>
       <MainNav/>
       <Outlet/>
       <Footer/>
+      </div>
+
       {modalShow&&<VerifyPhoneNumberModal
         show={modalShow}
         onHide={()=>setModalShow(false)}

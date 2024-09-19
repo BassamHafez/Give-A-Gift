@@ -410,3 +410,21 @@ export const getStatistics = async ({token }) => {
     return error;
   }
 };
+
+
+
+export const addProColor = async ({ token, formData }) => {
+  try {
+    const response = await axios.post(`${baseServerUrl}pro-colors`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};

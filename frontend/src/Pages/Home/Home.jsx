@@ -5,7 +5,7 @@ import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import styles from "./Home.module.css";
 import giftCard from "../../Images/home1.webp";
-import giftCardBack from "../../Images/back.png";
+import giftCardBack from "../../Images/back-shape.webp";
 import customGiftCard from "../../Images/home2.webp";
 import customGiftBack from "../../Images/home2-back.png";
 import TopStores from "../../Components/TopStores/TopStores";
@@ -20,11 +20,11 @@ const Home = () => {
   const role = useSelector((state) => state.userInfo.role);
   const profileData = useSelector((state) => state.profileInfo.data);
 
-  useEffect(()=>{
-    if(role==="admin"){
-      navigate(`/admin/${profileData?._id}`)
+  useEffect(() => {
+    if (role === "admin") {
+      navigate(`/admin/${profileData?._id}`);
     }
-  },[role,navigate,profileData])
+  }, [role, navigate, profileData]);
 
   return (
     <>
@@ -35,9 +35,12 @@ const Home = () => {
       </section>
 
       <section id="firstSec" className="my-5 py-5">
-        <h2 className={`${styles.sec1_title} text-center mt-4`}>
-          -{key("sec1Title")}-
-        </h2>
+        <div className="d-flex justify-content-center align-items-center">
+          <h2 className={`${styles.sec1_title} mt-4`}>
+            {key("sec1Title")}
+          </h2>
+        </div>
+
         <Container>
           <Row>
             <Col

@@ -18,6 +18,8 @@ const CustomXAxisTick = ({ x, y, payload, data }) => {
   const tickX = isMobile ? x - 40 : x - 20;
   const tickY = isMobile ? y - 20 : y + 15;
 
+
+  
   return (
     <g transform={`translate(${tickX},${tickY})`}>
       <svg width={40} height={40} viewBox="0 0 40 40">
@@ -77,6 +79,7 @@ const TopShapes = ({ topShapes }) => {
     sales: shape.cardsCount,
     img: `${process.env.REACT_APP_Host}shapes/${shape.image}`,
   }));
+
 
   return (
     <div style={{ width: "100%", height: "100%" }}>
