@@ -16,8 +16,15 @@ const KonvaCard = ({ canvaCard, isSpecial }) => {
       : null;
 
   const [shapeImage] = useImage(imageUrl);
+
   const [shapeImageFront] = useImage(
-    `${process.env.REACT_APP_Host}shapes/front-shape.png`
+    isSpecial ? `${process.env.REACT_APP_Host}shapes/front-shape.png` : ""
+  );
+
+  const [proColorImage] = useImage(
+    canvaCard?.proColor
+      ? `${process.env.REACT_APP_Host}colors/${canvaCard?.proColor?.image}`
+      : ""
   );
 
   const [logoImage] = useImage(
@@ -25,8 +32,6 @@ const KonvaCard = ({ canvaCard, isSpecial }) => {
       ? `${process.env.REACT_APP_Host}shops/${canvaCard.shop.logo}`
       : null
   );
-
-
 
   useEffect(() => {
     const handleResize = () => {
@@ -75,14 +80,24 @@ const KonvaCard = ({ canvaCard, isSpecial }) => {
           height={cardHeight}
         >
           <Layer>
-            {/* work here */}
-            <Rect
-              width={cardWidth}
-              height={cardHeight}
-              fill={canvaCard?.color?.hex || "#FFFFFF"}
-              cornerRadius={30}
-              className={styles.rect_canvaCard}
-            />
+            {canvaCard?.proColor ? (
+              <Image
+                image={proColorImage}
+                width={cardWidth}
+                height={cardHeight}
+                opacity={1}
+                visible={true}
+                cornerRadius={30}
+              />
+            ) : (
+              <Rect
+                width={cardWidth}
+                height={cardHeight}
+                fill={canvaCard?.color?.hex || "#FFFFFF"}
+                cornerRadius={30}
+                className={styles.rect_canvaCard}
+              />
+            )}
 
             {isSpecial ? (
               <Image
