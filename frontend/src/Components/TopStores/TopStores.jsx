@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getShops } from "../../util/Http";
 
 const TopStores = () => {
+  
   const { data: shops } = useQuery({
     queryKey: ["shops"],
     queryFn: getShops,

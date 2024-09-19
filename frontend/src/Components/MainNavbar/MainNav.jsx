@@ -18,6 +18,7 @@ const MainNav = () => {
   const [addNavClass, setAddNavClass] = useState(false);
   const [logoutModalShow, setLogoutModalShow] = useState(false);
   const [showCart, setShowCart] = useState(false);
+
   const [key, control] = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const profileData = useSelector((state) => state.profileInfo.data);
@@ -25,7 +26,7 @@ const MainNav = () => {
   const role = useSelector((state) => state.userInfo.role);
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 20) {
@@ -47,12 +48,15 @@ const MainNav = () => {
         className={`${
           styles.main_nav
         } d-flex align-items-center justify-content-center ${
-          isArLang ? "pe-5 ps-3" : "ps-5 pe-3" 
+          isArLang ? "pe-5 ps-3" : "ps-5 pe-3"
         } ${location.pathname === "/" ? "fixed-top" : "sticky-top"}  ${
           (addNavClass || location.pathname !== "/") && styles.new_nav
         } ${location.pathname !== "/" && styles.new_pages_nav}`}
       >
-        <div onClick={() => navigate("/")} className={`${role !== "admin"?styles.brand:styles.admin_brand}`}>
+        <div
+          onClick={() => navigate("/")}
+          className={`${role !== "admin" ? styles.brand : styles.admin_brand}`}
+        >
           <img src={nav_logo} alt="logo" className="w-100" />
         </div>
         {role !== "admin" && (
@@ -86,9 +90,9 @@ const MainNav = () => {
               <li className={`${styles.special_hidden} mx-3`}>
                 <NavLink
                   className={({ isActive }) =>
-                    isActive ? styles.active : undefined
+                    isLogin ? (isActive ? styles.active : undefined) : undefined
                   }
-                  to={"special-cards"}
+                  to={`${isLogin ? "special-cards" : "/login"}`}
                 >
                   {key("buyCardNavTitle")}
                 </NavLink>
@@ -96,9 +100,9 @@ const MainNav = () => {
               <li className={`${styles.special_hidden} mx-3`}>
                 <NavLink
                   className={({ isActive }) =>
-                    isActive ? styles.active : undefined
+                    isLogin ? (isActive ? styles.active : undefined) : undefined
                   }
-                  to={"custom-cards"}
+                  to={`${isLogin ? "custom-cards" : "/login"}`}
                 >
                   {key("createCardPageTitle")}
                 </NavLink>
@@ -147,7 +151,7 @@ const MainNav = () => {
                     className={styles.cart_icon}
                     icon={faOpencart}
                   />{" "}
-                  <CartIcon/>
+                  <CartIcon />
                 </div>
               </>
             )}

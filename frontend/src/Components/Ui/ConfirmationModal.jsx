@@ -64,7 +64,10 @@ const ConfirmationModal = ({
         console.log(error);
         if (error.response?.data?.message === "Coupon is invalid or expired") {
           notifyError(key("invalidCoupon"));
-        } else {
+        }else if(error?.response?.data?.message==="Card is already paid"){
+          notifyError(key("cardPaid"))
+        }
+         else {
           notifyError(key("wrong"));
         }
         setPriceAfterDisc("");
@@ -166,7 +169,7 @@ const ConfirmationModal = ({
           <ul className={styles.details_list}>
             <li className={`${isBalanced ? "" : "text-danger"}`}>
               <FontAwesomeIcon className={styles.list_icon} icon={faCoins} />
-              {key("currentBalance")}: {balance} {key("sar")}
+              {key("currentBalance")}: {balance.toFixed(2)} {key("sar")}
             </li>
             
             {priceAfterDisc === "" ? (
@@ -176,7 +179,7 @@ const ConfirmationModal = ({
                     className={styles.list_icon}
                     icon={faMoneyBill}
                   />
-                  {key("cardPrice")}:{" "}{cardPrice} {key("sar")}
+                  {key("cardPrice")}:{" "}{cardPrice.toFixed(2)} {key("sar")}
                 </li>
                 <li>
                   <FontAwesomeIcon
@@ -190,7 +193,7 @@ const ConfirmationModal = ({
                     className={styles.list_icon}
                     icon={faFileInvoiceDollar}
                   />
-                  {key("totalPrice")}:{" "}{((Number(VAT)/100)*Number(cardPrice))+Number(cardPrice)} {key("sar")}
+                  {key("totalPrice")}:{" "}{(((Number(VAT)/100)*Number(cardPrice))+Number(cardPrice)).toFixed(2)} {key("sar")}
                 </li>
               </>
             ) : (

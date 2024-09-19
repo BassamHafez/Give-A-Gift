@@ -1,0 +1,52 @@
+.modal_container{
+    background-color: rgba(0, 0, 0, 0.258);
+    backdrop-filter: blur(0.1875rem);
+}
+.modal_body{
+    background-color:var(--vanilla) !important;
+    border-radius:0.625rem 0.625rem 0 0;
+}
+.modal_footer{
+    background-color:var(--vanilla) !important;
+    border-radius:0 0 0.625rem 0.625rem;
+}
+.close_btn,.logout_btn{
+    border-radius: 1.5625rem !important;
+    min-width: 6.25rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+    box-shadow: 0 0 0.1875rem rgba(0, 0, 0, 0.5);
+    padding: 0.625rem 0.9375rem !important;
+    margin-right: auto !important;
+}
+.logout_btn{
+    margin-right: 0 !important;
+    margin-left: auto !important;
+}
+
+.close_btn_ar,.logout_btn_ar{
+    border-radius: 1.5625rem !important;
+    min-width: 6.25rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+    box-shadow: 0 0 0.1875rem rgba(0, 0, 0, 0.5);
+    padding: 0.625rem 0.9375rem !important;
+    margin-left: auto !important;
+}
+.logout_btn_ar{
+    margin-left: 0 !important;
+    margin-right: auto !important;
+}
+.details_list,.sub_details_list {
+    padding: 0;
+    text-align: start;
+}
+.details_list li{
+    font-size: 17px;
+    margin: 5px 0;
+}
+.wallet_balance h2{
+    text-align: center;
+    font-size: 40px;
+    font-family: 'Times New Roman', Times, serif !important;
+}
