@@ -1,4 +1,3 @@
-const { v4: uuidv4 } = require("uuid");
 const sharp = require("sharp");
 const SpecialCard = require("../models/SpecialCardModel");
 const Config = require("../models/configModel");
@@ -44,11 +43,6 @@ exports.updateSpecialShapes = catchAsync(async (req, res, next) => {
       .toFormat("webp")
       .webp({ quality: 99 })
       .toFile(`uploads/specialCards/${frontShapeName}`);
-
-    await Config.findOneAndUpdate(
-      { key: "SPECIAL_FRONT_SHAPE_PATH" },
-      { value: frontShapeImagePath }
-    );
   }
 
   if (req.files?.backShapeImage) {
@@ -56,11 +50,6 @@ exports.updateSpecialShapes = catchAsync(async (req, res, next) => {
       .toFormat("webp")
       .webp({ quality: 99 })
       .toFile(`uploads/specialCards/${backShapeName}`);
-
-    await Config.findOneAndUpdate(
-      { key: "SPECIAL_BACK_SHAPE_PATH" },
-      { value: backShapeImagePath }
-    );
   }
 
   res.status(200).json({
