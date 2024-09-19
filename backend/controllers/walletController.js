@@ -151,19 +151,16 @@ exports.buyCard = catchAsync(async (req, res, next) => {
 
 // ADMIN
 
-exports.getAllWallets = factory.getAll(Wallet, [
+const walletPopOptions = [
   {
     path: "user",
     select: "name email photo phone",
   },
-]);
+];
 
-exports.getUserWallet = factory.getOne(Wallet, [
-  {
-    path: "user",
-    select: "name email photo phone",
-  },
-]);
+exports.getAllWallets = factory.getAll(Wallet, walletPopOptions);
+
+exports.getUserWallet = factory.getOne(Wallet, walletPopOptions);
 
 exports.addBalanceToWallet = catchAsync(async (req, res, next) => {
   const id = req.params.id;
