@@ -12,7 +12,7 @@ exports.getAllShops = factory.getAll(Shop);
 exports.uploadShopLogo = uploadSingleImage("logo");
 
 exports.resizeShopLogo = catchAsync(async (req, res, next) => {
-  if (!req.file) return next(new ApiError("Please upload an image", 400));
+  if (!req.file) return next(new ApiError("Please upload a logo", 400));
 
   const filename = `shop-${uuidv4()}-${Date.now()}.png`;
 
