@@ -34,46 +34,40 @@ exports.uploadSpecialCardImages = uploadMixOfImages([
 ]);
 
 exports.updateSpecialShapes = catchAsync(async (req, res, next) => {
-  let frontShapeImagePath = null;
-  let backShapeImagePath = null;
+  const frontShapeName = "front-shape.webp";
+  const backShapeName = "back-shape.webp";
+  const frontShapeImagePath = `/specialCards/${frontShapeName}`;
+  const backShapeImagePath = `/specialCards/${backShapeName}`;
 
   if (req.files?.frontShapeImage) {
-    const filename = `front-${uuidv4()}-${Date.now()}.png`;
-
     await sharp(req.files.frontShapeImage[0].buffer)
-      .toFormat("png")
-      .png({ quality: 98 })
-      .toFile(`uploads/specialCards/${filename}`);
+      .toFormat("webp")
+      .webp({ quality: 99 })
+      .toFile(`uploads/specialCards/${frontShapeName}`);
 
     await Config.findOneAndUpdate(
       { key: "SPECIAL_FRONT_SHAPE_PATH" },
-      { value: `/specialCards/${filename}` }
+      { value: frontShapeImagePath }
     );
-
-    frontShapeImagePath = `/specialCards/${filename}`;
   }
 
   if (req.files?.backShapeImage) {
-    const filename = `back-${uuidv4()}-${Date.now()}.png`;
-
     await sharp(req.files.backShapeImage[0].buffer)
-      .toFormat("png")
-      .png({ quality: 98 })
-      .toFile(`uploads/specialCards/${filename}`);
+      .toFormat("webp")
+      .webp({ quality: 99 })
+      .toFile(`uploads/specialCards/${backShapeName}`);
 
     await Config.findOneAndUpdate(
       { key: "SPECIAL_BACK_SHAPE_PATH" },
-      { value: `/specialCards/${filename}` }
+      { value: backShapeImagePath }
     );
-
-    backShapeImagePath = `/specialCards/${filename}`;
   }
 
   res.status(200).json({
     status: "success",
     data: {
-      ...(frontShapeImagePath && { frontShapeImagePath }),
-      ...(backShapeImagePath && { backShapeImagePath }),
+      frontShapeImagePath,
+      backShapeImagePath,
     },
   });
 });
