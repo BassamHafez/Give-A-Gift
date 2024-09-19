@@ -1,6 +1,7 @@
 const Wallet = require("../models/walletModel");
 const User = require("../models/userModel");
 const Card = require("../models/cardModel");
+const ProColor = require("../models/proColorModel");
 const Config = require("../models/configModel");
 const ScheduledMessage = require("../models/scheduledMessageModel");
 const factory = require("./handlerFactory");
@@ -108,8 +109,14 @@ exports.buyCard = catchAsync(async (req, res, next) => {
 
   const VAT = await Config.findOne({ key: "VAT_VALUE" });
 
-  const cardPrice =
+  let cardPrice =
     card?.priceAfterDiscount >= 0 ? card.priceAfterDiscount : card.price.value;
+
+  if (card.proColor) {
+    const proColor = await ProColor.findById(card.proColor);
+    cardPrice += parseFloat(proColor.price);
+  }
+
   const totalAmount = cardPrice + cardPrice * parseFloat(VAT.value / 100);
 
   if (parseFloat(wallet.balance) < totalAmount) {
