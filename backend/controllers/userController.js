@@ -32,6 +32,7 @@ exports.addAdmin = catchAsync(async (req, res, next) => {
     email: req.body.email,
     phone: req.body.phone,
     password: req.body.password,
+    phoneVerified: true,
     role: "admin",
   });
 
