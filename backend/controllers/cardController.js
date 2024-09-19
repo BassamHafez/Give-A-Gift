@@ -1,3 +1,4 @@
+const QRCode = require("qrcode");
 const Card = require("../models/cardModel");
 const Coupon = require("../models/couponModel");
 const factory = require("./handlerFactory");
@@ -40,8 +41,14 @@ exports.getCard = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.updateCard = catchAsync(async (req, res, next) => {
-  const doc = await Card.findOneAndUpdate(
+exports.addRecipientInfo = catchAsync(async (req, res, next) => {
+  if (req.body.celebrateLink) {
+    req.body.celebrateQR = await QRCode.toDataURL(req.body.celebrateLink, {
+      errorCorrectionLevel: "M",
+    });
+  }
+
+  const card = await Card.findOneAndUpdate(
     { _id: req.params.id, user: req.user.id },
     req.body,
     {
@@ -50,13 +57,13 @@ exports.updateCard = catchAsync(async (req, res, next) => {
     }
   );
 
-  if (!doc) {
-    return next(new ApiError("No document found with that ID", 404));
+  if (!card) {
+    return next(new ApiError("No card found with that ID", 404));
   }
 
   res.status(200).json({
     status: "success",
-    data: doc,
+    data: card,
   });
 });
 

@@ -154,88 +154,30 @@ exports.getCardValidator = [
   validatorMiddleware,
 ];
 
-exports.updateCardValidator = [
+exports.addRecipientInfoValidator = [
   check("id")
     .notEmpty()
     .withMessage("Card ID is required")
     .isMongoId()
     .withMessage("Card ID must be a valid MongoDB ID"),
 
-  check("price")
-    .optional()
-    .isNumeric()
-    .withMessage("Price of the card must be a number"),
-
-  check("shop")
-    .optional()
-    .isMongoId()
-    .withMessage("Shop must be a valid MongoDB ID"),
-
-  check("color")
-    .optional()
-    .isHexColor()
-    .withMessage("Color must be a valid hex color"),
-
-  check("shape")
-    .optional()
-    .isMongoId()
-    .withMessage("Shape must be a valid MongoDB ID"),
-
-  check("text").optional().isObject().withMessage("Text must be an object"),
-
-  check("text.message")
-    .optional()
-    .isString()
-    .withMessage("Text message must be a string"),
-
-  check("text.fontFamily")
-    .optional()
-    .isString()
-    .withMessage("Text font family must be a string"),
-
-  check("text.fontSize")
-    .optional()
-    .isNumeric()
-    .withMessage("Text font size must be a number"),
-
-  check("text.fontColor")
-    .optional()
-    .isHexColor()
-    .withMessage("Text font color must be a valid hex color"),
-
-  check("text.fontWeight")
-    .optional()
-    .isNumeric()
-    .withMessage("Text font weight must be a number"),
-
-  check("text.xPosition")
-    .optional()
-    .isNumeric()
-    .withMessage("Text X position must be a number"),
-
-  check("text.yPosition")
-    .optional()
-    .isNumeric()
-    .withMessage("Text Y position must be a number"),
-
   check("recipient")
-    .optional()
+    .notEmpty()
+    .withMessage("Recipient information is required")
     .isObject()
-    .withMessage("Recipient must be an object")
-    .custom((recipient) => {
-      if (recipient.name && typeof recipient.name !== "string") {
-        throw new Error("Recipient name must be a string");
-      }
+    .withMessage("Recipient must be an object"),
 
-      if (
-        recipient.whatsappNumber &&
-        typeof recipient.whatsappNumber !== "string"
-      ) {
-        throw new Error("Recipient whatsapp number must be a string");
-      }
+  check("recipient.name")
+    .notEmpty()
+    .withMessage("Recipient name is required")
+    .isString()
+    .withMessage("Recipient name must be a string"),
 
-      return true;
-    }),
+  check("recipient.whatsappNumber")
+    .notEmpty()
+    .withMessage("Recipient whatsapp number is required")
+    .isString()
+    .withMessage("Recipient whatsapp number must be a string"),
 
   check("receiveAt")
     .optional()
@@ -250,6 +192,16 @@ exports.updateCardValidator = [
 
       return true;
     }),
+
+  check("celebrateIcon")
+    .optional()
+    .isString()
+    .withMessage("Celebrate icon must be a string"),
+
+  check("celebrateLink")
+    .optional()
+    .isURL()
+    .withMessage("Celebrate link must be a valid URL"),
 
   // NOT ALLOWED TO UPDATE
 
@@ -266,6 +218,18 @@ exports.updateCardValidator = [
     .withMessage("PriceAfterDiscount cannot be updated"),
 
   check("isDelivered").isEmpty().withMessage("isDelivered cannot be updated"),
+
+  check("price").isEmpty().withMessage("Price cannot be updated"),
+
+  check("shop").isEmpty().withMessage("Shop cannot be updated"),
+
+  check("color").isEmpty().withMessage("Color cannot be updated"),
+
+  check("shape").isEmpty().withMessage("Shape cannot be updated"),
+
+  check("proColor").isEmpty().withMessage("ProColor cannot be updated"),
+
+  check("text").isEmpty().withMessage("Text cannot be updated"),
 
   validatorMiddleware,
 ];
