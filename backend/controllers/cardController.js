@@ -18,6 +18,7 @@ const cardPopulateOptions = [
   { path: "shop", select: "name logo" },
   { path: "shape", select: "image" },
   { path: "color", select: "hex" },
+  { path: "proColor", select: "image price" },
 ];
 
 exports.getAllCards = factory.getAll(Card, cardPopulateOptions);

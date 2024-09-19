@@ -25,8 +25,13 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["user", "admin"],
+      enum: ["user", "merchant", "admin"],
       default: "user",
+    },
+    merchantShop: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Shop",
+      unique: [true, "Shop already in use"],
     },
     password: {
       type: String,

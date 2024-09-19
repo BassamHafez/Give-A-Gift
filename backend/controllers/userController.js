@@ -32,7 +32,35 @@ exports.addAdmin = catchAsync(async (req, res, next) => {
     email: req.body.email,
     phone: req.body.phone,
     password: req.body.password,
+    phoneVerified: true,
     role: "admin",
+  });
+
+  res.status(201).json({
+    status: "success",
+    data: newUser,
+  });
+});
+
+exports.addMerchant = catchAsync(async (req, res, next) => {
+  const shop = await User.findOne({ merchantShop: req.body.merchantShop });
+
+  if (shop) {
+    return next(new ApiError("Shop already in use", 400));
+  }
+
+  if (shop.isOnline) {
+    return next(new ApiError("Online shops are not allowed", 400));
+  }
+
+  const newUser = await User.create({
+    name: req.body.name,
+    email: req.body.email,
+    phone: req.body.phone,
+    password: req.body.password,
+    phoneVerified: true,
+    role: "merchant",
+    merchantShop: req.body.merchantShop,
   });
 
   res.status(201).json({

@@ -11,6 +11,10 @@ const cardSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: "Color",
     },
+    proColor: {
+      type: mongoose.Schema.ObjectId,
+      ref: "ProColor",
+    },
     isPaid: {
       type: Boolean,
       default: false,

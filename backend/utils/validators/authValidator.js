@@ -42,6 +42,18 @@ exports.signupValidator = [
 
   check("role").isEmpty().withMessage("Role cannot be set"),
 
+  check("phoneVerified")
+    .isEmpty()
+    .withMessage("Phone verification cannot be set"),
+
+  check("passwordResetCode")
+    .isEmpty()
+    .withMessage("Password reset code cannot be set here"),
+
+  check("merchantShop")
+    .isEmpty()
+    .withMessage("Merchant shop id cannot be set here"),
+
   validatorMiddleware,
 ];
 
