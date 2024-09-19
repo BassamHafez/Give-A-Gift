@@ -49,6 +49,10 @@ exports.addMerchant = catchAsync(async (req, res, next) => {
     return next(new ApiError("Shop already in use", 400));
   }
 
+  if (shop.isOnline) {
+    return next(new ApiError("Online shops are not allowed", 400));
+  }
+
   const newUser = await User.create({
     name: req.body.name,
     email: req.body.email,
