@@ -286,5 +286,11 @@
     "proCelebrateIconMsg":"You have selected a premium celebrate Icon. An additional fee will be automatically added to the card price:",
     "celebrateIcon":"celebration Icon",
     "celebrateLink":"celebration Link",
-    "exploreScan":"Scan to explore your personalized surprise!"
+    "exploreScan":"Scan to explore your personalized surprise!",
+    "linkRequired":"Link is required",
+    "invalidLink":"Invalid url",
+    "storeLogo":"Store Logo",
+    "storeLink":"Store Link",
+    "onlineStore":"Online Store",
+    "physicalStore":"Physical Store"
 }

@@ -41,7 +41,7 @@ const AddSpecialCardsShape = () => {
   };
 
   const onSubmit = (values) => {
-    console.log(values);
+
     const formData = new FormData();
 
     if (selectedFrontShape) {

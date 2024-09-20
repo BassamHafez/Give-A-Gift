@@ -18,6 +18,7 @@ const Shops = () => {
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
   const [selectedFile, setSelectedFile] = useState(null);
+  const [isOnlineChecked, setIsOnlineChecked] = useState(true);
 
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
@@ -49,6 +50,8 @@ const Shops = () => {
     shapeImage: "",
     description: "",
     name: "",
+    link: "",
+    isOnline: true,
   };
 
   const onSubmit = (values) => {
@@ -64,11 +67,21 @@ const Shops = () => {
     formData.append("name", values.name);
     formData.append("description", values.description);
 
+    if (values.isOnline) {
+      formData.append("link", values.link);
+    }
+
+    formData.append("link", values.isOnline);
+
     mutate({
       formData: formData,
       token: token,
     });
   };
+
+  const linkValidation = isOnlineChecked
+    ? string().url(key("invalidLink")).required(key("invalidLink"))
+    : string().nullable();
 
   const validationSchema = object({
     shapeImage: mixed()
@@ -82,6 +95,7 @@ const Shops = () => {
       }),
     description: string().required(key("descReq")),
     name: string().required(key("nameValidation3")),
+    link: linkValidation,
   });
 
   const deleteShop = async (shopID) => {
@@ -114,58 +128,129 @@ const Shops = () => {
     <>
       <Toaster position="top-right" />
       <div className={styles.main_body}>
-        <Formik
-          initialValues={initialValues}
-          onSubmit={onSubmit}
-          validationSchema={validationSchema}
-        >
-          <Form className={styles.general_info_form}>
-            <div className={styles.photo_field}>
-              <h4 className="fw-bold">Add New Store</h4>
-              <h5>Store Logo</h5>
-              <label className={styles.photo_label} htmlFor="shape">
-                <FontAwesomeIcon className={styles.img_icon} icon={faImage} />
-              </label>
-              <input
-                type="file"
-                id="shape"
-                name="shapeImage"
-                accept="image/*"
-                onChange={handleFileChange}
-                className="d-none"
-              />
-              <ErrorMessage name="shapeImage" component={InputErrorMessage} />
-            </div>
+        <div className={styles.configs_body}>
+          <Formik
+            initialValues={initialValues}
+            onSubmit={onSubmit}
+            validationSchema={validationSchema}
+          >
+            {({ values }) => (
+              <Form className={styles.general_info_form}>
+                <div className={styles.photo_field}>
+                  <h4 className="fw-bold">
+                    {key("add")} {key("store")}
+                  </h4>
+                  <h5>{key("storeLogo")}</h5>
+                  <label className={styles.photo_label} htmlFor="shape">
+                    <FontAwesomeIcon
+                      className={styles.img_icon}
+                      icon={faImage}
+                    />
+                  </label>
+                  <input
+                    type="file"
+                    id="shape"
+                    name="shapeImage"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="d-none"
+                  />
+                  <ErrorMessage
+                    name="shapeImage"
+                    component={InputErrorMessage}
+                  />
+                </div>
 
-            <div className={styles.field}>
-              <label htmlFor="name" className="mt-3">
-                {key("add")} {key("name")}
-              </label>
-              <Field type="text" id="name" name="name" />
-              <ErrorMessage name="name" component={InputErrorMessage} />
-            </div>
+                <div className={styles.field}>
+                  <label htmlFor="name" className="mt-3">
+                    {key("add")} {key("name")}
+                  </label>
+                  <Field type="text" id="name" name="name" />
+                  <ErrorMessage name="name" component={InputErrorMessage} />
+                </div>
 
-            <div className={styles.field}>
-              <label htmlFor="description">
-                {key("add")} {key("description")}
-              </label>
-              <Field type="text" id="description" name="description" />
-              <ErrorMessage name="description" component={InputErrorMessage} />
-            </div>
+                <div className={styles.field}>
+                  <label htmlFor="description">
+                    {key("add")} {key("description")}
+                  </label>
+                  <Field type="text" id="description" name="description" />
+                  <ErrorMessage
+                    name="description"
+                    component={InputErrorMessage}
+                  />
+                </div>
 
-            <div className="d-flex justify-content-end align-items-center mt-3 px-2">
-              {isPending ? (
-                <button type="submit" className={styles.save_btn}>
-                  <FontAwesomeIcon className="fa-spin" icon={faYinYang} />
-                </button>
-              ) : (
-                <button className={styles.save_btn} type="submit">
-                  {key("add")}
-                </button>
-              )}
-            </div>
-          </Form>
-        </Formik>
+                <div className={styles.field}>
+                  <div className="form-check">
+                    <Field
+                      type="radio"
+                      className="form-check-input"
+                      name="isOnline"
+                      id="onlineStore"
+                      value={true}
+                      checked={isOnlineChecked}
+                      onChange={() => setIsOnlineChecked(true)}
+                      autoComplete="off"
+                    />
+                    <label
+                      className="form-check-label mx-2"
+                      htmlFor="onlineStore"
+                    >
+                      {key("onlineStore")}
+                    </label>
+                  </div>
+
+                  <div className="form-check">
+                    <Field
+                      type="radio"
+                      className="form-check-input"
+                      name="isOnline"
+                      id="offlineStore"
+                      value={false}
+                      checked={!isOnlineChecked}
+                      onChange={() => setIsOnlineChecked(false)}
+                      autoComplete="off"
+                    />
+                    <label
+                      className="form-check-label mx-2"
+                      htmlFor="offlineStore"
+                    >
+                      {key("physicalStore")}
+                    </label>
+                  </div>
+                </div>
+
+                <div
+                  className={`${styles.field} ${
+                    !isOnlineChecked && styles.disable
+                  }`}
+                >
+                  <label htmlFor="link">{key("storeLink")}</label>
+                  <Field
+                    type="text"
+                    id="link"
+                    name="link"
+                    disabled={!isOnlineChecked}
+                  />
+                  <ErrorMessage name="link" component={InputErrorMessage} />
+                </div>
+
+                <div className="d-flex justify-content-end align-items-center mt-3 px-2">
+                  {isPending ? (
+                    <button type="submit" className={styles.save_btn}>
+                      <FontAwesomeIcon className="fa-spin" icon={faYinYang} />
+                    </button>
+                  ) : (
+                    <button className={styles.save_btn} type="submit">
+                      {key("add")}
+                    </button>
+                  )}
+                </div>
+              </Form>
+            )}
+          </Formik>
+        </div>
+
         <hr />
         <h4 className="fw-bold">All Stores</h4>
         <Row className="justify-content-center">

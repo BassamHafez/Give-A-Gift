@@ -10,6 +10,7 @@ import { getShops } from "../../util/Http";
 import Placeholders from "../../Components/Ui/Placeholders";
 import LoadingOne from "../../Components/Ui/LoadingOne";
 import toast, { Toaster } from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const notifySuccess = (message) => toast.success(message);
 
@@ -63,34 +64,10 @@ const Stores = () => {
                     className="d-flex justify-content-center align-items-center"
                     key={shop._id}
                   >
-                    <div className={styles.store_card}>
-                      <div className={styles.store_item}>
-                        <div className={styles.store_logo}>
-                          <img
-                            alt={shop.name}
-                            className="w-100"
-                            src={`${process.env.REACT_APP_Host}shops/${shop.logo}`}
-                          />
-                        </div>
-                        <div className="text-center">
-                          <h5 className=" fw-bold">{shop.name}</h5>
-                          <span className=" text-secondary">
-                            {shop.description}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </Col>
-                ))
-              ) : (
-                <>
-                  {shops?.data?.map((shop) => (
-                    <Col
-                      xs={12}
-                      sm={6}
-                      lg={4}
-                      className="d-flex justify-content-center align-items-center"
-                      key={shop._id}
+                    <Link
+                      target="_blank"
+                      to={`${shop.link}`}
+                      rel="noopener noreferrer"
                     >
                       <div className={styles.store_card}>
                         <div className={styles.store_item}>
@@ -103,12 +80,48 @@ const Stores = () => {
                           </div>
                           <div className="text-center">
                             <h5 className=" fw-bold">{shop.name}</h5>
-                            <span className="  text-secondary">
+                            <span className=" text-secondary">
                               {shop.description}
                             </span>
                           </div>
                         </div>
                       </div>
+                    </Link>
+                  </Col>
+                ))
+              ) : (
+                <>
+                  {shops?.data?.map((shop) => (
+                    <Col
+                      xs={12}
+                      sm={6}
+                      lg={4}
+                      className="d-flex justify-content-center align-items-center"
+                      key={shop._id}
+                    >
+                      <Link
+                        target="_blank"
+                        to={`${shop.link}`}
+                        rel="noopener noreferrer"
+                      >
+                        <div className={styles.store_card}>
+                          <div className={styles.store_item}>
+                            <div className={styles.store_logo}>
+                              <img
+                                alt={shop.name}
+                                className="w-100"
+                                src={`${process.env.REACT_APP_Host}shops/${shop.logo}`}
+                              />
+                            </div>
+                            <div className="text-center">
+                              <h5 className=" fw-bold">{shop.name}</h5>
+                              <span className="  text-secondary">
+                                {shop.description}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
                     </Col>
                   ))}
                 </>
