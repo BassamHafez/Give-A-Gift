@@ -20,6 +20,7 @@ const fetchConfigs = (token) => {
         dispatch(configActions.setVAT(findConfigByKey(res?.data, "VAT_VALUE")?.value));
         dispatch(configActions.setCelebrateIconPrice(findConfigByKey(res?.data, "CELEBRATE_ICON_PRICE")?.value));
         dispatch(configActions.setCelebrateLinkPrice(findConfigByKey(res?.data, "CELEBRATE_LINK_PRICE")?.value));
+        dispatch(configActions.setWalletStarting(findConfigByKey(res?.data, "WALLET_STARTING_BALANCE")?.value));
       } catch (error) {
         console.error(error);
       }

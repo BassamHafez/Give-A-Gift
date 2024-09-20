@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styles from "./AdminPages.module.css";
-import {controlShapes, getShapes } from "../../../util/Http";
+import { controlShapes, getShapes } from "../../../util/Http";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ErrorMessage, Form, Formik } from "formik";
-import { mixed, object} from "yup";
+import { mixed, object } from "yup";
 import { faImage, faTrash, faYinYang } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
@@ -13,6 +13,7 @@ import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import LoadingOne from "../../../Components/Ui/LoadingOne";
 import axios from "axios";
+import AddSpecialCardsShape from "./AddSpecialCardsShape";
 
 const Shapes = () => {
   const { t: key } = useTranslation();
@@ -107,41 +108,57 @@ const Shapes = () => {
     <>
       <Toaster position="top-right" />
       <div className={styles.main_body}>
-        <Formik
-          initialValues={initialValues}
-          onSubmit={onSubmit}
-          validationSchema={validationSchema}
-        >
-          <Form className={styles.general_info_form}>
-            <div className={styles.photo_field}>
-              <h4 className="fw-bold">Add New Shape</h4>
-              <label className={styles.photo_label} htmlFor="shape">
-                <FontAwesomeIcon className={styles.img_icon} icon={faImage} />
-              </label>
-              <input
-                type="file"
-                id="shape"
-                name="shapeImage"
-                accept="image/*"
-                onChange={handleFileChange}
-                className="d-none"
-              />
-              <ErrorMessage name="shapeImage" component={InputErrorMessage} />
-            </div>
+        <div className={styles.configs_body}>
+          <div className="my-5">
+            <AddSpecialCardsShape />
+          </div>
+          <div>
+            <Formik
+              initialValues={initialValues}
+              onSubmit={onSubmit}
+              validationSchema={validationSchema}
+            >
+              <Form className={styles.general_info_form}>
+                <div className={styles.photo_field}>
+                  <h4 className="fw-bold">
+                    {key("add")} {key("shape")}
+                  </h4>
+                  <label className={styles.photo_label} htmlFor="shape">
+                    <FontAwesomeIcon
+                      className={styles.img_icon}
+                      icon={faImage}
+                    />
+                  </label>
+                  <input
+                    type="file"
+                    id="shape"
+                    name="shapeImage"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="d-none"
+                  />
+                  <ErrorMessage
+                    name="shapeImage"
+                    component={InputErrorMessage}
+                  />
+                </div>
 
-            <div className="d-flex justify-content-end align-items-center mt-3 px-2">
-              {isPending ? (
-                <button type="submit" className={styles.save_btn}>
-                  <FontAwesomeIcon className="fa-spin" icon={faYinYang} />
-                </button>
-              ) : (
-                <button className={styles.save_btn} type="submit">
-                  {key("add")}
-                </button>
-              )}
-            </div>
-          </Form>
-        </Formik>
+                <div className="d-flex justify-content-end align-items-center mt-3 px-2">
+                  {isPending ? (
+                    <button type="submit" className={styles.save_btn}>
+                      <FontAwesomeIcon className="fa-spin" icon={faYinYang} />
+                    </button>
+                  ) : (
+                    <button className={styles.save_btn} type="submit">
+                      {key("add")}
+                    </button>
+                  )}
+                </div>
+              </Form>
+            </Formik>
+          </div>
+        </div>
+
         <hr />
         <h4 className="fw-bold">All Shapes</h4>
         <Row className="justify-content-center">
