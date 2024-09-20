@@ -4,6 +4,7 @@ const Card = require("../models/cardModel");
 const ProColor = require("../models/proColorModel");
 const Config = require("../models/configModel");
 const ScheduledMessage = require("../models/scheduledMessageModel");
+const QRCode = require("qrcode");
 const factory = require("./handlerFactory");
 const catchAsync = require("../utils/catchAsync");
 const ApiError = require("../utils/ApiError");
@@ -84,7 +85,7 @@ exports.buyCard = catchAsync(async (req, res, next) => {
 
   const [wallet, card] = await Promise.all([
     Wallet.findOne({ user: req.user.id }),
-    Card.findById(cardId),
+    Card.findById(cardId).populate("shop"),
   ]);
 
   if (!card) {
@@ -135,6 +136,17 @@ exports.buyCard = catchAsync(async (req, res, next) => {
 
   wallet.balance -= totalAmount;
   card.isPaid = true;
+
+  if (!card.shop.isOnline) {
+    const qrCodeLink = `${process.env.QR_CODE_URL}/${card.id}`;
+
+    const qrCode = await QRCode.toDataURL(qrCodeLink, {
+      errorCorrectionLevel: "M",
+    });
+
+    card.code = qrCode;
+  }
+  // else { }
 
   const msgData = {
     phone: card.recipient.whatsappNumber,
