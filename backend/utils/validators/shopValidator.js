@@ -16,7 +16,17 @@ exports.createShopValidator = [
     .isString()
     .withMessage("Shop description must be a string"),
 
-  check("link").isURL().withMessage("Shop link must be a valid URL"),
+  check("link")
+    .notEmpty()
+    .withMessage("Shop link is required")
+    .isURL()
+    .withMessage("Shop link must be a valid URL"),
+
+  check("isOnline")
+    .notEmpty()
+    .withMessage("Shop isOnline is required")
+    .isBoolean()
+    .withMessage("Shop isOnline must be a boolean"),
 
   validatorMiddleware,
 ];
