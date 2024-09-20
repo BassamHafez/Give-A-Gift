@@ -15,6 +15,10 @@ const shopSchema = new mongoose.Schema(
     link: {
       type: String,
     },
+    isOnline: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
