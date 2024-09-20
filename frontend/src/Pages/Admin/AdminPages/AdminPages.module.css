@@ -161,7 +161,9 @@
 .shop_div:hover .delete_icon{
     opacity: 1;
 }
-
+.disable{
+    opacity: .5 !important;
+}
 
 /* coupon */
 .modal_container{

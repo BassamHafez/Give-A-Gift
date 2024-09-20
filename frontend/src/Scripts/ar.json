@@ -285,5 +285,11 @@
     "colorPrice":"سعر اللون",
     "celebrateIcon":"شكل الاحتفال",
     "celebrateLink":"رابط الاحتفال",
-    "exploreScan": "امسح لاستكشاف مفاجأتك الشخصية"
+    "exploreScan": "امسح لاستكشاف مفاجأتك الشخصية",
+    "linkRequired":"الرابط مطلوب",
+    "invalidLink":"رابط غير صحيح",
+    "storeLogo":"شعار المتجر",
+    "storeLink":"رابط المتجر",
+    "onlineStore":"متجر إلكتروني",
+    "physicalStore":"متجر فعلي"
 }
