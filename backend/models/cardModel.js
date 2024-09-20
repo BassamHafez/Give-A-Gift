@@ -6,7 +6,14 @@ const cardSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    code: String,
+    discountCode: {
+      code: String,
+      qrCode: String,
+      isUsed: {
+        type: Boolean,
+        default: false,
+      },
+    },
     color: {
       type: mongoose.Schema.ObjectId,
       ref: "Color",
