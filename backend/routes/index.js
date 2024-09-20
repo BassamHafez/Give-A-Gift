@@ -8,6 +8,7 @@ const proColorRoutes = require("../routes/proColorRoutes");
 const couponRoutes = require("../routes/couponRoutes");
 const cardRoutes = require("../routes/cardRoutes");
 const specialCardRoutes = require("../routes/specialCardRoutes");
+const discountCodeRoutes = require("../routes/discountCodeRoutes");
 const walletRoutes = require("../routes/walletRoutes");
 const paymentRoutes = require("../routes/paymentRoutes");
 const configRoutes = require("../routes/configRoutes");
@@ -25,6 +26,7 @@ const mountRoutes = (app) => {
   app.use("/api/v1/coupons", couponRoutes);
   app.use("/api/v1/cards", cardRoutes);
   app.use("/api/v1/special-cards", specialCardRoutes);
+  app.use("/api/v1/discount-codes", discountCodeRoutes);
   app.use("/api/v1/wallets", walletRoutes);
   app.use("/api/v1/payments", paymentRoutes);
   app.use("/api/v1/configs", configRoutes);
