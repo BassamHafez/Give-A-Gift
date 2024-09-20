@@ -133,7 +133,7 @@ exports.createCardValidator = [
 
   check("isPaid").isEmpty().withMessage("isPaid cannot be set"),
 
-  check("code").isEmpty().withMessage("Code cannot be set"),
+  check("discountCode").isEmpty().withMessage("Discount code cannot be set"),
 
   check("priceAfterDiscount")
     .isEmpty()
@@ -211,7 +211,9 @@ exports.addRecipientInfoValidator = [
 
   check("user").isEmpty().withMessage("User cannot be updated"),
 
-  check("code").isEmpty().withMessage("Code cannot be updated"),
+  check("discountCode")
+    .isEmpty()
+    .withMessage("Discount code cannot be updated"),
 
   check("priceAfterDiscount")
     .isEmpty()

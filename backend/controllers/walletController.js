@@ -144,7 +144,7 @@ exports.buyCard = catchAsync(async (req, res, next) => {
       errorCorrectionLevel: "M",
     });
 
-    card.code = qrCode;
+    card.discountCode.qrCode = qrCode;
   }
   // else { }
 
