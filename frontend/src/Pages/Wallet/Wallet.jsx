@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   faMoneyBillTransfer,
   faMoneyBillTrendUp,
@@ -32,6 +32,10 @@ const Wallet = () => {
       enabled: !!token,
       staleTime:Infinity
     });
+
+    useEffect(()=>{
+      window.scrollTo(0, 0)
+    })
   
     const notifySuccess = (message) => toast.success(message);
     const notifyError = (message) => toast.error(message);

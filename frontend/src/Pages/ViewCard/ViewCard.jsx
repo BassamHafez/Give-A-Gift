@@ -9,6 +9,34 @@ import { useParams } from "react-router-dom";
 import confetti from "canvas-confetti";
 import KonvaCard from "./KonvaCard";
 
+const shapes = {
+  all: ["circle", "triangle", "square"],
+  paper: [confetti.shapeFromText({ text: "🎉", scalar: 2 })],
+  star: [confetti.shapeFromText({ text: "⭐", scalar: 2 })],
+  ribbon: [confetti.shapeFromText({ text: "🎊", scalar: 2 })],
+  heart: [confetti.shapeFromText({ text: "❤️", scalar: 2 })],
+  triangle: [confetti.shapeFromPath({ path: "M0 10 L5 0 L10 10z" })],
+  circle: ["circle"],
+  square: ["square"],
+};
+
+const triggerConfetti = (shape) => {
+  const origins = [
+    { y: 0.6 },
+    { x: 1, y: 1 },
+    { x: 0, y: 1 },
+  ];
+  
+  origins.forEach(origin => {
+    confetti({
+      particleCount: 400,
+      spread: 200,
+      origin,
+      shapes: shapes[shape] || [],
+    });
+  });
+};
+
 const ViewCard = () => {
   const token = JSON.parse(localStorage.getItem("token"));
   const { cardId } = useParams();
@@ -21,46 +49,23 @@ const ViewCard = () => {
     queryFn: () => getCard(token, cardId),
     staleTime: Infinity,
   });
+ 
 
   useEffect(() => {
     if (isFirstVisit) {
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         setIsFirstVisit(false);
       }, 5000);
+      return () => clearTimeout(timer);
     }
   }, [isFirstVisit]);
 
-  // var scalar = 2;
-  // var paper = confetti.shapeFromText({ text: "🎉", scalar });
-  // var ribbon  = confetti.shapeFromText({ text: "🎊", scalar });
-  // var heart = confetti.shapeFromText({ text: "❤️", scalar });
-  const triangle = confetti.shapeFromPath({ path: "M0 10 L5 0 L10 10z" });
-  // var star = confetti.shapeFromText({ text: "⭐", scalar });
-
   useEffect(() => {
-    if (isFirstVisit) {
-      confetti({
-        particleCount: 400,
-        spread: 200,
-        origin: { y: 0.6 },
-        shapes: ["circle", triangle, "square"],
-      });
-
-      confetti({
-        particleCount: 400,
-        spread: 200,
-        origin: { x: 1, y: 1 },
-        shapes: ["circle", triangle, "square"],
-      });
-
-      confetti({
-        particleCount: 400,
-        spread: 200,
-        origin: { x: 0, y: 1 },
-        shapes: ["circle", triangle, "square"],
-      });
+    if (myCard?.data?.celebrateIcon && isFirstVisit) {
+      console.log(myCard.data?.celebrateIcon)
+      triggerConfetti(myCard.data?.celebrateIcon);
     }
-  }, [isFirstVisit, triangle]);
+  }, [myCard, isFirstVisit]);
 
   const loadingCard = (
     <Card style={{ width: "18rem" }}>
@@ -69,7 +74,7 @@ const ViewCard = () => {
           <Placeholder xs={6} />
         </Placeholder>
         <Placeholder as={Card.Text} animation="glow">
-          <Placeholder xs={7} /> <Placeholder xs={4} /> <Placeholder xs={4} />{" "}
+          <Placeholder xs={7} /> <Placeholder xs={4} /> <Placeholder xs={4} />
           <Placeholder xs={6} /> <Placeholder xs={8} />
         </Placeholder>
         <Placeholder.Button variant="danger" xs={6} />
@@ -78,35 +83,21 @@ const ViewCard = () => {
   );
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100">
+    <div className={`${styles.card_container}`}>
       {!isFetching ? (
         myCard ? (
-          <div
-            className="d-flex flex-column justify-content-center align-items-center"
-            xlg={6}
-            key={myCard.data._id}
-          >
+          <div className="d-flex flex-column justify-content-center align-items-center" xlg={6} key={myCard.data._id}>
             <div className={styles.header}>
               <ul className={styles.header_list}>
                 <li
-                  className={`${styles.header_list_item} ${
-                    isFrontShape && styles.active
-                  }`}
-                  onClick={() => {
-                    setIsFirstVisit(false);
-                    setIsFrontShape(true);
-                  }}
+                  className={`${styles.header_list_item} ${isFrontShape && styles.active}`}
+                  onClick={() => { setIsFirstVisit(false); setIsFrontShape(true); }}
                 >
                   {key("previewFront")}
                 </li>
                 <li
-                  className={`${styles.header_list_item} ${
-                    !isFrontShape && styles.active
-                  }`}
-                  onClick={() => {
-                    setIsFirstVisit(false);
-                    setIsFrontShape(false);
-                  }}
+                  className={`${styles.header_list_item} ${!isFrontShape && styles.active}`}
+                  onClick={() => { setIsFirstVisit(false); setIsFrontShape(false); }}
                 >
                   {key("previewBack")}
                 </li>
@@ -114,9 +105,9 @@ const ViewCard = () => {
             </div>
             <div className={styles.card_body}>
               <KonvaCard
-                isPaid={myCard.data.isPaid}
+                isPaid={myCard?.data.isPaid}
                 isFrontShape={isFrontShape}
-                card={myCard.data}
+                card={myCard?.data}
               />
             </div>
           </div>

@@ -281,5 +281,10 @@
     "cardId":"card Id",
     "profile":"Profile",
     "proColorTitle":"Premium Color Selected",
-    "proColorMsg":"You have selected a premium color. An additional fee will be automatically added to the card price:"
+    "proColorMsg":"You have selected a premium color. An additional fee will be automatically added to the card price:",
+    "proCelebrateLinkMsg":"You have selected a premium celebrate Link. An additional fee will be automatically added to the card price:",
+    "proCelebrateIconMsg":"You have selected a premium celebrate Icon. An additional fee will be automatically added to the card price:",
+    "celebrateIcon":"celebration Icon",
+    "celebrateLink":"celebration Link",
+    "exploreScan":"Scan to explore your personalized surprise!"
 }

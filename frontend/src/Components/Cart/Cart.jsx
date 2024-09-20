@@ -38,13 +38,14 @@ const Cart = ({ onClose, show }) => {
   const [detailsShow, setDetailsShow] = useState(false);
   const [cardDetails, setCardDetails] = useState({});
   const [walletDetails, setWalletDetails] = useState({});
+  const [isCelebrateIcon, setIsCelebrateIcon] = useState(false);
+  const [isCelebrateQR, setIsCelebrateQR] = useState(false);
 
   const profileData = useSelector((state) => state.userInfo.data);
   const { t: key } = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const [isPaidCard, setIsPaidCard] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
-
   const [cardId, setCardId] = useState("");
   const token = JSON.parse(localStorage.getItem("token"));
   const navigate = useNavigate();
@@ -91,9 +92,17 @@ const Cart = ({ onClose, show }) => {
     }
   };
 
-  const confirmMethod = (method, cardPriceValue, cardID) => {
+  const confirmMethod = (
+    method,
+    cardPriceValue,
+    cardID,
+    isIconCelebrate,
+    isLinkCelebrate
+  ) => {
     setCardPrice(cardPriceValue);
     setCardId(cardID);
+    setIsCelebrateIcon(isIconCelebrate);
+    setIsCelebrateQR(isLinkCelebrate);
     if (method === "pay") {
       setConfirmModalShow(true);
       setConfirmMsg(key("purchase"));
@@ -119,7 +128,7 @@ const Cart = ({ onClose, show }) => {
         notifySuccess(key("cardPurchased"));
         setCardDetails(response.data?.data?.card);
         setWalletDetails(response.data?.data?.wallet);
-        setConfirmModalShow(false)
+        setConfirmModalShow(false);
         setDetailsShow(true);
       } else {
         notifyError(key("wrong"));
@@ -139,8 +148,8 @@ const Cart = ({ onClose, show }) => {
     navigate(`/payment/payment/${profileData?._id}/${price}`);
   };
 
-  const choosePaymentWay = (way, isBalanced, price,totalPrice) => {
-    setTotalPrice(totalPrice)
+  const choosePaymentWay = (way, isBalanced, price, totalPrice) => {
+    setTotalPrice(totalPrice);
     if (isBalanced === "balanced") {
       if (way === "wallet") {
         payCard();
@@ -201,7 +210,8 @@ const Cart = ({ onClose, show }) => {
             ) : (
               data?.data?.map(
                 (card) =>
-                  (isPaidCard ? card.isPaid : !card.isPaid) && (
+                  (isPaidCard ? card.isPaid : !card.isPaid) &&
+                  !card?.isDelivered && (
                     <li key={card._id} className={styles.list_item}>
                       <div className={styles.item}>
                         <h4>
@@ -281,27 +291,25 @@ const Cart = ({ onClose, show }) => {
                                 onClose();
                               }}
                             />
-                            <FontAwesomeIcon
-                              className={styles.arrow_right_icon}
-                              icon={!isArLang ? faArrowRight : faArrowLeft}
-                              onClick={() =>
-                                card.isPaid
-                                  ? card.receiveAt
-                                    ? console.log("paid")
+                            {!card.isPaid && (
+                              <FontAwesomeIcon
+                                className={styles.arrow_right_icon}
+                                icon={!isArLang ? faArrowRight : faArrowLeft}
+                                onClick={() =>
+                                  card.receiveAt
+                                    ? confirmMethod(
+                                        "pay",
+                                        card?.price?.value,
+                                        card._id,
+                                        card?.celebrateIcon,
+                                        card?.celebrateIcon
+                                      )
                                     : navigate(
                                         `/recipient-information/${card._id}`
                                       )
-                                  : card.receiveAt
-                                  ? confirmMethod(
-                                      "pay",
-                                      card?.price?.value,
-                                      card._id
-                                    )
-                                  : navigate(
-                                      `/recipient-information/${card._id}`
-                                    )
-                              }
-                            />
+                                }
+                              />
+                            )}
                           </div>
                         </div>
                       </div>
@@ -330,10 +338,14 @@ const Cart = ({ onClose, show }) => {
           btnMsg={btnMsg}
           balance={walletBalance && walletBalance}
           cardPrice={cardPrice}
-          ProPrice={data?.data?.proColor?data?.data?.proColor?.price:undefined}
+          ProPrice={
+            data?.data?.proColor ? data?.data?.proColor?.price : undefined
+          }
           cardId={cardId}
           balanceCase={balanceCase}
           chargeCase={goToChargeMethods}
+          isCelebrateIcon={isCelebrateIcon}
+          isCelebrateQR={isCelebrateQR}
         />
       )}
       {detailsShow && (
@@ -343,7 +355,6 @@ const Cart = ({ onClose, show }) => {
           cardDetails={cardDetails}
           walletDetails={walletDetails}
           totalPrice={totalPrice}
-
         />
       )}
     </>

@@ -14,7 +14,6 @@ import mainLogo from "../../Images/logo.png";
 import styles from "./ViewCard.module.css";
 
 const KonvaCard = ({ card, isPaid, isFrontShape }) => {
-
   const [isSmalogo, setIsSmalogo] = useState(false);
 
   const [mainLogoImage] = useImage(mainLogo);
@@ -27,7 +26,9 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
       : `${process.env.REACT_APP_Host}shapes/${card.shape?.image}`
   );
   const [shapeImageFront] = useImage(
-    card?.isSpecial ? `${process.env.REACT_APP_Host}specialCards/front-shape.webp` : ""
+    card?.isSpecial
+      ? `${process.env.REACT_APP_Host}specialCards/front-shape.webp`
+      : ""
   );
 
   const [proColorImage] = useImage(
@@ -192,24 +193,13 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
               width={cardWidth * 0.8}
             />
           )}
-
-          {card.isSpecial && !!isFrontShape && (
-            <Text
-              text={`${card.price.value} SAR`}
-              fontSize={25}
-              fontFamily={"Arial, Helvetica, sans-serif"}
-              fill="#FFFFFF"
-              x={20}
-              y={20}
-            />
-          )}
         </Layer>
       </Stage>
       <div className="mt-1 px-2  position-relative d-flex justify-content-center flex-column">
         <div className={styles.shop_logo}>
           <img
             src={`${process.env.REACT_APP_Host}shops/${card.shop?.logo}`}
-            alt="shopp_logo"
+            alt="shop_logo"
           />
         </div>
         <ul className={styles.list}>
@@ -220,26 +210,51 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
               >
                 {card.price.value} {key("sar")}
               </li>
-              <li
-                className={`${styles.list_item} ${
-                  isArLang ? styles.list_item_ar : styles.list_item_en
-                } text-center`}
-              >
-                <span>
-                  <FontAwesomeIcon
-                    icon={faGift}
-                    className={`${styles.list_icon} ${styles.gift_icon}`}
-                  />
-                  4b0b5dd8508484a33hb
-                </span>
-              </li>
-              <li
-                className={`${styles.list_item} ${
-                  isArLang ? styles.list_item_ar : styles.list_item_en
-                } text-success text-center`}
-              >
-                {key("cardReady")}
-              </li>
+              {isFrontShape ? (
+                <>
+                  <li
+                    className={`${styles.list_item} ${
+                      isArLang ? styles.list_item_ar : styles.list_item_en
+                    } text-center`}
+                  >
+                    <img
+                      src={card?.celebrateQR}
+                      className={styles.scanner}
+                      alt="celebrate QR"
+                    />
+                  </li>
+                  <li
+                    className={`${styles.list_item} ${
+                      isArLang ? styles.list_item_ar : styles.list_item_en
+                    } mini_word text-center`}
+                  >
+                    {key("exploreScan")}
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li
+                    className={`${styles.list_item} ${
+                      isArLang ? styles.list_item_ar : styles.list_item_en
+                    } text-center`}
+                  >
+                    <span>
+                      <FontAwesomeIcon
+                        icon={faGift}
+                        className={`${styles.list_icon} ${styles.gift_icon}`}
+                      />
+                      4b0b5dd8508484a33hb
+                    </span>
+                  </li>
+                  <li
+                    className={`${styles.list_item} ${
+                      isArLang ? styles.list_item_ar : styles.list_item_en
+                    } text-success text-center`}
+                  >
+                    {key("cardReady")}
+                  </li>
+                </>
+              )}
             </>
           ) : (
             <>

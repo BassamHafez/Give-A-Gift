@@ -5,7 +5,11 @@ import { ErrorMessage, Form, Formik, Field } from "formik";
 import { object, string } from "yup";
 import InputErrorMessage from "../../Components/Ui/InputErrorMessage";
 import styles from "./RecipientInformation.module.css";
-import { faYinYang } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleInfo,
+  faCrown,
+  faYinYang,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import toast, { Toaster } from "react-hot-toast";
 import Col from "react-bootstrap/esm/Col";
@@ -13,7 +17,10 @@ import Row from "react-bootstrap/esm/Row";
 import DatePicker from "react-multi-date-picker";
 import TimePicker from "react-multi-date-picker/plugins/time_picker";
 import Select from "react-select";
-import { CountriesPhoneNumbers } from "../../Components/Logic/Logic";
+import {
+  celebrateIcon,
+  CountriesPhoneNumbers,
+} from "../../Components/Logic/Logic";
 import Button from "react-bootstrap/Button";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -44,6 +51,7 @@ const getPhoneValidationSchema = (country, key) => {
         const selectedDateTime = new Date(value);
         return selectedDateTime > new Date();
       }),
+    celebrationLink:string().url("Please enter a valid URL").nullable(),
   });
 };
 
@@ -59,14 +67,61 @@ const RecipientInformation = () => {
   const [walletDetails, setWalletDetails] = useState({});
   const [totalPrice, setTotalPrice] = useState(0);
   const [btnMsg, setBtnMsg] = useState("");
+  const [isCelebrateIcon, setIsCelebrationIcon] = useState(false);
+  const [isCelebrateQR, setIsCelebrateQR] = useState(false);
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
   const token = JSON.parse(localStorage.getItem("token"));
   const { cardId } = useParams();
   const navigate = useNavigate();
   const profileData = useSelector((state) => state.userInfo.data);
+  const celebrateIconPrice = useSelector(
+    (state) => state.configs.celebrateIconPrice
+  );
+  const celebrateLinkPrice = useSelector(
+    (state) => state.configs.celebrateLinkPrice
+  );
   const { t: key } = useTranslation();
   const queryClient = useQueryClient();
+
+  const PriceAlert = (message) =>
+    toast(
+      (t) => (
+        <div>
+          <span>{message}</span>
+
+          <div style={{ textAlign: "end" }}>
+            <button
+              onClick={() => toast.dismiss(t.id)}
+              style={{
+                borderRadius: "1.5625rem",
+                minWidth: "6.25rem",
+                fontSize: "1.125rem",
+                fontWeight: "700",
+                boxShadow: "0 0 0.1875rem rgba(0, 0, 0, 0.5)",
+                padding: "0.625rem 0.9375rem",
+                marginTop: "10px",
+                backgroundColor: "#FFF",
+                color: "#000",
+              }}
+            >
+              {key("confirm")}
+            </button>
+          </div>
+        </div>
+      ),
+      {
+        icon: "🔔",
+        style: {
+          padding: "16px",
+          color: "#FFF",
+          fontWeight: "600",
+          backgroundColor: "#b62026",
+        },
+        position: "bottom-right",
+        duration: Infinity,
+      }
+    );
 
   const { data: walletBalance } = useQuery({
     queryKey: ["walletBalance", token],
@@ -88,6 +143,16 @@ const RecipientInformation = () => {
       console.log("data", data);
       if (data?.status === "success") {
         queryClient.invalidateQueries(["getCard", token]);
+        if (data?.data?.celebrateIcon) {
+          setIsCelebrationIcon(true);
+        } else {
+          setIsCelebrationIcon(false);
+        }
+        if (data?.data?.celebrateQR) {
+          setIsCelebrateQR(true);
+        } else {
+          setIsCelebrateQR(false);
+        }
         notifySuccess(key("saveRec"));
         confirmMethod("pay");
       } else {
@@ -106,9 +171,10 @@ const RecipientInformation = () => {
     RecipientName: "",
     RecNumber: "",
     DelTime: "",
+    celebrateLink: "",
+    celebrateIcon: "",
   };
   const onSubmit = (values) => {
-    console.log(values);
     let phoneBeginning = "966";
     switch (selectedCountry) {
       case "SA":
@@ -130,14 +196,23 @@ const RecipientInformation = () => {
       default:
         break;
     }
-    const updatedValues = {
+
+    let updatedValues = {
       recipient: {
         name: values.RecipientName,
         whatsappNumber: `${phoneBeginning}${values.RecNumber}`,
       },
       receiveAt: values.DelTime,
     };
-    console.log(updatedValues);
+    
+    if (values.celebrateIcon !== "") {
+      updatedValues.celebrateIcon = values.celebrateIcon;
+    }
+    
+    if (values.celebrateLink !== "") {
+      updatedValues.celebrateLink = values.celebrateLink;
+    }
+
     mutate({
       formData: updatedValues,
       token: token,
@@ -171,7 +246,7 @@ const RecipientInformation = () => {
         notifySuccess(key("cardPurchased"));
         setCardDetails(response.data?.data?.card);
         setWalletDetails(response.data?.data?.wallet);
-        setModalShow(false)
+        setModalShow(false);
         setDetailsShow(true);
       } else {
         notifyError(key("wrong"));
@@ -191,8 +266,7 @@ const RecipientInformation = () => {
     navigate(`/payment/payment/${profileData?._id}/${price}`);
   };
 
-  const choosePaymentWay = (way, isBalanced, price,totalPrice) => {
-    console.log("choosePaymentWay called with:", { way, isBalanced, price, totalPrice });
+  const choosePaymentWay = (way, isBalanced, price, totalPrice) => {
     setTotalPrice(totalPrice);
     if (isBalanced === "balanced") {
       if (way === "wallet") {
@@ -298,6 +372,74 @@ const RecipientInformation = () => {
                     />
                   </div>
 
+                  <div className={styles.field}>
+                    <label htmlFor="celebrateIcon" className="text-secondary">
+                      {key("celebrateIcon")}{" "}
+                      <FontAwesomeIcon
+                        className={styles.crown_icon}
+                        icon={faCrown}
+                      />
+                      <FontAwesomeIcon
+                        className={styles.info}
+                        onClick={() =>
+                          PriceAlert(
+                            `${key(
+                              "proCelebrateIconMsg"
+                            )} ${celebrateIconPrice} ${key("sar")}`
+                          )
+                        }
+                        icon={faCircleInfo}
+                      />
+                    </label>
+
+                    <Select
+                      classNamePrefix="celebrateIcon"
+                      isClearable={false}
+                      isSearchable={true}
+                      name="celebrateIcon"
+                      options={celebrateIcon}
+                      onChange={(value) => {
+                        setFieldValue("celebrateIcon", value.value);
+                      }}
+                    />
+
+                    <ErrorMessage
+                      name="celebrateIcon"
+                      component={InputErrorMessage}
+                    />
+                  </div>
+
+                  <div className={styles.field}>
+                    <label htmlFor="celebrateLink" className="text-secondary">
+                      {key("celebrateLink")}{" "}
+                      <FontAwesomeIcon
+                        className={styles.crown_icon}
+                        icon={faCrown}
+                      />
+                      <FontAwesomeIcon
+                        className={styles.info}
+                        onClick={() =>
+                          PriceAlert(
+                            `${key(
+                              "proCelebrateLinkMsg"
+                            )} ${celebrateLinkPrice} ${key("sar")}`
+                          )
+                        }
+                        icon={faCircleInfo}
+                      />
+                    </label>
+                    <Field
+                      className={styles.name_input}
+                      type="text"
+                      id="celebrateLink"
+                      name="celebrateLink"
+                    />
+                    <ErrorMessage
+                      name="celebrateLink"
+                      component={InputErrorMessage}
+                    />
+                  </div>
+
                   <div
                     className={`${styles.btn_group} d-flex justify-content-between align-items-center mt-3 px-2`}
                   >
@@ -342,7 +484,11 @@ const RecipientInformation = () => {
           btnMsg={btnMsg}
           balance={walletBalance && walletBalance}
           cardPrice={card?.data?.price?.value}
-          ProPrice={card?.data?.proColor?card?.data?.proColor?.price:undefined}
+          ProPrice={
+            card?.data?.proColor ? card?.data?.proColor?.price : undefined
+          }
+          isCelebrateIcon={isCelebrateIcon}
+          isCelebrateQR={isCelebrateQR}
           cardId={cardId}
           balanceCase={balanceCase}
           chargeCase={goToChargeMethods}
