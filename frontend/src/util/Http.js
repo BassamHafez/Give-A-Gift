@@ -305,7 +305,7 @@ export const controlSpecialCards=async ({token,method,formData,cardId}) => {
     }else if(method==="update"){
       response = await axios.patch(`${baseServerUrl}special-cards/${cardId}`,formData,{
         headers:{Authorization:`Bearer ${token}`}
-       });
+    });
       }
     return response.data;
   } catch (error) {
@@ -313,6 +313,22 @@ export const controlSpecialCards=async ({token,method,formData,cardId}) => {
     return error
   }
 };
+
+export const addSpecialColorsShape=async ({token,formData}) => {
+  try { 
+     const response = await axios.put(`${baseServerUrl}special-cards/shapes`,formData,{
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return error
+  }
+};
+
 
 export const getConfig = async ({ formData, type, token }) => {
   try {

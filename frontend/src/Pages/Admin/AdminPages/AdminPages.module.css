@@ -169,7 +169,6 @@
     backdrop-filter: blur(0.1875rem);
 }
 .modal_body{
-    background-color:var(--vanilla) !important;
     border-radius:0.625rem 0.625rem 0 0;
 }
 .cop_div{
@@ -340,9 +339,7 @@
     cursor: pointer;
 }
 
-
 /* statitics */
-
 .chart_div{
     width: 100%;
     height: 600px;
@@ -355,6 +352,7 @@
     background-color: rgba(218, 237, 247, 0.355);
     padding: 0.625rem;
     border-radius: 0.625rem;
+    box-shadow:  0 1px 3px rgba(0, 0, 0, 0.362);
 }
 .thrd_sec_div{
     text-align: center;

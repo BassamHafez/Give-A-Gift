@@ -8,6 +8,7 @@ const configsSlice = createSlice({
     VAT: "15",
     celebrateIconPrice: "5",
     celebrateLinkPrice: "5",
+    walletStarting:"0"
   },
   reducers: {
     setMainColor(state, action) {
@@ -24,6 +25,9 @@ const configsSlice = createSlice({
     },
     setCelebrateLinkPrice(state, action) {
       state.celebrateLinkPrice = action.payload;
+    },
+    setWalletStarting(state, action) {
+      state.walletStarting = action.payload;
     },
   },
 });
