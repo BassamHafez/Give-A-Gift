@@ -9,7 +9,7 @@ exports.getAllDiscountCodes = catchAsync(async (req, res, next) => {
 
   const discountCodes = cards.map((card) => {
     return {
-      value: card.price.value,
+      recipient: card.recipient.name,
       isUsed: card.discountCode.isUsed,
       isPaid: card.isPaid,
     };
