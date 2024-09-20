@@ -24,10 +24,9 @@ router
     cardController.getCard
   )
   .patch(
-    cardValidator.updateCardValidator,
-    cardController.setUserId,
+    cardValidator.addRecipientInfoValidator,
     cardController.filterUserCards,
-    cardController.updateCard
+    cardController.addRecipientInfo
   )
   .delete(
     cardValidator.deleteCardValidator,

@@ -64,6 +64,7 @@ const cardSchema = new mongoose.Schema(
     },
     receiveAt: Date,
     celebrateIcon: String,
+    celebrateQR: String,
   },
   {
     timestamps: true,
