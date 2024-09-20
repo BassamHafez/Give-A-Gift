@@ -25,7 +25,13 @@ exports.createShopValidator = [
     .if((value, { req }) => req.body.isOnline)
     .notEmpty()
     .withMessage("Shop link is required for online shops")
-    .isURL()
+    .isURL({
+      allow_underscores: true,
+      allow_trailing_dot: true,
+      allow_numeric_tld: true,
+      allow_wildcard: true,
+      allow_protocol_relative_urls: true,
+    })
     .withMessage("Shop link must be a valid URL"),
 
   validatorMiddleware,
