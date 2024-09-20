@@ -20,8 +20,8 @@ const DetailsAfterBuying = ({ show, onHide, cardDetails, walletDetails,totalPric
     navigate(`/wallet/${profileData?._id}`);
     onHide();
   };
-console.log(cardDetails.price?.value)
-console.log("total price",totalPrice)
+
+  
   return (
     <Modal
       show={show}

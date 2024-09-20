@@ -39,6 +39,7 @@ import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute';
 import fetchCartCounter from './Store/cartCounter-actions';
 import DetailsAfterBuying from './Pages/DetailsAfterBuying/DetailsAfterBuying';
 import Wallet from './Pages/Wallet/Wallet';
+import fetchConfigs from './Store/configs-actions';
 
 
 const router=createBrowserRouter([{
@@ -112,6 +113,13 @@ function App() {
     };
   }, [control]);
   
+
+  // get configs from database
+  useEffect(() => {
+      if(token){
+        dispatch(fetchConfigs(token));
+      }
+  }, [dispatch, token]);
 
   // get cart Counter from database
   useEffect(() => {

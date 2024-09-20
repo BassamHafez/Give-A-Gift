@@ -32,5 +32,16 @@ export const FontsFamilies = [
     {value:"US",label:<div className="d-flex align-items-center" style={{cursor:"pointer"}}><div className={styles.flag_div}><img src={usa} alt="US"/></div> <span>+1</span></div>},
   ]
 
+
+  export const celebrateIcon=[
+    {label:"■ ▲ ● All",value:"all"},
+    {label:"🎉 paper",value:"paper"},
+    {label:"🎊 ribbon",value:"ribbon"},
+    {label:"❤️ heart",value:"heart"},
+    {label:"⭐ star",value:"star"},
+    {label:"▲ triangle",value:"triangle"},
+    {label:"● circle",value:"circle"},
+    {label:"■ square",value:"square"},
+  ]
   
   

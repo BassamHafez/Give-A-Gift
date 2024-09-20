@@ -84,8 +84,13 @@
     height: 100%;
     border: none !important;
 }
-
-
+.crown_icon{
+    color: gold;
+}
+.info{
+    margin-inline: 5px;
+    cursor: pointer;
+}
 @media screen and (max-width:1200px) {
  .rec_row{
     flex-direction: column-reverse;

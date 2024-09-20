@@ -6,8 +6,6 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import VerifyPhoneNumberModal from '../Components/Ui/VerifyPhoneNumberModal';
 import { useTranslation } from 'react-i18next';
-import { getConfig } from '../util/Http';
-import { useQuery } from '@tanstack/react-query';
 
 
 const Root = () => {
@@ -17,6 +15,12 @@ const Root = () => {
   const {t:key}=useTranslation();
   const isLogin = useSelector((state) => state.userInfo.isLogin);
 
+  const mainColor = useSelector(
+    (state) => state.configs.mainColor
+  );
+  const subColor = useSelector(
+    (state) => state.configs.subColor
+  );
 
   const notifyError = (message) => toast((t) => (
     <span>
@@ -74,13 +78,6 @@ const Root = () => {
     duration: Infinity,
   });
 
-
-  const { data } = useQuery({
-    queryKey: ["configs"],
-    queryFn: getConfig,
-    staleTime: Infinity,
-  });
-
   useEffect(() => {
     const intervalId = setInterval(() => {
       if(!isLogin){
@@ -95,20 +92,11 @@ const Root = () => {
   }, [profileData,isLogin]);
 
 
-
-  const findConfigByKey = (arr, targetKey) => {
-    return Array.isArray(arr) ? arr.find(config => config.key === targetKey) : undefined;
-  };
-
-
-      const mainColorValue = findConfigByKey(data?.data, "MAIN_COLOR")?.value;
-      const subColorValue = findConfigByKey(data?.data, "SECONDRY_COLOR")?.value;
-      
-      if (mainColorValue) {
-        document.documentElement.style.setProperty('--main_color', mainColorValue);
+      if (mainColor) {
+        document.documentElement.style.setProperty('--main_color', mainColor);
       }
-      if (subColorValue) {
-        document.documentElement.style.setProperty('--sub_color', subColorValue);
+      if (subColor) {
+        document.documentElement.style.setProperty('--sub_color', subColor);
       }
 
 
