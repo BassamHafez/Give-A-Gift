@@ -13,7 +13,7 @@ import {
   faTrash,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getMyCards, getMyWallet } from "../../util/Http";
 import Placeholders from "../Ui/Placeholders";
 import ConfirmationModal from "../Ui/ConfirmationModal";
@@ -43,10 +43,10 @@ const Cart = ({ onClose, show }) => {
   const { t: key } = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const [isPaidCard, setIsPaidCard] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   const [cardId, setCardId] = useState("");
   const token = JSON.parse(localStorage.getItem("token"));
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -77,7 +77,6 @@ const Cart = ({ onClose, show }) => {
         console.log(response);
         if (response.status === 204) {
           dispatch(cartActions.removeItem());
-          queryClient.invalidateQueries(["getCards", token]);
           notifySuccess(key("cardDeleted"));
           refetch();
         } else {
@@ -140,7 +139,8 @@ const Cart = ({ onClose, show }) => {
     navigate(`/payment/payment/${profileData?._id}/${price}`);
   };
 
-  const choosePaymentWay = (way, isBalanced, price) => {
+  const choosePaymentWay = (way, isBalanced, price,totalPrice) => {
+    setTotalPrice(totalPrice)
     if (isBalanced === "balanced") {
       if (way === "wallet") {
         payCard();
@@ -330,6 +330,7 @@ const Cart = ({ onClose, show }) => {
           btnMsg={btnMsg}
           balance={walletBalance && walletBalance}
           cardPrice={cardPrice}
+          ProPrice={data?.data?.proColor?data?.data?.proColor?.price:undefined}
           cardId={cardId}
           balanceCase={balanceCase}
           chargeCase={goToChargeMethods}
@@ -341,6 +342,8 @@ const Cart = ({ onClose, show }) => {
           onHide={() => setDetailsShow(false)}
           cardDetails={cardDetails}
           walletDetails={walletDetails}
+          totalPrice={totalPrice}
+
         />
       )}
     </>

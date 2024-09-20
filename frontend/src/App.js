@@ -38,6 +38,7 @@ import MainError from './Pages/MainError/MainError';
 import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute';
 import fetchCartCounter from './Store/cartCounter-actions';
 import DetailsAfterBuying from './Pages/DetailsAfterBuying/DetailsAfterBuying';
+import Wallet from './Pages/Wallet/Wallet';
 
 
 const router=createBrowserRouter([{
@@ -55,11 +56,13 @@ const router=createBrowserRouter([{
     {path:"custom-cards",element:<ProtectedRoute><CustomCards/></ProtectedRoute>},
     {path:"view-card/:cardId",element:<ProtectedRoute><ViewCard/></ProtectedRoute>},
     {path:"profile/:userId",element:<ProtectedRoute><Profile/></ProtectedRoute>},
+    {path:"wallet/:userId",element:<ProtectedRoute><Wallet/></ProtectedRoute>},
     {path:"recipient-information/:cardId",element:<ProtectedRoute><RecipientInformation/></ProtectedRoute>},
     {path:"payment/:type/:userId/:price",element:<ProtectedRoute><Payment/></ProtectedRoute>},
     {path:"payment-faild",element:<ErrorURL/>},
     {path:"account-setting",element:<ProtectedRoute><AccountManageMent/></ProtectedRoute>},
     {path:"help",element:<ProtectedRoute><Help/></ProtectedRoute>},
+    {path:"details-after-buying/:cardPrice",element:<ProtectedRoute><DetailsAfterBuying/></ProtectedRoute>},
     {path:"admin/:adminId",element:<ProtectedRoute><Admin/></ProtectedRoute>},
     {path:"admin-anaysis",element:<ProtectedRoute><Analysis/></ProtectedRoute>},
     {path:"admin-colors",element:<ProtectedRoute><Colors/></ProtectedRoute>},
@@ -71,7 +74,6 @@ const router=createBrowserRouter([{
     {path:"admin-transactions",element:<ProtectedRoute><Transactions/></ProtectedRoute>},
     {path:"admin-users",element:<ProtectedRoute><Users/></ProtectedRoute>},
     {path:"admin-wallets",element:<ProtectedRoute><Wallets/></ProtectedRoute>},
-    {path:"details-after-buying/:cardPrice",element:<ProtectedRoute><DetailsAfterBuying/></ProtectedRoute>},
     { path: "*", element: <Error404 /> },
   ]
 }])  

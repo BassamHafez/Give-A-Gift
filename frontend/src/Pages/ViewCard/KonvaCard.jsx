@@ -14,7 +14,7 @@ import mainLogo from "../../Images/logo.png";
 import styles from "./ViewCard.module.css";
 
 const KonvaCard = ({ card, isPaid, isFrontShape }) => {
-  console.log(card);
+
   const [isSmalogo, setIsSmalogo] = useState(false);
 
   const [mainLogoImage] = useImage(mainLogo);
@@ -23,11 +23,11 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
 
   const [shapeImage] = useImage(
     card?.isSpecial
-      ? `${process.env.REACT_APP_Host}shapes/back-shape.png`
+      ? `${process.env.REACT_APP_Host}specialCards/back-shape.webp`
       : `${process.env.REACT_APP_Host}shapes/${card.shape?.image}`
   );
   const [shapeImageFront] = useImage(
-    card?.isSpecial ? `${process.env.REACT_APP_Host}shapes/front-shape.png` : ""
+    card?.isSpecial ? `${process.env.REACT_APP_Host}specialCards/front-shape.webp` : ""
   );
 
   const [proColorImage] = useImage(

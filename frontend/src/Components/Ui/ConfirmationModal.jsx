@@ -8,6 +8,7 @@ import {
   faCoins,
   faFileInvoiceDollar,
   faMoneyBill,
+  faPalette,
   faPercent,
   faReceipt,
 } from "@fortawesome/free-solid-svg-icons";
@@ -28,6 +29,7 @@ const ConfirmationModal = ({
   choosePaymentWay,
   chargeCase,
   balanceCase,
+  ProPrice,
 }) => {
   const { t: key } = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
@@ -37,7 +39,7 @@ const ConfirmationModal = ({
   const [priceAfterDisc, setPriceAfterDisc] = useState("");
   const [paymentWay, setPaymentWay] = useState("wallet");
   const [isBalanced, setIsBalanced] = useState(true);
-  const [VAT, setVAT] = useState("");
+  const [VAT, setVAT] = useState(0);
 
   const applyCoupon = async (e) => {
     e.preventDefault();
@@ -64,10 +66,9 @@ const ConfirmationModal = ({
         console.log(error);
         if (error.response?.data?.message === "Coupon is invalid or expired") {
           notifyError(key("invalidCoupon"));
-        }else if(error?.response?.data?.message==="Card is already paid"){
-          notifyError(key("cardPaid"))
-        }
-         else {
+        } else if (error?.response?.data?.message === "Card is already paid") {
+          notifyError(key("cardPaid"));
+        } else {
           notifyError(key("wrong"));
         }
         setPriceAfterDisc("");
@@ -82,57 +83,160 @@ const ConfirmationModal = ({
     setPaymentWay(e.target.value);
   };
 
+  // const checkBalance = () => {
+  //   if (Number(cardPrice) === 0) {
+  //     if (ProPrice) {
+  //       if (Number(ProPrice) > Number(balance)) {
+  //         notifyError(key("insuffBalance"));
+  //         setIsBalanced(false);
+  //         choosePaymentWay(paymentWay, "noBalance", cardPrice);
+  //       }
+  //     } else {
+  //       setIsBalanced(true);
+  //       choosePaymentWay("wallet", "balanced", cardPrice);
+  //     }
+  //     return;
+  //   }
+
+  //   if (priceAfterDisc !== "") {
+  //     if (Number(priceAfterDisc) === 0) {
+  //       if (ProPrice) {
+  //         if (Number(ProPrice) > Number(balance)) {
+  //           notifyError(key("insuffBalance"));
+  //           setIsBalanced(false);
+  //           choosePaymentWay(paymentWay, "noBalance", cardPrice);
+  //         }
+  //       } else {
+  //         setIsBalanced(true);
+  //         choosePaymentWay("wallet", "balanced", priceAfterDisc);
+  //       }
+  //       return;
+  //     }
+  //   }
+
+  //   if (paymentWay === "wallet") {
+  //     if (balanceCase) {
+  //       if (priceAfterDisc !== "") {
+  //         chargeCase(priceAfterDisc);
+  //       } else {
+  //         chargeCase(cardPrice);
+  //       }
+  //     } else if (ProPrice) {
+  //       if (priceAfterDisc !== "") {
+  //         if (
+  //           (Number(VAT) / 100) * Number(priceAfterDisc) +
+  //             Number(priceAfterDisc)+Number(ProPrice) >
+  //           Number(balance)
+  //         ) {
+  //           notifyError(key("insuffBalance"));
+  //           setIsBalanced(false);
+  //           choosePaymentWay(paymentWay, "noBalance", priceAfterDisc);
+  //         } else {
+  //           setIsBalanced(true);
+  //           choosePaymentWay(paymentWay, "balanced", priceAfterDisc);
+  //         }
+  //       } else {
+  //         if (
+  //           (Number(VAT) / 100) * Number(cardPrice) + Number(cardPrice)+Number(ProPrice) >
+  //           Number(balance)
+  //         ) {
+  //           notifyError(key("insuffBalance"));
+  //           setIsBalanced(false);
+  //           choosePaymentWay(paymentWay, "noBalance", cardPrice);
+  //         } else {
+  //           setIsBalanced(true);
+  //           choosePaymentWay(paymentWay, "balanced", cardPrice);
+  //         }
+  //       }
+  //     } else {
+  //       if (priceAfterDisc !== "") {
+  //         if (
+  //           (Number(VAT) / 100) * Number(priceAfterDisc) +
+  //             Number(priceAfterDisc) >
+  //           Number(balance)
+  //         ) {
+  //           notifyError(key("insuffBalance"));
+  //           setIsBalanced(false);
+  //           choosePaymentWay(paymentWay, "noBalance", priceAfterDisc);
+  //         } else {
+  //           setIsBalanced(true);
+  //           choosePaymentWay(paymentWay, "balanced", priceAfterDisc);
+  //         }
+  //       } else {
+  //         if (
+  //           (Number(VAT) / 100) * Number(cardPrice) + Number(cardPrice) >
+  //           Number(balance)
+  //         ) {
+  //           notifyError(key("insuffBalance"));
+  //           setIsBalanced(false);
+  //           choosePaymentWay(paymentWay, "noBalance", cardPrice);
+  //         } else {
+  //           setIsBalanced(true);
+  //           choosePaymentWay(paymentWay, "balanced", cardPrice);
+  //         }
+  //       }
+  //     }
+  //   } else {
+  //     if (priceAfterDisc !== "") {
+  //       setIsBalanced(true);
+  //       choosePaymentWay(paymentWay, "balanced", priceAfterDisc);
+  //     } else {
+  //       setIsBalanced(true);
+  //       choosePaymentWay(paymentWay, "balanced", cardPrice);
+  //     }
+  //   }
+  // };
+
   const checkBalance = () => {
-    if (Number(cardPrice) === 0) {
-      setIsBalanced(true);
-      choosePaymentWay("wallet", "balanced", priceAfterDisc);
-      return;
-    }
+    
+    let totalCardPrice = priceAfterDisc !== "" ? Number(priceAfterDisc) : Number(cardPrice);
+    let totalPrice = 0;
+
+    
     if (priceAfterDisc !== "") {
-      if (Number(priceAfterDisc) === 0) {
-        setIsBalanced(true);
-        choosePaymentWay("wallet", "balanced", priceAfterDisc);
-        return;
-      }
-    }
-    if (paymentWay === "wallet") {
-      if (balanceCase) {
-        if (priceAfterDisc !== "") {
-          chargeCase(priceAfterDisc);
-        } else {
-          chargeCase(cardPrice);
-        }
-      } else {
-        if (priceAfterDisc !== "") {
-          if (((Number(VAT)/100)*Number(priceAfterDisc))+Number(priceAfterDisc) > Number(balance)) {
-            notifyError(key("insuffBalance"));
-            setIsBalanced(false);
-            choosePaymentWay(paymentWay, "noBalance", priceAfterDisc);
-          } else {
-            setIsBalanced(true);
-            choosePaymentWay(paymentWay, "balanced", priceAfterDisc);
-          }
-        } else {
-          if (((Number(VAT)/100)*Number(cardPrice))+Number(cardPrice) > Number(balance)) {
-            notifyError(key("insuffBalance"));
-            setIsBalanced(false);
-            choosePaymentWay(paymentWay, "noBalance",cardPrice);
-          } else {
-            setIsBalanced(true);
-            choosePaymentWay(paymentWay, "balanced", cardPrice);
-          }
-        }
-      }
+        totalPrice = (Number(VAT) / 100) * Number(priceAfterDisc) + Number(priceAfterDisc) + (ProPrice ? Number(ProPrice) : 0);
     } else {
-      if (priceAfterDisc !== "") {
-        setIsBalanced(true);
-        choosePaymentWay(paymentWay, "balanced", priceAfterDisc);
-      } else {
-        setIsBalanced(true);
-        choosePaymentWay(paymentWay, "balanced", cardPrice);
-      }
+        totalPrice = (Number(VAT) / 100) * Number(cardPrice) + Number(cardPrice) + (ProPrice ? Number(ProPrice) : 0);
     }
-  };
+
+    if (balanceCase) {
+        chargeCase(totalCardPrice + (ProPrice ? ProPrice : 0));
+        return;
+    }
+
+    if (Number(cardPrice) === 0 || totalCardPrice === 0) {
+        if (ProPrice) {
+            if (Number(ProPrice) > Number(balance)) {
+                notifyError(key("insuffBalance"));
+                setIsBalanced(false);
+                choosePaymentWay(paymentWay, "noBalance", totalCardPrice, totalPrice);
+            } else {
+                setIsBalanced(true);
+                choosePaymentWay("wallet", "balanced", totalCardPrice, totalPrice);
+            }
+        } else {
+            setIsBalanced(true);
+            choosePaymentWay("wallet", "balanced", totalCardPrice, totalPrice);
+        }
+        return;
+    }
+
+    // Wallet payment logic
+    if (paymentWay === "wallet") {
+        if (totalPrice > Number(balance)) {
+            notifyError(key("insuffBalance"));
+            setIsBalanced(false);
+            choosePaymentWay(paymentWay, "noBalance", totalCardPrice, totalPrice);
+        } else {
+            setIsBalanced(true);
+            choosePaymentWay(paymentWay, "balanced", totalCardPrice, totalPrice);
+        }
+    } else {
+        setIsBalanced(true);
+        choosePaymentWay(paymentWay, "balanced", totalCardPrice, totalPrice);
+    }
+};
+
 
   const { data: configs } = useQuery({
     queryKey: ["configs"],
@@ -171,7 +275,7 @@ const ConfirmationModal = ({
               <FontAwesomeIcon className={styles.list_icon} icon={faCoins} />
               {key("currentBalance")}: {balance.toFixed(2)} {key("sar")}
             </li>
-            
+
             {priceAfterDisc === "" ? (
               <>
                 <li>
@@ -179,21 +283,39 @@ const ConfirmationModal = ({
                     className={styles.list_icon}
                     icon={faMoneyBill}
                   />
-                  {key("cardPrice")}:{" "}{cardPrice.toFixed(2)} {key("sar")}
+                  {key("cardPrice")}: {cardPrice.toFixed(2)} {key("sar")}
                 </li>
                 <li>
                   <FontAwesomeIcon
                     className={styles.list_icon}
                     icon={faPercent}
                   />
-                  {key("Vatvalue")}:{" "}{(Number(VAT)/100)*Number(cardPrice)} {key("sar")}
+                  {key("Vatvalue")}: {(Number(VAT) / 100) * Number(cardPrice)}{" "}
+                  {key("sar")}
                 </li>
+                {ProPrice && (
+                  <li>
+                    <FontAwesomeIcon
+                      className={styles.list_icon}
+                      icon={faPalette}
+                    />
+                    {key("colorPrice")}: {ProPrice}
+                  </li>
+                )}
                 <li>
                   <FontAwesomeIcon
                     className={styles.list_icon}
                     icon={faFileInvoiceDollar}
                   />
-                  {key("totalPrice")}:{" "}{(((Number(VAT)/100)*Number(cardPrice))+Number(cardPrice)).toFixed(2)} {key("sar")}
+                  {key("totalPrice")}:{" "}
+                  {(ProPrice
+                    ? (Number(VAT) / 100) * Number(cardPrice) +
+                      Number(cardPrice) +
+                      Number(ProPrice)
+                    : (Number(VAT) / 100) * Number(cardPrice) +
+                      Number(cardPrice)
+                  ).toFixed(2)}{" "}
+                  {key("sar")}
                 </li>
               </>
             ) : (
@@ -203,7 +325,7 @@ const ConfirmationModal = ({
                     className={styles.list_icon}
                     icon={faMoneyBill}
                   />
-                  {key("cardPrice")}:{" "}{priceAfterDisc} {key("sar")}{" "}
+                  {key("cardPrice")}: {priceAfterDisc} {key("sar")}{" "}
                   <del className="mx-2">
                     {cardPrice} {key("sar")}{" "}
                   </del>
@@ -213,14 +335,27 @@ const ConfirmationModal = ({
                     className={styles.list_icon}
                     icon={faPercent}
                   />
-                  {key("Vatvalue")}:{" "}{(Number(VAT)/100)*Number(priceAfterDisc)} {key("sar")}
+                  {key("Vatvalue")}:{" "}
+                  {(Number(VAT) / 100) * Number(priceAfterDisc)} {key("sar")}
                 </li>
+                {ProPrice && (
+                  <li>
+                    <FontAwesomeIcon
+                      className={styles.list_icon}
+                      icon={faPalette}
+                    />
+                    {key("colorPrice")}: {ProPrice}
+                  </li>
+                )}
                 <li>
                   <FontAwesomeIcon
                     className={styles.list_icon}
                     icon={faFileInvoiceDollar}
                   />
-                  {key("totalPrice")}:{" "}{((Number(VAT)/100)*Number(priceAfterDisc))+Number(priceAfterDisc)} {key("sar")}
+                  {key("totalPrice")}:{" "}
+                  {(Number(VAT) / 100) * Number(priceAfterDisc) +
+                    Number(priceAfterDisc)}{" "}
+                  {key("sar")}
                 </li>
               </>
             )}

@@ -5,18 +5,23 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import { useQueryClient } from "@tanstack/react-query";
 
-const DetailsAfterBuying = ({ show, onHide, cardDetails, walletDetails }) => {
+const DetailsAfterBuying = ({ show, onHide, cardDetails, walletDetails,totalPrice }) => {
   const { t: key } = useTranslation();
   const navigate = useNavigate();
   const profileData = useSelector((state) => state.userInfo.data);
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
+  const queryClient=useQueryClient();
+  const token = JSON.parse(localStorage.getItem("token"));
 
   const navigateToProfile = () => {
-    navigate(`/profile/${profileData?._id}`);
+    queryClient.invalidateQueries(["walletBalance", token])
+    navigate(`/wallet/${profileData?._id}`);
     onHide();
   };
-
+console.log(cardDetails.price?.value)
+console.log("total price",totalPrice)
   return (
     <Modal
       show={show}
@@ -40,9 +45,15 @@ const DetailsAfterBuying = ({ show, onHide, cardDetails, walletDetails }) => {
           <ul className={styles.details_list}>
             <li>
               <span className="fw-bold text-secondary">
-                {key("totalPrice")}:{" "}
+                {key("cardPrice")}:{" "}
               </span>{" "}
               {cardDetails?.price?.value.toFixed(2)}
+            </li>
+            <li>
+              <span className="fw-bold text-secondary">
+                {key("totalPrice")}:{" "}
+              </span>{" "}
+              {totalPrice.toFixed(2)}
             </li>
             <li>
               <span className="fw-bold text-secondary">{key("recName")}: </span>{" "}

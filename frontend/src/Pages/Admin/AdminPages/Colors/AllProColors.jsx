@@ -13,6 +13,7 @@ const AllProColors = ({ refetch, proColors }) => {
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
   const { t: key } = useTranslation();
+
   const token = JSON.parse(localStorage.getItem("token"));
 
   const deleteColor = async (colorId) => {
@@ -46,6 +47,7 @@ const AllProColors = ({ refetch, proColors }) => {
               xs={6}
               sm={3}
               className="d-flex justify-content-center align-items-center"
+              title={`${color.price} ${key("sar")}`}
             >
               <div className={styles.color_pro_square}>
                 <FontAwesomeIcon

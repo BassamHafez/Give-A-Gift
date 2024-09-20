@@ -130,7 +130,7 @@ const Wallets = () => {
                             className={styles.details_list_icon}
                             icon={faSackDollar}
                           />
-                          {key("balance")}: {wallet.balance}
+                          {key("balance")}: {wallet.balance.toFixed(2)}
                         </li>
                       </ul>
                     </div>

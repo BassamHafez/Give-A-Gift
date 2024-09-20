@@ -36,7 +36,7 @@ const Home = () => {
 
       <section id="firstSec" className="my-5 py-5">
         <div className="d-flex justify-content-center align-items-center">
-          <h2 className={`${styles.sec1_title} mt-4`}>
+          <h2 className={`${styles.sec1_title} mt-4 ms-2`}>
             {key("sec1Title")}
           </h2>
         </div>

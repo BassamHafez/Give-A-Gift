@@ -18,7 +18,7 @@ const KonvaCard = ({ canvaCard, isSpecial }) => {
   const [shapeImage] = useImage(imageUrl);
 
   const [shapeImageFront] = useImage(
-    isSpecial ? `${process.env.REACT_APP_Host}shapes/front-shape.png` : ""
+    isSpecial ? `${process.env.REACT_APP_Host}specialCards/front-shape.webp` : ""
   );
 
   const [proColorImage] = useImage(

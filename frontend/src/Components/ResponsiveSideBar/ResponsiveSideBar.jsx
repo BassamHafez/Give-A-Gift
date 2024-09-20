@@ -11,6 +11,7 @@ import {
   faPenToSquare,
   faDoorOpen,
   faXmark,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import logo from "../../Images/logo.png";
@@ -24,6 +25,7 @@ const ResponsiveSideBar = ({ onClose, show }) => {
   const [key, control] = useTranslation();
   const isLogin = useSelector((state) => state.userInfo.isLogin);
   const [logoutModalShow, setLogoutModalShow] = useState(false);
+  const profileData = useSelector((state) => state.profileInfo.data);
 
   const isSmallScreen = useMediaQuery({ query: "(max-width: 770px)" });
 
@@ -48,6 +50,12 @@ const ResponsiveSideBar = ({ onClose, show }) => {
         </Offcanvas.Header>
         <Offcanvas.Body>
           <ul className={styles.contact_list}>
+            <Link onClick={onClose} className={styles.hidden_small} to={`profile/${profileData?._id}`} end="true">
+              <li className={styles.contact_list_item}>
+                {key("profile")}{" "}
+                <FontAwesomeIcon icon={faUser} className={styles.list_icons} />
+              </li>
+            </Link>
             <Link onClick={onClose} to={"/"} end="true">
               <li className={styles.contact_list_item}>
                 {key("homePageTitle")}{" "}

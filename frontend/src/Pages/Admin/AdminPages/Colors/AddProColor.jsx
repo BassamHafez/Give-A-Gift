@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { addProColor } from "../../../../util/Http";
 import { useTranslation } from "react-i18next";
-import { mixed, object } from "yup";
-import { ErrorMessage, Form, Formik } from "formik";
+import { mixed, number, object } from "yup";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import styles from "../AdminPages.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage, faYinYang } from "@fortawesome/free-solid-svg-icons";
@@ -14,6 +14,7 @@ const AddProColor = ({ refetch }) => {
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
   const [selectedFile, setSelectedFile] = useState(null);
+
 
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
@@ -37,10 +38,10 @@ const AddProColor = ({ refetch }) => {
 
   const initialValues = {
     img: "",
+    price: "",
   };
 
   const onSubmit = (values) => {
-
     console.log(values);
 
     const formData = new FormData();
@@ -51,7 +52,7 @@ const AddProColor = ({ refetch }) => {
       notifyError(key("uploadPhoto"));
       return;
     }
-
+    formData.append("price", values.price);
     mutate({
       formData: formData,
       token: token,
@@ -68,6 +69,7 @@ const AddProColor = ({ refetch }) => {
           ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
           : true;
       }),
+    price: number().required(key("priceRec")).min(1, key("priceVali")),
   });
 
   const handleFileChange = (e) => {
@@ -99,6 +101,13 @@ const AddProColor = ({ refetch }) => {
             />
             <ErrorMessage name="img" component={InputErrorMessage} />
           </div>
+          <div className={`${styles.field} mt-4`}>
+            <label className="fw-bold text-secondary" htmlFor="price">
+              {key("price")}
+            </label>
+            <Field type="number" id="price" name="price" />
+            <ErrorMessage name="price" component={InputErrorMessage} />
+          </div>
 
           <div className="d-flex justify-content-end align-items-center mt-3 px-2">
             {isPending ? (
@@ -113,6 +122,7 @@ const AddProColor = ({ refetch }) => {
           </div>
         </Form>
       </Formik>
+
     </>
   );
 };

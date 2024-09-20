@@ -156,7 +156,10 @@
  .new_pages_nav .nav_list li a{
     color: black !important;
  }
- 
+ .smallBrand{
+    display: none;
+ }
+
  @media screen and (max-width:1150px) {
      
      .list{
@@ -173,9 +176,10 @@
  
  @media screen and (max-width:768px) {
      .brand{
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        width: 200px;
+        width: 8.75rem;
+    }
+    .brand img{
+        width: 8.75rem !important;
     }
     .sign_btn,.sign_btn_ar{
         display: none ;
@@ -183,48 +187,86 @@
  }
 
  @media screen and (max-width:650px) {
-
-     .brand{
-        width: 350px;
+    .brand{
+        width: 8.125rem;
+    }
+    .brand img{
+        width: 8.125rem !important;
     }
 
  }
+ @media screen and (max-width:450px) {
+    .profile_img_link{
+        display: none;
+    }
+ }
+ 
  @media screen and (max-width:430px) {
-
      .brand{
-        width: 500px;
+        width: 8.125rem !important;
+    }
+    .brand img{
+        width: 8.125rem !important;
     }
 
+ }
+ @media screen and (max-width:375px) { 
+    .brand{
+        width: 5rem !important;
+    }
+    .brand img{
+        width: 5rem !important;
+    }
  }
  @media screen and (max-width:355px) { 
      .main_nav{
          justify-content: center;
+         padding-top: 20px;
       }
       .admin_brand{
-        width: 600px;
+        width: 100px;
       }
- }
- 
- 
- @media screen and (max-width:301px) {
-     .nav_controllers{
-         display: none !important;
+      .admin_brand img{
+        width: 100px !important;
+      }
+      .profile_img{
+        width: 1.875rem;
      }
-     .brand{
-        width: 400px;
-    }
-    .admin_brand{
-        width: 1500px;
-      }
- }
- @media screen and (max-width:260px) {
-     .brand{
-        width: 900px;
-    }
- }
- @media screen and (max-width:230px) {
-     .brand{
-        width: 1500px;
-    }
+     .controller_div{
+        margin: 0 !important;
+     }
+     .burger_list{
+        margin: 0 !important;
+     }
+
  }
  
+ 
+ @media screen and (max-width:319px) {
+    .brand{
+        display: none;
+    }
+    .smallBrand{
+        display: block;
+        width: 5rem !important;
+    }
+    .smallBrand img{
+        width: 5rem !important;
+    }
+    .nav_controller_small_ar{
+        width: 100vw;
+        padding-left: 100px;
+    }
+    .nav_controller_small_en{
+       width: 100vw;
+       padding-right: 100px;
+    }
+    .controller_div{
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+ }
+
+

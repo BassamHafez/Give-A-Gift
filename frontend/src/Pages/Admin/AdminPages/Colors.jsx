@@ -20,10 +20,10 @@ const Colors = () => {
     <>
       <Toaster position="top-right" />
       <div className={styles.main_body}>
-        <div>
+        <div className={`${styles.configs_body} mb-2`}>
           <AddColor refetch={refetch} />
         </div>
-        <div>
+        <div className={`${styles.configs_body} mb-2`}>
           <AddProColor refetch={refetch}/>
         </div>
         <hr />

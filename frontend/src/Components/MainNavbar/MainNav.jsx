@@ -12,6 +12,7 @@ import styles from "./MainNav.module.css";
 import noAvatar from "../../Images/default.png";
 import LogoutModal from "../Ui/LogoutModal";
 import CartIcon from "../Ui/CartIcon";
+import { faWallet } from "@fortawesome/free-solid-svg-icons";
 
 const MainNav = () => {
   const [openResMenu, setOpenResMenu] = useState(false);
@@ -138,13 +139,27 @@ const MainNav = () => {
         <div
           className={`d-flex align-items-center ${
             isArLang ? "me-auto ms-2" : "ms-auto me-2"
-          }`}
+          } ${styles.controller_div}`}
         >
-          <div className={styles.nav_controllers}>
+          <div
+            className={`${styles.nav_controllers} ${
+              isArLang
+                ? styles.nav_controller_small_ar
+                : styles.nav_controller_small_en
+            } ${role === "admin" && "d-none"}`}
+          >
             {role !== "admin" && (
               <>
                 <div
-                  className="position-relative"
+                  onClick={() => navigate("/")}
+                  className={`${
+                    role !== "admin" ? styles.smallBrand : styles.admin_brand
+                  }`}
+                >
+                  <img src={nav_logo} alt="logo" className="w-100" />
+                </div>
+                <div
+                  className="position-relative mx-3"
                   onClick={() => setShowCart(true)}
                 >
                   <FontAwesomeIcon
@@ -153,13 +168,35 @@ const MainNav = () => {
                   />{" "}
                   <CartIcon />
                 </div>
+                {isLogin && (
+                  <div
+                    className="position-relative mx-2"
+                    onClick={() => navigate(`/wallet/${profileData._id}`)}
+                  >
+                    <FontAwesomeIcon
+                      className={styles.cart_icon}
+                      icon={faWallet}
+                    />
+                  </div>
+                )}
+                <div
+                  onClick={() => setOpenResMenu(true)}
+                  className={`${styles.burger_list} ${styles.list} justify-content-between flex-column mx-3`}
+                >
+                  <span className={styles.half_line}></span>
+                  <span className={styles.full_line}></span>
+                  <span className={`${styles.half_line} ms-auto`}></span>
+                </div>
               </>
             )}
           </div>
           <>
             {role !== "admin" ? (
               isLogin ? (
-                <Link to={`profile/${profileData?._id}`} className="mx-4">
+                <Link
+                  to={`profile/${profileData?._id}`}
+                  className={`${styles.profile_img_link} mx-4`}
+                >
                   <div className={styles.profile_img}>
                     <img
                       src={
@@ -185,7 +222,7 @@ const MainNav = () => {
               )
             ) : (
               <>
-                <ul className="pt-3">
+                <ul className="pt-3 px-0">
                   {isArLang ? (
                     <li
                       onClick={() => control.changeLanguage("en")}
@@ -220,16 +257,6 @@ const MainNav = () => {
               </>
             )}
           </>
-          {role !== "admin" && (
-            <div
-              onClick={() => setOpenResMenu(true)}
-              className={`${styles.burger_list} ${styles.list} justify-content-between flex-column mx-3`}
-            >
-              <span className={styles.half_line}></span>
-              <span className={styles.full_line}></span>
-              <span className={`${styles.half_line} ms-auto`}></span>
-            </div>
-          )}
         </div>
       </nav>
       {openResMenu && role !== "admin" && (

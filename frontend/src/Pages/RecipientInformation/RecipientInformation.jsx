@@ -57,6 +57,7 @@ const RecipientInformation = () => {
   const [balanceCase, setBalanceCase] = useState(false);
   const [cardDetails, setCardDetails] = useState({});
   const [walletDetails, setWalletDetails] = useState({});
+  const [totalPrice, setTotalPrice] = useState(0);
   const [btnMsg, setBtnMsg] = useState("");
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
@@ -156,7 +157,7 @@ const RecipientInformation = () => {
     }
   };
 
-  const payCard = async (price) => {
+  const payCard = async () => {
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_Base_API_URl}wallets/buy-card`,
@@ -190,7 +191,9 @@ const RecipientInformation = () => {
     navigate(`/payment/payment/${profileData?._id}/${price}`);
   };
 
-  const choosePaymentWay = (way, isBalanced, price) => {
+  const choosePaymentWay = (way, isBalanced, price,totalPrice) => {
+    console.log("choosePaymentWay called with:", { way, isBalanced, price, totalPrice });
+    setTotalPrice(totalPrice);
     if (isBalanced === "balanced") {
       if (way === "wallet") {
         payCard(price);
@@ -339,6 +342,7 @@ const RecipientInformation = () => {
           btnMsg={btnMsg}
           balance={walletBalance && walletBalance}
           cardPrice={card?.data?.price?.value}
+          ProPrice={card?.data?.proColor?card?.data?.proColor?.price:undefined}
           cardId={cardId}
           balanceCase={balanceCase}
           chargeCase={goToChargeMethods}
@@ -350,6 +354,7 @@ const RecipientInformation = () => {
           onHide={() => setDetailsShow(false)}
           cardDetails={cardDetails}
           walletDetails={walletDetails}
+          totalPrice={totalPrice}
         />
       )}
     </>
