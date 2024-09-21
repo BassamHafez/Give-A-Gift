@@ -238,13 +238,21 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
                       isArLang ? styles.list_item_ar : styles.list_item_en
                     } text-center`}
                   >
-                    <span>
-                      <FontAwesomeIcon
-                        icon={faGift}
-                        className={`${styles.list_icon} ${styles.gift_icon}`}
-                      />
-                      4b0b5dd8508484a33hb
-                    </span>
+                    {card.discountCode ? (
+                        <img
+                          src={card.discountCode?.qrCode}
+                          className={styles.scanner}
+                          alt="physical store QR"
+                        />
+                    ) : (
+                      <span>
+                        <FontAwesomeIcon
+                          icon={faGift}
+                          className={`${styles.list_icon} ${styles.gift_icon}`}
+                        />
+                        4b0b5dd8508484a33hb
+                      </span>
+                    )}
                   </li>
                   <li
                     className={`${styles.list_item} ${

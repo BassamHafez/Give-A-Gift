@@ -42,6 +42,9 @@ import Wallet from './Pages/Wallet/Wallet';
 import fetchConfigs from './Store/configs-actions';
 import Merchant from './Pages/Admin/AdminPages/Merchant';
 import MerchantProfile from './Pages/MerchangProfile/MerchantProfile';
+import Discount from './Pages/Discount/Discount';
+import MerchantAccountSetting from './Pages/MerchangProfile/MerchantAccountSetting';
+import AllDiscounts from './Pages/MerchangProfile/AllDiscounts';
 
 
 const router=createBrowserRouter([{
@@ -55,7 +58,6 @@ const router=createBrowserRouter([{
     {path:"login",element:<Login/>},
     {path:"forget-password", element: <ForgetPassword /> },
     {path:"register",element:<Register/>},
-    {path:"merchant",element:<MerchantProfile/>},
     {path:"special-cards",element:<ProtectedRoute><SpecialCards/></ProtectedRoute>},
     {path:"custom-cards",element:<ProtectedRoute><CustomCards/></ProtectedRoute>},
     {path:"view-card/:cardId",element:<ProtectedRoute><ViewCard/></ProtectedRoute>},
@@ -67,7 +69,7 @@ const router=createBrowserRouter([{
     {path:"account-setting",element:<ProtectedRoute><AccountManageMent/></ProtectedRoute>},
     {path:"help",element:<ProtectedRoute><Help/></ProtectedRoute>},
     {path:"details-after-buying/:cardPrice",element:<ProtectedRoute><DetailsAfterBuying/></ProtectedRoute>},
-    // {path:"discount/:discountId",element:<ProtectedRoute><Wallets/></ProtectedRoute>},
+    //admin
     {path:"admin/:adminId",element:<ProtectedRoute><Admin/></ProtectedRoute>},
     {path:"admin-anaysis",element:<ProtectedRoute><Analysis/></ProtectedRoute>},
     {path:"admin-colors",element:<ProtectedRoute><Colors/></ProtectedRoute>},
@@ -80,6 +82,11 @@ const router=createBrowserRouter([{
     {path:"admin-users",element:<ProtectedRoute><Users/></ProtectedRoute>},
     {path:"admin-wallets",element:<ProtectedRoute><Wallets/></ProtectedRoute>},
     {path:"admin-merchant",element:<ProtectedRoute><Merchant/></ProtectedRoute>},
+    //merchant
+    {path:"merchant/:merchantId",element:<ProtectedRoute><MerchantProfile/></ProtectedRoute>},
+    {path:"merchant-setting",element:<ProtectedRoute><MerchantAccountSetting/></ProtectedRoute>},
+    {path:"merchant-discounts",element:<ProtectedRoute><AllDiscounts/></ProtectedRoute>},
+    {path:"discount/:discountId",element:<ProtectedRoute><Discount/></ProtectedRoute>},
     { path: "*", element: <Error404 /> },
   ]
 }])  

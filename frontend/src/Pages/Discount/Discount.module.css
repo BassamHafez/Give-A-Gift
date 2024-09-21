@@ -1,0 +1,75 @@
+.discount_body{
+    min-height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.click_div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2.5rem;
+    border-radius: 1.875rem;
+    box-shadow: 0 0 0.1875rem var(--main_color);
+    overflow: hidden;
+    transition: all 1s;
+    position: relative;
+    min-width: 50%;
+    min-height: 70%;
+}
+.logo_img{
+    width: 12.5rem;
+    margin-bottom: 1.875rem;
+}
+.logo_img img{
+    width: 100%;
+}
+.magic_icon{
+    margin-inline: 0.3125rem;
+    color: gold;
+    font-size: 20px;
+}
+
+.reveal{
+    position:static;
+    bottom: 0;
+    left: 0;
+    opacity: 1;
+    transition: all 1s;
+}
+.hide{
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    opacity: 1;
+    transition: all 1s;
+}
+
+.disc_reveal{
+    position:static;
+    bottom: 0;
+    left: 0;
+    opacity: 1;
+    transition: all 1s;
+    text-align: center;
+}
+.disc_hide{
+    position: absolute;
+    bottom: -100%;
+    left: -100%;
+    opacity: 0;
+    transition: all 1s;
+}
+.disc_value{
+    font-size: 100px;
+    font-family: 'Times New Roman', Times, serif !important;
+}
+.sar{
+    font-size: 30px;
+}
+@media screen and (max-width:900px) {
+    .click_div{
+        width: 97%;
+    }
+}

@@ -27,13 +27,16 @@ const Admin = () => {
   const navigate = useNavigate();
   const { t: key } = useTranslation();
   const role = useSelector((state) => state.userInfo.role);
+  const profileData = useSelector((state) => state.profileInfo.data);
 
   useEffect(() => {
-    if (role !== "admin") {
+    if (role === "user") {
       navigate(`/`);
+    } else if (role === "merchant") {
+      navigate(`/merchant/${profileData?._id}`);
     }
-  }, [role, navigate]);
-  
+  }, [role, navigate, profileData]);
+
   return (
     <>
       <div className={styles.container_body}>

@@ -56,11 +56,11 @@ const MainNav = () => {
       >
         <div
           onClick={() => navigate("/")}
-          className={`${role !== "admin" ? styles.brand : styles.admin_brand}`}
+          className={`${role === "user" ? styles.brand : styles.admin_brand}`}
         >
           <img src={nav_logo} alt="logo" className="w-100" />
         </div>
-        {role !== "admin" && (
+        {(role !== "admin" && role!=="merchant") && (
           <ul
             className={`${styles.nav_list} d-flex align-items-center mt-3 ${
               isArLang ? "me-5" : "ms-5"
@@ -146,14 +146,14 @@ const MainNav = () => {
               isArLang
                 ? styles.nav_controller_small_ar
                 : styles.nav_controller_small_en
-            } ${role === "admin" && "d-none"}`}
+            } ${role !== "user" && "d-none"}`}
           >
-            {role !== "admin" && (
+            {(role !== "admin" && role!=="merchant") && (
               <>
                 <div
                   onClick={() => navigate("/")}
                   className={`${
-                    role !== "admin" ? styles.smallBrand : styles.admin_brand
+                    (role !== "admin" && role!=="merchant") ? styles.smallBrand : styles.admin_brand
                   }`}
                 >
                   <img src={nav_logo} alt="logo" className="w-100" />
@@ -191,7 +191,7 @@ const MainNav = () => {
             )}
           </div>
           <>
-            {role !== "admin" ? (
+            {(role !== "admin" && role!=="merchant") ? (
               isLogin ? (
                 <Link
                   to={`profile/${profileData?._id}`}
@@ -240,7 +240,7 @@ const MainNav = () => {
                   )}
                 </ul>
 
-                <Link to={`admin/${profileData?._id}`} className="mx-4">
+                <Link to={role==="merchant"?`merchant/${profileData?._id}`:`admin/${profileData?._id}`} className="mx-4">
                   <div className={styles.profile_img}>
                     <img
                       src={
@@ -259,7 +259,7 @@ const MainNav = () => {
           </>
         </div>
       </nav>
-      {openResMenu && role !== "admin" && (
+      {openResMenu && (role !== "admin" && role!=="merchant") && (
         <ResponsiveMenuSlideBar
           onClose={() => setOpenResMenu(false)}
           show={openResMenu}

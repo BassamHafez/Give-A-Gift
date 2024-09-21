@@ -56,6 +56,7 @@
     color: var(--slate_blue);
     opacity: 0;
     transition: all .4s;
+    font-size: 1.25rem;
     cursor: pointer;
 }
 .color_square:hover .delete_icon{
@@ -163,6 +164,16 @@
 }
 .disable{
     opacity: .5 !important;
+}
+.physical_store,.online_store{
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translate(-50%,-50%);
+    color: var(--main_color);
+}
+.online_store{
+    color: #198754;
 }
 
 /* coupon */

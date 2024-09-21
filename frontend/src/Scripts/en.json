@@ -295,5 +295,22 @@
     "physicalStore":"Physical Store",
     "merchant":"Merchant",
     "merchantRec":"merchant is required",
-    "shopeUsed":"Store already in use"
+    "shopeUsed":"Store already in use",
+    "reveal":"Reveal",
+    "clickReveal":"Click Button to Reveal Your Exclusive Discount",
+    "discValue":"Discount Value For",
+    "duplicate":"Phone Number or Email is duplicated",
+    "allDisount":"All Discounts",
+    "noDisc":"There is no discounts yet",
+    "isPaid":"Is Paid",
+    "yes":"yes",
+    "no":"no",
+    "isUsed":"Is Used",
+    "usedDate":"Used Date",
+    "usedTime":"Used Time",
+    "recipient":"Recipient",
+    "notSpecified":"Not specified",
+    "used":"used",
+    "notUsed":"not used",
+    "discUsed":"Discount code already used"
 }

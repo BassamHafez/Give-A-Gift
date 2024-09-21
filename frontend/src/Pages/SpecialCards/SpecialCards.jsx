@@ -12,7 +12,6 @@ import { getSpecialCards } from "../../util/Http";
 import Placeholders from "../../Components/Ui/Placeholders";
 import LoadingOne from "../../Components/Ui/LoadingOne";
 import MainButton from "../../Components/Ui/MainButton";
-import ConfirmationModal from "../../Components/Ui/ConfirmationModal";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
@@ -27,10 +26,7 @@ const SpecialCards = () => {
   const { t: key } = useTranslation();
   const [filteredCards, setFilteredCards] = useState([]);
   const [searchInput, setSearchInput] = useState("");
-  const [modalShow, setModalShow] = useState(false);
   const [showFilterModal, setShowFilterModal] = useState(false);
-  const [shopId, setShopId] = useState("");
-  const [priceValue, setPriceValue] = useState(0);
   const queryClient = useQueryClient();
 
   const navigate = useNavigate();
@@ -64,11 +60,11 @@ const SpecialCards = () => {
     }
   };
 
-  const buyCard = async () => {
+  const buyCard = async (shopId,price) => {
     const formData = {
       isSpecial: true,
       shop: shopId,
-      price: { value: priceValue },
+      price: { value: price },
     };
     try {
       const response = await axios.post(
@@ -80,24 +76,19 @@ const SpecialCards = () => {
       if (res.status === "success") {
         dispatch(cartActions.addItem())
         queryClient.invalidateQueries(["getMyCards",token]);
-        setModalShow(false);
         navigate(`/recipient-information/${res.data?._id}`);
       } else {
-        setModalShow(false);
         notifyError(key("purchaseFaild"));
       }
     } catch (error) {
       console.error(error);
-      setModalShow(false);
       notifyError(key("purchaseFaild"));
     }
   };
 
 
   const checkLogin = (shopId, price) => {
-      setModalShow(true);
-      setShopId(`${shopId}`);
-      setPriceValue(price);
+      buyCard(shopId,price)
   };
 
   return (
@@ -222,14 +213,6 @@ const SpecialCards = () => {
           )}
         </Row>
       </Container>
-      {modalShow && (
-        <ConfirmationModal
-          show={modalShow}
-          onHide={() => setModalShow(false)}
-          func={buyCard}
-          message={key("processPurchase")}
-        />
-      )}
       {showFilterModal && (
         <FilterModal
           show={showFilterModal}

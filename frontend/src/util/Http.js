@@ -448,3 +448,18 @@ export const addProColor = async ({ token, formData }) => {
     return error;
   }
 };
+
+
+// merchant
+
+export const getDiscounts = async ({token }) => {
+  try {
+    const response = await axios.get(`${baseServerUrl}discount-codes`,{
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+};

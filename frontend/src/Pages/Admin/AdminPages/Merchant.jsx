@@ -91,8 +91,10 @@ const Merchant = () => {
         setIsEmailError(false);
         refetch();
         notifySuccess(key("opSuccess"));
-      }else if(data.data?.message==="Shop already in use"){
+      }else if(data.response?.data?.message==="Shop already in use"){
         notifyError(key("shopeUsed"));
+      }else if(data.response.data.message.split(" ")[0]==="Duplicate"){
+        notifyError(key("duplicate"))
       } else {
         notifyError(key("wrong"));
       }

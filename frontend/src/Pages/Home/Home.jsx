@@ -23,6 +23,8 @@ const Home = () => {
   useEffect(() => {
     if (role === "admin") {
       navigate(`/admin/${profileData?._id}`);
+    }else if (role==="merchant"){
+      navigate(`/merchant/${profileData?._id}`)
     }
   }, [role, navigate, profileData]);
 
@@ -50,7 +52,7 @@ const Home = () => {
               <div>
                 <div
                   className={styles.sec1_gift_card}
-                  onClick={() => navigate("/custom-cards")}
+                  onClick={() => navigate("/special-cards")}
                 >
                   <img
                     className={`${styles.front_img}`}
@@ -78,7 +80,7 @@ const Home = () => {
               <div>
                 <div
                   className={styles.sec1_custom_gift_card}
-                  onClick={() => navigate("/special-cards")}
+                  onClick={() => navigate("/custom-cards")}
                 >
                   <img
                     className={`${styles.front_img}`}

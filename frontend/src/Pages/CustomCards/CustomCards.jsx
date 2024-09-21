@@ -94,7 +94,7 @@ const CustomCards = () => {
     setSelectedShape(`${process.env.REACT_APP_Host}shapes/${value} `);
     setShowBack(showBack);
     setSelectedShapeId(shapeId);
-  };
+  };  
 
   const saveShop = (value, shopId) => {
     setLogoImage(`${process.env.REACT_APP_Host}shops/${value}`);
