@@ -1,5 +1,7 @@
 const nodemailer = require("nodemailer");
 
+const isDev = process.env.NODE_ENV === "development";
+
 const sendEmail = async (options) => {
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -7,6 +9,7 @@ const sendEmail = async (options) => {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASSWORD,
     },
+    ...(isDev && { secure: false, tls: { rejectUnauthorized: false } }),
   });
 
   const mailOpts = {
