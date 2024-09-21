@@ -9,7 +9,7 @@ export const signFormsHandler = async ({ type, formData, method }) => {
         `${baseServerUrl}auth/resetPassword`,
         formData
       );
-    } else {
+    }else {
       response = await axios.post(`${baseServerUrl}auth/${type}`, formData);
     }
     return response;
