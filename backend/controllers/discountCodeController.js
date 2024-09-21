@@ -21,3 +21,35 @@ exports.getAllDiscountCodes = catchAsync(async (req, res, next) => {
     data: discountCodes,
   });
 });
+
+exports.getDiscountCodeValue = catchAsync(async (req, res, next) => {
+  const cardId = req.params.cardId;
+  const card = await Card.findById(cardId);
+
+  if (!card) {
+    return next(new ApiError("Card not found", 404));
+  }
+
+  if (!card.isPaid) {
+    return next(new ApiError("Card not paid", 400));
+  }
+
+  if (card.discountCode.isUsed) {
+    return next(new ApiError("Discount code already used", 400));
+  }
+
+  const discountCode = {
+    id: card._id,
+    recipient: card.recipient.name,
+    value: card.price.value,
+  };
+
+  card.discountCode.isUsed = true;
+  card.isDelivered = true;
+  await card.save();
+
+  res.status(200).json({
+    status: "success",
+    data: discountCode,
+  });
+});

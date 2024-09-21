@@ -8,4 +8,6 @@ router.use(authController.protect, authController.restrictTo("merchant"));
 
 router.route("/").get(discountCodeController.getAllDiscountCodes);
 
+router.route("/:cardId").get(discountCodeController.getDiscountCodeValue);
+
 module.exports = router;
