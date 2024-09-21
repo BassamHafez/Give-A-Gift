@@ -50,7 +50,7 @@ exports.getAllOrders = catchAsync(async (req, res, next) => {
         email: "$user.email",
         order_date: "$receiveAt",
         paid_at: "$paidAt",
-        price: "$price.value",
+        value: "$price.value",
         price_after_discount: "$priceAfterDiscount",
         color_price: { $ifNull: ["$proColor.price", 0] },
         celebrate_icon_price: {
