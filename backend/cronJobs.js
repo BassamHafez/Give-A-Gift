@@ -36,9 +36,8 @@ const deleteOldMessages = async () => {
 };
 
 const startCronJobs = () => {
-  // cron.schedule("20 * * * * *", sendScheduledMessages); // every 20 seconds
   cron.schedule("*/5 * * * *", sendScheduledMessages); // every 5 minutes
-  cron.schedule("0 0 * * *", deleteOldMessages); // every day at midnight
+  cron.schedule("0 0 * * 0", deleteOldMessages); // every week
 };
 
 module.exports = startCronJobs;
