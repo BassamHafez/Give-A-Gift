@@ -12,6 +12,7 @@ exports.getAllDiscountCodes = catchAsync(async (req, res, next) => {
       id: card._id,
       recipient: card.recipient.name,
       isUsed: card.discountCode.isUsed,
+      usedAt: card.discountCode.usedAt,
       isPaid: card.isPaid,
     };
   });
@@ -45,6 +46,7 @@ exports.getDiscountCodeValue = catchAsync(async (req, res, next) => {
   };
 
   card.discountCode.isUsed = true;
+  card.discountCode.usedAt = Date.now();
   card.isDelivered = true;
   await card.save();
 

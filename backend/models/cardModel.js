@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { use } = require("../routes/discountCodeRoutes");
 
 const cardSchema = new mongoose.Schema(
   {
@@ -13,6 +14,7 @@ const cardSchema = new mongoose.Schema(
         type: Boolean,
         default: false,
       },
+      usedAt: Date,
     },
     color: {
       type: mongoose.Schema.ObjectId,
