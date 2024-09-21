@@ -64,6 +64,7 @@ const router=createBrowserRouter([{
     {path:"account-setting",element:<ProtectedRoute><AccountManageMent/></ProtectedRoute>},
     {path:"help",element:<ProtectedRoute><Help/></ProtectedRoute>},
     {path:"details-after-buying/:cardPrice",element:<ProtectedRoute><DetailsAfterBuying/></ProtectedRoute>},
+    // {path:"discount/:discountId",element:<ProtectedRoute><Wallets/></ProtectedRoute>},
     {path:"admin/:adminId",element:<ProtectedRoute><Admin/></ProtectedRoute>},
     {path:"admin-anaysis",element:<ProtectedRoute><Analysis/></ProtectedRoute>},
     {path:"admin-colors",element:<ProtectedRoute><Colors/></ProtectedRoute>},

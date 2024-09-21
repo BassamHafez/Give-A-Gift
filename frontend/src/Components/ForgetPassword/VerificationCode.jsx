@@ -19,7 +19,7 @@ const VerificationCode = ({ onHide, show, notifySuccess, notifyError }) => {
   const { mutate, isPending } = useMutation({
     mutationFn: signFormsHandler,
     onSuccess: (data) => {
-      if (data.data.status === "success") {
+      if (data.data.status === "Success") {
         setIsCodeWrong(false);
         console.log(data);
         setShowModal(true);
@@ -47,7 +47,7 @@ const VerificationCode = ({ onHide, show, notifySuccess, notifyError }) => {
     console.log(values);
     mutate({
       formData: values,
-      type: "verifyPassResetCode",
+      type:"verifyResetCode",
     });
   };
 
