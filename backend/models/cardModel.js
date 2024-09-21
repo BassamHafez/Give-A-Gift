@@ -63,10 +63,10 @@ const cardSchema = new mongoose.Schema(
       xPosition: Number,
       yPosition: Number,
     },
-    isDelivered: {
-      type: Boolean,
-      default: false,
-    },
+    // isDelivered: {
+    //   type: Boolean,
+    //   default: false,
+    // },
     recipient: {
       name: String,
       whatsappNumber: String,
