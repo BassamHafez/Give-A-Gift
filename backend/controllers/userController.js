@@ -4,6 +4,7 @@ const { uploadSingleImage } = require("../utils/uploadImage");
 const { sendWhatsappText } = require("../utils/sendWhatsappMsg");
 
 const User = require("../models/userModel");
+const Shop = require("../models/shopModel");
 const catchAsync = require("../utils/catchAsync");
 const ApiError = require("../utils/ApiError");
 const factory = require("./handlerFactory");
@@ -43,9 +44,12 @@ exports.addAdmin = catchAsync(async (req, res, next) => {
 });
 
 exports.addMerchant = catchAsync(async (req, res, next) => {
-  const shop = await User.findOne({ merchantShop: req.body.merchantShop });
+  const [existingMerchant, shop] = await Promise.all([
+    User.findOne({ merchantShop: req.body.merchantShop }),
+    Shop.findById(req.body.merchantShop),
+  ]);
 
-  if (shop) {
+  if (existingMerchant) {
     return next(new ApiError("Shop already in use", 400));
   }
 
