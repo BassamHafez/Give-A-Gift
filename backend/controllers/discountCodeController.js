@@ -36,7 +36,7 @@ exports.getAllDiscountCodes = catchAsync(async (req, res, next) => {
 });
 
 exports.getDiscountCodeValue = catchAsync(async (req, res, next) => {
-  const cardId = req.params.cardId;
+  const { cardId } = req.params;
   const card = await Card.findById(cardId);
 
   if (!card) {
@@ -51,19 +51,23 @@ exports.getDiscountCodeValue = catchAsync(async (req, res, next) => {
     return next(new ApiError("Discount code already used", 400));
   }
 
-  const discountCode = {
-    id: card._id,
-    recipient: card.recipient.name,
-    value: card.price.value,
-  };
-
-  card.discountCode.isUsed = true;
-  card.discountCode.usedAt = Date.now();
-  card.isDelivered = true;
-  await card.save();
+  await Card.findByIdAndUpdate(
+    cardId,
+    {
+      $set: {
+        "discountCode.isUsed": true,
+        "discountCode.usedAt": Date.now(),
+      },
+    },
+    { new: true }
+  );
 
   res.status(200).json({
     status: "success",
-    data: discountCode,
+    data: {
+      id: card._id,
+      recipient: card.recipient.name,
+      value: card.price.value,
+    },
   });
 });
