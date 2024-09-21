@@ -292,5 +292,8 @@
     "storeLogo":"Store Logo",
     "storeLink":"Store Link",
     "onlineStore":"Online Store",
-    "physicalStore":"Physical Store"
+    "physicalStore":"Physical Store",
+    "merchant":"Merchant",
+    "merchantRec":"merchant is required",
+    "shopeUsed":"Store already in use"
 }

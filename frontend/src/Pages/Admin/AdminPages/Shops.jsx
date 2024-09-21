@@ -18,7 +18,6 @@ const Shops = () => {
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
   const [selectedFile, setSelectedFile] = useState(null);
-  const [isOnlineChecked, setIsOnlineChecked] = useState(true);
 
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
@@ -51,7 +50,7 @@ const Shops = () => {
     description: "",
     name: "",
     link: "",
-    isOnline: true,
+    isOnline: "true",
   };
 
   const onSubmit = (values) => {
@@ -67,11 +66,12 @@ const Shops = () => {
     formData.append("name", values.name);
     formData.append("description", values.description);
 
-    if (values.isOnline) {
+    if (values.isOnline === "true") {
       formData.append("link", values.link);
+      formData.append("isOnline", true);
+    }else{
+      formData.append("isOnline", false);
     }
-
-    formData.append("link", values.isOnline);
 
     mutate({
       formData: formData,
@@ -79,9 +79,6 @@ const Shops = () => {
     });
   };
 
-  const linkValidation = isOnlineChecked
-    ? string().url(key("invalidLink")).required(key("invalidLink"))
-    : string().nullable();
 
   const validationSchema = object({
     shapeImage: mixed()
@@ -95,8 +92,14 @@ const Shops = () => {
       }),
     description: string().required(key("descReq")),
     name: string().required(key("nameValidation3")),
-    link: linkValidation,
+    
+    link: string().when("isOnline", {
+      is: (isOnline) => isOnline === "true",
+      then: (schema) => schema.url(key("invalidLink")).required(key("invalidLink")),
+      otherwise: (schema) => schema.nullable(),
+    }),
   });
+  
 
   const deleteShop = async (shopID) => {
     try {
@@ -181,48 +184,46 @@ const Shops = () => {
                 </div>
 
                 <div className={styles.field}>
-                  <div className="form-check">
-                    <Field
-                      type="radio"
-                      className="form-check-input"
-                      name="isOnline"
-                      id="onlineStore"
-                      value={true}
-                      checked={isOnlineChecked}
-                      onChange={() => setIsOnlineChecked(true)}
-                      autoComplete="off"
-                    />
-                    <label
-                      className="form-check-label mx-2"
-                      htmlFor="onlineStore"
-                    >
-                      {key("onlineStore")}
-                    </label>
-                  </div>
+                  <div className={styles.field}>
+                    <div className="form-check">
+                      <Field
+                        type="radio"
+                        className="form-check-input"
+                        name="isOnline"
+                        id="onlineStore"
+                        value="true"
+                        checked={values.isOnline === "true"}
+                      />
+                      <label
+                        className="form-check-label mx-2"
+                        htmlFor="onlineStore"
+                      >
+                        {key("onlineStore")}
+                      </label>
+                    </div>
 
-                  <div className="form-check">
-                    <Field
-                      type="radio"
-                      className="form-check-input"
-                      name="isOnline"
-                      id="offlineStore"
-                      value={false}
-                      checked={!isOnlineChecked}
-                      onChange={() => setIsOnlineChecked(false)}
-                      autoComplete="off"
-                    />
-                    <label
-                      className="form-check-label mx-2"
-                      htmlFor="offlineStore"
-                    >
-                      {key("physicalStore")}
-                    </label>
+                    <div className="form-check">
+                      <Field
+                        type="radio"
+                        className="form-check-input"
+                        name="isOnline"
+                        id="offlineStore"
+                        value="false"
+                        checked={values.isOnline === "false"}
+                      />
+                      <label
+                        className="form-check-label mx-2"
+                        htmlFor="offlineStore"
+                      >
+                        {key("physicalStore")}
+                      </label>
+                    </div>
                   </div>
                 </div>
 
                 <div
                   className={`${styles.field} ${
-                    !isOnlineChecked && styles.disable
+                    values.isOnline==="false" && styles.disable
                   }`}
                 >
                   <label htmlFor="link">{key("storeLink")}</label>
@@ -230,7 +231,7 @@ const Shops = () => {
                     type="text"
                     id="link"
                     name="link"
-                    disabled={!isOnlineChecked}
+                    disabled={values.isOnline==="false"}
                   />
                   <ErrorMessage name="link" component={InputErrorMessage} />
                 </div>

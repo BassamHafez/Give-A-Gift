@@ -291,5 +291,8 @@
     "storeLogo":"شعار المتجر",
     "storeLink":"رابط المتجر",
     "onlineStore":"متجر إلكتروني",
-    "physicalStore":"متجر فعلي"
+    "physicalStore":"متجر فعلي",
+    "merchant":"تاجر",
+    "merchantRec":"التاجر مطلوب",
+    "shopeUsed":"المتجر بالفعل مستخدم"
 }

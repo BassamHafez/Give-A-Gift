@@ -358,6 +358,10 @@ export const controlUsers = async ({ formData, type, token, userId }) => {
       response = await axios.get(`${baseServerUrl}users/${userId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
+    }else if(type==="merchant"){
+      response = await axios.post(`${baseServerUrl}users/merchant`,formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
     } else {
       response = await axios.get(`${baseServerUrl}users`, {
         headers: { Authorization: `Bearer ${token}` },

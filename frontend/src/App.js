@@ -40,6 +40,8 @@ import fetchCartCounter from './Store/cartCounter-actions';
 import DetailsAfterBuying from './Pages/DetailsAfterBuying/DetailsAfterBuying';
 import Wallet from './Pages/Wallet/Wallet';
 import fetchConfigs from './Store/configs-actions';
+import Merchant from './Pages/Admin/AdminPages/Merchant';
+import MerchantProfile from './Pages/MerchangProfile/MerchantProfile';
 
 
 const router=createBrowserRouter([{
@@ -53,6 +55,7 @@ const router=createBrowserRouter([{
     {path:"login",element:<Login/>},
     {path:"forget-password", element: <ForgetPassword /> },
     {path:"register",element:<Register/>},
+    {path:"merchant",element:<MerchantProfile/>},
     {path:"special-cards",element:<ProtectedRoute><SpecialCards/></ProtectedRoute>},
     {path:"custom-cards",element:<ProtectedRoute><CustomCards/></ProtectedRoute>},
     {path:"view-card/:cardId",element:<ProtectedRoute><ViewCard/></ProtectedRoute>},
@@ -76,6 +79,7 @@ const router=createBrowserRouter([{
     {path:"admin-transactions",element:<ProtectedRoute><Transactions/></ProtectedRoute>},
     {path:"admin-users",element:<ProtectedRoute><Users/></ProtectedRoute>},
     {path:"admin-wallets",element:<ProtectedRoute><Wallets/></ProtectedRoute>},
+    {path:"admin-merchant",element:<ProtectedRoute><Merchant/></ProtectedRoute>},
     { path: "*", element: <Error404 /> },
   ]
 }])  
