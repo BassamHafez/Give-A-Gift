@@ -136,6 +136,7 @@ exports.buyCard = catchAsync(async (req, res, next) => {
 
   wallet.balance -= totalAmount;
   card.isPaid = true;
+  card.totalPricePaid = totalAmount;
 
   if (!card.shop.isOnline) {
     const qrCodeLink = `${process.env.QR_CODE_URL}/${card.id}`;

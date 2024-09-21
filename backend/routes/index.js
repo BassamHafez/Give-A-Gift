@@ -10,6 +10,7 @@ const cardRoutes = require("../routes/cardRoutes");
 const specialCardRoutes = require("../routes/specialCardRoutes");
 const discountCodeRoutes = require("../routes/discountCodeRoutes");
 const walletRoutes = require("../routes/walletRoutes");
+const orderRoutes = require("../routes/orderRoutes");
 const paymentRoutes = require("../routes/paymentRoutes");
 const configRoutes = require("../routes/configRoutes");
 const transactionRoutes = require("../routes/transactionRoutes");
@@ -28,6 +29,7 @@ const mountRoutes = (app) => {
   app.use("/api/v1/special-cards", specialCardRoutes);
   app.use("/api/v1/discount-codes", discountCodeRoutes);
   app.use("/api/v1/wallets", walletRoutes);
+  app.use("/api/v1/orders", orderRoutes);
   app.use("/api/v1/payments", paymentRoutes);
   app.use("/api/v1/configs", configRoutes);
   app.use("/api/v1/transactions", transactionRoutes);

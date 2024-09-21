@@ -42,6 +42,7 @@ const cardSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    totalPricePaid: Number,
     priceAfterDiscount: Number,
     price: {
       value: {
