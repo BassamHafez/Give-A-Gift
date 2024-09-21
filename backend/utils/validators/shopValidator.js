@@ -17,12 +17,13 @@ exports.createShopValidator = [
     .withMessage("Shop description must be a string"),
 
   check("isOnline")
-    .optional()
+    .notEmpty()
+    .withMessage("Shop isOnline is required")
     .isBoolean()
     .withMessage("Shop isOnline must be a boolean"),
 
   check("link")
-    .if((value, { req }) => req.body.isOnline)
+    .if((value, { req }) => req.body.isOnline === "true")
     .notEmpty()
     .withMessage("Shop link is required for online shops")
     .isURL({
