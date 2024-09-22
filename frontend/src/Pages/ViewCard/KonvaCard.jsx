@@ -212,24 +212,36 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
               </li>
               {isFrontShape ? (
                 <>
-                  <li
-                    className={`${styles.list_item} ${
-                      isArLang ? styles.list_item_ar : styles.list_item_en
-                    } text-center`}
-                  >
-                    <img
-                      src={card?.celebrateQR}
-                      className={styles.scanner}
-                      alt="celebrate QR"
-                    />
-                  </li>
-                  <li
-                    className={`${styles.list_item} ${
-                      isArLang ? styles.list_item_ar : styles.list_item_en
-                    } mini_word text-center`}
-                  >
-                    {key("exploreScan")}
-                  </li>
+                  {card.celebrateQR ? (
+                    <>
+                      <li
+                        className={`${styles.list_item} ${
+                          isArLang ? styles.list_item_ar : styles.list_item_en
+                        } text-center`}
+                      >
+                        <img
+                          src={card?.celebrateQR}
+                          className={styles.scanner}
+                          alt="celebrate QR"
+                        />
+                      </li>{" "}
+                      <li
+                        className={`${styles.list_item} ${
+                          isArLang ? styles.list_item_ar : styles.list_item_en
+                        } mini_word text-center`}
+                      >
+                        {key("exploreScan")}
+                      </li>
+                    </>
+                  ) : (
+                    <li
+                      className={`${styles.list_item} ${
+                        isArLang ? styles.list_item_ar : styles.list_item_en
+                      } text-success text-center`}
+                    >
+                      {key("cardReady")}
+                    </li>
+                  )}
                 </>
               ) : (
                 <>
@@ -238,12 +250,12 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
                       isArLang ? styles.list_item_ar : styles.list_item_en
                     } text-center`}
                   >
-                    {card.discountCode ? (
-                        <img
-                          src={card.discountCode?.qrCode}
-                          className={styles.scanner}
-                          alt="physical store QR"
-                        />
+                    {card.discountCode?.qrCode ? (
+                      <img
+                        src={card.discountCode?.qrCode}
+                        className={styles.scanner}
+                        alt="physical store QR"
+                      />
                     ) : (
                       <span>
                         <FontAwesomeIcon

@@ -68,7 +68,7 @@ const AllDiscounts = () => {
                   </div>
                 </div>
                 <hr />
-                {data.data.map(
+                {data.data?.map(
                   (disc) =>
                     (usedData ? disc.isUsed : !disc.isUsed) && (
                       <Col

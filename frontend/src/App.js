@@ -45,6 +45,8 @@ import MerchantProfile from './Pages/MerchangProfile/MerchantProfile';
 import Discount from './Pages/Discount/Discount';
 import MerchantAccountSetting from './Pages/MerchangProfile/MerchantAccountSetting';
 import AllDiscounts from './Pages/MerchangProfile/AllDiscounts';
+import Orders from './Pages/Admin/AdminPages/Orders/Orders';
+import ProfileOrders from './Pages/Profile/ProfileOrders/ProfileOrders';
 
 
 const router=createBrowserRouter([{
@@ -69,6 +71,8 @@ const router=createBrowserRouter([{
     {path:"account-setting",element:<ProtectedRoute><AccountManageMent/></ProtectedRoute>},
     {path:"help",element:<ProtectedRoute><Help/></ProtectedRoute>},
     {path:"details-after-buying/:cardPrice",element:<ProtectedRoute><DetailsAfterBuying/></ProtectedRoute>},
+    {path:"user-orders",element:<ProtectedRoute><ProfileOrders/></ProtectedRoute>},
+
     //admin
     {path:"admin/:adminId",element:<ProtectedRoute><Admin/></ProtectedRoute>},
     {path:"admin-anaysis",element:<ProtectedRoute><Analysis/></ProtectedRoute>},
@@ -82,6 +86,8 @@ const router=createBrowserRouter([{
     {path:"admin-users",element:<ProtectedRoute><Users/></ProtectedRoute>},
     {path:"admin-wallets",element:<ProtectedRoute><Wallets/></ProtectedRoute>},
     {path:"admin-merchant",element:<ProtectedRoute><Merchant/></ProtectedRoute>},
+    {path:"admin-orders",element:<ProtectedRoute><Orders/></ProtectedRoute>},
+
     //merchant
     {path:"merchant/:merchantId",element:<ProtectedRoute><MerchantProfile/></ProtectedRoute>},
     {path:"merchant-setting",element:<ProtectedRoute><MerchantAccountSetting/></ProtectedRoute>},

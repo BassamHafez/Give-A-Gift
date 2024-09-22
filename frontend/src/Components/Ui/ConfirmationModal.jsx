@@ -115,10 +115,12 @@ const ConfirmationModal = ({
 
     if (balanceCase) {
       chargeCase(
-        totalCardPrice +
+        (Number(VAT) / 100) * Number(totalCardPrice) +
+          totalCardPrice +
           (ProPrice ? Number(ProPrice) : 0) +
           (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
-          (isCelebrateQR ? Number(celebrateLinkPrice) : 0)
+          (isCelebrateQR ? Number(celebrateLinkPrice) : 0) -
+          Number(balance)
       );
       return;
     }
@@ -166,187 +168,193 @@ const ConfirmationModal = ({
     >
       <Modal.Body className={`${styles.modal_body} text-center`}>
         <h4>{message}</h4>
-        {balance && cardPrice && (
-          <ul className={styles.details_list}>
-            <li className={`${isBalanced ? "" : "text-danger"}`}>
-              <FontAwesomeIcon className={styles.list_icon} icon={faCoins} />
-              {key("currentBalance")}: {balance.toFixed(2)} {key("sar")}
-            </li>
-
-            {priceAfterDisc === "" ? (
-              <>
-                <li>
-                  <FontAwesomeIcon
-                    className={styles.list_icon}
-                    icon={faMoneyBill}
-                  />
-                  {key("cardPrice")}: {cardPrice.toFixed(2)} {key("sar")}
-                </li>
-                <li>
-                  <FontAwesomeIcon
-                    className={styles.list_icon}
-                    icon={faPercent}
-                  />
-                  {key("Vatvalue")}: {(Number(VAT) / 100) * Number(cardPrice)}{" "}
-                  {key("sar")}
-                </li>
-                {ProPrice && (
-                  <li>
-                    <FontAwesomeIcon
-                      className={styles.list_icon}
-                      icon={faPalette}
-                    />
-                    {key("colorPrice")}: {ProPrice}
-                  </li>
-                )}
-                {isCelebrateIcon && (
-                  <li>
-                    <FontAwesomeIcon
-                      className={styles.list_icon}
-                      icon={faGift}
-                    />
-                    {key("celebrateIcon")}: {celebrateIconPrice}
-                  </li>
-                )}
-                {isCelebrateQR && (
-                  <li>
-                    <FontAwesomeIcon
-                      className={styles.list_icon}
-                      icon={faQrcode}
-                    />
-                    {key("celebrateLink")}: {celebrateLinkPrice}
-                  </li>
-                )}
-                <li>
-                  <FontAwesomeIcon
-                    className={styles.list_icon}
-                    icon={faFileInvoiceDollar}
-                  />
-                  {key("totalPrice")}:{" "}
-                  {(
-                    (Number(VAT) / 100) * Number(cardPrice) +
-                    Number(cardPrice) +
-                    (ProPrice ? Number(ProPrice) : 0) +
-                    (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
-                    (isCelebrateQR ? Number(celebrateLinkPrice) : 0)
-                  ).toFixed(2)}{" "}
-                  {key("sar")}
-                </li>
-              </>
-            ) : (
-              <>
-                <li>
-                  <FontAwesomeIcon
-                    className={styles.list_icon}
-                    icon={faMoneyBill}
-                  />
-                  {key("cardPrice")}: {priceAfterDisc} {key("sar")}{" "}
-                  <del className="mx-2">
-                    {cardPrice} {key("sar")}{" "}
-                  </del>
-                </li>
-                <li>
-                  <FontAwesomeIcon
-                    className={styles.list_icon}
-                    icon={faPercent}
-                  />
-                  {key("Vatvalue")}:{" "}
-                  {(Number(VAT) / 100) * Number(priceAfterDisc)} {key("sar")}
-                </li>
-                {ProPrice && (
-                  <li>
-                    <FontAwesomeIcon
-                      className={styles.list_icon}
-                      icon={faPalette}
-                    />
-                    {key("colorPrice")}: {ProPrice}
-                  </li>
-                )}
-                {isCelebrateIcon && (
-                  <li>
-                    <FontAwesomeIcon
-                      className={styles.list_icon}
-                      icon={faGift}
-                    />
-                    {key("celebrateIcon")}: {celebrateIconPrice}
-                  </li>
-                )}
-                {isCelebrateQR && (
-                  <li>
-                    <FontAwesomeIcon
-                      className={styles.list_icon}
-                      icon={faQrcode}
-                    />
-                    {key("celebrateLink")}: {celebrateLinkPrice}
-                  </li>
-                )}
-                <li>
-                  <FontAwesomeIcon
-                    className={styles.list_icon}
-                    icon={faFileInvoiceDollar}
-                  />
-                  {key("totalPrice")}:{" "}
-                  {(
-                    (Number(VAT) / 100) * Number(priceAfterDisc) +
-                    Number(priceAfterDisc) +
-                    (ProPrice ? Number(ProPrice) : 0) +
-                    (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
-                    (isCelebrateQR ? Number(celebrateLinkPrice) : 0)
-                  ).toFixed(2)}{" "}
-                  {key("sar")}
-                </li>
-              </>
-            )}
-            {choosePaymentWay && (
-              <li className="flex-column align-items-start my-4">
-                <h4>{key("choosePay")}</h4>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name="choosePaymentWay"
-                    id="choosePaymentWay1"
-                    value="payment"
-                    onChange={handlePaymentChange}
-                    checked={paymentWay === "payment" || !isBalanced}
-                  />
-                  <label
-                    className="form-check-label mx-1"
-                    htmlFor="choosePaymentWay1"
-                  >
-                    {key("payment")}
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name="choosePaymentWay"
-                    id="choosePaymentWay2"
-                    value="wallet"
-                    onChange={handlePaymentChange}
-                    checked={paymentWay === "wallet" && isBalanced}
-                    disabled={!isBalanced}
-                  />
-                  <label
-                    className="form-check-label  mx-1"
-                    htmlFor="choosePaymentWay2"
-                  >
-                    {key("wallet")}
-                  </label>
-                </div>
+        {balance !== null &&
+          balance !== undefined &&
+          cardPrice !== null &&
+          cardPrice !== undefined && (
+            <ul className={styles.details_list}>
+              <li className={`${isBalanced ? "" : "text-danger"}`}>
+                <FontAwesomeIcon className={styles.list_icon} icon={faCoins} />
+                {key("currentBalance")}: {balance.toFixed(2)} {key("sar")}
               </li>
-            )}
-            <li>
-              <FontAwesomeIcon className={styles.list_icon} icon={faReceipt} />{" "}
-              {key("applyCoupon")}
-            </li>
-            <form onSubmit={applyCoupon} className={styles.coupon_form}>
-              <input className="form-control" type="text" name="coupon" />{" "}
-              <button type="submit">{key("appy")}</button>
-            </form>
-          </ul>
-        )}
+
+              {priceAfterDisc === "" ? (
+                <>
+                  <li>
+                    <FontAwesomeIcon
+                      className={styles.list_icon}
+                      icon={faMoneyBill}
+                    />
+                    {key("cardPrice")}: {cardPrice.toFixed(2)} {key("sar")}
+                  </li>
+                  <li>
+                    <FontAwesomeIcon
+                      className={styles.list_icon}
+                      icon={faPercent}
+                    />
+                    {key("Vatvalue")}: {(Number(VAT) / 100) * Number(cardPrice)}{" "}
+                    {key("sar")}
+                  </li>
+                  {ProPrice && (
+                    <li>
+                      <FontAwesomeIcon
+                        className={styles.list_icon}
+                        icon={faPalette}
+                      />
+                      {key("colorPrice")}: {ProPrice}
+                    </li>
+                  )}
+                  {isCelebrateIcon && (
+                    <li>
+                      <FontAwesomeIcon
+                        className={styles.list_icon}
+                        icon={faGift}
+                      />
+                      {key("celebrateIcon")}: {celebrateIconPrice}
+                    </li>
+                  )}
+                  {isCelebrateQR && (
+                    <li>
+                      <FontAwesomeIcon
+                        className={styles.list_icon}
+                        icon={faQrcode}
+                      />
+                      {key("celebrateLink")}: {celebrateLinkPrice}
+                    </li>
+                  )}
+                  <li>
+                    <FontAwesomeIcon
+                      className={styles.list_icon}
+                      icon={faFileInvoiceDollar}
+                    />
+                    {key("totalPrice")}:{" "}
+                    {(
+                      (Number(VAT) / 100) * Number(cardPrice) +
+                      Number(cardPrice) +
+                      (ProPrice ? Number(ProPrice) : 0) +
+                      (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
+                      (isCelebrateQR ? Number(celebrateLinkPrice) : 0)
+                    ).toFixed(2)}{" "}
+                    {key("sar")}
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li>
+                    <FontAwesomeIcon
+                      className={styles.list_icon}
+                      icon={faMoneyBill}
+                    />
+                    {key("cardPrice")}: {priceAfterDisc} {key("sar")}{" "}
+                    <del className="mx-2">
+                      {cardPrice} {key("sar")}{" "}
+                    </del>
+                  </li>
+                  <li>
+                    <FontAwesomeIcon
+                      className={styles.list_icon}
+                      icon={faPercent}
+                    />
+                    {key("Vatvalue")}:{" "}
+                    {(Number(VAT) / 100) * Number(priceAfterDisc)} {key("sar")}
+                  </li>
+                  {ProPrice && (
+                    <li>
+                      <FontAwesomeIcon
+                        className={styles.list_icon}
+                        icon={faPalette}
+                      />
+                      {key("colorPrice")}: {ProPrice}
+                    </li>
+                  )}
+                  {isCelebrateIcon && (
+                    <li>
+                      <FontAwesomeIcon
+                        className={styles.list_icon}
+                        icon={faGift}
+                      />
+                      {key("celebrateIcon")}: {celebrateIconPrice}
+                    </li>
+                  )}
+                  {isCelebrateQR && (
+                    <li>
+                      <FontAwesomeIcon
+                        className={styles.list_icon}
+                        icon={faQrcode}
+                      />
+                      {key("celebrateLink")}: {celebrateLinkPrice}
+                    </li>
+                  )}
+                  <li>
+                    <FontAwesomeIcon
+                      className={styles.list_icon}
+                      icon={faFileInvoiceDollar}
+                    />
+                    {key("totalPrice")}:{" "}
+                    {(
+                      (Number(VAT) / 100) * Number(priceAfterDisc) +
+                      Number(priceAfterDisc) +
+                      (ProPrice ? Number(ProPrice) : 0) +
+                      (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
+                      (isCelebrateQR ? Number(celebrateLinkPrice) : 0)
+                    ).toFixed(2)}{" "}
+                    {key("sar")}
+                  </li>
+                </>
+              )}
+              {choosePaymentWay && (
+                <li className="flex-column align-items-start my-4">
+                  <h4>{key("choosePay")}</h4>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="choosePaymentWay"
+                      id="choosePaymentWay1"
+                      value="payment"
+                      onChange={handlePaymentChange}
+                      checked={paymentWay === "payment" || !isBalanced}
+                    />
+                    <label
+                      className="form-check-label mx-1"
+                      htmlFor="choosePaymentWay1"
+                    >
+                      {key("payment")}
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="choosePaymentWay"
+                      id="choosePaymentWay2"
+                      value="wallet"
+                      onChange={handlePaymentChange}
+                      checked={paymentWay === "wallet" && isBalanced}
+                      disabled={!isBalanced}
+                    />
+                    <label
+                      className="form-check-label  mx-1"
+                      htmlFor="choosePaymentWay2"
+                    >
+                      {key("wallet")}
+                    </label>
+                  </div>
+                </li>
+              )}
+              <li>
+                <FontAwesomeIcon
+                  className={styles.list_icon}
+                  icon={faReceipt}
+                />{" "}
+                {key("applyCoupon")}
+              </li>
+              <form onSubmit={applyCoupon} className={styles.coupon_form}>
+                <input className="form-control" type="text" name="coupon" />{" "}
+                <button type="submit">{key("appy")}</button>
+              </form>
+            </ul>
+          )}
       </Modal.Body>
       <Modal.Footer className={styles.modal_footer}>
         <Button

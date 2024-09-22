@@ -223,6 +223,19 @@ export const getMe= async (token) => {
   }
 };
 
+export const getAllOrders= async ({token}) => {
+  try {
+     const response = await axios.get(`${baseServerUrl}orders`,{
+      headers:{Authorization:`Bearer ${token}`}
+     });
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return error
+  }
+};
+
 
 // admin pages
 

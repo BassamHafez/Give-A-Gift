@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   faBrush,
+  faCashRegister,
   faChartPie,
   faDoorOpen,
   faGifts,
@@ -36,7 +37,7 @@ const Admin = () => {
       navigate(`/merchant/${profileData?._id}`);
     }
   }, [role, navigate, profileData]);
-
+  
   return (
     <>
       <div className={styles.container_body}>
@@ -55,6 +56,19 @@ const Admin = () => {
                     icon={faChartPie}
                   />
                   <span>{key("analysis")}</span>
+                </div>
+              </Col>
+              <Col
+                xs={6}
+                className="d-flex justify-content-center align-items-center"
+                onClick={() => navigate("/admin-orders")}
+              >
+                <div className={styles.list_item}>
+                  <FontAwesomeIcon
+                    className={styles.list_item_icon}
+                    icon={faCashRegister}
+                  />
+                  <span>{key("orders")}</span>
                 </div>
               </Col>
               <Col
