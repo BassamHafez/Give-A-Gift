@@ -1,12 +1,17 @@
 const Wallet = require("../models/walletModel");
 const User = require("../models/userModel");
 const Card = require("../models/cardModel");
-const ProColor = require("../models/proColorModel");
 const Order = require("../models/orderModel");
 const Config = require("../models/configModel");
 const ScheduledMessage = require("../models/scheduledMessageModel");
+const mongoose = require("mongoose");
 const QRCode = require("qrcode");
 const factory = require("./handlerFactory");
+const {
+  calculateTotalCardPrice,
+  createWhatsAppMessage,
+  createOrderData,
+} = require("../utils/cardUtils");
 const catchAsync = require("../utils/catchAsync");
 const ApiError = require("../utils/ApiError");
 
@@ -84,115 +89,107 @@ exports.transfer = catchAsync(async (req, res, next) => {
 exports.buyCard = catchAsync(async (req, res, next) => {
   const { cardId } = req.body;
 
-  const [wallet, card] = await Promise.all([
-    Wallet.findOne({ user: req.user.id }),
-    Card.findById(cardId).populate("shop shape"),
-  ]);
+  const session = await mongoose.startSession();
+  session.startTransaction();
 
-  if (!card) {
-    return next(new ApiError("Card not found", 404));
-  }
+  try {
+    const [wallet, card] = await Promise.all([
+      Wallet.findOne({ user: req.user.id }),
+      Card.findById(cardId).populate("shop shape proColor"),
+    ]);
 
-  if (card.isPaid) {
-    return next(new ApiError("Card already paid", 400));
-  }
+    if (!card) {
+      throw new ApiError("Card not found", 404);
+    }
 
-  if (
-    !card.recipient ||
-    !card.recipient.whatsappNumber ||
-    !card.recipient.name
-  ) {
-    return next(new ApiError("Complete recipient details first", 400));
-  }
+    if (card.isPaid) {
+      throw new ApiError("Card already paid", 400);
+    }
 
-  if (!wallet) {
-    return next(new ApiError("Wallet not found", 404));
-  }
+    if (
+      !card.recipient ||
+      !card.recipient.whatsappNumber ||
+      !card.recipient.name
+    ) {
+      throw new ApiError("Complete recipient details first", 400);
+    }
 
-  const [VAT, iconPrice, linkPrice] = await Promise.all([
-    Config.findOne({ key: "VAT_VALUE" }),
-    Config.findOne({ key: "CELEBRATE_ICON_PRICE" }),
-    Config.findOne({ key: "CELEBRATE_LINK_PRICE" }),
-  ]);
+    if (!wallet) {
+      throw new ApiError("Wallet not found", 404);
+    }
 
-  let cardPrice =
-    card?.priceAfterDiscount >= 0 ? card.priceAfterDiscount : card.price.value;
+    const configKeys = [
+      "VAT_VALUE",
+      "CELEBRATE_ICON_PRICE",
+      "CELEBRATE_LINK_PRICE",
+    ];
+    const configs = await Config.find({ key: { $in: configKeys } });
+    const VAT = configs.find((c) => c.key === "VAT_VALUE");
+    const iconPrice = configs.find(
+      (c) => c.key === "CELEBRATE_ICON_PRICE"
+    ).value;
+    const linkPrice = configs.find(
+      (c) => c.key === "CELEBRATE_LINK_PRICE"
+    ).value;
 
-  cardPrice += parseFloat(card.shape.price);
-  let proColor;
-  if (card.proColor) {
-    proColor = await ProColor.findById(card.proColor);
-    cardPrice += parseFloat(proColor.price);
-  }
-  if (card.celebrateIcon) {
-    cardPrice += parseFloat(iconPrice.value);
-  }
-  if (card.celebrateQR) {
-    cardPrice += parseFloat(linkPrice.value);
-  }
-
-  const totalAmount = cardPrice + cardPrice * parseFloat(VAT.value / 100);
-
-  if (parseFloat(wallet.balance) < totalAmount) {
-    return next(new ApiError("Insufficient balance", 400));
-  }
-
-  wallet.balance -= totalAmount;
-  card.isPaid = true;
-  card.totalPricePaid = totalAmount;
-
-  if (!card.shop.isOnline) {
-    const qrCodeLink = `${process.env.QR_CODE_URL}/${card.id}`;
-
-    const qrCode = await QRCode.toDataURL(qrCodeLink, {
-      errorCorrectionLevel: "M",
-    });
-
-    card.discountCode.qrCode = qrCode;
-  }
-  // else { }
-
-  const msgData = {
-    phone: card.recipient.whatsappNumber,
-    caption: `You have received a gift card from ${req.user.name}. Click here to view: https://example.com/cards/previw/${card.id}`,
-    fileUrl:
-      "https://nypost.com/wp-content/uploads/sites/2/2023/11/gift-card.jpg",
-    scheduledAt: new Date(card.receiveAt),
-  };
-
-  const orderData = {
-    card_id: card.id,
-    customer_id: req.user.id,
-    customer_name: req.user.name,
-    customer_email: req.user.email,
-    customer_phone: req.user.phone,
-    value: card.price.value,
-    price_after_discount: card.priceAfterDiscount,
-    shape_price: card.shape.price,
-    color_price: card.proColor ? parseFloat(proColor.price) : 0,
-    celebrate_icon_price: card.celebrateIcon ? iconPrice.value : 0,
-    celebrate_qr_link_price: card.celebrateQR ? linkPrice.value : 0,
-    VAT: VAT.value,
-    total_paid: totalAmount,
-    order_date: card.receiveAt,
-    recipient_name: card.recipient.name,
-    recipient_whatsapp: card.recipient.whatsappNumber,
-  };
-
-  await Promise.all([
-    wallet.save(),
-    card.save(),
-    ScheduledMessage.create(msgData),
-    Order.create(orderData),
-  ]);
-
-  res.status(200).json({
-    status: "success",
-    data: {
-      wallet,
+    const totalAmount = calculateTotalCardPrice(
       card,
-    },
-  });
+      iconPrice,
+      linkPrice,
+      VAT
+    );
+
+    console.log("Total Amount: ", totalAmount);
+
+    if (parseFloat(wallet.balance) < totalAmount) {
+      throw new ApiError("Insufficient balance", 400);
+    }
+
+    wallet.balance -= totalAmount;
+    card.isPaid = true;
+    card.totalPricePaid = totalAmount;
+
+    if (!card.shop.isOnline) {
+      const qrCodeLink = `${process.env.QR_CODE_URL}/${card.id}`;
+
+      const qrCode = await QRCode.toDataURL(qrCodeLink, {
+        errorCorrectionLevel: "M",
+      });
+
+      card.discountCode.qrCode = qrCode;
+    }
+    // else { }
+
+    const msgData = createWhatsAppMessage(card, req.user);
+
+    const orderData = createOrderData(
+      card,
+      req.user,
+      totalAmount,
+      VAT.value,
+      iconPrice,
+      linkPrice
+    );
+
+    await Promise.all([
+      wallet.save({ session }),
+      card.save({ session }),
+      ScheduledMessage.create([msgData], { session }),
+      Order.create([orderData], { session }),
+    ]);
+
+    await session.commitTransaction();
+
+    res.status(200).json({
+      status: "success",
+      data: orderData,
+    });
+  } catch (error) {
+    await session.abortTransaction();
+    return next(error);
+  } finally {
+    session.endSession();
+  }
 });
 
 // ADMIN
