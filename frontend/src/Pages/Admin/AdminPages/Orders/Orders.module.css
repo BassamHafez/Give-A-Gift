@@ -1,9 +1,9 @@
 .orders_body{
     min-height: 90vh;
-    display: flex;
+    /* display: flex;
     justify-content: center;
-    align-items: center;
-    padding: 1.25rem;
+    align-items: center; */
+    padding: 20px;
 }
 
 .noData{
@@ -11,6 +11,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: auto;
 }
 .noData_img{
     width: 300px;
@@ -66,6 +67,9 @@
     .order_item{
      width: 100%;
      padding: 10px;
+    }
+    .order_item ul li{
+        word-break: break-all;
     }
     .order_col{
         width: 100%;
