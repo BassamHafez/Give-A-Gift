@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   faBrush,
+  faCashRegister,
   faChartPie,
   faDoorOpen,
   faGifts,
@@ -27,12 +28,15 @@ const Admin = () => {
   const navigate = useNavigate();
   const { t: key } = useTranslation();
   const role = useSelector((state) => state.userInfo.role);
+  const profileData = useSelector((state) => state.profileInfo.data);
 
   useEffect(() => {
-    if (role !== "admin") {
+    if (role === "user") {
       navigate(`/`);
+    } else if (role === "merchant") {
+      navigate(`/merchant/${profileData?._id}`);
     }
-  }, [role, navigate]);
+  }, [role, navigate, profileData]);
   
   return (
     <>
@@ -52,6 +56,19 @@ const Admin = () => {
                     icon={faChartPie}
                   />
                   <span>{key("analysis")}</span>
+                </div>
+              </Col>
+              <Col
+                xs={6}
+                className="d-flex justify-content-center align-items-center"
+                onClick={() => navigate("/admin-orders")}
+              >
+                <div className={styles.list_item}>
+                  <FontAwesomeIcon
+                    className={styles.list_item_icon}
+                    icon={faCashRegister}
+                  />
+                  <span>{key("orders")}</span>
                 </div>
               </Col>
               <Col

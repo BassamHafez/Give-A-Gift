@@ -128,7 +128,7 @@ const CustomCards = () => {
     key("storesPageTitle"),
     key("message"),
   ];
-  
+
   const handleSelect = (selectedIndex) => {
     setCurrentStep(selectedIndex);
   };
@@ -309,18 +309,6 @@ const CustomCards = () => {
                           className={`${styles.text_input} form-control`}
                         ></textarea>
                         <div className={styles.circle_inputs_div}>
-                          <input
-                            type="number"
-                            placeholder={key("size")}
-                            onChange={(e) => setTextFont(e.target.value)}
-                            className={styles.fontSize_input}
-                          />
-                          <input
-                            type="color"
-                            value={textColor}
-                            onChange={(e) => setTextColor(e.target.value)}
-                            className={styles.color_input}
-                          />
                           <Select
                             className={styles.select_input}
                             classNamePrefix="FontFamily"
@@ -374,10 +362,24 @@ const CustomCards = () => {
                               }),
                               menu: (provided) => ({
                                 ...provided,
-                                width: "auto",
-                                minWidth: "150px",
+                                minWidth: "200px", // Adjust the width as necessary
+                                maxWidth: "100%", // Ensure it doesn't go out of screen
+                                zIndex: 9999, // Ensure it stays on top
                               }),
                             }}
+                          />
+                          <input
+                            type="number"
+                            value={textFont}
+                            placeholder={key("size")}
+                            onChange={(e) => setTextFont(e.target.value)}
+                            className={styles.fontSize_input}
+                          />
+                          <input
+                            type="color"
+                            value={textColor}
+                            onChange={(e) => setTextColor(e.target.value)}
+                            className={styles.color_input}
                           />
                         </div>
                       </div>

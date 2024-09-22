@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  faCashRegister,
   faCircleInfo,
   faDoorOpen,
   faGears,
@@ -36,6 +37,21 @@ const ProfileContent = () => {
 
         <div>
           <Row className={`${styles.main_row} justify-content-center`}>
+            <Col
+              xs={6}
+              className="d-flex justify-content-center align-items-center"
+            >
+              <div
+                className={styles.list_item}
+                onClick={() => navigate("/user-orders")}
+              >
+                <FontAwesomeIcon
+                  className={styles.list_item_icon}
+                  icon={faCashRegister}
+                />
+                <span>{key("orders")}</span>
+              </div>
+            </Col>
             <Col
               xs={6}
               className="d-flex justify-content-center align-items-center"

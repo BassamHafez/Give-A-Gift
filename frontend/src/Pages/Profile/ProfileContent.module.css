@@ -73,9 +73,7 @@
     color:var(--main_color)
 
 }
-.list_item:hover{
-    opacity: .75;
-}
+
 .list_item:hover .list_item_icon{
     color: white;
 }

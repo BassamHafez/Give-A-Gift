@@ -223,6 +223,19 @@ export const getMe= async (token) => {
   }
 };
 
+export const getAllOrders= async ({token}) => {
+  try {
+     const response = await axios.get(`${baseServerUrl}orders`,{
+      headers:{Authorization:`Bearer ${token}`}
+     });
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return error
+  }
+};
+
 
 // admin pages
 
@@ -445,6 +458,21 @@ export const addProColor = async ({ token, formData }) => {
     return response.data;
   } catch (error) {
     console.log(error);
+    return error;
+  }
+};
+
+
+// merchant
+
+export const getDiscounts = async ({token }) => {
+  try {
+    const response = await axios.get(`${baseServerUrl}discount-codes`,{
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
     return error;
   }
 };

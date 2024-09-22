@@ -4,7 +4,12 @@ import { controlShops, getShops } from "../../../util/Http";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { mixed, object, string } from "yup";
-import { faImage, faTrash, faYinYang } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircle,
+  faImage,
+  faTrash,
+  faYinYang,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
 import toast, { Toaster } from "react-hot-toast";
@@ -69,7 +74,7 @@ const Shops = () => {
     if (values.isOnline === "true") {
       formData.append("link", values.link);
       formData.append("isOnline", true);
-    }else{
+    } else {
       formData.append("isOnline", false);
     }
 
@@ -78,7 +83,6 @@ const Shops = () => {
       token: token,
     });
   };
-
 
   const validationSchema = object({
     shapeImage: mixed()
@@ -92,14 +96,14 @@ const Shops = () => {
       }),
     description: string().required(key("descReq")),
     name: string().required(key("nameValidation3")),
-    
+
     link: string().when("isOnline", {
       is: (isOnline) => isOnline === "true",
-      then: (schema) => schema.url(key("invalidLink")).required(key("invalidLink")),
+      then: (schema) =>
+        schema.url(key("invalidLink")).required(key("invalidLink")),
       otherwise: (schema) => schema.nullable(),
     }),
   });
-  
 
   const deleteShop = async (shopID) => {
     try {
@@ -223,7 +227,7 @@ const Shops = () => {
 
                 <div
                   className={`${styles.field} ${
-                    values.isOnline==="false" && styles.disable
+                    values.isOnline === "false" && styles.disable
                   }`}
                 >
                   <label htmlFor="link">{key("storeLink")}</label>
@@ -231,7 +235,7 @@ const Shops = () => {
                     type="text"
                     id="link"
                     name="link"
-                    disabled={values.isOnline==="false"}
+                    disabled={values.isOnline === "false"}
                   />
                   <ErrorMessage name="link" component={InputErrorMessage} />
                 </div>
@@ -253,7 +257,14 @@ const Shops = () => {
         </div>
 
         <hr />
-        <h4 className="fw-bold">All Stores</h4>
+        <div className="d-flex justify-content-between align-items-center">
+          <h4 className="fw-bold">{key("storesPageTitle")} </h4>
+          <span className="mini_word">
+            <FontAwesomeIcon className="text-success" icon={faCircle} />{" "}
+            physical {"  "}
+            <FontAwesomeIcon className="text-danger" icon={faCircle} /> online
+          </span>
+        </div>
         <Row className="justify-content-center">
           {shops ? (
             shops.data?.map((shop) => (
@@ -267,6 +278,14 @@ const Shops = () => {
                     className={styles.delete_icon}
                     icon={faTrash}
                     onClick={() => deleteShop(shop._id)}
+                  />
+                  <FontAwesomeIcon
+                    className={
+                      shop.isOnline
+                        ? styles.online_store
+                        : styles.physical_store
+                    }
+                    icon={faCircle}
                   />
                   <img
                     src={`${process.env.REACT_APP_Host}shops/${shop.logo}`}

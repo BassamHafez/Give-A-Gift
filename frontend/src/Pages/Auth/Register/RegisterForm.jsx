@@ -76,6 +76,8 @@ const RegisterForm = ({ notifySuccess, notifyError }) => {
         } else {
           notifyError(key("existError"));
         }
+      }else if(error.data.message.split(" ")[0]==="Duplicate"){
+        notifyError(key("duplicate"))
       } else {
         notifyError(key("wrong"));
       }
