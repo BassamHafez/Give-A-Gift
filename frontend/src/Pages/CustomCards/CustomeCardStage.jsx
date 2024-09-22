@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useMediaQuery } from "react-responsive";
 import { Stage, Layer, Rect, Text, Image } from "react-konva";
 import styles from "./CustomCards.module.css";
 import { useTranslation } from "react-i18next";
+
 
 const CustomeCardStage = ({
   cardWidth,
@@ -14,31 +15,45 @@ const CustomeCardStage = ({
   showBack,
   scaledWidth,
   scaledHeight,
-  offsetX,
-  offsetY,
   cardText,
   textFont,
   textFontFamily,
   textColor,
   textPosition,
   setTextPosition,
-  setIsDragged,
-  isDragged,
   priceSafeY,
   cardPrice,
   logo,
   mainLogoImage,
+  scale,
+  shapePosition,
+  setShapePosition,
 }) => {
   const isSmallScreen = useMediaQuery({ query: "(max-width: 400px)" });
   const { t: key } = useTranslation();
+  const [hasDraggedText, setHasDraggedText] = useState(false);
+  const initialTextPosition = useRef(null);
+
+  useEffect(() => {
+    const centeredX = (cardWidth - scaledWidth * scale) / 2;
+    const centeredY = (cardHeight - scaledHeight * scale) / 2;
+    setShapePosition({ x: centeredX, y: centeredY });
+  }, [scaledWidth, scaledHeight, scale, cardWidth, cardHeight, setShapePosition]);
+
+  const handleTextDragStart = () => {
+    setHasDraggedText(true);
+  };
+
+  const handleTextDragMove = (e) => {
+    setTextPosition({ x: e.target.x(), y: e.target.y() });
+  };
+
+  const handleShapeDragMove = (e) => {
+    setShapePosition({ x: e.target.x(), y: e.target.y() });
+  };
 
   return (
-    <Stage
-      className={styles.card}
-      width={cardWidth}
-      height={cardHeight}
-      cornerRadius={30}
-    >
+    <Stage className={styles.card} width={cardWidth} height={cardHeight} cornerRadius={30}>
       <Layer>
         {isProColor ? (
           <Image
@@ -50,21 +65,18 @@ const CustomeCardStage = ({
             cornerRadius={30}
           />
         ) : (
-          <Rect
-            width={cardWidth}
-            height={cardHeight}
-            fill={cardColor}
-            cornerRadius={30}
-          />
+          <Rect width={cardWidth} height={cardHeight} fill={cardColor} cornerRadius={30} />
         )}
 
         {shapeImage && showBack && (
           <Image
             image={shapeImage}
-            width={scaledWidth || cardWidth}
-            height={scaledHeight || cardHeight}
-            x={offsetX}
-            y={offsetY}
+            width={scaledWidth * scale || cardWidth * scale}
+            height={scaledHeight * scale || cardHeight * scale}
+            x={shapePosition.x || 0}
+            y={shapePosition.y || 0}
+            draggable
+            onDragMove={handleShapeDragMove}
             opacity={1}
             visible={true}
             cornerRadius={30}
@@ -85,13 +97,8 @@ const CustomeCardStage = ({
                 align="center"
                 wrap="char"
                 draggable
-                onDragEnd={(e) => {
-                  setTextPosition({
-                    x: e.target.x(),
-                    y: e.target.y(),
-                  });
-                  setIsDragged(true);
-                }}
+                onDragStart={handleTextDragStart}
+                onDragMove={handleTextDragMove}
                 onMouseEnter={(e) => {
                   const container = e.target.getStage().container();
                   container.style.cursor = "grab";
@@ -109,22 +116,16 @@ const CustomeCardStage = ({
                   container.style.cursor = "grab";
                 }}
                 ref={(node) => {
-                  if (node && !isDragged) {
+                  if (node && !hasDraggedText && initialTextPosition.current === null) {
                     const textWidth = node.getClientRect().width;
                     const textHeight = node.getClientRect().height;
-
-                    // Calculate centered x position
                     const centeredX = cardWidth / 2 - textWidth / 2;
-
-                    // Calculate centered y position, ensure text doesn't overlap with the price
                     let centeredY = cardHeight / 2 - textHeight / 2;
 
-                    // If text would overlap priceSafeY, adjust position
                     if (centeredY + textHeight > priceSafeY) {
-                      centeredY = priceSafeY - textHeight; // Move text up to avoid price
+                      centeredY = priceSafeY - textHeight;
                     }
 
-                    // Only update position if it's different from the current position
                     if (
                       textPosition.x !== centeredX ||
                       textPosition.y !== centeredY

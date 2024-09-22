@@ -48,7 +48,6 @@ const CustomCardColors = ({ saveColorValues }) => {
           backgroundColor: "#b62026",
         },
         position: "bottom-right",
-        duration: Infinity,
       }
     );
 

@@ -20,7 +20,7 @@ import ConfirmationModal from "../Ui/ConfirmationModal";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { cartActions } from "../../Store/cartCounter-slice";
 import DetailsAfterBuying from "../../Pages/DetailsAfterBuying/DetailsAfterBuying";
@@ -40,8 +40,6 @@ const Cart = ({ onClose, show }) => {
   const [walletDetails, setWalletDetails] = useState({});
   const [isCelebrateIcon, setIsCelebrateIcon] = useState(false);
   const [isCelebrateQR, setIsCelebrateQR] = useState(false);
-
-  const profileData = useSelector((state) => state.userInfo.data);
   const { t: key } = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const [isPaidCard, setIsPaidCard] = useState(false);
@@ -143,9 +141,9 @@ const Cart = ({ onClose, show }) => {
     }
   };
 
-  const goToChargeMethods = (price) => {
+  const goToChargeMethods = (price,cardId) => {
     setConfirmModalShow(false);
-    navigate(`/payment/payment/${profileData?._id}/${price}`);
+    navigate(`/payment/payment/${cardId}/${price}`);
   };
 
   const choosePaymentWay = (way, isBalanced, price, totalPrice) => {
@@ -154,7 +152,7 @@ const Cart = ({ onClose, show }) => {
       if (way === "wallet") {
         payCard();
       } else if (way === "payment") {
-        goToChargeMethods(price);
+        goToChargeMethods(price,cardId);
       }
     } else {
       setBtnMsg(key("charge"));

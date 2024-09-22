@@ -16,7 +16,6 @@ import CustomCards from './Pages/CustomCards/CustomCards';
 import Profile from './Pages/Profile/Profile';
 import RecipientInformation from './Pages/RecipientInformation/RecipientInformation';
 import Payment from './Pages/PayMethods/Payment';
-import ErrorURL from './Pages/PayMethods/ErrorURL';
 import ForgetPassword from './Components/ForgetPassword/ForgetPassword';
 import fetchProfileData from './Store/profileInfo-actions';
 import Admin from './Pages/Admin/Admin';
@@ -47,6 +46,8 @@ import MerchantAccountSetting from './Pages/MerchangProfile/MerchantAccountSetti
 import AllDiscounts from './Pages/MerchangProfile/AllDiscounts';
 import Orders from './Pages/Admin/AdminPages/Orders/Orders';
 import ProfileOrders from './Pages/Profile/ProfileOrders/ProfileOrders';
+import Success from './Pages/PayMethods/Success';
+import Faild from './Pages/PayMethods/Faild';
 
 
 const router=createBrowserRouter([{
@@ -67,11 +68,12 @@ const router=createBrowserRouter([{
     {path:"wallet/:userId",element:<ProtectedRoute><Wallet/></ProtectedRoute>},
     {path:"recipient-information/:cardId",element:<ProtectedRoute><RecipientInformation/></ProtectedRoute>},
     {path:"payment/:type/:userId/:price",element:<ProtectedRoute><Payment/></ProtectedRoute>},
-    {path:"payment-faild",element:<ErrorURL/>},
     {path:"account-setting",element:<ProtectedRoute><AccountManageMent/></ProtectedRoute>},
     {path:"help",element:<ProtectedRoute><Help/></ProtectedRoute>},
     {path:"details-after-buying/:cardPrice",element:<ProtectedRoute><DetailsAfterBuying/></ProtectedRoute>},
     {path:"user-orders",element:<ProtectedRoute><ProfileOrders/></ProtectedRoute>},
+    {path:"payment-success/:cardId",element:<ProtectedRoute><Success/></ProtectedRoute>},
+    {path:"payment-faild",element:<ProtectedRoute><Faild/></ProtectedRoute>},
 
     //admin
     {path:"admin/:adminId",element:<ProtectedRoute><Admin/></ProtectedRoute>},

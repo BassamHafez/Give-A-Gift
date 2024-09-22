@@ -65,3 +65,26 @@
     background-color: var(--slate_blue) !important;
     color:white  !important;
 }
+
+
+/* success page */
+.success_body{
+    min-height: 89vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+.success_img{
+    width: 500px;
+}
+.success_img img{
+    width: 100%;
+}
+
+@media screen and (max-width:520px) {
+       .success_img{
+        width: 99%;
+       } 
+}

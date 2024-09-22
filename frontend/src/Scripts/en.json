@@ -50,6 +50,7 @@
     "language":"Language",
     "cart":"Your Cart",
     "priceRange":"Price Range",
+    "priceNum":"price must be a number",
     "min":"min",
     "max":"max",
     "filter":"Filter",
@@ -282,6 +283,7 @@
     "profile":"Profile",
     "proColorTitle":"Premium Color Selected",
     "proColorMsg":"You have selected a premium color. An additional fee will be automatically added to the card price:",
+    "proShape":"You have selected a premium Shape. An additional fee will be automatically added to the card price:",
     "proCelebrateLinkMsg":"You have selected a premium celebrate Link. An additional fee will be automatically added to the card price:",
     "proCelebrateIconMsg":"You have selected a premium celebrate Icon. An additional fee will be automatically added to the card price:",
     "celebrateIcon":"celebration Icon",
@@ -323,5 +325,10 @@
     "recipientWhatsapp":"recipient whatsapp",
     "idAndDate":"ID & Date",
     "downloadExell":"Download Data Into Excel Sheet",
-    "orders":"Orders"
-}
+    "orders":"Orders",
+    "allShapes":"All Shapes",
+    "changeReadyCards":"Change Ready Cards Shape",
+    "successMsg":"Thank you for your purchase! Your payment has been successfully processed, and your gift card is on its way",
+    "faildMsg":"We're sorry, but something went wrong while processing your payment. Please check your payment details and try again.",
+    "noDataSearch":"No cards founded for that store"
+}   
