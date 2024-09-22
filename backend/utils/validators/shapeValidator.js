@@ -15,7 +15,11 @@ exports.createShapeValidator = [
 ];
 
 exports.deleteShapeValidator = [
-  check("id").isMongoId().withMessage("Please provide a valid shape ID"),
+  check("id")
+    .notEmpty()
+    .withMessage("Please provide a shape ID")
+    .isMongoId()
+    .withMessage("Invalid shape ID"),
 
   validatorMiddleware,
 ];
