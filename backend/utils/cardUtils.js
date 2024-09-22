@@ -40,6 +40,7 @@ exports.createOrderData = (
     celebrate_qr_link_price: card.celebrateQR ? +linkPrice : 0,
     VAT: `${VAT}%`,
     total_paid: totalAmount,
+    shop: card.shop.name,
     order_date: card.receiveAt,
     recipient_name: card.recipient.name,
     recipient_whatsapp: card.recipient.whatsappNumber,

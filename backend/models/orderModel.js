@@ -18,6 +18,7 @@ const orderSchema = new mongoose.Schema({
   celebrate_qr_link_price: Number,
   VAT: String,
   total_paid: Number,
+  shop: String,
   order_date: Date,
   recipient_name: String,
   recipient_whatsapp: String,
