@@ -84,7 +84,7 @@ exports.getAllOrders = catchAsync(async (req, res, next) => {
         },
         VAT: { $concat: [String(VAT), "%"] },
         total_paid: "$totalPricePaid",
-        recipient: "$recipient.name",
+        recipient: { $ifNull: ["$recipient.name", "Not Specified"] },
         recipient_whatsapp: "$recipient.whatsappNumber",
       },
     },
