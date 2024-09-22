@@ -180,7 +180,11 @@ exports.buyCard = catchAsync(async (req, res, next) => {
 
     res.status(200).json({
       status: "success",
-      data: orderData,
+      // data: orderData,
+      data: {
+        card,
+        wallet,
+      },
     });
   } catch (error) {
     await session.abortTransaction();
