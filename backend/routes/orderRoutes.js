@@ -6,7 +6,7 @@ const orderController = require("../controllers/orderController");
 
 router.use(authController.protect);
 
-router.route("/").get(orderController.getAllOrders);
+router.route("/").get(orderController.setUserId, orderController.getAllOrders);
 
 // router.route("/:id").get(orderController.getOrder);
 
