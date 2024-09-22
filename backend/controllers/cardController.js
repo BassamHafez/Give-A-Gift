@@ -48,18 +48,18 @@ exports.addRecipientInfo = catchAsync(async (req, res, next) => {
     });
   }
 
-  const card = await Card.findOneAndUpdate(
-    { _id: req.params.id, user: req.user.id },
-    req.body,
-    {
-      new: true,
-      runValidators: true,
-    }
-  );
+  const card = await Card.findOne({ _id: req.params.id, user: req.user.id });
 
   if (!card) {
     return next(new ApiError("No card found with that ID", 404));
   }
+
+  if (card.recipient?.name) {
+    return next(new ApiError("This card already has a recipient", 400));
+  }
+
+  Object.assign(card, req.body);
+  await card.save({ runValidators: true });
 
   res.status(200).json({
     status: "success",
