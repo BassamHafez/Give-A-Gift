@@ -139,8 +139,6 @@ exports.buyCard = catchAsync(async (req, res, next) => {
       VAT
     );
 
-    console.log("Total Amount: ", totalAmount);
-
     if (parseFloat(wallet.balance) < totalAmount) {
       throw new ApiError("Insufficient balance", 400);
     }
