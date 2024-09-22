@@ -85,7 +85,7 @@ exports.buyCard = catchAsync(async (req, res, next) => {
 
   const [wallet, card] = await Promise.all([
     Wallet.findOne({ user: req.user.id }),
-    Card.findById(cardId).populate("shop"),
+    Card.findById(cardId).populate("shop shape"),
   ]);
 
   if (!card) {
@@ -117,6 +117,7 @@ exports.buyCard = catchAsync(async (req, res, next) => {
   let cardPrice =
     card?.priceAfterDiscount >= 0 ? card.priceAfterDiscount : card.price.value;
 
+  cardPrice += parseFloat(card.shape.price);
   if (card.proColor) {
     const proColor = await ProColor.findById(card.proColor);
     cardPrice += parseFloat(proColor.price);
