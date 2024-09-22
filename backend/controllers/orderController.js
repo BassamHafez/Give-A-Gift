@@ -1,9 +1,13 @@
+const mongoose = require("mongoose");
 const Card = require("../models/cardModel");
 const Config = require("../models/configModel");
 const catchAsync = require("../utils/catchAsync");
 
 exports.getAllOrders = catchAsync(async (req, res, next) => {
-  const filter = req.user.role !== "admin" ? { user: req.user.id } : {};
+  const filter =
+    req.user.role !== "admin"
+      ? { user: new mongoose.Types.ObjectId(req.user.id) }
+      : {};
 
   const [VATConfig, iconPriceConfig, linkPriceConfig] = await Promise.all([
     Config.findOne({ key: "VAT_VALUE" }),
