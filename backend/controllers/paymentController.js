@@ -37,10 +37,6 @@ exports.executePayment = catchAsync(async (req, res, next) => {
   const { PaymentMethodId, InvoiceValue, type, successURL, errorURL } =
     req.body;
 
-  const VAT = await Config.findOne({ key: "VAT_VALUE" });
-
-  const totalInvoiceValue = InvoiceValue + InvoiceValue * (+VAT.value / 100);
-
   const response = await axios.post(
     `${baseURL}/v2/ExecutePayment`,
     {
@@ -48,7 +44,7 @@ exports.executePayment = catchAsync(async (req, res, next) => {
       CustomerName: req.user.name,
       DisplayCurrencyIso: "SAR",
       CustomerEmail: req.user.email,
-      InvoiceValue: totalInvoiceValue,
+      InvoiceValue,
       CallBackUrl: successURL,
       ErrorUrl: errorURL,
       UserDefinedField: type, // 'DEPOSIT' or 'PAYMENT'
