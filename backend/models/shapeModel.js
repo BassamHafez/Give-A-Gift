@@ -1,3 +1,4 @@
+const { min } = require("lodash");
 const mongoose = require("mongoose");
 
 const shapeSchema = new mongoose.Schema(
@@ -5,6 +6,11 @@ const shapeSchema = new mongoose.Schema(
     image: {
       type: String,
       required: true,
+    },
+    price: {
+      type: Number,
+      min: 0,
+      default: 0,
     },
   },
   {
