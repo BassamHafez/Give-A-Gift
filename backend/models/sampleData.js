@@ -7,73 +7,68 @@ const uploadSampleData = async () => {
     await Promise.all([
       Shape.insertMany([
         {
-          image: "removebg1.png",
-        },
-        {
-          image: "removebg2.png",
-        },
-        {
-          image: "svg1.svg",
-        },
-        {
-          image: "svg2.svg",
-        },
-        {
-          image: "recipientGift.jpg",
-        },
-        {
           image: "1OSMraS.png",
+          price: 0,
         },
         {
           image: "8Nnc16G.png",
+          price: 0,
         },
         {
           image: "e4rKcS0.png",
+          price: 0,
         },
         {
           image: "F1sU55g.png",
+          price: 0,
         },
         {
           image: "fhPyEBT.png",
+          price: 0,
         },
         {
           image: "FruSxNc.png",
+          price: 0,
         },
         {
           image: "gSHwOPr.png",
+          price: 0,
         },
         {
           image: "KnIE0ry.png",
+          price: 0,
         },
         {
           image: "mmetlwc.png",
+          price: 0,
         },
         {
           image: "mrFHn1o.png",
+          price: 0,
         },
         {
           image: "oiPl2QX.png",
+          price: 0,
         },
         {
           image: "P5w31EM.png",
+          price: 0,
         },
         {
           image: "RmpX0dp.png",
+          price: 0,
         },
         {
           image: "v0NFtm0.png",
+          price: 0,
         },
         {
           image: "WBxoxBK.png",
+          price: 0,
         },
         {
           image: "WjFaCGZ.png",
-        },
-        {
-          image: "front-shape.png",
-        },
-        {
-          image: "back-shape.png",
+          price: 0,
         },
       ]),
 
