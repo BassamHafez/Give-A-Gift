@@ -44,6 +44,16 @@ exports.getAllOrders = catchAsync(async (req, res, next) => {
     { $unwind: { path: "$proColor", preserveNullAndEmptyArrays: true } },
     // Optional: Add more lookups for other referenced models if needed (e.g., shop, shape)
 
+    {
+      $lookup: {
+        from: "shapes",
+        localField: "shape",
+        foreignField: "_id",
+        as: "shape",
+      },
+    },
+    { $unwind: "$shape" },
+
     // Step 3: Project and calculate fields (e.g., total price, celebrate icon/link prices)
     {
       $project: {
@@ -57,6 +67,7 @@ exports.getAllOrders = catchAsync(async (req, res, next) => {
         value: "$price.value",
         price_after_discount: "$priceAfterDiscount",
         color_price: { $ifNull: ["$proColor.price", 0] },
+        shape_price: "$shape.price",
         celebrate_icon_price: {
           $cond: {
             if: { $gt: ["$celebrateIcon", null] },
