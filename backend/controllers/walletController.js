@@ -2,6 +2,7 @@ const Wallet = require("../models/walletModel");
 const User = require("../models/userModel");
 const Card = require("../models/cardModel");
 const ProColor = require("../models/proColorModel");
+const Order = require("../models/orderModel");
 const Config = require("../models/configModel");
 const ScheduledMessage = require("../models/scheduledMessageModel");
 const QRCode = require("qrcode");
@@ -118,8 +119,9 @@ exports.buyCard = catchAsync(async (req, res, next) => {
     card?.priceAfterDiscount >= 0 ? card.priceAfterDiscount : card.price.value;
 
   cardPrice += parseFloat(card.shape.price);
+  let proColor;
   if (card.proColor) {
-    const proColor = await ProColor.findById(card.proColor);
+    proColor = await ProColor.findById(card.proColor);
     cardPrice += parseFloat(proColor.price);
   }
   if (card.celebrateIcon) {
@@ -158,10 +160,30 @@ exports.buyCard = catchAsync(async (req, res, next) => {
     scheduledAt: new Date(card.receiveAt),
   };
 
+  const orderData = {
+    card_id: card.id,
+    customer_id: req.user.id,
+    customer_name: req.user.name,
+    customer_email: req.user.email,
+    customer_phone: req.user.phone,
+    value: card.price.value,
+    price_after_discount: card.priceAfterDiscount,
+    shape_price: card.shape.price,
+    color_price: card.proColor ? parseFloat(proColor.price) : 0,
+    celebrate_icon_price: card.celebrateIcon ? iconPrice.value : 0,
+    celebrate_qr_link_price: card.celebrateQR ? linkPrice.value : 0,
+    VAT: VAT.value,
+    total_paid: totalAmount,
+    order_date: card.receiveAt,
+    recipient_name: card.recipient.name,
+    recipient_whatsapp: card.recipient.whatsappNumber,
+  };
+
   await Promise.all([
     wallet.save(),
     card.save(),
     ScheduledMessage.create(msgData),
+    Order.create(orderData),
   ]);
 
   res.status(200).json({
