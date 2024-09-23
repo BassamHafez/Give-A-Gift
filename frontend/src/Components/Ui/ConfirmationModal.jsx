@@ -114,14 +114,14 @@ const ConfirmationModal = ({
     }
 
     if (balanceCase) {
-      chargeCase(
+      const chargePrice =
         (Number(VAT) / 100) * Number(totalCardPrice) +
-          totalCardPrice +
-          (ProPrice ? Number(ProPrice) : 0) +
-          (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
-          (isCelebrateQR ? Number(celebrateLinkPrice) : 0) -
-          Number(balance)
-      );
+        totalCardPrice +
+        (ProPrice ? Number(ProPrice) : 0) +
+        (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
+        (isCelebrateQR ? Number(celebrateLinkPrice) : 0) -
+        Number(balance);
+      chargeCase(chargePrice, cardId);
       return;
     }
 

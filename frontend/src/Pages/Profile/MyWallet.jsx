@@ -30,9 +30,8 @@ const MyWallet = () => {
     staleTime:Infinity
   });
 
-
   const goToChargeMethods = () => {
-    navigate(`/payment/payment/${profileData?._id}`);
+    navigate(`/payment/deposite/${profileData?._id}/charge`);
   };
 
   return (

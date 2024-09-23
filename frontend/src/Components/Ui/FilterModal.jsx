@@ -5,15 +5,15 @@ import Modal from "react-bootstrap/Modal";
 import { useTranslation } from "react-i18next";
 import SearchField from "./SearchField";
 import { useQuery } from "@tanstack/react-query";
-import { getSpecialCards } from "../../util/Http";
+import { getShops } from "../../util/Http";
 import LoadingOne from "./LoadingOne";
 
 const FilterModal = ({ onHide, show, triggerFunc }) => {
   const { t: key } = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
-  const token = JSON.parse(localStorage.getItem("token"));
   const [searchInput, setSearchInput] = useState("");
-  const [selectedCards, setSelectedCards] = useState({});
+  const [selectedShop, setSelectedShop] = useState({});
+
 
   const searchName = (e, searchTerm) => {
     e.preventDefault();
@@ -21,29 +21,29 @@ const FilterModal = ({ onHide, show, triggerFunc }) => {
   };
 
   const { data } = useQuery({
-    queryKey: ["special-cards", token],
-    queryFn: getSpecialCards,
+    queryKey: ["shops"],
+    queryFn: getShops,
     staleTime: Infinity,
   });
 
-  const handleCheckboxChange = (cardName) => {
-    setSelectedCards((prevState) => ({
+  const handleCheckboxChange = (shpName) => {
+    setSelectedShop((prevState) => ({
       ...prevState,
-      [cardName]: !prevState[cardName],
+      [shpName]: !prevState[shpName],
     }));
   };
 
   const handleConfirm = () => {
-    const selectedNames = Object.keys(selectedCards).filter(
-      (name) => selectedCards[name]
+    const selectedNames = Object.keys(selectedShop).filter(
+      (name) => selectedShop[name]
     );
     triggerFunc({ selectedNames });
     onHide()
   };
 
   const filteredCards = data
-    ? data.data?.cards.filter((card) =>
-        card.shop?.name.toLowerCase().includes(searchInput.toLowerCase())
+    ? data.data.filter((shop) =>
+        shop.name.toLowerCase().includes(searchInput.toLowerCase())
       )
     : [];
 
@@ -65,26 +65,26 @@ const FilterModal = ({ onHide, show, triggerFunc }) => {
           {data ? (
             filteredCards?.length > 0 ? (
               <ul>
-                {filteredCards.map((card,index) => (
-                  <li key={`${card.shop?.name}_${index}`} className="my-3 text-end fw-bold">
+                {filteredCards?.map((shop,index) => (
+                  <li key={`${shop.name}_${index}`} className="my-3 text-end fw-bold">
                     {isArLang ? (
                       <label>
                         <input
                           type="checkbox"
-                          checked={!!selectedCards[card.shop?.name]}
-                          onChange={() => handleCheckboxChange(card.shop?.name)}
+                          checked={!!selectedShop[shop.name]}
+                          onChange={() => handleCheckboxChange(shop.name)}
                           className="mx-3"
                         />
-                        {card.shop?.name}
+                        {shop.name}
                       </label>
                     ) : (
                       <label>
-                        {card.shop?.name}
+                        {shop.name}
 
                         <input
                           type="checkbox"
-                          checked={!!selectedCards[card.shop?.name]}
-                          onChange={() => handleCheckboxChange(card.shop?.name)}
+                          checked={!!selectedShop[shop.name]}
+                          onChange={() => handleCheckboxChange(shop.name)}
                           className="mx-3"
                         />
                       </label>
@@ -94,26 +94,26 @@ const FilterModal = ({ onHide, show, triggerFunc }) => {
               </ul>
             ) : (
               <ul>
-                {data.data?.cards.map((card) => (
-                  <li key={card.shop?.name} className="my-3 text-end fw-bold">
+                {data.data.map((shop) => (
+                  <li key={shop.name} className="my-3 text-end fw-bold">
                     {isArLang ? (
                       <label>
                         <input
                           type="checkbox"
-                          checked={!!selectedCards[card.shop?.name]}
-                          onChange={() => handleCheckboxChange(card.shop?.name)}
+                          checked={!!selectedShop[shop.name]}
+                          onChange={() => handleCheckboxChange(shop.name)}
                           className="mx-3"
                         />
-                        {card.shop?.name}
+                        {shop.name}
                       </label>
                     ) : (
                       <label>
-                        {card.shop?.name}
+                        {shop.name}
 
                         <input
                           type="checkbox"
-                          checked={!!selectedCards[card.shop?.name]}
-                          onChange={() => handleCheckboxChange(card.shop?.name)}
+                          checked={!!selectedShop[shop.name]}
+                          onChange={() => handleCheckboxChange(shop.name)}
                           className="mx-3"
                         />
                       </label>

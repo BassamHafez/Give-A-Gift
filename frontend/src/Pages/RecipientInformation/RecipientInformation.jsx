@@ -119,7 +119,6 @@ const RecipientInformation = () => {
           backgroundColor: "#b62026",
         },
         position: "bottom-right",
-        duration: Infinity,
       }
     );
 
@@ -262,17 +261,17 @@ const RecipientInformation = () => {
     }
   };
 
-  const goToChargeMethods = (price) => {
-    navigate(`/payment/payment/${profileData?._id}/${price}`);
+  const goToChargeMethods = (price,cardId) => {
+    navigate(`/payment/payment/${cardId}/${price}`);
   };
 
   const choosePaymentWay = (way, isBalanced, price, totalPrice) => {
     setTotalPrice(totalPrice);
     if (isBalanced === "balanced") {
       if (way === "wallet") {
-        payCard(price);
+        payCard();
       } else if (way === "payment") {
-        goToChargeMethods(price);
+        goToChargeMethods(price,cardId);
       }
     } else {
       setBtnMsg(key("charge"));

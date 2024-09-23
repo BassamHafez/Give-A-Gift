@@ -52,7 +52,8 @@ const CustomCards = () => {
   const [mainLogoImage] = useImage(mainLogo);
   const [currentStep, setCurrentStep] = useState(0);
   const [isProColor, setIsProColor] = useState(false);
-  const [isDragged, setIsDragged] = useState(false);
+  const [scale, setScale] = useState(1);
+  const [shapePosition, setShapePosition] = useState({ x: 0, y: 0 });
 
   const token = JSON.parse(localStorage.getItem("token"));
   const navigate = useNavigate();
@@ -142,6 +143,15 @@ const CustomCards = () => {
       notifyError(key("cardPriceError"));
       return;
     }
+
+    if(isNaN(Number(cardPrice))){
+      notifyError(key("priceNum"))
+      return;
+    }
+    if(Number(cardPrice)<1){
+      notifyError("priceVali");
+      return;
+    }
     if (selectedShopId === "") {
       notifyError(key("cardStoreError"));
       return;
@@ -172,6 +182,15 @@ const CustomCards = () => {
       yPosition: textPosition.y,
     };
 
+    const shapeData = {
+      scale: scale,
+      position: {
+        x: shapePosition.x,
+        y: shapePosition.y,
+      },
+      shapeId: selectedShapeId,
+    };
+
     let formData = {};
 
     if (isProColor) {
@@ -180,7 +199,7 @@ const CustomCards = () => {
         price: priceValues,
         proColor: cardColorId,
         shop: selectedShopId,
-        shape: selectedShapeId,
+        shape: shapeData,
         text: textValues,
       };
     } else {
@@ -189,11 +208,11 @@ const CustomCards = () => {
         price: priceValues,
         color: cardColorId,
         shop: selectedShopId,
-        shape: selectedShapeId,
+        shape: shapeData,
         text: textValues,
       };
     }
-
+    console.log(formData)
     try {
       const response = await axios.post(`${baseServerUrl}cards`, formData, {
         headers: {
@@ -213,6 +232,7 @@ const CustomCards = () => {
     }
   };
 
+  
   return (
     <>
       <Toaster position="top-right" />
@@ -227,7 +247,7 @@ const CustomCards = () => {
               </div>
 
               <div>
-                <CustomeCardStage
+              <CustomeCardStage
                   cardWidth={cardWidth}
                   cardHeight={cardHeight}
                   isProColor={isProColor}
@@ -245,16 +265,17 @@ const CustomCards = () => {
                   textColor={textColor}
                   textPosition={textPosition}
                   setTextPosition={setTextPosition}
-                  setIsDragged={setIsDragged}
-                  isDragged={isDragged}
                   priceSafeY={priceSafeY}
-                  cardPrice={cardPrice}
+                  cardPrice={`${cardPrice}`}
                   logo={logo}
                   mainLogoImage={mainLogoImage}
+                  scale={scale}
+                  setScale={setScale}
+                  shapePosition={shapePosition}
+                  setShapePosition={setShapePosition}
                 />
               </div>
             </Col>
-
             <Col sm={12} className={styles.control_side_container}>
               <div className={styles.steps_indicator}>
                 {stepLabels.map((label, index) => (
@@ -287,7 +308,11 @@ const CustomCards = () => {
                   <CustomCardColors saveColorValues={saveColorValues} />
                 </Carousel.Item>
                 <Carousel.Item className={`${styles.carousel_item}`}>
-                  <CustomCardShapes saveShape={saveShape} />
+                  <CustomCardShapes
+                    saveShape={saveShape}
+                    scale={scale}
+                    setScale={setScale}
+                  />
                 </Carousel.Item>
                 <Carousel.Item className={`${styles.carousel_item}`}>
                   <CustomCardShops saveShop={saveShop} />

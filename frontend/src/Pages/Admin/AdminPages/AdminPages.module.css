@@ -142,7 +142,14 @@
 .shape_div:hover .delete_icon{
     opacity: 1;
 }
-
+.shape_crown{
+    color: gold;
+    position: absolute;
+    left: 0;
+    top:0;
+    transform: translate(-50%,-50%);
+    font-size: 1.875rem;
+}
 /* shops */
 
 .shop_div{
@@ -427,7 +434,7 @@
         min-width:98%;
     }
     .shape_div{
-        width: 99%;
+        width: 90%;
     }
 }
 

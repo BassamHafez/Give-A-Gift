@@ -103,6 +103,7 @@
         margin: 20px 0;
         cursor: pointer;
         transition: all .4s;
+        position: relative;
     }
 
     .shape_div img{
@@ -255,6 +256,17 @@
       color: gold;
       transform: translate(-40%,-40%);
   }
+  .slider {
+    width: 100%;
+    margin: 10px 0;
+  }
+  .shape_crown{
+    color: gold;
+    position: absolute;
+    left: 0;
+    top:0;
+    transform: translate(-50%,-50%);
+}
 
     @media screen and (max-width:992px) {
       .canva_body {

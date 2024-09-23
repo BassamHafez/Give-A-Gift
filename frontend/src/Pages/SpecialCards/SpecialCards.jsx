@@ -48,10 +48,16 @@ const SpecialCards = () => {
 
   const searchStores = ({ selectedNames }) => {
     if (selectedNames.length > 0) {
-      const filtered = data?.data?.cards.filter((card) =>
+      let filtered=[];
+       filtered = data?.data?.cards.filter((card) =>
         selectedNames.includes(card.shop?.name)
       );
-      setFilteredCards(filtered);
+      if(filtered.length>0){
+        setFilteredCards(filtered);
+      }else{
+        notifyError(key("noDataSearch"))
+        setFilteredCards(data?.data?.cards)
+      }
     } else {
       setFilteredCards(data?.data?.cards);
     }

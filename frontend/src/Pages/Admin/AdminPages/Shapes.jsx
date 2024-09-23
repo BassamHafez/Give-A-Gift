@@ -2,9 +2,14 @@ import React, { useState } from "react";
 import styles from "./AdminPages.module.css";
 import { controlShapes, getShapes } from "../../../util/Http";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { ErrorMessage, Form, Formik } from "formik";
-import { mixed, object } from "yup";
-import { faImage, faTrash, faYinYang } from "@fortawesome/free-solid-svg-icons";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import { mixed, number, object } from "yup";
+import {
+  faCrown,
+  faImage,
+  faTrash,
+  faYinYang,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
 import toast, { Toaster } from "react-hot-toast";
@@ -48,6 +53,7 @@ const Shapes = () => {
 
   const initialValues = {
     shapeImage: "",
+    price: "",
   };
 
   const onSubmit = (values) => {
@@ -60,6 +66,7 @@ const Shapes = () => {
       notifyError(key("uploadPhoto"));
       return;
     }
+    formData.append("price", values.price);
     mutate({
       formData: formData,
       token: token,
@@ -76,6 +83,7 @@ const Shapes = () => {
           ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
           : true;
       }),
+    price: number().required(key("priceRec")).min(1, key("priceVali")),
   });
 
   const deleteShape = async (shapeID) => {
@@ -110,9 +118,15 @@ const Shapes = () => {
       <div className={styles.main_body}>
         <div className={styles.configs_body}>
           <div className="my-5">
+            <h4 className="fw-bold text-secondary">
+              {key("changeReadyCards")}
+            </h4>
             <AddSpecialCardsShape />
           </div>
           <div>
+            <h4 className="fw-bold text-secondary">
+              {key("add")} {key("customCards")}
+            </h4>
             <Formik
               initialValues={initialValues}
               onSubmit={onSubmit}
@@ -142,7 +156,13 @@ const Shapes = () => {
                     component={InputErrorMessage}
                   />
                 </div>
-
+                <div className={`${styles.field} my-4`}>
+                  <label className="fw-bold text-secondary" htmlFor="price">
+                    {key("add")} {key("price")}
+                  </label>
+                  <Field type="number" id="price" name="price" />
+                  <ErrorMessage name="price" component={InputErrorMessage} />
+                </div>
                 <div className="d-flex justify-content-end align-items-center mt-3 px-2">
                   {isPending ? (
                     <button type="submit" className={styles.save_btn}>
@@ -160,7 +180,7 @@ const Shapes = () => {
         </div>
 
         <hr />
-        <h4 className="fw-bold">All Shapes</h4>
+        <h4 className="fw-bold">{key("allShapes")}</h4>
         <Row className="justify-content-center">
           {shapes ? (
             shapes.data?.map((shape) => (
@@ -175,6 +195,9 @@ const Shapes = () => {
                     icon={faTrash}
                     onClick={() => deleteShape(shape._id)}
                   />
+                  {shape.price > 0 && (
+                    <FontAwesomeIcon className={styles.shape_crown} icon={faCrown} />
+                  )}
                   <img
                     src={`${process.env.REACT_APP_Host}shapes/${shape.image}`}
                     alt="shape"

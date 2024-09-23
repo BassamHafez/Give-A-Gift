@@ -52,7 +52,7 @@ const OrdersDataView = () => {
             {data.data?.map((order) => (
               <Col
                 className={styles.order_col}
-                key={order.order_id}
+                key={order.order_id}  
                 md={6}
                 lg={4}
               >
@@ -72,6 +72,7 @@ const OrdersDataView = () => {
                       />
                       {key("price")}: {order.value}
                     </li>
+
                     <li>
                       <FontAwesomeIcon
                         className={
@@ -79,7 +80,7 @@ const OrdersDataView = () => {
                         }
                         icon={isArLang ? faCaretLeft : faCaretRight}
                       />
-                      {key("afterDisc")}: {order.price_after_discount}
+                      {key("shapePrice")}: {order.shape_price}
                     </li>
                     <li>
                       <FontAwesomeIcon
@@ -119,6 +120,15 @@ const OrdersDataView = () => {
                       />
                       {key("Vatvalue")}: {order.VAT}
                     </li>
+                    <li>
+                      <FontAwesomeIcon
+                        className={
+                          isArLang ? styles.arrow_icon_ar : styles.arrow_icon_en
+                        }
+                        icon={isArLang ? faCaretLeft : faCaretRight}
+                      />
+                      {key("totalPrice")}: {order.total_paid}
+                    </li>
                   </ul>
                   <hr />
                   <h4>{key("customerRec")}</h4>
@@ -130,7 +140,7 @@ const OrdersDataView = () => {
                         }
                         icon={isArLang ? faCaretLeft : faCaretRight}
                       />
-                      {key("customer")}: {order.customer}
+                      {key("customer")}: {order.customer_name}
                     </li>
                     <li>
                       <FontAwesomeIcon
@@ -139,7 +149,7 @@ const OrdersDataView = () => {
                         }
                         icon={isArLang ? faCaretLeft : faCaretRight}
                       />
-                      {key("email")}: {order.email}
+                      {key("email")}: {order.customer_email}
                     </li>
 
                     <li>
@@ -149,7 +159,7 @@ const OrdersDataView = () => {
                         }
                         icon={isArLang ? faCaretLeft : faCaretRight}
                       />
-                      {key("recipient")}: {order.recipient}
+                      {key("recipient")}: {order.recipient_name}
                     </li>
                     <li>
                       <FontAwesomeIcon
@@ -158,7 +168,7 @@ const OrdersDataView = () => {
                         }
                         icon={isArLang ? faCaretLeft : faCaretRight}
                       />
-                      {key("recipientWhatsapp")}: {order.recipient}
+                      {key("recipientWhatsapp")}: {order.recipient_whatsapp}
                     </li>
                   </ul>
                   <hr />
@@ -171,7 +181,16 @@ const OrdersDataView = () => {
                         }
                         icon={isArLang ? faCaretLeft : faCaretRight}
                       />
-                      {key("orderId")}: {order.order_id}
+                      {key("orderId")}: {order._id}
+                    </li>
+                    <li>
+                      <FontAwesomeIcon
+                        className={
+                          isArLang ? styles.arrow_icon_ar : styles.arrow_icon_en
+                        }
+                        icon={isArLang ? faCaretLeft : faCaretRight}
+                      />
+                      {key("cardId")}: {order.card_id}
                     </li>
                     <li>
                       <FontAwesomeIcon

@@ -10,7 +10,7 @@ import Row from "react-bootstrap/esm/Row";
 import { getPaymentMethods } from "../../util/Http";
 import { useParams } from "react-router-dom";
 import InputErrorMessage from "../../Components/Ui/InputErrorMessage";
-import styles from "./PayMent.module.css";
+import styles from "./Payment.module.css";
 import toast, { Toaster } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 
@@ -19,7 +19,7 @@ const notifyError = (message) => toast.error(message);
 
 const Payment = () => {
   const token = JSON.parse(localStorage.getItem("token"));
-  const { type, userId, price } = useParams();
+  const { type, cardId, price } = useParams();
   const [activeMethod, setActiveMethod] = useState(0);
   const { t: key } = useTranslation();
 
@@ -55,13 +55,18 @@ const Payment = () => {
   };
 
   const onSubmit = (values) => {
+    const successURL =
+      type === "payment"
+        ? `${process.env.REACT_APP_Host}payment-success/${cardId}`
+        : `${process.env.REACT_APP_Host}payment-success/charge`;
+
     const updatedFormData = {
       PaymentMethodId: values.PaymentMethodId,
       InvoiceValue: values.InvoiceValue,
       type: type === "payment" ? "PAYMENT" : "DEPOSIT",
-      successURL: `${process.env.REACT_APP_Host}profile/${userId}`,
-      errorURL: `${process.env.REACT_APP_Host}profile/${userId}`,
-      // errorURL: `http://127.0.0.1:3001/payment-faild`,
+      successURL: successURL,
+      errorURL: successURL,
+      // errorURL: `${process.env.REACT_APP_Host}payment-faild`,
     };
     mutate({ token: token, formData: updatedFormData });
   };
@@ -72,14 +77,16 @@ const Payment = () => {
       .required(key("paymentIdValidate2")),
     InvoiceValue: number()
       .typeError(key("amountValidate1"))
-      .required(key("amountValidate2"))
-      // .min(5, key("amountValidate3")),
+      .required(key("amountValidate2")),
+    // .min(5, key("amountValidate3")),
   });
 
   return (
     <>
       <Toaster position="top-right" />
-      <div className={`${styles.container} d-flex justify-content-center align-items-center my-5`}>
+      <div
+        className={`${styles.container} d-flex justify-content-center align-items-center my-5`}
+      >
         <Formik
           initialValues={initialValues}
           onSubmit={onSubmit}
@@ -135,7 +142,11 @@ const Payment = () => {
               />
             </div>
 
-            <div className={`${styles.field} ${styles.amount_field} ${type === "payment" ?"d-none":""}`}>
+            <div
+              className={`${styles.field} ${styles.amount_field} ${
+                type === "payment" ? "d-none" : ""
+              }`}
+            >
               <label htmlFor="Amount">
                 {key("amount")} ({key("sar")})
               </label>
