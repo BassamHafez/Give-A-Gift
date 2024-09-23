@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import styles from "./AdminPages.module.css";
 import {
-  faIdCard,
-  faPhone,
-  faSackDollar,
+  faChartSimple,
+  faCoins,
+  faCreditCard,
+  faHashtag,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import LoadingOne from "../../../Components/Ui/LoadingOne";
-import defaultImg from "../../../Images/default.png";
 import SearchField from "../../../Components/Ui/SearchField";
 import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
@@ -38,7 +38,7 @@ const Transactions = () => {
     enabled: !!token,
     staleTime: Infinity,
   });
-
+console.log(allTransactions)
   const handleSearch = (e, searchTerm) => {
     e.preventDefault();
     if (searchTerm !== ""&&searchTerm!==searchInput) {
@@ -81,106 +81,112 @@ const Transactions = () => {
       <Row className="justify-content-center position-relative">
         {allTransactions ? (
           filterTransactions?.length > 0 ? (
-            filterTransactions.map((wallet) => (
+            filterTransactions.map((trans) => (
               <Col
-                key={wallet._id}
+                key={trans._id}
                 sm={6}
                 lg={4}
                 className="d-flex justify-content-center align-items-center"
               >
                 <div className={`${styles.user_div} ${styles.cur_pointer}`}>
-                  <div className={styles.user_header}>
-                    <div className={styles.user_img}>
-                      <img
-                        src={
-                          wallet.user?.photo
-                            ? `${process.env.REACT_APP_Host}users/${wallet.user.photo}`
-                            : defaultImg
-                        }
-                        alt="wallet user"
-                      />
-                    </div>
                     <div className={styles.user_header_info}>
-                      <h5>{wallet.user?.name}</h5>
-                      <span className="mini_word">{wallet.user?.email}</span>
+                      <h5>{trans.CustomerName}</h5>
+                      <span className="mini_word">{trans.CustomerEmail}</span>
                     </div>
-                  </div>
+        
                   <ul className="p-0 mt-4">
                     <li className={styles.details_list}>
                       <FontAwesomeIcon
                         className={styles.details_list_icon}
-                        icon={faPhone}
+                        icon={faChartSimple}
                       />{" "}
-                      {wallet.user?.phone}
+                      {key("state")}: {trans.TransactionStatus}
                     </li>
                     <li className={styles.details_list}>
                       <FontAwesomeIcon
                         className={styles.details_list_icon}
-                        icon={faIdCard}
-                      />
-                      {wallet._id}
+                        icon={faCoins}
+                      />{" "}
+                      {key("transValue")}: {trans.InvoiceValue}
                     </li>
                     <li className={styles.details_list}>
                       <FontAwesomeIcon
                         className={styles.details_list_icon}
-                        icon={faSackDollar}
-                      />
-                      {key("balance")}: {wallet.balance}
+                        icon={faCreditCard}
+                      />{" "}
+                      {key("PaymentMethod")}: {trans.PaymentMethod}
+                    </li>
+                    <li className={styles.details_list}>
+                      <FontAwesomeIcon
+                        className={styles.details_list_icon}
+                        icon={faCreditCard}
+                      />{" "}
+                      {key("UserDefinedField")}: {trans.UserDefinedField}
+                    </li>
+                    <li className={styles.details_list}>
+                      <FontAwesomeIcon
+                        className={styles.details_list_icon}
+                        icon={faHashtag}
+                      />{" "}
+                      {key("paymentId")}: {trans.PaymentId}
                     </li>
                   </ul>
                 </div>
               </Col>
             ))
           ) : (
-            allTransactions.data?.data?.map((wallet) => (
+            allTransactions.data?.data?.map((trans) => (
               <Col
-                key={wallet._id}
-                sm={6}
-                lg={4}
-                className="d-flex justify-content-center align-items-center"
-              >
-                <div className={styles.user_div}>
-                  <div className={styles.user_header}>
-                    <div className={styles.user_img}>
-                      <img
-                        src={
-                          wallet.user?.photo
-                            ? `${process.env.REACT_APP_Host}users/${wallet.user.photo}`
-                            : defaultImg
-                        }
-                        alt="wallet user"
-                      />
-                    </div>
-                    <div className={styles.user_header_info}>
-                      <h5>{wallet.user?.name}</h5>
-                      <span className="mini_word">{wallet.user?.email}</span>
-                    </div>
+              key={trans._id}
+              sm={6}
+              lg={4}
+              className="d-flex justify-content-center align-items-center"
+            >
+              <div className={`${styles.user_div} ${styles.cur_pointer}`}>
+                  <div className={styles.user_header_info}>
+                    <h5>{trans.CustomerName}</h5>
+                    <span className="mini_word">{trans.CustomerEmail}</span>
                   </div>
-                  <ul className="p-0 mt-4">
-                    <li className={styles.details_list}>
-                      <FontAwesomeIcon
-                        className={styles.details_list_icon}
-                        icon={faPhone}
-                      />{" "}
-                      {wallet.user?.phone}
-                    </li>
-                    <li className={styles.details_list}>
-                      <FontAwesomeIcon
-                        className={styles.details_list_icon}
-                        icon={faIdCard}
-                      />
-                      {wallet._id}
-                    </li>
-                    <li className={styles.details_list}>
-                      <FontAwesomeIcon
-                        className={styles.details_list_icon}
-                        icon={faSackDollar}
-                      />
-                      {key("balance")}: {wallet.balance}
-                    </li>
-                  </ul>
-                </div>
-              </Col>
+      
+                <ul className="p-0 mt-4">
+                  <li className={styles.details_list}>
+                    <FontAwesomeIcon
+                      className={styles.details_list_icon}
+                      icon={faChartSimple}
+                    />{" "}
+                    {key("state")}: {trans.TransactionStatus}
+                  </li>
+                  <li className={styles.details_list}>
+                    <FontAwesomeIcon
+                      className={styles.details_list_icon}
+                      icon={faCoins}
+                    />{" "}
+                    {key("transValue")}: {trans.InvoiceValue}
+                  </li>
+                  <li className={styles.details_list}>
+                    <FontAwesomeIcon
+                      className={styles.details_list_icon}
+                      icon={faCreditCard}
+                    />{" "}
+                    {key("PaymentMethod")}: {trans.PaymentMethod}
+                  </li>
+                  <li className={styles.details_list}>
+                    <FontAwesomeIcon
+                      className={styles.details_list_icon}
+                      icon={faCreditCard}
+                    />{" "}
+                    {key("UserDefinedField")}: {trans.UserDefinedField}
+                  </li>
+                  <li className={styles.details_list}>
+                    <FontAwesomeIcon
+                      className={styles.details_list_icon}
+                      icon={faHashtag}
+                    />{" "}
+                    {key("paymentId")}: {trans.PaymentId}
+                  </li>
+                </ul>
+              </div>
+            </Col>
             ))
           )
         ) : (
