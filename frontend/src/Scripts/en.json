@@ -331,5 +331,7 @@
     "successMsg":"Thank you for your purchase! Your payment has been successfully processed, and your gift card is on its way",
     "faildMsg":"We're sorry, but something went wrong while processing your payment. Please check your payment details and try again.",
     "noDataSearch":"No cards founded for that store",
-    "shapePrice":"Shape Price"
+    "shapePrice":"Shape Price",
+    "forYou":"Gift Card From Give A Gift Just For You",
+    "cardHaveRec":"This card already has a recipient"
 }   

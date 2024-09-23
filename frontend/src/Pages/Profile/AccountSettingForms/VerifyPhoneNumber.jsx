@@ -37,6 +37,7 @@ const VerifyPhoneNumber = () => {
 
   return (
     <>
+      
       <div>
         <h4>{key("verifyMsg")}</h4>
         <div className={`${isArLang ? "text-start" : "text-end"}`}>

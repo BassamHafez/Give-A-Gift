@@ -149,7 +149,7 @@ const CustomCards = () => {
       return;
     }
     if(Number(cardPrice)<1){
-      notifyError("priceVali");
+      notifyError(key("priceVali"));
       return;
     }
     if (selectedShopId === "") {
@@ -387,9 +387,9 @@ const CustomCards = () => {
                               }),
                               menu: (provided) => ({
                                 ...provided,
-                                minWidth: "200px", // Adjust the width as necessary
-                                maxWidth: "100%", // Ensure it doesn't go out of screen
-                                zIndex: 9999, // Ensure it stays on top
+                                minWidth: "150px",
+                                maxWidth: "100%",
+                                zIndex: 9999,
                               }),
                             }}
                           />

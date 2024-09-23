@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./AdminPages.module.css";
 import { getStatistics } from "../../../util/Http";
 import { useTranslation } from "react-i18next";
@@ -38,7 +38,9 @@ const Analysis = () => {
 
     XLSX.writeFile(wb, `${msg}`);
   };
-
+  useEffect(()=>{
+    window.scrollTo(0, 0)
+  },[])
   return (
     <div>
       {data ? (

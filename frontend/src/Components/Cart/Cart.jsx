@@ -141,7 +141,7 @@ const Cart = ({ onClose, show }) => {
     }
   };
 
-  const goToChargeMethods = (price,cardId) => {
+  const goToChargeMethods = (price, cardId) => {
     setConfirmModalShow(false);
     navigate(`/payment/payment/${cardId}/${price}`);
   };
@@ -152,7 +152,7 @@ const Cart = ({ onClose, show }) => {
       if (way === "wallet") {
         payCard();
       } else if (way === "payment") {
-        goToChargeMethods(price,cardId);
+        goToChargeMethods(price, cardId);
       }
     } else {
       setBtnMsg(key("charge"));
@@ -160,6 +160,20 @@ const Cart = ({ onClose, show }) => {
     }
   };
 
+  const goToBuyingPhases = (
+    receiveAt,
+    price,
+    cardId,
+    celebrateIcon,
+    celebrateQR
+  ) => {
+    if (receiveAt) {
+      confirmMethod("pay", price, cardId, celebrateIcon, celebrateQR);
+    } else {
+      navigate(`/recipient-information/${cardId}`);
+      onClose();
+    }
+  };
   return (
     <>
       <Toaster position="top-right" />
@@ -294,17 +308,13 @@ const Cart = ({ onClose, show }) => {
                                 className={styles.arrow_right_icon}
                                 icon={!isArLang ? faArrowRight : faArrowLeft}
                                 onClick={() =>
-                                  card.receiveAt
-                                    ? confirmMethod(
-                                        "pay",
-                                        card?.price?.value,
-                                        card._id,
-                                        card?.celebrateIcon,
-                                        card?.celebrateIcon
-                                      )
-                                    : navigate(
-                                        `/recipient-information/${card._id}`
-                                      )
+                                  goToBuyingPhases(
+                                    card?.receiveAt,
+                                    card?.price?.value,
+                                    card?._id,
+                                    card?.celebrateIcon,
+                                    card?.celebrateQR
+                                  )
                                 }
                               />
                             )}

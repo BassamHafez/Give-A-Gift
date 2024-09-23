@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./AdminPages.module.css";
 import toast, { Toaster } from "react-hot-toast";
 import AddCoupon from "./CouponsForms/AddCoupon";
@@ -30,7 +30,9 @@ const Coupons = () => {
     enabled: !!token,
     staleTime: Infinity,
   });
-
+  useEffect(()=>{
+    window.scrollTo(0, 0)
+  },[])
   const deleteCoupon = async (couponId) => {
     try {
       const response = await axios.delete(

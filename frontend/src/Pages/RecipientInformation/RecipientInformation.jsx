@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getCard, getMyWallet, updateCard } from "../../util/Http";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ErrorMessage, Form, Formik, Field } from "formik";
@@ -84,6 +84,10 @@ const RecipientInformation = () => {
   const { t: key } = useTranslation();
   const queryClient = useQueryClient();
 
+  useEffect(()=>{
+    window.scrollTo(0 ,0)
+  },[])
+
   const PriceAlert = (message) =>
     toast(
       (t) => (
@@ -154,6 +158,8 @@ const RecipientInformation = () => {
         }
         notifySuccess(key("saveRec"));
         confirmMethod("pay");
+      }else if(data.response.data.message==="This card already has a recipient"){
+        notifyError(key("cardHaveRec"))
       } else {
         notifyError(key("failRec"));
       }

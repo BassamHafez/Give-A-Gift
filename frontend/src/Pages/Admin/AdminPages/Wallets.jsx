@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./AdminPages.module.css";
 import {
   faIdCard,
@@ -49,7 +49,9 @@ const Wallets = () => {
           wallet._id.includes(searchInput)
       )
     : [];
-
+    useEffect(()=>{
+      window.scrollTo(0, 0)
+    },[])
   return (
     <>
       <div className={styles.main_body}>

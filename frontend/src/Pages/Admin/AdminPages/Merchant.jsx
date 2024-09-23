@@ -63,7 +63,9 @@ const Merchant = () => {
     queryFn: getShops,
     staleTime: Infinity,
   });
-
+  useEffect(()=>{
+    window.scrollTo(0, 0)
+  },[])
   useEffect(() => {
     if (shops) {
       const physicalShopsValues = shops.data?.filter(
