@@ -1,6 +1,8 @@
 const QRCode = require("qrcode");
 const Card = require("../models/cardModel");
 const Coupon = require("../models/couponModel");
+const Config = require("../models/configModel");
+const { calculateTotalCardPrice } = require("../utils/cardUtils");
 const factory = require("./handlerFactory");
 const catchAsync = require("../utils/catchAsync");
 const ApiError = require("../utils/ApiError");
@@ -92,7 +94,7 @@ exports.applyCoupon = catchAsync(async (req, res, next) => {
       name: couponCode,
       expire: { $gt: Date.now() },
     }),
-    Card.findById(cardId),
+    Card.findById(cardId).populate("shop shape proColor"),
   ]);
 
   if (!card) {
@@ -107,7 +109,22 @@ exports.applyCoupon = catchAsync(async (req, res, next) => {
     return next(new ApiError("Card is already paid", 400));
   }
 
-  const totalPrice = card.price.value;
+  if (card.priceAfterDiscount >= 0) {
+    return next(new ApiError("Coupon already applied", 400));
+  }
+
+  const configKeys = [
+    "VAT_VALUE",
+    "CELEBRATE_ICON_PRICE",
+    "CELEBRATE_LINK_PRICE",
+  ];
+  const configs = await Config.find({ key: { $in: configKeys } });
+  const VAT = configs.find((c) => c.key === "VAT_VALUE");
+  const iconPrice = configs.find((c) => c.key === "CELEBRATE_ICON_PRICE").value;
+  const linkPrice = configs.find((c) => c.key === "CELEBRATE_LINK_PRICE").value;
+
+  const totalPrice = calculateTotalCardPrice(card, iconPrice, linkPrice, VAT);
+
   card.priceAfterDiscount = (
     totalPrice -
     (totalPrice * coupon.discount) / 100
