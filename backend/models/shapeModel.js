@@ -11,20 +11,6 @@ const shapeSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    position: {
-      x: {
-        type: Number,
-        required: true,
-      },
-      y: {
-        type: Number,
-        required: true,
-      },
-    },
-    scale: {
-      type: Number,
-      required: true,
-    },
   },
   {
     timestamps: true,
