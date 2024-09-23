@@ -27,7 +27,7 @@ const MerchantProfile = () => {
           <div className={styles.profile_img}>
             {profileData && (
               <img
-                src={`${process.env.REACT_APP_Host}/users/${profileData?.photo}`}
+                src={`${process.env.REACT_APP_Host}users/${profileData?.photo}`}
                 alt={profileData?.name}
               />
             )}

@@ -204,7 +204,7 @@ const MainNav = () => {
                       src={
                         profileData
                           ? profileData.photo
-                            ? `${process.env.REACT_APP_Host}/users/${profileData?.photo}`
+                            ? `${process.env.REACT_APP_Host}users/${profileData?.photo}`
                             : noAvatar
                           : noAvatar
                       }
@@ -255,7 +255,7 @@ const MainNav = () => {
                       src={
                         profileData
                           ? profileData.photo
-                            ? `${process.env.REACT_APP_Host}/users/${profileData?.photo}`
+                            ? `${process.env.REACT_APP_Host}users/${profileData?.photo}`
                             : noAvatar
                           : noAvatar
                       }
