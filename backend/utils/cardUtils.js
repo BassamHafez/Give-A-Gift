@@ -18,7 +18,7 @@ exports.calculateTotalCardPrice = (
 exports.createWhatsAppMessage = (card, user) => {
   return {
     phone: card.recipient.whatsappNumber,
-    caption: `You have received a gift card from ${user.name}. Click here to view: https://example.com/cards/preview/${card.id}`,
+    caption: `You have received a gift card from ${user.name}. Click here to view: ${process.env.CARD_PREVIEW_URL}/${card.id}`,
     fileUrl:
       "https://nypost.com/wp-content/uploads/sites/2/2023/11/gift-card.jpg",
     scheduledAt: new Date(card.receiveAt),
