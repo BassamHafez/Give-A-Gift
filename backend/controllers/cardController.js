@@ -19,7 +19,7 @@ exports.filterUserCards = (req, res, next) => {
 
 const cardPopulateOptions = [
   { path: "shop", select: "name logo" },
-  { path: "shape", select: "image" },
+  { path: "shape", select: "image price" },
   { path: "color", select: "hex" },
   { path: "proColor", select: "image price" },
 ];
