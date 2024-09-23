@@ -29,24 +29,24 @@ const Transactions = () => {
     enabled: !!token,
     staleTime: Infinity,
   });
-  useEffect(()=>{
-    window.scrollTo(0, 0)
-  },[])
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const { data: totalSuccessTransactions } = useQuery({
     queryKey: ["successTransactions", token],
     queryFn: () => controlTransactions({ type: "successTransactions", token }),
     enabled: !!token,
     staleTime: Infinity,
   });
-console.log(allTransactions)
+
   const handleSearch = (e, searchTerm) => {
     e.preventDefault();
-    if (searchTerm !== ""&&searchTerm!==searchInput) {
+    if (searchTerm !== "" && searchTerm !== searchInput) {
       setSearchInput(searchTerm);
       notifySuccess(key("searchFilterApplied"));
     }
   };
-
+  console.log(allTransactions);
   let filterTransactions;
 
   filterTransactions = allTransactions
@@ -54,16 +54,24 @@ console.log(allTransactions)
         (op) =>
           op.CustomerName.toLowerCase().includes(searchInput.toLowerCase()) ||
           op._id.includes(searchInput) ||
-          op.PaymentMethod.toLowerCase() === searchInput.toLowerCase()
+          op.PaymentMethod.toLowerCase() === searchInput.toLowerCase() ||
+          op.UserDefinedField.toLowerCase() === searchInput.toLowerCase()
       )
     : [];
 
   return (
     <div className={styles.main_body}>
       <div>
-        <h2><span className="text-secondary">{key("totalSuccessfulInvoiceValue")}:</span> {totalSuccessTransactions?totalSuccessTransactions.data?.totalValue:0}</h2>
+        <h2>
+          <span className="text-secondary">
+            {key("totalSuccessfulInvoiceValue")}:
+          </span>{" "}
+          {totalSuccessTransactions
+            ? totalSuccessTransactions.data?.totalValue
+            : 0}
+        </h2>
       </div>
-      <hr/>
+      <hr />
       <div>
         <h4 className="fw-bold text-secondary">{key("allTransactions")}</h4>
 
@@ -88,12 +96,12 @@ console.log(allTransactions)
                 lg={4}
                 className="d-flex justify-content-center align-items-center"
               >
-                <div className={`${styles.user_div} ${styles.cur_pointer}`}>
-                    <div className={styles.user_header_info}>
-                      <h5>{trans.CustomerName}</h5>
-                      <span className="mini_word">{trans.CustomerEmail}</span>
-                    </div>
-        
+                <div className={`${styles.user_div}`}>
+                  <div className={styles.user_header_info}>
+                    <h5>{trans.CustomerName}</h5>
+                    <span className="mini_word">{trans.CustomerEmail}</span>
+                  </div>
+
                   <ul className="p-0 mt-4">
                     <li className={styles.details_list}>
                       <FontAwesomeIcon
@@ -135,58 +143,58 @@ console.log(allTransactions)
               </Col>
             ))
           ) : (
-            allTransactions.data?.data?.map((trans) => (
+            allTransactions.data?.map((trans) => (
               <Col
-              key={trans._id}
-              sm={6}
-              lg={4}
-              className="d-flex justify-content-center align-items-center"
-            >
-              <div className={`${styles.user_div} ${styles.cur_pointer}`}>
+                key={trans._id}
+                sm={6}
+                lg={4}
+                className="d-flex justify-content-center align-items-center"
+              >
+                <div className={`${styles.user_div}`}>
                   <div className={styles.user_header_info}>
                     <h5>{trans.CustomerName}</h5>
                     <span className="mini_word">{trans.CustomerEmail}</span>
                   </div>
-      
-                <ul className="p-0 mt-4">
-                  <li className={styles.details_list}>
-                    <FontAwesomeIcon
-                      className={styles.details_list_icon}
-                      icon={faChartSimple}
-                    />{" "}
-                    {key("state")}: {trans.TransactionStatus}
-                  </li>
-                  <li className={styles.details_list}>
-                    <FontAwesomeIcon
-                      className={styles.details_list_icon}
-                      icon={faCoins}
-                    />{" "}
-                    {key("transValue")}: {trans.InvoiceValue}
-                  </li>
-                  <li className={styles.details_list}>
-                    <FontAwesomeIcon
-                      className={styles.details_list_icon}
-                      icon={faCreditCard}
-                    />{" "}
-                    {key("PaymentMethod")}: {trans.PaymentMethod}
-                  </li>
-                  <li className={styles.details_list}>
-                    <FontAwesomeIcon
-                      className={styles.details_list_icon}
-                      icon={faCreditCard}
-                    />{" "}
-                    {key("UserDefinedField")}: {trans.UserDefinedField}
-                  </li>
-                  <li className={styles.details_list}>
-                    <FontAwesomeIcon
-                      className={styles.details_list_icon}
-                      icon={faHashtag}
-                    />{" "}
-                    {key("paymentId")}: {trans.PaymentId}
-                  </li>
-                </ul>
-              </div>
-            </Col>
+
+                  <ul className="p-0 mt-4">
+                    <li className={styles.details_list}>
+                      <FontAwesomeIcon
+                        className={styles.details_list_icon}
+                        icon={faChartSimple}
+                      />{" "}
+                      {key("state")}: {trans.TransactionStatus}
+                    </li>
+                    <li className={styles.details_list}>
+                      <FontAwesomeIcon
+                        className={styles.details_list_icon}
+                        icon={faCoins}
+                      />{" "}
+                      {key("transValue")}: {trans.InvoiceValue}
+                    </li>
+                    <li className={styles.details_list}>
+                      <FontAwesomeIcon
+                        className={styles.details_list_icon}
+                        icon={faCreditCard}
+                      />{" "}
+                      {key("PaymentMethod")}: {trans.PaymentMethod}
+                    </li>
+                    <li className={styles.details_list}>
+                      <FontAwesomeIcon
+                        className={styles.details_list_icon}
+                        icon={faCreditCard}
+                      />{" "}
+                      {key("UserDefinedField")}: {trans.UserDefinedField}
+                    </li>
+                    <li className={styles.details_list}>
+                      <FontAwesomeIcon
+                        className={styles.details_list_icon}
+                        icon={faHashtag}
+                      />{" "}
+                      {key("paymentId")}: {trans.PaymentId}
+                    </li>
+                  </ul>
+                </div>
+              </Col>
             ))
           )
         ) : (
