@@ -42,7 +42,6 @@ const UpdateCard = ({ show, onHide, cardId, refetch, shopId }) => {
   const { mutate, isPending } = useMutation({
     mutationFn: controlSpecialCards,
     onSuccess: (data) => {
-      console.log(data);
       if (data?.status === "success") {
         notifySuccess(key("opSuccess"));
         refetch();
@@ -54,7 +53,6 @@ const UpdateCard = ({ show, onHide, cardId, refetch, shopId }) => {
       }
     },
     onError: (error) => {
-      console.log(error);
       notifyError(key("wrong"));
     },
   });
@@ -65,7 +63,6 @@ const UpdateCard = ({ show, onHide, cardId, refetch, shopId }) => {
   };
 
   const onSubmit = (values) => {
-    console.log(values);
     mutate({
       formData: values,
       token: token,

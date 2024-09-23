@@ -55,7 +55,6 @@ const ChangePhone = () => {
       }
     },
     onError: (error) => {
-      console.log(error);
       notifyError(key("phoneFailed"));
     },
   });
@@ -65,7 +64,6 @@ const ChangePhone = () => {
   };
 
   const onSubmit = (values) => {
-    console.log(values);
     let phoneBeginning = "966";
     switch (selectedCountry) {
       case "SA":

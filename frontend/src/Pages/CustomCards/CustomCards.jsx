@@ -207,7 +207,6 @@ const CustomCards = () => {
         text: textValues,
       };
     }
-    console.log(formData)
     try {
       const response = await axios.post(`${baseServerUrl}cards`, formData, {
         headers: {
@@ -223,7 +222,6 @@ const CustomCards = () => {
       }
     } catch (error) {
       notifyError(key("wrong"));
-      console.error(error);
     }
   };
 

@@ -23,7 +23,6 @@ const ChangeName = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: updateMe,
     onSuccess: (data) => {
-      console.log(data);
       if (data?.status === "success") {
         notifySuccess(key("nameChanged"));
         // notifySuccess(key("afterChange"))
@@ -37,7 +36,6 @@ const ChangeName = () => {
       }
     },
     onError: (error) => {
-      console.log(error);
       notifyError(key("nameFaild"));
     },
   });
@@ -47,7 +45,6 @@ const ChangeName = () => {
   };
 
   const onSubmit = (values) => {
-    console.log(values);
   
     const formData = new FormData();
     formData.append('name', values.name);

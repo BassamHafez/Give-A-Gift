@@ -24,7 +24,6 @@ const ChangeAvatar = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: updateMe,
     onSuccess: (data) => {
-      console.log(data);
       if (data?.status === "success") {
         notifySuccess(key("photoChanged"));
         dispatch(fetchProfileData(token));
@@ -37,7 +36,6 @@ const ChangeAvatar = () => {
       }
     },
     onError: (error) => {
-      console.log(error);
       notifyError(key("photoFaild"));
     },
   });

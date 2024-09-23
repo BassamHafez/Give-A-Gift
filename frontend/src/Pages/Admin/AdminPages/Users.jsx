@@ -77,7 +77,6 @@ const Users = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: controlUsers,
     onSuccess: (data) => {
-      console.log(data);
       if (data?.status === "success") {
         setIsEmailError(false);
         notifySuccess(key("opSuccess"));
@@ -140,9 +139,8 @@ const Users = () => {
       passwordConfirm: values.passwordConfirm,
       phone: `${phoneBeginning}${values.phone}`,
     };
-    console.log(updatedValues);
     mutate({
-      formData: values,
+      formData: updatedValues,
       token: token,
       type: "add",
     });

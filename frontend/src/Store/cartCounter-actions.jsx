@@ -11,7 +11,6 @@ const fetchCartCounter = (token) => {
         const res = response.data;
         dispatch(cartActions.setCounter(res.results));
       } catch (error) {
-        console.error(error);
       }
   };
 };

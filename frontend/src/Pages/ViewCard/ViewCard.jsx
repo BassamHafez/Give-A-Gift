@@ -62,7 +62,6 @@ const ViewCard = () => {
 
   useEffect(() => {
     if (myCard?.data?.celebrateIcon && isFirstVisit) {
-      console.log(myCard.data?.celebrateIcon)
       triggerConfetti(myCard.data?.celebrateIcon);
     }
   }, [myCard, isFirstVisit]);

@@ -20,17 +20,14 @@ const AddBalanceAll = ({ refetch }) => {
   const { mutate, isPending } = useMutation({
     mutationFn: controlWallets,
     onSuccess: (data) => {
-    //   console.log(data);
       if (data?.data?.status === "success") {
         notifySuccess(key("opSuccess"));
         refetch();
       } else {
-        console.log(data);
         notifyError(key("wrong"));
       }
     },
     onError: (error) => {
-      console.log(error);
       notifyError(key("wrong"));
     },
   });

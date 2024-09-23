@@ -14,7 +14,6 @@ export const signFormsHandler = async ({ type, formData, method }) => {
     }
     return response;
   } catch (error) {
-    console.log(error);
     if (error.response) {
       throw error.response;
     } else if (error.request) {
@@ -29,7 +28,7 @@ export const getShapes = async () => {
 
     return response.data;
   } catch (error) {
-    console.error(error);
+    return error
   }
 };
 
@@ -39,12 +38,11 @@ export const getShops= async () => {
 
     return response.data;
   } catch (error) {
-    console.error(error);
+    return error
   }
 };
 
 export const UpdatePassword= async ({formData,token}) => {
-  console.log(token)
   try {
      const response = await axios.patch(`${baseServerUrl}users/updateMyPassword`,formData,{
       headers: {
@@ -54,7 +52,6 @@ export const UpdatePassword= async ({formData,token}) => {
 
     return response.data;
   } catch (error) {
-    console.error(error);
     return error
   }
 };
@@ -69,7 +66,6 @@ export const updateCard= async ({formData,token,cardId}) => {
 
     return response.data;
   } catch (error) {
-    console.error(error);
     return error
   }
 };
@@ -82,7 +78,6 @@ export const getMyCards= async (token) => {
 
     return response.data;
   } catch (error) {
-    console.error(error);
     return error
   }
 };
@@ -95,7 +90,6 @@ export const getCard= async (token,cardId) => {
 
     return response.data;
   } catch (error) {
-    console.error(error);
     return error
   }
 };
@@ -105,7 +99,6 @@ export const getSpecialCards= async () => {
      const response = await axios.get(`${baseServerUrl}special-cards`);
     return response.data;
   } catch (error) {
-    console.error(error);
     return error
   }
 };
@@ -116,7 +109,6 @@ export const getColors= async () => {
 
     return response.data;
   } catch (error) {
-    console.error(error);
     return error
   }
 };
@@ -129,7 +121,6 @@ export const getMyWallet= async (token) => {
 
     return response.data;
   } catch (error) {
-    console.error(error);
     return error
   }
 };
@@ -142,8 +133,6 @@ export const transferMoney= async ({token,formData}) => {
 
     return response.data;
   } catch (error) {
-    console.error(error);
-    console.log(error)
     return error
   }
 };
@@ -157,7 +146,6 @@ export const getPaymentMethods= async (token) => {
 
     return response.data;
   } catch (error) {
-    console.error(error);
     return error
   }
 };
@@ -170,7 +158,6 @@ export const executePayment= async ({token,formData}) => {
 
     return response.data;
   } catch (error) {
-    console.error(error);
     return error
   }
 };
@@ -187,7 +174,6 @@ export const updateMe = async ({ token, formData }) => {
 
     return response.data;
   } catch (error) {
-    console.log(error);
     return error;
   }
 };
@@ -204,7 +190,6 @@ export const sendVerificationCode = async ({ token, formData }) => {
 
     return response.data;
   } catch (error) {
-    console.error(error);
     return error;
   }
 };
@@ -218,7 +203,6 @@ export const getMe= async (token) => {
 
     return response.data;
   } catch (error) {
-    console.error(error);
     return error
   }
 };
@@ -231,7 +215,6 @@ export const getAllOrders= async ({token}) => {
 
     return response.data;
   } catch (error) {
-    console.error(error);
     return error
   }
 };
@@ -250,7 +233,6 @@ export const controlColors=async ({token,method,formData}) => {
     }
     return response.data;
   } catch (error) {
-    console.error(error);
     return error
   }
 };
@@ -265,7 +247,6 @@ export const controlShapes=async ({token,formData}) => {
     });
     return response.data;
   } catch (error) {
-    console.error(error);
     return error
   }
 };
@@ -280,7 +261,6 @@ export const controlShops=async ({token,formData}) => {
     });
     return response.data;
   } catch (error) {
-    console.error(error);
     return error
   }
 };
@@ -303,7 +283,6 @@ export const controlCoupons=async ({token,method,formData,couponId}) => {
     }
     return response.data;
   } catch (error) {
-    console.error(error);
     return error
   }
 };
@@ -322,7 +301,6 @@ export const controlSpecialCards=async ({token,method,formData,cardId}) => {
       }
     return response.data;
   } catch (error) {
-    console.error(error);
     return error
   }
 };
@@ -337,7 +315,6 @@ export const addSpecialColorsShape=async ({token,formData}) => {
     });
     return response.data;
   } catch (error) {
-    console.error(error);
     return error
   }
 };
@@ -355,7 +332,6 @@ export const getConfig = async ({ formData, type, token }) => {
     }
     return response.data;
   } catch (error) {
-    console.error(error);
     return error;
   }
 };
@@ -382,7 +358,6 @@ export const controlUsers = async ({ formData, type, token, userId }) => {
     }
     return response.data;
   } catch (error) {
-    console.error(error);
     return error;
   }
 };
@@ -405,7 +380,6 @@ export const controlWallets = async ({ formData, type, token, walletId }) => {
     }
     return response;
   } catch (error) {
-    console.error(error);
     return error;
   }
 };
@@ -426,7 +400,6 @@ export const controlTransactions = async ({type, token }) => {
     }
     return response.data;
   } catch (error) {
-    console.error(error);
     return error;
   }
 };
@@ -439,7 +412,6 @@ export const getStatistics = async ({token }) => {
     });
     return response.data;
   } catch (error) {
-    console.error(error);
     return error;
   }
 };
@@ -472,7 +444,6 @@ export const getDiscounts = async ({token }) => {
     });
     return response.data;
   } catch (error) {
-    console.error(error);
     return error;
   }
 };

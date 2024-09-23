@@ -23,7 +23,6 @@ const AddCoupon = ({refetch}) => {
   const { mutate, isPending } = useMutation({
     mutationFn: controlCoupons,
     onSuccess: (data) => {
-      console.log(data);
       if (data?.status === "success") {
         notifySuccess(key("opSuccess"));
         refetch()
@@ -35,7 +34,6 @@ const AddCoupon = ({refetch}) => {
       }
     },
     onError: (error) => {
-      console.log(error);
       notifyError(key("wrong"));
     },
   });
@@ -47,7 +45,6 @@ const AddCoupon = ({refetch}) => {
   };
 
   const onSubmit = (values) => {
-    console.log(values);
 
     mutate({
       formData: values,

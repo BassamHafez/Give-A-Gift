@@ -22,7 +22,6 @@ const AddSpecialCardsShape = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: addSpecialColorsShape,
     onSuccess: (data) => {
-      console.log(data);
       if (data?.status === "success") {
         notifySuccess(key("opSuccess"));
       } else {
@@ -30,7 +29,6 @@ const AddSpecialCardsShape = () => {
       }
     },
     onError: (error) => {
-      console.log(error);
       notifyError(key("wrong"));
     },
   });

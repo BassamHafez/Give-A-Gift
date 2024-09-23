@@ -74,7 +74,7 @@ const Cart = ({ onClose, show }) => {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        console.log(response);
+      
         if (response.status === 204) {
           dispatch(cartActions.removeItem());
           notifySuccess(key("cardDeleted"));
@@ -84,7 +84,6 @@ const Cart = ({ onClose, show }) => {
         }
       } catch (error) {
         notifyError(key("wrong"));
-        console.error(error);
       }
     } else {
       notifyError(key("deleteWrong"));
@@ -141,7 +140,6 @@ const Cart = ({ onClose, show }) => {
         notifyError(key("wrong"));
       }
     } catch (error) {
-      console.error("Payment error:", error);
       if (error?.response?.data?.message === "Card already paid") {
         notifyError(key("cardPaid"));
       } else {

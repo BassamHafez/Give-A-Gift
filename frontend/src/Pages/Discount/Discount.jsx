@@ -42,9 +42,7 @@ console.log(recipientName)
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log(response.data);
       const res = response.data;
-      console.log(res)
       if (res.status === "success") {
         notifySuccess(key("opSuccess"));
         setIsDiscValue(true);
@@ -59,7 +57,6 @@ console.log(recipientName)
       if(error.response.data.message==="Discount code already used"){
         notifyError(key("discUsed"))
       }
-      console.error(error);
     }
   };
 

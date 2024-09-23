@@ -19,7 +19,6 @@ const MerchantProfile = () => {
   const profileData = useSelector((state) => state.profileInfo.data);
   const navigate = useNavigate();
   const { t: key } = useTranslation();
-  // console.log(profileData)
 
   return (
     <>

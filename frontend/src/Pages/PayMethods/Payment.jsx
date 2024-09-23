@@ -35,7 +35,6 @@ const Payment = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: executePayment,
     onSuccess: (response) => {
-      console.log(response);
       if (response.status === "success") {
         notifySuccess(key("redirect"));
         window.open(`${response.data?.Data?.PaymentURL}`, "_blank");
@@ -44,7 +43,6 @@ const Payment = () => {
       }
     },
     onError: (error) => {
-      console.log(error);
       notifyError(key("wrong"));
     },
   });
@@ -78,7 +76,6 @@ const Payment = () => {
     InvoiceValue: number()
       .typeError(key("amountValidate1"))
       .required(key("amountValidate2")),
-    // .min(5, key("amountValidate3")),
   });
 
   return (

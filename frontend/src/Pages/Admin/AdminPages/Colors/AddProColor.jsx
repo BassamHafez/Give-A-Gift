@@ -22,7 +22,6 @@ const AddProColor = ({ refetch }) => {
   const { mutate, isPending } = useMutation({
     mutationFn: addProColor,
     onSuccess: (data) => {
-      console.log(data);
       if (data?.status === "success") {
         notifySuccess(key("opSuccess"));
         refetch();
@@ -31,7 +30,6 @@ const AddProColor = ({ refetch }) => {
       }
     },
     onError: (error) => {
-      console.log(error);
       notifyError(key("wrong"));
     },
   });
@@ -42,7 +40,6 @@ const AddProColor = ({ refetch }) => {
   };
 
   const onSubmit = (values) => {
-    console.log(values);
 
     const formData = new FormData();
 

@@ -24,7 +24,6 @@ const ChangePassword = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: UpdatePassword,
     onSuccess: (data) => {
-      console.log(data);
       if (data?.status === "success") {
         setIsCurrentPassError(false);
         notifySuccess(key("passwordChange"));
@@ -41,7 +40,6 @@ const ChangePassword = () => {
       }
     },
     onError: (error) => {
-      console.log(error);
       notifyError(key("passFaildChanged"));
     },
   });
@@ -53,7 +51,6 @@ const ChangePassword = () => {
   };
 
   const onSubmit = (values) => {
-    console.log(values);
     mutate({
       formData: values,
       token: token,

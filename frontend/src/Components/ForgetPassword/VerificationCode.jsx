@@ -21,7 +21,6 @@ const VerificationCode = ({ onHide, show, notifySuccess, notifyError }) => {
     onSuccess: (data) => {
       if (data.data.status === "Success") {
         setIsCodeWrong(false);
-        console.log(data);
         setShowModal(true);
         onHide();
       } else {
@@ -29,7 +28,6 @@ const VerificationCode = ({ onHide, show, notifySuccess, notifyError }) => {
       }
     },
     onError: (error) => {
-      console.log(error);
       if (error.data.message === "Reset code invalid or expired") {
         setIsCodeWrong(true);
       } else {
@@ -44,7 +42,6 @@ const VerificationCode = ({ onHide, show, notifySuccess, notifyError }) => {
   };
 
   const onSubmit = (values) => {
-    console.log(values);
     mutate({
       formData: values,
       type:"verifyResetCode",

@@ -48,7 +48,6 @@ const Coupons = () => {
         notifyError(key("wrong"));
       }
     } catch (error) {
-      console.error(error);
       notifyError(key("wrong"));
     }
   };

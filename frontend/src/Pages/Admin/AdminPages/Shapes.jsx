@@ -37,7 +37,6 @@ const Shapes = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: controlShapes,
     onSuccess: (data) => {
-      console.log(data);
       if (data?.status === "success") {
         notifySuccess(key("opSuccess"));
         refetch();
@@ -46,7 +45,6 @@ const Shapes = () => {
       }
     },
     onError: (error) => {
-      console.log(error);
       notifyError(key("wrong"));
     },
   });
@@ -59,7 +57,6 @@ const Shapes = () => {
     window.scrollTo(0, 0)
   },[])
   const onSubmit = (values) => {
-    console.log(values);
     const formData = new FormData();
 
     if (selectedFile) {

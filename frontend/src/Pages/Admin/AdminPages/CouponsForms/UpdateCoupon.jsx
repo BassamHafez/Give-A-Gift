@@ -24,7 +24,6 @@ const UpdateCoupon = ({ show, onHide, copId, refetch, expire, name, discount }) 
   const { mutate, isPending } = useMutation({
     mutationFn: controlCoupons,
     onSuccess: (data) => {
-      console.log(data);
       if (data?.status === "success") {
         notifySuccess(key("opSuccess"));
         refetch();
@@ -36,7 +35,6 @@ const UpdateCoupon = ({ show, onHide, copId, refetch, expire, name, discount }) 
       }
     },
     onError: (error) => {
-      console.log(error);
       notifyError(key("wrong"));
     },
   });

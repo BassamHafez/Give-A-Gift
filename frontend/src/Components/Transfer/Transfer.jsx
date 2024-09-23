@@ -48,7 +48,6 @@ const Transfer = ({ show, onHide, notifySuccess, notifyError, balance,refetch })
   const { mutate, isPending } = useMutation({
     mutationFn: transferMoney,
     onSuccess: (response) => {
-      console.log(response)
         if (response.status === "success") {
           notifySuccess(key("succTransfer"));
           queryClient.invalidateQueries(["walletBalance", token]);
@@ -57,12 +56,10 @@ const Transfer = ({ show, onHide, notifySuccess, notifyError, balance,refetch })
         }else if(response.response?.data?.message==="Cannot transfer to yourself"){
           notifyError(key("transferYourself"))
         } else {
-          console.log("else response", response);
           notifyError(key("faildTransfer"));
         }
     },
     onError: (error) => {
-      console.log(error);
       notifyError(key("faildTransfer"));
     },
   });
@@ -106,7 +103,6 @@ const Transfer = ({ show, onHide, notifySuccess, notifyError, balance,refetch })
     setModalShow(false);
     if (transferData) {
       mutate({ token: token, formData: transferData });
-      console.log("transfered", transferData);
     } else {
       notifyError("There are no data to transfer");
     }

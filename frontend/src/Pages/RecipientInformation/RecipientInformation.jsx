@@ -143,7 +143,6 @@ const RecipientInformation = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: updateCard,
     onSuccess: (data) => {
-      console.log("data", data);
       if (data?.status === "success") {
         queryClient.invalidateQueries(["getCard", token]);
         if (data?.data?.celebrateIcon) {
@@ -165,7 +164,6 @@ const RecipientInformation = () => {
       }
     },
     onError: (error) => {
-      console.error(error);
       notifyError(key("failRec"));
     },
   });
@@ -257,7 +255,6 @@ const RecipientInformation = () => {
         notifyError(key("wrong"));
       }
     } catch (error) {
-      console.error("Payment error:", error);
 
       if (error?.response?.data?.message === "Card already paid") {
         notifyError(key("cardPaid"));

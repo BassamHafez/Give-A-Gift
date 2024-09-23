@@ -88,7 +88,6 @@ const Merchant = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: controlUsers,
     onSuccess: (data) => {
-      console.log(data);
       if (data?.status === "success") {
         setIsEmailError(false);
         refetch();
@@ -157,9 +156,8 @@ const Merchant = () => {
       phone: `${phoneBeginning}${values.phone}`,
       merchantShop: values.merchantShop,
     };
-    console.log(updatedValues);
     mutate({
-      formData: values,
+      formData: updatedValues,
       token: token,
       type: "merchant",
     });

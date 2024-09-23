@@ -31,7 +31,6 @@ const LoginForm = ({ notifySuccess, notifyError }) => {
     onSuccess: (response) => {
       let res = response.data;
       if (res.status === "success") {
-        console.log("res", res);
         dispatch(userActions.setUserInfo(res.data?.user));
         dispatch(userActions.setIsLogin(true));
 
@@ -57,11 +56,9 @@ const LoginForm = ({ notifySuccess, notifyError }) => {
       }
     },
     onError: (error) => {
-      console.log(error);
       if (error.status === 401) {
         notifyError(key("emailOrPass"));
       } else {
-        console.log(error);
         notifyError();
       }
     },

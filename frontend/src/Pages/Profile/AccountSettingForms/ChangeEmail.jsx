@@ -23,7 +23,6 @@ const ChangeEmail = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: updateMe,
     onSuccess: (data) => {
-      console.log(data);
       if (data?.status === "success") {
         notifySuccess(key("emailChanged"));
         dispatch(fetchProfileData(token));
@@ -36,7 +35,6 @@ const ChangeEmail = () => {
       }
     },
     onError: (error) => {
-      console.log(error);
       notifyError(key("emailFailed"));
     },
   });
@@ -46,7 +44,6 @@ const ChangeEmail = () => {
   };
 
   const onSubmit = (values) => {
-    console.log(values);
 
     const formData = new FormData();
     formData.append("email", values.email);

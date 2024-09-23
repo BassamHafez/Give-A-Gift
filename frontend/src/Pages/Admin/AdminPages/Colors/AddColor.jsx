@@ -22,7 +22,6 @@ const AddColor = ({refetch}) => {
     const { mutate, isPending } = useMutation({
         mutationFn: controlColors,
         onSuccess: (data) => {
-          console.log(data);
           if (data?.status === "success") {
             notifySuccess(key("opSuccess"));
             refetch()
@@ -31,7 +30,6 @@ const AddColor = ({refetch}) => {
           }
         },
         onError: (error) => {
-          console.log(error);
           notifyError(key("wrong"));
         },
       });
@@ -41,7 +39,6 @@ const AddColor = ({refetch}) => {
       };
     
       const onSubmit = (values) => {
-        console.log(values);
     
         mutate({
           formData: values,

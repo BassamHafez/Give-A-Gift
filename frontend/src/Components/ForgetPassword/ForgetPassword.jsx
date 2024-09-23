@@ -26,7 +26,6 @@ const ForgetPassword = () => {
     onSuccess: (data) => {
       if (data.data.status === "Success") {
         setIsRightEmail(false);
-        console.log(data);
         notifySuccess(key("checkResetPass"));
         setShowModal(true);
       } else {
@@ -34,7 +33,6 @@ const ForgetPassword = () => {
       }
     },
     onError: (error) => {
-      console.log(error);
       if (error.data.message === "account with this email not found") {
         setIsRightEmail(true);
       } else {
@@ -49,7 +47,6 @@ const ForgetPassword = () => {
   };
 
   const onSubmit = (values) => {
-    console.log(values);
     mutate({
       formData: values,
       type: "forgotPassword",

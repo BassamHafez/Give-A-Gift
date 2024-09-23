@@ -34,7 +34,6 @@ const Configs = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: getConfig,
     onSuccess: (data) => {
-      console.log(data);
       if (data?.status === "success") {
         notifySuccess(key("opSuccess"));
         dispatch(fetchConfigs(token));
@@ -43,7 +42,6 @@ const Configs = () => {
       }
     },
     onError: (error) => {
-      console.log(error);
       notifyError(key("wrong"));
     },
   });
@@ -58,7 +56,6 @@ const Configs = () => {
   };
 
   const onSubmit = (values) => {
-    console.log(values);
     mutate({
       type: "update",
       formData: values,

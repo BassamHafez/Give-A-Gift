@@ -87,7 +87,6 @@ const SpecialCards = () => {
         notifyError(key("purchaseFaild"));
       }
     } catch (error) {
-      console.error(error);
       notifyError(key("purchaseFaild"));
     }
   };

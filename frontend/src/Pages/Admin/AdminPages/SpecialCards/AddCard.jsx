@@ -37,7 +37,6 @@ const AddCard = ({ refetch }) => {
   const { mutate, isPending } = useMutation({
     mutationFn: controlSpecialCards,
     onSuccess: (data) => {
-      console.log(data);
       if (data?.status === "success") {
         notifySuccess(key("opSuccess"));
         refetch();
@@ -48,7 +47,6 @@ const AddCard = ({ refetch }) => {
       }
     },
     onError: (error) => {
-      console.log(error);
       notifyError(key("wrong"));
     },
   });
@@ -59,7 +57,6 @@ const AddCard = ({ refetch }) => {
   };
 
   const onSubmit = (values) => {
-    console.log(values);
     mutate({
       formData: values,
       token: token,

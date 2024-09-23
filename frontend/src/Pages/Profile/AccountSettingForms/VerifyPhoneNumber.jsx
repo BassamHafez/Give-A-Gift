@@ -22,7 +22,6 @@ const VerifyPhoneNumber = () => {
         }
       );
 
-      console.log(response.data);
       if (response?.data?.status === "success") {
         notifySuccess(key("checkWhatsApp"));
         setModalShow(true);
@@ -30,7 +29,6 @@ const VerifyPhoneNumber = () => {
         notifyError(key("sendCodeFail"));
       }
     } catch (error) {
-      console.error(error);
       return error;
     }
   };

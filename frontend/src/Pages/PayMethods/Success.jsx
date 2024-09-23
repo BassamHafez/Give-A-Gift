@@ -31,7 +31,6 @@ const Success = () => {
             notifyError(key("wrong"));
           }
         } catch (error) {
-          console.error("Payment error:", error);
 
           if (error?.response?.data?.message === "Card already paid") {
             notifyError(key("cardPaid"));

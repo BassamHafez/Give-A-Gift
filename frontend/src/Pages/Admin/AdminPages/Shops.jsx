@@ -36,7 +36,6 @@ const Shops = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: controlShops,
     onSuccess: (data) => {
-      console.log(data);
       if (data?.status === "success") {
         notifySuccess(key("opSuccess"));
         refetch();
@@ -45,7 +44,6 @@ const Shops = () => {
       }
     },
     onError: (error) => {
-      console.log(error);
       notifyError(key("wrong"));
     },
   });
@@ -61,7 +59,6 @@ const Shops = () => {
   };
 
   const onSubmit = (values) => {
-    console.log(values);
     const formData = new FormData();
 
     if (selectedFile) {

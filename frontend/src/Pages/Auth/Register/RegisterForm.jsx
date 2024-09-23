@@ -60,11 +60,9 @@ const RegisterForm = ({ notifySuccess, notifyError }) => {
         navigate("/login");
       } else {
         notifyError();
-        console.log(response);
       }
     },
     onError(error) {
-      console.log(error);
       if (error.status === 500) {
         if (
           error.data.message ===
@@ -121,7 +119,6 @@ const RegisterForm = ({ notifySuccess, notifyError }) => {
         passwordConfirm: values.passwordConfirm,
         phone: `${phoneBeginning}${values.phone}`,
     };
-    console.log(updatedValues)
     mutate({ type: "signup", formData: updatedValues });
   };
 

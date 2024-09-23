@@ -21,7 +21,6 @@ const ResetPassword = ({ onHide, show, notifySuccess, notifyError }) => {
     onSuccess: (data) => {
       if (data.data.status === "success") {
         setIsRightEmail(false);
-        console.log(data);
         notifySuccess(key("newPassSaved"));
         navigate("/login");
         onHide();
@@ -30,7 +29,6 @@ const ResetPassword = ({ onHide, show, notifySuccess, notifyError }) => {
       }
     },
     onError: (error) => {
-      console.log(error);
       if (error.data.message === "account with this email not found") {
         setIsRightEmail(true);
       } else {
