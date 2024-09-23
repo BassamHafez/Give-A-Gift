@@ -7,7 +7,7 @@ import Placeholder from "react-bootstrap/Placeholder";
 import Card from "react-bootstrap/Card";
 import { useQuery } from "@tanstack/react-query";
 import RecipientKonva from "./RecipientKonva";
-import { getCard } from "../../util/Http";
+import {viewCard } from "../../util/Http";
 
 const shapes = {
     all: ["circle", "triangle", "square"],
@@ -39,15 +39,14 @@ const shapes = {
 
 const RecipientViewCard = () => {
 
-    const token = JSON.parse(localStorage.getItem("token"));
     const { cardId } = useParams();
     const [isFirstVisit, setIsFirstVisit] = useState(true);
     const [isFrontShape, setIsFrontShape] = useState(false);
     const { t: key } = useTranslation();
   
     const { data: myCard, isFetching } = useQuery({
-      queryKey: ["viewCard", token, cardId],
-      queryFn: () => getCard(token, cardId),
+      queryKey: ["viewCard", cardId],
+      queryFn: () => viewCard(cardId),
       staleTime: Infinity,
     });
    

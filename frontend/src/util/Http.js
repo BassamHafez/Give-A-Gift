@@ -94,6 +94,16 @@ export const getCard= async (token,cardId) => {
   }
 };
 
+export const viewCard=async (cardId) => {
+  try {
+     const response = await axios.get(`${baseServerUrl}cards/${cardId}`);
+
+    return response.data;
+  } catch (error) {
+    return error
+  }
+};
+
 export const getSpecialCards= async () => {
   try {
      const response = await axios.get(`${baseServerUrl}special-cards`);
