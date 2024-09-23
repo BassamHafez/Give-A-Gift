@@ -109,10 +109,6 @@ exports.applyCoupon = catchAsync(async (req, res, next) => {
     return next(new ApiError("Card is already paid", 400));
   }
 
-  if (card.priceAfterDiscount >= 0) {
-    return next(new ApiError("Coupon already applied", 400));
-  }
-
   const configKeys = [
     "VAT_VALUE",
     "CELEBRATE_ICON_PRICE",
@@ -123,7 +119,13 @@ exports.applyCoupon = catchAsync(async (req, res, next) => {
   const iconPrice = configs.find((c) => c.key === "CELEBRATE_ICON_PRICE").value;
   const linkPrice = configs.find((c) => c.key === "CELEBRATE_LINK_PRICE").value;
 
-  const totalPrice = calculateTotalCardPrice(card, iconPrice, linkPrice, VAT);
+  const totalPrice = calculateTotalCardPrice(
+    card,
+    iconPrice,
+    linkPrice,
+    VAT,
+    false
+  );
 
   card.priceAfterDiscount = (
     totalPrice -

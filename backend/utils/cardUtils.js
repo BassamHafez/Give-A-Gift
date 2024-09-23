@@ -1,7 +1,11 @@
-exports.calculateTotalCardPrice = (card, iconPrice, linkPrice, VAT) => {
-  // let cardPrice =
-  //   card.priceAfterDiscount >= 0 ? card.priceAfterDiscount : card.price.value;
-  if (card.priceAfterDiscount >= 0) return card.priceAfterDiscount;
+exports.calculateTotalCardPrice = (
+  card,
+  iconPrice,
+  linkPrice,
+  VAT,
+  repeat = true
+) => {
+  if (repeat && card.priceAfterDiscount >= 0) return card.priceAfterDiscount;
   let cardPrice = card.price.value;
 
   if (card.shape) cardPrice += parseFloat(card.shape.price);
