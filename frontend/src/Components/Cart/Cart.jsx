@@ -333,7 +333,7 @@ const Cart = ({ onClose, show }) => {
                                     card?._id,
                                     card?.celebrateIcon,
                                     card?.celebrateQR,
-                                    card?.shape.price,
+                                    card?.shape?.price,
                                     card?.proColor ? card.proColor.price : null
                                   )
                                 }

@@ -106,12 +106,12 @@ const ConfirmationModal = ({
             (ProPrice ? Number(ProPrice) : 0) +
             (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
             (isCelebrateQR ? Number(celebrateLinkPrice) : 0) +
-            Number(shapePrice)) +
+            (shapePrice ? Number(shapePrice) : 0)) +
         (Number(cardPrice) +
           (ProPrice ? Number(ProPrice) : 0) +
           (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
           (isCelebrateQR ? Number(celebrateLinkPrice) : 0) +
-          Number(shapePrice));
+          (shapePrice ? Number(shapePrice) : 0));
     }
 
     if (balanceCase) {
@@ -190,7 +190,7 @@ const ConfirmationModal = ({
                       {key("colorPrice")}: {ProPrice}
                     </li>
                   )}
-                  {Number(shapePrice) > 0 && (
+                  {(shapePrice ? Number(shapePrice) : 0) > 0 && (
                     <li>
                       <FontAwesomeIcon
                         className={styles.list_icon}
@@ -228,7 +228,8 @@ const ConfirmationModal = ({
                       (Number(cardPrice) +
                         (ProPrice ? Number(ProPrice) : 0) +
                         (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
-                        (isCelebrateQR ? Number(celebrateLinkPrice) : 0)+Number(shapePrice))
+                        (isCelebrateQR ? Number(celebrateLinkPrice) : 0) +
+                        (shapePrice ? Number(shapePrice) : 0))
                     ).toFixed(2)}{" "}
                     {key("sar")}
                   </li>
@@ -243,11 +244,13 @@ const ConfirmationModal = ({
                         (Number(cardPrice) +
                           (ProPrice ? Number(ProPrice) : 0) +
                           (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
-                          (isCelebrateQR ? Number(celebrateLinkPrice) : 0)+Number(shapePrice)) +
+                          (isCelebrateQR ? Number(celebrateLinkPrice) : 0) +
+                          (shapePrice ? Number(shapePrice) : 0)) +
                       (Number(cardPrice) +
                         (ProPrice ? Number(ProPrice) : 0) +
                         (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
-                        (isCelebrateQR ? Number(celebrateLinkPrice) : 0)+Number(shapePrice))
+                        (isCelebrateQR ? Number(celebrateLinkPrice) : 0) +
+                        (shapePrice ? Number(shapePrice) : 0))
                     ).toFixed(2)}{" "}
                     {key("sar")}
                   </li>
@@ -289,7 +292,7 @@ const ConfirmationModal = ({
                       {key("celebrateLink")}: {celebrateLinkPrice}
                     </li>
                   )}
-                  {Number(shapePrice) > 0 && (
+                  {shapePrice && Number(shapePrice) > 0 && (
                     <li>
                       <FontAwesomeIcon
                         className={styles.list_icon}
@@ -298,6 +301,7 @@ const ConfirmationModal = ({
                       {key("shapePrice")}: {shapePrice}
                     </li>
                   )}
+
                   <li>
                     <FontAwesomeIcon
                       className={styles.list_icon}
@@ -319,11 +323,13 @@ const ConfirmationModal = ({
                           (Number(cardPrice) +
                             (ProPrice ? Number(ProPrice) : 0) +
                             (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
-                            (isCelebrateQR ? Number(celebrateLinkPrice) : 0)+Number(shapePrice)) +
+                            (isCelebrateQR ? Number(celebrateLinkPrice) : 0) +
+                            (shapePrice ? Number(shapePrice) : 0)) +
                         (Number(cardPrice) +
                           (ProPrice ? Number(ProPrice) : 0) +
                           (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
-                          (isCelebrateQR ? Number(celebrateLinkPrice) : 0)+Number(shapePrice))
+                          (isCelebrateQR ? Number(celebrateLinkPrice) : 0) +
+                          (shapePrice ? Number(shapePrice) : 0))
                       ).toFixed(2)}{" "}
                       {key("sar")}
                     </del>
