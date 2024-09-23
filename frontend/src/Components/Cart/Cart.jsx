@@ -40,6 +40,8 @@ const Cart = ({ onClose, show }) => {
   const [walletDetails, setWalletDetails] = useState({});
   const [isCelebrateIcon, setIsCelebrateIcon] = useState(false);
   const [isCelebrateQR, setIsCelebrateQR] = useState(false);
+  const [shapePrice, setShapePrice] = useState("");
+  const [proColorPrice, setProColorPrice] = useState("");
   const { t: key } = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const [isPaidCard, setIsPaidCard] = useState(false);
@@ -62,7 +64,6 @@ const Cart = ({ onClose, show }) => {
     select: (data) => data.data?.balance,
     staleTime: Infinity,
   });
-
   const deleteCard = async () => {
     setModalShow(false);
     if (cardId && token) {
@@ -95,12 +96,20 @@ const Cart = ({ onClose, show }) => {
     cardPriceValue,
     cardID,
     isIconCelebrate,
-    isLinkCelebrate
+    isLinkCelebrate,
+    shapePrice,
+    proColorPrice
   ) => {
     setCardPrice(cardPriceValue);
     setCardId(cardID);
     setIsCelebrateIcon(isIconCelebrate);
     setIsCelebrateQR(isLinkCelebrate);
+    setShapePrice(shapePrice);
+    if(proColorPrice){
+      setProColorPrice(proColorPrice)
+    }else{
+      setProColorPrice("")
+    }
     if (method === "pay") {
       setConfirmModalShow(true);
       setConfirmMsg(key("purchase"));
@@ -165,10 +174,20 @@ const Cart = ({ onClose, show }) => {
     price,
     cardId,
     celebrateIcon,
-    celebrateQR
+    celebrateQR,
+    shapePrice,
+    proColorPrice
   ) => {
     if (receiveAt) {
-      confirmMethod("pay", price, cardId, celebrateIcon, celebrateQR);
+      confirmMethod(
+        "pay",
+        price,
+        cardId,
+        celebrateIcon,
+        celebrateQR,
+        shapePrice,
+        proColorPrice
+      );
     } else {
       navigate(`/recipient-information/${cardId}`);
       onClose();
@@ -313,7 +332,9 @@ const Cart = ({ onClose, show }) => {
                                     card?.price?.value,
                                     card?._id,
                                     card?.celebrateIcon,
-                                    card?.celebrateQR
+                                    card?.celebrateQR,
+                                    card?.shape.price,
+                                    card?.proColor ? card.proColor.price : null
                                   )
                                 }
                               />
@@ -347,13 +368,14 @@ const Cart = ({ onClose, show }) => {
           balance={walletBalance && walletBalance}
           cardPrice={cardPrice}
           ProPrice={
-            data?.data?.proColor ? data?.data?.proColor?.price : undefined
+            proColorPrice!=="" ? proColorPrice : undefined
           }
           cardId={cardId}
           balanceCase={balanceCase}
           chargeCase={goToChargeMethods}
           isCelebrateIcon={isCelebrateIcon}
           isCelebrateQR={isCelebrateQR}
+          shapePrice={shapePrice}
         />
       )}
       {detailsShow && (

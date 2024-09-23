@@ -57,18 +57,14 @@ const KonvaCard = ({ canvaCard, isSpecial }) => {
       : 1;
   const cardAspectRatio = cardWidth / cardHeight;
 
-  let scaledWidth, scaledHeight, offsetX, offsetY;
+  let scaledWidth, scaledHeight;
 
   if (imageAspectRatio > cardAspectRatio) {
     scaledWidth = cardWidth;
     scaledHeight = cardWidth / imageAspectRatio;
-    offsetX = 0;
-    offsetY = (cardHeight - scaledHeight) / 2;
   } else {
     scaledWidth = cardHeight * imageAspectRatio;
     scaledHeight = cardHeight;
-    offsetX = (cardWidth - scaledWidth) / 2;
-    offsetY = 0;
   }
 
   return (
@@ -111,10 +107,10 @@ const KonvaCard = ({ canvaCard, isSpecial }) => {
             ) : (
               <Image
                 image={shapeImage}
-                width={scaledWidth || cardWidth}
-                height={scaledHeight || cardHeight}
-                x={offsetX}
-                y={offsetY}
+                width={scaledWidth * canvaCard?.shapeScale || cardWidth * canvaCard?.shapeScale}
+                height={scaledHeight * canvaCard?.shapeScale || cardHeight * canvaCard?.shapeScale}
+                x={canvaCard?.shapePosition.x || 0}
+                y={canvaCard?.shapePosition.y || 0}
                 cornerRadius={10}
               />
             )}

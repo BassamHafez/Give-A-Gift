@@ -63,7 +63,7 @@ const MainNav = () => {
         {role !== "admin" && role !== "merchant" && (
           <ul
             className={`${styles.nav_list} d-flex align-items-center mt-3 ${
-              isArLang ? "me-5" : "ms-5"
+              isArLang ? "me-3" : "ms-3"
             } w-75 justify-content-center`}
           >
             <>
@@ -216,7 +216,7 @@ const MainNav = () => {
                 <>
                   <Link
                     to={"login"}
-                    className={isArLang ? styles.sign_btn_ar : styles.sign_btn}
+                    className={`${styles.sign_btn} ${isArLang?"ms-5":"me-5"}`}
                   >
                     <MainButton text={`${key("login")}`} />
                   </Link>

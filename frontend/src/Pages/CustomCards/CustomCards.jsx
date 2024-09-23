@@ -182,15 +182,6 @@ const CustomCards = () => {
       yPosition: textPosition.y,
     };
 
-    const shapeData = {
-      scale: scale,
-      position: {
-        x: shapePosition.x,
-        y: shapePosition.y,
-      },
-      shapeId: selectedShapeId,
-    };
-
     let formData = {};
 
     if (isProColor) {
@@ -199,7 +190,9 @@ const CustomCards = () => {
         price: priceValues,
         proColor: cardColorId,
         shop: selectedShopId,
-        shape: shapeData,
+        shape: selectedShapeId,
+        shapePosition:{x:shapePosition.x,y: shapePosition.y},
+        shapeScale:scale,
         text: textValues,
       };
     } else {
@@ -208,7 +201,9 @@ const CustomCards = () => {
         price: priceValues,
         color: cardColorId,
         shop: selectedShopId,
-        shape: shapeData,
+        shape: selectedShapeId,
+        shapePosition:{x:shapePosition.x,y: shapePosition.y},
+        shapeScale:scale,
         text: textValues,
       };
     }

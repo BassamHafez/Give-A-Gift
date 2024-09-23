@@ -496,6 +496,7 @@ const RecipientInformation = () => {
           isCelebrateQR={isCelebrateQR}
           cardId={cardId}
           balanceCase={balanceCase}
+          shapePrice={card?.data?.shape?.price}
           chargeCase={goToChargeMethods}
         />
       )}

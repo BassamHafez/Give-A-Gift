@@ -33,6 +33,7 @@ const ConfirmationModal = ({
   ProPrice,
   isCelebrateIcon,
   isCelebrateQR,
+  shapePrice,
 }) => {
   const { t: key } = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
@@ -95,7 +96,7 @@ const ConfirmationModal = ({
 
   const checkBalance = () => {
     let totalPrice = 0;
-    
+
     if (priceAfterDisc !== "") {
       totalPrice = Number(priceAfterDisc);
     } else {
@@ -104,20 +105,21 @@ const ConfirmationModal = ({
           (Number(cardPrice) +
             (ProPrice ? Number(ProPrice) : 0) +
             (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
-            (isCelebrateQR ? Number(celebrateLinkPrice) : 0)) +
+            (isCelebrateQR ? Number(celebrateLinkPrice) : 0) +
+            Number(shapePrice)) +
         (Number(cardPrice) +
           (ProPrice ? Number(ProPrice) : 0) +
           (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
-          (isCelebrateQR ? Number(celebrateLinkPrice) : 0));
+          (isCelebrateQR ? Number(celebrateLinkPrice) : 0) +
+          Number(shapePrice));
     }
 
     if (balanceCase) {
-      chargeCase(Number(totalPrice)-Number(balance), cardId);
+      chargeCase(Number(totalPrice) - Number(balance), cardId);
       return;
     }
 
     if (Number(cardPrice) === 0) {
-      
       if (ProPrice || isCelebrateIcon || isCelebrateQR) {
         if (Number(totalPrice) > Number(balance)) {
           notifyError(key("insuffBalance"));
@@ -145,7 +147,7 @@ const ConfirmationModal = ({
       }
     } else {
       setIsBalanced(true);
-      choosePaymentWay(paymentWay, "balanced", cardPrice, totalPrice);
+      choosePaymentWay(paymentWay, "balanced", totalPrice, totalPrice);
     }
   };
 
@@ -188,6 +190,15 @@ const ConfirmationModal = ({
                       {key("colorPrice")}: {ProPrice}
                     </li>
                   )}
+                  {Number(shapePrice) > 0 && (
+                    <li>
+                      <FontAwesomeIcon
+                        className={styles.list_icon}
+                        icon={faPalette}
+                      />
+                      {key("shapePrice")}: {shapePrice}
+                    </li>
+                  )}
                   {isCelebrateIcon && (
                     <li>
                       <FontAwesomeIcon
@@ -217,7 +228,7 @@ const ConfirmationModal = ({
                       (Number(cardPrice) +
                         (ProPrice ? Number(ProPrice) : 0) +
                         (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
-                        (isCelebrateQR ? Number(celebrateLinkPrice) : 0))
+                        (isCelebrateQR ? Number(celebrateLinkPrice) : 0)+Number(shapePrice))
                     ).toFixed(2)}{" "}
                     {key("sar")}
                   </li>
@@ -232,11 +243,11 @@ const ConfirmationModal = ({
                         (Number(cardPrice) +
                           (ProPrice ? Number(ProPrice) : 0) +
                           (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
-                          (isCelebrateQR ? Number(celebrateLinkPrice) : 0)) +
+                          (isCelebrateQR ? Number(celebrateLinkPrice) : 0)+Number(shapePrice)) +
                       (Number(cardPrice) +
                         (ProPrice ? Number(ProPrice) : 0) +
                         (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
-                        (isCelebrateQR ? Number(celebrateLinkPrice) : 0))
+                        (isCelebrateQR ? Number(celebrateLinkPrice) : 0)+Number(shapePrice))
                     ).toFixed(2)}{" "}
                     {key("sar")}
                   </li>
@@ -248,7 +259,8 @@ const ConfirmationModal = ({
                       className={styles.list_icon}
                       icon={faMoneyBill}
                     />
-                    {key("cardPrice")}: {cardPrice} {key("sar")}{" "}
+                    {key("cardPrice")}: {Number(cardPrice).toFixed(2)}{" "}
+                    {key("sar")}{" "}
                   </li>
                   {ProPrice && (
                     <li>
@@ -277,13 +289,22 @@ const ConfirmationModal = ({
                       {key("celebrateLink")}: {celebrateLinkPrice}
                     </li>
                   )}
+                  {Number(shapePrice) > 0 && (
+                    <li>
+                      <FontAwesomeIcon
+                        className={styles.list_icon}
+                        icon={faPalette}
+                      />
+                      {key("shapePrice")}: {shapePrice}
+                    </li>
+                  )}
                   <li>
                     <FontAwesomeIcon
                       className={styles.list_icon}
                       icon={faPercent}
                     />
                     {key("Vatvalue")}:{" "}
-                    {(((Number(VAT) / 100) * Number(priceAfterDisc))).toFixed(2)}{" "}
+                    {((Number(VAT) / 100) * Number(priceAfterDisc)).toFixed(2)}{" "}
                     {key("sar")}
                   </li>
                   <li>
@@ -298,11 +319,11 @@ const ConfirmationModal = ({
                           (Number(cardPrice) +
                             (ProPrice ? Number(ProPrice) : 0) +
                             (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
-                            (isCelebrateQR ? Number(celebrateLinkPrice) : 0)) +
+                            (isCelebrateQR ? Number(celebrateLinkPrice) : 0)+Number(shapePrice)) +
                         (Number(cardPrice) +
                           (ProPrice ? Number(ProPrice) : 0) +
                           (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
-                          (isCelebrateQR ? Number(celebrateLinkPrice) : 0))
+                          (isCelebrateQR ? Number(celebrateLinkPrice) : 0)+Number(shapePrice))
                       ).toFixed(2)}{" "}
                       {key("sar")}
                     </del>

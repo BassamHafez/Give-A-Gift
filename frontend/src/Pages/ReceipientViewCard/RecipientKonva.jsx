@@ -81,10 +81,7 @@ const RecipientKonva = ({ card, isPaid, isFrontShape }) => {
     offsetX = 0,
     offsetY = 0;
 
-  let scaledWidth2,
-    scaledHeight2,
-    offsetX2 = 0,
-    offsetY2 = 0;
+  let scaledWidth2, scaledHeight2;
 
   //special
   if (imageAspectRatio > cardAspectRatio) {
@@ -101,13 +98,9 @@ const RecipientKonva = ({ card, isPaid, isFrontShape }) => {
   if (imageAspectRatio > cardAspectRatio) {
     scaledWidth2 = cardWidth;
     scaledHeight2 = cardWidth / imageAspectRatio;
-    offsetX2 = 0;
-    offsetY2 = (cardHeight - scaledHeight2) / 2;
   } else {
     scaledHeight2 = cardHeight;
     scaledWidth2 = cardHeight * imageAspectRatio;
-    offsetX2 = (cardWidth - scaledWidth2) / 2;
-    offsetY2 = 0;
   }
 
   return (
@@ -151,10 +144,16 @@ const RecipientKonva = ({ card, isPaid, isFrontShape }) => {
             ) : (
               <Image
                 image={shapeImage}
-                width={scaledWidth2 || cardWidth}
-                height={scaledHeight2 || cardHeight}
-                x={offsetX2}
-                y={offsetY2}
+                width={
+                  scaledWidth2 * card?.shapeScale ||
+                  cardWidth * card?.shapeScale
+                }
+                height={
+                  scaledHeight2 * card?.shapeScale ||
+                  cardHeight * card?.shapeScale
+                }
+                x={card?.shapePosition.x || 0}
+                y={card?.shapePosition.y || 0}
                 cornerRadius={10}
               />
             ))}
@@ -241,12 +240,12 @@ const RecipientKonva = ({ card, isPaid, isFrontShape }) => {
                         } text-center`}
                       >
                         <span>
-                        <FontAwesomeIcon
-                          icon={faGift}
-                          className={`${styles.list_icon} ${styles.gift_icon}`}
-                        />
-                        {key("forYou")}
-                      </span>
+                          <FontAwesomeIcon
+                            icon={faGift}
+                            className={`${styles.list_icon} ${styles.gift_icon}`}
+                          />
+                          {key("forYou")}
+                        </span>
                       </li>
                       <li
                         className={`${styles.list_item} ${
