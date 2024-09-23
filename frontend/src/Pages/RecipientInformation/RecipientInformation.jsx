@@ -154,6 +154,8 @@ const RecipientInformation = () => {
         }
         notifySuccess(key("saveRec"));
         confirmMethod("pay");
+      }else if(data.response.data.message==="This card already has a recipient"){
+        notifyError(key("cardHaveRec"))
       } else {
         notifyError(key("failRec"));
       }

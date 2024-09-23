@@ -46,9 +46,11 @@ const ConfirmationModal = ({
   const celebrateIconPrice = useSelector(
     (state) => state.configs.celebrateIconPrice
   );
+
   const celebrateLinkPrice = useSelector(
     (state) => state.configs.celebrateLinkPrice
   );
+
   const applyCoupon = async (e) => {
     e.preventDefault();
     const couponCode = e.target.elements.coupon.value;
@@ -92,52 +94,42 @@ const ConfirmationModal = ({
   };
 
   const checkBalance = () => {
-    let totalCardPrice =
-      priceAfterDisc !== "" ? Number(priceAfterDisc) : Number(cardPrice);
-
     let totalPrice = 0;
 
     if (priceAfterDisc !== "") {
-      totalPrice =
-        (Number(VAT) / 100) * Number(priceAfterDisc) +
-        Number(priceAfterDisc) +
-        (ProPrice ? Number(ProPrice) : 0) +
-        (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
-        (isCelebrateQR ? Number(celebrateLinkPrice) : 0);
+      totalPrice = Number(priceAfterDisc);
     } else {
       totalPrice =
-        (Number(VAT) / 100) * Number(cardPrice) +
-        Number(cardPrice) +
-        (ProPrice ? Number(ProPrice) : 0) +
-        (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
-        (isCelebrateQR ? Number(celebrateLinkPrice) : 0);
+        (Number(VAT) / 100) *
+          (Number(cardPrice) +
+            (ProPrice ? Number(ProPrice) : 0) +
+            (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
+            (isCelebrateQR ? Number(celebrateLinkPrice) : 0)) +
+        (Number(cardPrice) +
+          (ProPrice ? Number(ProPrice) : 0) +
+          (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
+          (isCelebrateQR ? Number(celebrateLinkPrice) : 0));
     }
 
     if (balanceCase) {
-      const chargePrice =
-        (Number(VAT) / 100) * Number(totalCardPrice) +
-        totalCardPrice +
-        (ProPrice ? Number(ProPrice) : 0) +
-        (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
-        (isCelebrateQR ? Number(celebrateLinkPrice) : 0) -
-        Number(balance);
-      chargeCase(chargePrice, cardId);
+      console.log(totalPrice);
+      chargeCase(totalPrice, cardId);
       return;
     }
 
-    if (Number(cardPrice) === 0 || totalCardPrice === 0) {
+    if (Number(cardPrice) === 0 || Number(priceAfterDisc) === 0) {
       if (ProPrice || isCelebrateIcon || isCelebrateQR) {
         if (Number(totalPrice) > Number(balance)) {
           notifyError(key("insuffBalance"));
           setIsBalanced(false);
-          choosePaymentWay(paymentWay, "noBalance", totalCardPrice, totalPrice);
+          choosePaymentWay(paymentWay, "noBalance", cardPrice, totalPrice);
         } else {
           setIsBalanced(true);
-          choosePaymentWay("wallet", "balanced", totalCardPrice, totalPrice);
+          choosePaymentWay("wallet", "balanced", cardPrice, totalPrice);
         }
       } else {
         setIsBalanced(true);
-        choosePaymentWay("wallet", "balanced", totalCardPrice, totalPrice);
+        choosePaymentWay("wallet", "balanced", cardPrice, totalPrice);
       }
       return;
     }
@@ -146,14 +138,14 @@ const ConfirmationModal = ({
       if (totalPrice > Number(balance)) {
         notifyError(key("insuffBalance"));
         setIsBalanced(false);
-        choosePaymentWay(paymentWay, "noBalance", totalCardPrice, totalPrice);
+        choosePaymentWay(paymentWay, "noBalance", cardPrice, totalPrice);
       } else {
         setIsBalanced(true);
-        choosePaymentWay(paymentWay, "balanced", totalCardPrice, totalPrice);
+        choosePaymentWay(paymentWay, "balanced", cardPrice, totalPrice);
       }
     } else {
       setIsBalanced(true);
-      choosePaymentWay(paymentWay, "balanced", totalCardPrice, totalPrice);
+      choosePaymentWay(paymentWay, "balanced", cardPrice, totalPrice);
     }
   };
 
@@ -187,14 +179,6 @@ const ConfirmationModal = ({
                     />
                     {key("cardPrice")}: {cardPrice.toFixed(2)} {key("sar")}
                   </li>
-                  <li>
-                    <FontAwesomeIcon
-                      className={styles.list_icon}
-                      icon={faPercent}
-                    />
-                    {key("Vatvalue")}: {(Number(VAT) / 100) * Number(cardPrice)}{" "}
-                    {key("sar")}
-                  </li>
                   {ProPrice && (
                     <li>
                       <FontAwesomeIcon
@@ -225,15 +209,34 @@ const ConfirmationModal = ({
                   <li>
                     <FontAwesomeIcon
                       className={styles.list_icon}
+                      icon={faPercent}
+                    />
+                    {key("Vatvalue")}:{" "}
+                    {(
+                      (Number(VAT) / 100) *
+                      (Number(cardPrice) +
+                        (ProPrice ? Number(ProPrice) : 0) +
+                        (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
+                        (isCelebrateQR ? Number(celebrateLinkPrice) : 0))
+                    ).toFixed(2)}{" "}
+                    {key("sar")}
+                  </li>
+                  <li>
+                    <FontAwesomeIcon
+                      className={styles.list_icon}
                       icon={faFileInvoiceDollar}
                     />
                     {key("totalPrice")}:{" "}
                     {(
-                      (Number(VAT) / 100) * Number(cardPrice) +
-                      Number(cardPrice) +
-                      (ProPrice ? Number(ProPrice) : 0) +
-                      (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
-                      (isCelebrateQR ? Number(celebrateLinkPrice) : 0)
+                      (Number(VAT) / 100) *
+                        (Number(cardPrice) +
+                          (ProPrice ? Number(ProPrice) : 0) +
+                          (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
+                          (isCelebrateQR ? Number(celebrateLinkPrice) : 0)) +
+                      (Number(cardPrice) +
+                        (ProPrice ? Number(ProPrice) : 0) +
+                        (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
+                        (isCelebrateQR ? Number(celebrateLinkPrice) : 0))
                     ).toFixed(2)}{" "}
                     {key("sar")}
                   </li>
@@ -245,18 +248,7 @@ const ConfirmationModal = ({
                       className={styles.list_icon}
                       icon={faMoneyBill}
                     />
-                    {key("cardPrice")}: {priceAfterDisc} {key("sar")}{" "}
-                    <del className="mx-2">
-                      {cardPrice} {key("sar")}{" "}
-                    </del>
-                  </li>
-                  <li>
-                    <FontAwesomeIcon
-                      className={styles.list_icon}
-                      icon={faPercent}
-                    />
-                    {key("Vatvalue")}:{" "}
-                    {(Number(VAT) / 100) * Number(priceAfterDisc)} {key("sar")}
+                    {key("cardPrice")}: {cardPrice} {key("sar")}{" "}
                   </li>
                   {ProPrice && (
                     <li>
@@ -288,17 +280,32 @@ const ConfirmationModal = ({
                   <li>
                     <FontAwesomeIcon
                       className={styles.list_icon}
+                      icon={faPercent}
+                    />
+                    {key("Vatvalue")}:{" "}
+                    {(((Number(VAT) / 100) * Number(priceAfterDisc))).toFixed(2)}{" "}
+                    {key("sar")}
+                  </li>
+                  <li>
+                    <FontAwesomeIcon
+                      className={styles.list_icon}
                       icon={faFileInvoiceDollar}
                     />
-                    {key("totalPrice")}:{" "}
-                    {(
-                      (Number(VAT) / 100) * Number(priceAfterDisc) +
-                      Number(priceAfterDisc) +
-                      (ProPrice ? Number(ProPrice) : 0) +
-                      (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
-                      (isCelebrateQR ? Number(celebrateLinkPrice) : 0)
-                    ).toFixed(2)}{" "}
-                    {key("sar")}
+                    {key("totalPrice")}: {Number(priceAfterDisc).toFixed(2)}{" "}
+                    <del className="mx-2">
+                      {(
+                        (Number(VAT) / 100) *
+                          (Number(cardPrice) +
+                            (ProPrice ? Number(ProPrice) : 0) +
+                            (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
+                            (isCelebrateQR ? Number(celebrateLinkPrice) : 0)) +
+                        (Number(cardPrice) +
+                          (ProPrice ? Number(ProPrice) : 0) +
+                          (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
+                          (isCelebrateQR ? Number(celebrateLinkPrice) : 0))
+                      ).toFixed(2)}{" "}
+                      {key("sar")}
+                    </del>
                   </li>
                 </>
               )}

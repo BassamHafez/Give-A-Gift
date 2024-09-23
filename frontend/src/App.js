@@ -48,6 +48,7 @@ import Orders from './Pages/Admin/AdminPages/Orders/Orders';
 import ProfileOrders from './Pages/Profile/ProfileOrders/ProfileOrders';
 import Success from './Pages/PayMethods/Success';
 import Faild from './Pages/PayMethods/Faild';
+import RecipientViewCard from './Pages/ReceipientViewCard/RecipientViewCard';
 
 
 const router=createBrowserRouter([{
@@ -96,6 +97,10 @@ const router=createBrowserRouter([{
     {path:"merchant-discounts",element:<ProtectedRoute><AllDiscounts/></ProtectedRoute>},
     {path:"discount/:discountId",element:<ProtectedRoute><Discount/></ProtectedRoute>},
     { path: "*", element: <Error404 /> },
+
+    //recipient
+    {path:"gift-card/:cardId",element:<RecipientViewCard/>},
+
   ]
 }])  
 

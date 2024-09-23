@@ -149,7 +149,7 @@ const CustomCards = () => {
       return;
     }
     if(Number(cardPrice)<1){
-      notifyError("priceVali");
+      notifyError(key("priceVali"));
       return;
     }
     if (selectedShopId === "") {
