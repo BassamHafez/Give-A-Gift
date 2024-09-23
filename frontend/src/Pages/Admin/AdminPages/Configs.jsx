@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./AdminPages.module.css";
 import { getConfig } from "../../../util/Http";
 import { useMutation } from "@tanstack/react-query";
@@ -74,7 +74,9 @@ const Configs = () => {
     SPECIAL_FRONT_SHAPE_ID: string(),
     SPECIAL_BACK_SHAPE_ID: string(),
   });
-
+  useEffect(()=>{
+    window.scrollTo(0, 0)
+  },[])
   return (
     <>
       <Toaster position="top-right" />

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./AdminPages.module.css";
 import { controlUsers } from "../../../util/Http";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -185,7 +185,9 @@ const Users = () => {
           user._id.includes(searchInput)
       )
     : [];
-
+    useEffect(()=>{
+      window.scrollTo(0, 0)
+    },[])
   return (
     <>
       <Toaster position="top-right" />

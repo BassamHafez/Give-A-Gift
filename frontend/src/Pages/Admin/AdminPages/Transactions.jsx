@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./AdminPages.module.css";
 import {
   faIdCard,
@@ -29,7 +29,9 @@ const Transactions = () => {
     enabled: !!token,
     staleTime: Infinity,
   });
-
+  useEffect(()=>{
+    window.scrollTo(0, 0)
+  },[])
   const { data: totalSuccessTransactions } = useQuery({
     queryKey: ["successTransactions", token],
     queryFn: () => controlTransactions({ type: "successTransactions", token }),

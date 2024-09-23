@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./AdminPages.module.css";
 import { controlShops, getShops } from "../../../util/Http";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -49,7 +49,9 @@ const Shops = () => {
       notifyError(key("wrong"));
     },
   });
-
+  useEffect(()=>{
+    window.scrollTo(0, 0)
+  },[])
   const initialValues = {
     shapeImage: "",
     description: "",

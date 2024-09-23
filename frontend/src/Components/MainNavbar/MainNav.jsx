@@ -60,7 +60,7 @@ const MainNav = () => {
         >
           <img src={nav_logo} alt="logo" className="w-100" />
         </div>
-        {(role !== "admin" && role!=="merchant") && (
+        {role !== "admin" && role !== "merchant" && (
           <ul
             className={`${styles.nav_list} d-flex align-items-center mt-3 ${
               isArLang ? "me-5" : "ms-5"
@@ -148,12 +148,14 @@ const MainNav = () => {
                 : styles.nav_controller_small_en
             } ${role !== "user" && "d-none"}`}
           >
-            {(role !== "admin" && role!=="merchant") && (
+            {role !== "admin" && role !== "merchant" && (
               <>
                 <div
                   onClick={() => navigate("/")}
                   className={`${
-                    (role !== "admin" && role!=="merchant") ? styles.smallBrand : styles.admin_brand
+                    role !== "admin" && role !== "merchant"
+                      ? styles.smallBrand
+                      : styles.admin_brand
                   }`}
                 >
                   <img src={nav_logo} alt="logo" className="w-100" />
@@ -191,7 +193,7 @@ const MainNav = () => {
             )}
           </div>
           <>
-            {(role !== "admin" && role!=="merchant") ? (
+            {role !== "admin" && role !== "merchant" ? (
               isLogin ? (
                 <Link
                   to={`profile/${profileData?._id}`}
@@ -240,7 +242,14 @@ const MainNav = () => {
                   )}
                 </ul>
 
-                <Link to={role==="merchant"?`merchant/${profileData?._id}`:`admin/${profileData?._id}`} className="mx-4">
+                <Link
+                  to={
+                    role === "merchant"
+                      ? `merchant/${profileData?._id}`
+                      : `admin/${profileData?._id}`
+                  }
+                  className="mx-4"
+                >
                   <div className={styles.profile_img}>
                     <img
                       src={
@@ -257,9 +266,19 @@ const MainNav = () => {
               </>
             )}
           </>
+          {!role && (
+            <div
+              onClick={() => setOpenResMenu(true)}
+              className={`${styles.burger_list} ${styles.list} justify-content-between flex-column ${isArLang?"ms-5":"me-5"}`}
+            >
+              <span className={styles.half_line}></span>
+              <span className={styles.full_line}></span>
+              <span className={`${styles.half_line} ms-auto`}></span>
+            </div>
+          )}
         </div>
       </nav>
-      {openResMenu && (role !== "admin" && role!=="merchant") && (
+      {openResMenu && (!role || role === "user") && (
         <ResponsiveMenuSlideBar
           onClose={() => setOpenResMenu(false)}
           show={openResMenu}

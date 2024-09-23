@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./AdminPages.module.css";
 import { Toaster } from "react-hot-toast";
 import AddColor from "./Colors/AddColor";
@@ -15,7 +15,9 @@ const Colors = () => {
     queryFn: getColors,
     staleTime: Infinity,
   });
-
+  useEffect(()=>{
+    window.scrollTo(0, 0)
+  },[])
   return (
     <>
       <Toaster position="top-right" />

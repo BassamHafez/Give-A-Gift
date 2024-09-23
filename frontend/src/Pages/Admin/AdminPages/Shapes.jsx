@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./AdminPages.module.css";
 import { controlShapes, getShapes } from "../../../util/Http";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -55,7 +55,9 @@ const Shapes = () => {
     shapeImage: "",
     price: "",
   };
-
+  useEffect(()=>{
+    window.scrollTo(0, 0)
+  },[])
   const onSubmit = (values) => {
     console.log(values);
     const formData = new FormData();

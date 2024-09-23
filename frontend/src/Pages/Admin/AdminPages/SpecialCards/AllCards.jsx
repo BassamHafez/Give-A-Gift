@@ -44,6 +44,8 @@ const AllCards = () => {
     }
   }, [data]);
 
+
+
   const searchStores = ({ selectedNames }) => {
     if (selectedNames.length > 0) {
       const filtered = data?.data?.cards.filter((card) =>
@@ -146,13 +148,13 @@ const AllCards = () => {
                             <Card.Img
                               className={styles.front_img}
                               variant="top"
-                              src={`${process.env.REACT_APP_Host}shapes/${data?.data?.frontShape}`}
+                              src={`${process.env.REACT_APP_Host}specialCards/front-shape.webp`}
                             />
                             <div className={styles.card_img_div_layer}>
                               <Card.Img
                                 className={styles.back_img}
                                 variant="top"
-                                src={`${process.env.REACT_APP_Host}shapes/${data?.data?.backShape}`}
+                                src={`${process.env.REACT_APP_Host}specialCards/back-shape.webp`}
                               />
                             </div>
                           </div>
