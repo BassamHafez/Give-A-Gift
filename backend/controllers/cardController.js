@@ -50,7 +50,13 @@ exports.addRecipientInfo = catchAsync(async (req, res, next) => {
     });
   }
 
-  const card = await Card.findOne({ _id: req.params.id, user: req.user.id });
+  const card = await Card.findOne({
+    _id: req.params.id,
+    user: req.user.id,
+  }).populate([
+    { path: "shape", select: "price" },
+    { path: "proColor", select: "price" },
+  ]);
 
   if (!card) {
     return next(new ApiError("No card found with that ID", 404));
