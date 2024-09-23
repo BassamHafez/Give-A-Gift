@@ -95,7 +95,7 @@ const ConfirmationModal = ({
 
   const checkBalance = () => {
     let totalPrice = 0;
-
+    
     if (priceAfterDisc !== "") {
       totalPrice = Number(priceAfterDisc);
     } else {
@@ -112,12 +112,12 @@ const ConfirmationModal = ({
     }
 
     if (balanceCase) {
-      console.log(totalPrice);
-      chargeCase(totalPrice, cardId);
+      chargeCase(Number(totalPrice)-Number(balance), cardId);
       return;
     }
 
-    if (Number(cardPrice) === 0 || Number(priceAfterDisc) === 0) {
+    if (Number(cardPrice) === 0) {
+      
       if (ProPrice || isCelebrateIcon || isCelebrateQR) {
         if (Number(totalPrice) > Number(balance)) {
           notifyError(key("insuffBalance"));
@@ -135,7 +135,7 @@ const ConfirmationModal = ({
     }
 
     if (paymentWay === "wallet") {
-      if (totalPrice > Number(balance)) {
+      if (Number(totalPrice) > Number(balance)) {
         notifyError(key("insuffBalance"));
         setIsBalanced(false);
         choosePaymentWay(paymentWay, "noBalance", cardPrice, totalPrice);

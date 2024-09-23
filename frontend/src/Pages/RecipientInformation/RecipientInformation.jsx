@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getCard, getMyWallet, updateCard } from "../../util/Http";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ErrorMessage, Form, Formik, Field } from "formik";
@@ -83,6 +83,10 @@ const RecipientInformation = () => {
   );
   const { t: key } = useTranslation();
   const queryClient = useQueryClient();
+
+  useEffect(()=>{
+    window.scrollTo(0 ,0)
+  },[])
 
   const PriceAlert = (message) =>
     toast(
