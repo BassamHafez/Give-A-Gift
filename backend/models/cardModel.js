@@ -37,6 +37,11 @@ const cardSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: "Shape",
     },
+    shapePosition: {
+      x: Number,
+      y: Number,
+    },
+    shapeScale: Number,
     user: {
       type: mongoose.Schema.ObjectId,
       ref: "User",

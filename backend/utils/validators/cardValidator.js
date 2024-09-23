@@ -33,6 +33,34 @@ exports.createCardValidator = [
     .isMongoId()
     .withMessage("Shape must be a valid MongoDB ID"),
 
+  check("shapePosition")
+    .if((value, { req }) => !req.body.isSpecial)
+    .notEmpty()
+    .withMessage("Shape position coordinates are required")
+    .isObject()
+    .withMessage("Shape position must be an object"),
+
+  check("shapePosition.x")
+    .if((value, { req }) => !req.body.isSpecial)
+    .notEmpty()
+    .withMessage("Shape position X coordinate is required")
+    .isNumeric()
+    .withMessage("Shape position X coordinate must be a number"),
+
+  check("shapePosition.y")
+    .if((value, { req }) => !req.body.isSpecial)
+    .notEmpty()
+    .withMessage("Shape position Y coordinate is required")
+    .isNumeric()
+    .withMessage("Shape position Y coordinate must be a number"),
+
+  check("shapeScale")
+    .if((value, { req }) => !req.body.isSpecial)
+    .notEmpty()
+    .withMessage("Shape scale is required")
+    .isNumeric()
+    .withMessage("Shape scale must be a number"),
+
   check("price")
     .notEmpty()
     .withMessage("Price information is required")
