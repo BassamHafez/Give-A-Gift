@@ -1,6 +1,9 @@
 exports.calculateTotalCardPrice = (card, iconPrice, linkPrice, VAT) => {
-  let cardPrice =
-    card.priceAfterDiscount >= 0 ? card.priceAfterDiscount : card.price.value;
+  // let cardPrice =
+  //   card.priceAfterDiscount >= 0 ? card.priceAfterDiscount : card.price.value;
+  if (card.priceAfterDiscount >= 0) return card.priceAfterDiscount;
+  let cardPrice = card.price.value;
+
   if (card.shape) cardPrice += parseFloat(card.shape.price);
   if (card.proColor) cardPrice += parseFloat(card.proColor.price);
   if (card.celebrateIcon) cardPrice += parseFloat(iconPrice);
