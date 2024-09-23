@@ -93,10 +93,8 @@ exports.buyCard = catchAsync(async (req, res, next) => {
   session.startTransaction();
 
   try {
-    const [wallet, card] = await Promise.all([
-      Wallet.findOne({ user: req.user.id }),
-      Card.findById(cardId).populate("shop shape proColor"),
-    ]);
+    const wallet = await Wallet.findOne({ user: req.user.id });
+    const card = await Card.findById(cardId).populate("shop shape proColor");
 
     if (!card) {
       throw new ApiError("Card not found", 404);
@@ -169,12 +167,10 @@ exports.buyCard = catchAsync(async (req, res, next) => {
       linkPrice
     );
 
-    await Promise.all([
-      wallet.save({ session }),
-      card.save({ session }),
-      ScheduledMessage.create([msgData], { session }),
-      Order.create([orderData], { session }),
-    ]);
+    await wallet.save({ session });
+    await card.save({ session });
+    await ScheduledMessage.create([msgData], { session });
+    await Order.create([orderData], { session });
 
     await session.commitTransaction();
 
