@@ -25,23 +25,24 @@ const cardPopulateOptions = [
 ];
 
 exports.getAllCards = factory.getAll(Card, cardPopulateOptions);
+exports.getCard = factory.getOne(Card, cardPopulateOptions);
 exports.createCard = factory.createOne(Card);
 
-exports.getCard = catchAsync(async (req, res, next) => {
-  const doc = await Card.findOne({
-    _id: req.params.id,
-    ...(req.user.role !== "admin" && { user: req.user.id }),
-  }).populate(cardPopulateOptions);
+// exports.getCard = catchAsync(async (req, res, next) => {
+//   const doc = await Card.findOne({
+//     _id: req.params.id,
+//     ...(req.user.role !== "admin" && { user: req.user.id }),
+//   }).populate(cardPopulateOptions);
 
-  if (!doc) {
-    return next(new ApiError("No document found with that ID", 404));
-  }
+//   if (!doc) {
+//     return next(new ApiError("No document found with that ID", 404));
+//   }
 
-  res.status(200).json({
-    status: "success",
-    data: doc,
-  });
-});
+//   res.status(200).json({
+//     status: "success",
+//     data: doc,
+//   });
+// });
 
 exports.addRecipientInfo = catchAsync(async (req, res, next) => {
   if (req.body.celebrateLink) {

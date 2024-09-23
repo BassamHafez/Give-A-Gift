@@ -5,6 +5,8 @@ const authController = require("../controllers/authController");
 const cardController = require("../controllers/cardController");
 const cardValidator = require("../utils/validators/cardValidator");
 
+router.get("/:id", cardController.getCard);
+
 router.use(authController.protect);
 
 router.get("/", cardController.filterUserCards, cardController.getAllCards);
@@ -18,11 +20,11 @@ router.post(
 
 router
   .route("/:id")
-  .get(
-    cardValidator.getCardValidator,
-    cardController.filterUserCards,
-    cardController.getCard
-  )
+  // .get(
+  //   cardValidator.getCardValidator,
+  //   cardController.filterUserCards,
+  //   cardController.getCard
+  // )
   .patch(
     cardValidator.addRecipientInfoValidator,
     cardController.filterUserCards,
