@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./RecipientViewCard.module.css";
 import {
-  faCalendarDay,
-  faClock,
-  faComment,
-  faCommentSlash,
   faGift,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,7 +9,7 @@ import useImage from "use-image";
 import { useTranslation } from "react-i18next";
 import mainLogo from "../../Images/logo.png";
 
-const RecipientKonva = ({ card, isPaid, isFrontShape }) => {
+const RecipientKonva = ({ card, isFrontShape }) => {
   const [isSmalogo, setIsSmalogo] = useState(false);
 
   const [mainLogoImage] = useImage(mainLogo);
@@ -36,22 +32,7 @@ const RecipientKonva = ({ card, isPaid, isFrontShape }) => {
       ? `${process.env.REACT_APP_Host}colors/${card?.proColor?.image}`
       : ""
   );
-  const formatDateTime = (dateTimeString) => {
-    const date = new Date(dateTimeString);
-    const formattedDate = date.toLocaleDateString("en-GB");
-    const formattedTime = date.toLocaleTimeString("en-GB", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-    return { formattedDate, formattedTime };
-  };
 
-  const receiveAtFormatted = card.receiveAt
-    ? formatDateTime(card.receiveAt)
-    : {
-        formattedDate: key("recDataInComplete"),
-        formattedTime: key("recDataInComplete"),
-      };
   const [cardWidth, setCardWidth] = useState(480);
   const [cardHeight, setCardHeight] = useState(270);
 
@@ -83,7 +64,6 @@ const RecipientKonva = ({ card, isPaid, isFrontShape }) => {
 
   let scaledWidth2, scaledHeight2;
 
-  //special
   if (imageAspectRatio > cardAspectRatio) {
     scaledHeight = cardHeight;
     scaledWidth = cardHeight * imageAspectRatio;
@@ -94,7 +74,6 @@ const RecipientKonva = ({ card, isPaid, isFrontShape }) => {
     offsetY = (cardHeight - scaledHeight) / 2;
   }
 
-  //not special
   if (imageAspectRatio > cardAspectRatio) {
     scaledWidth2 = cardWidth;
     scaledHeight2 = cardWidth / imageAspectRatio;
@@ -197,13 +176,12 @@ const RecipientKonva = ({ card, isPaid, isFrontShape }) => {
       <div className="mt-1 px-2  position-relative d-flex justify-content-center flex-column">
         <div className={styles.shop_logo}>
           <img
-            src={`${process.env.REACT_APP_Host}shops/${card.shop?.logo}`}
+            src={`${process.env.REACT_APP_Host}shops/${card?.shop?.logo}`}
             alt="shop_logo"
           />
         </div>
         <ul className={styles.list}>
-          {isPaid ? (
-            <>
+      
               <li
                 className={`${styles.list_item} ${styles.price_value} text-center`}
               >
@@ -288,66 +266,7 @@ const RecipientKonva = ({ card, isPaid, isFrontShape }) => {
                     {key("cardReady")}
                   </li>
                 </>
-              )}
-            </>
-          ) : (
-            <>
-              <li
-                className={`${styles.list_item} ${styles.price_value} text-center`}
-              >
-                {card.price?.value} {key("sar")}
-              </li>
-              <li
-                className={`${styles.list_item} ${
-                  isArLang ? styles.list_item_ar : styles.list_item_en
-                }`}
-              >
-                {card.isDelivered ? (
-                  <span>
-                    <FontAwesomeIcon
-                      className={styles.list_icon}
-                      icon={faComment}
-                    />{" "}
-                    {key("cardReceived")}
-                  </span>
-                ) : (
-                  <span>
-                    <FontAwesomeIcon
-                      className={styles.list_icon}
-                      icon={faCommentSlash}
-                    />
-                    {key("didnotReceive")}
-                  </span>
-                )}
-              </li>
-              <li
-                className={`${styles.list_item} ${
-                  isArLang ? styles.list_item_ar : styles.list_item_en
-                }`}
-              >
-                <span>
-                  <FontAwesomeIcon
-                    icon={faCalendarDay}
-                    className={`${styles.list_icon}`}
-                  />{" "}
-                  {key("date")}: {receiveAtFormatted.formattedDate}
-                </span>
-              </li>
-              <li
-                className={`${styles.list_item} ${
-                  isArLang ? styles.list_item_ar : styles.list_item_en
-                }`}
-              >
-                <span>
-                  <FontAwesomeIcon
-                    icon={faClock}
-                    className={`${styles.list_icon}`}
-                  />{" "}
-                  {key("time")}: {receiveAtFormatted.formattedTime}
-                </span>
-              </li>
-            </>
-          )}
+              )}           
         </ul>
       </div>
     </>

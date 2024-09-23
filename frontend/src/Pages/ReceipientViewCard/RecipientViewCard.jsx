@@ -51,7 +51,7 @@ const RecipientViewCard = () => {
       staleTime: Infinity,
     });
    
-  
+  console.log(myCard)
     useEffect(() => {
       if (isFirstVisit) {
         const timer = setTimeout(() => {
@@ -86,7 +86,7 @@ const RecipientViewCard = () => {
     <div className={`${styles.card_container}`}>
     {!isFetching ? (
       myCard ? (
-        <div className="d-flex flex-column justify-content-center align-items-center" xlg={6} key={myCard.data._id}>
+        <div className="d-flex flex-column justify-content-center align-items-center" xlg={6} key={myCard?.data?._id}>
           <div className={styles.header}>
             <ul className={styles.header_list}>
               <li
@@ -105,7 +105,6 @@ const RecipientViewCard = () => {
           </div>
           <div className={styles.card_body}>
             <RecipientKonva
-              isPaid={myCard?.data.isPaid}
               isFrontShape={isFrontShape}
               card={myCard?.data}
             />

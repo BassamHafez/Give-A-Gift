@@ -333,5 +333,10 @@
     "noDataSearch":"No cards founded for that store",
     "shapePrice":"Shape Price",
     "forYou":"Gift Card From Give A Gift Just For You",
-    "cardHaveRec":"This card already has a recipient"
+    "cardHaveRec":"This card already has a recipient",
+    "transValue":"transaction value",
+    "state":"transaction state",
+    "PaymentMethod":"Payment Method",
+    "UserDefinedField":"User Defined Field",
+    "paymentId":"payment Id"
 }   

@@ -4,7 +4,6 @@ import { Stage, Layer, Rect, Text, Image } from "react-konva";
 import styles from "./CustomCards.module.css";
 import { useTranslation } from "react-i18next";
 
-
 const CustomeCardStage = ({
   cardWidth,
   cardHeight,
@@ -33,12 +32,52 @@ const CustomeCardStage = ({
   const { t: key } = useTranslation();
   const [hasDraggedText, setHasDraggedText] = useState(false);
   const initialTextPosition = useRef(null);
+  const [initialCenteringDone, setInitialCenteringDone] = useState(false);
 
   useEffect(() => {
-    const centeredX = (cardWidth - scaledWidth * scale) / 2;
-    const centeredY = (cardHeight - scaledHeight * scale) / 2;
-    setShapePosition({ x: centeredX, y: centeredY });
-  }, [scaledWidth, scaledHeight, scale, cardWidth, cardHeight, setShapePosition]);
+    if (!initialCenteringDone) {
+      const centeredX = (cardWidth - scaledWidth * scale) / 2;
+      const centeredY = (cardHeight - scaledHeight * scale) / 2;
+      setShapePosition({ x: centeredX, y: centeredY });
+    }
+  }, [
+    initialCenteringDone,
+    scaledWidth,
+    scaledHeight,
+    scale,
+    cardWidth,
+    cardHeight,
+    setShapePosition,
+  ]);
+
+  useEffect(() => {
+    if (initialCenteringDone) {
+      const positionXPercent = shapePosition.x / cardWidth;
+      const positionYPercent = shapePosition.y / cardHeight;
+      const newPositionX = positionXPercent * cardWidth;
+      const newPositionY = positionYPercent * cardHeight;
+      const clampedX = Math.min(
+        Math.max(newPositionX, 0),
+        cardWidth - scaledWidth * scale
+      );
+      const clampedY = Math.min(
+        Math.max(newPositionY, 0),
+        cardHeight - scaledHeight * scale
+      );
+
+      setShapePosition({ x: clampedX, y: clampedY });
+    }
+  }, [
+    cardWidth,
+    cardHeight,
+    scaledWidth,
+    scaledHeight,
+    scale,
+    shapePosition.x,
+    shapePosition.y,
+    setShapePosition,
+    initialCenteringDone,
+  ]);
 
   const handleTextDragStart = () => {
     setHasDraggedText(true);
@@ -50,10 +89,16 @@ const CustomeCardStage = ({
 
   const handleShapeDragMove = (e) => {
     setShapePosition({ x: e.target.x(), y: e.target.y() });
+    setInitialCenteringDone(true)
   };
 
   return (
-    <Stage className={styles.card} width={cardWidth} height={cardHeight} cornerRadius={30}>
+    <Stage
+      className={styles.card}
+      width={cardWidth}
+      height={cardHeight}
+      cornerRadius={30}
+    >
       <Layer>
         {isProColor ? (
           <Image
@@ -65,7 +110,12 @@ const CustomeCardStage = ({
             cornerRadius={30}
           />
         ) : (
-          <Rect width={cardWidth} height={cardHeight} fill={cardColor} cornerRadius={30} />
+          <Rect
+            width={cardWidth}
+            height={cardHeight}
+            fill={cardColor}
+            cornerRadius={30}
+          />
         )}
 
         {shapeImage && showBack && (
@@ -116,7 +166,11 @@ const CustomeCardStage = ({
                   container.style.cursor = "grab";
                 }}
                 ref={(node) => {
-                  if (node && !hasDraggedText && initialTextPosition.current === null) {
+                  if (
+                    node &&
+                    !hasDraggedText &&
+                    initialTextPosition.current === null
+                  ) {
                     const textWidth = node.getClientRect().width;
                     const textHeight = node.getClientRect().height;
                     const centeredX = cardWidth / 2 - textWidth / 2;
