@@ -63,8 +63,8 @@ const Payment = () => {
       InvoiceValue: values.InvoiceValue,
       type: type === "payment" ? "PAYMENT" : "DEPOSIT",
       successURL: successURL,
-      errorURL: successURL,
-      // errorURL: `${process.env.REACT_APP_Host}payment-faild`,
+      // errorURL: successURL,
+      errorURL: `${process.env.REACT_APP_Host}payment-faild`,
     };
     mutate({ token: token, formData: updatedFormData });
   };
