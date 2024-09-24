@@ -9,6 +9,7 @@ exports.calculateTotalCardPrice = (
   let cardPrice = card.price.value;
 
   if (card.shape) cardPrice += parseFloat(card.shape.price);
+  if (card.shape2) cardPrice += parseFloat(card.shape2.price);
   if (card.proColor) cardPrice += parseFloat(card.proColor.price);
   if (card.celebrateIcon) cardPrice += parseFloat(iconPrice);
   if (card.celebrateQR) cardPrice += parseFloat(linkPrice);
@@ -42,6 +43,7 @@ exports.createOrderData = (
     value: card.price.value,
     price_after_discount: card.priceAfterDiscount,
     shape_price: card.shape ? parseFloat(card.shape.price) : 0,
+    shape2_price: card.shape2 ? parseFloat(card.shape2.price) : 0,
     color_price: card.proColor ? parseFloat(card.proColor.price) : 0,
     celebrate_icon_price: card.celebrateIcon ? +iconPrice : 0,
     celebrate_qr_link_price: card.celebrateQR ? +linkPrice : 0,

@@ -92,9 +92,16 @@ exports.buyCard = catchAsync(async (req, res, next) => {
   const session = await mongoose.startSession();
   session.startTransaction();
 
+  const cardPopOptions = [
+    { path: "shop", select: "name isOnline" },
+    { path: "shape", select: "price" },
+    { path: "shape2", select: "price" },
+    { path: "proColor", select: "price" },
+  ];
+
   try {
     const wallet = await Wallet.findOne({ user: req.user.id });
-    const card = await Card.findById(cardId).populate("shop shape proColor");
+    const card = await Card.findById(cardId).populate(cardPopOptions);
 
     if (!card) {
       throw new ApiError("Card not found", 404);
