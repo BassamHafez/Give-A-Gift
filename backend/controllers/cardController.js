@@ -20,6 +20,7 @@ exports.filterUserCards = (req, res, next) => {
 const cardPopulateOptions = [
   { path: "shop", select: "name logo" },
   { path: "shape", select: "image price" },
+  { path: "shape2", select: "image price" },
   { path: "color", select: "hex" },
   { path: "proColor", select: "image price" },
 ];
@@ -56,6 +57,7 @@ exports.addRecipientInfo = catchAsync(async (req, res, next) => {
     user: req.user.id,
   }).populate([
     { path: "shape", select: "price" },
+    { path: "shape2", select: "price" },
     { path: "proColor", select: "price" },
   ]);
 
