@@ -14,6 +14,7 @@ const orderSchema = new mongoose.Schema({
   price_after_discount: Number,
   color_price: Number,
   shape_price: Number,
+  shape2_price: Number,
   celebrate_icon_price: Number,
   celebrate_qr_link_price: Number,
   VAT: String,
