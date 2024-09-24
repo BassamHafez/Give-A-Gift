@@ -8,6 +8,7 @@ const shapesPath = path.join(rootPath, "shapes");
 const shopsPath = path.join(rootPath, "shops");
 const colorsPath = path.join(rootPath, "colors");
 const specialCardsPath = path.join(rootPath, "specialCards");
+const designsPath = path.join(rootPath, "designs");
 
 function ensureDirectories() {
   if (!fs.existsSync(rootPath)) {
@@ -38,6 +39,11 @@ function ensureDirectories() {
   if (!fs.existsSync(specialCardsPath)) {
     fs.mkdirSync(specialCardsPath);
     console.log("Created specialCards directory");
+  }
+
+  if (!fs.existsSync(designsPath)) {
+    fs.mkdirSync(designsPath);
+    console.log("Created designs directory");
   }
 }
 
