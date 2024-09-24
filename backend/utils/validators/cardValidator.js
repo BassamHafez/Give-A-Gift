@@ -26,73 +26,47 @@ exports.createCardValidator = [
     .isMongoId()
     .withMessage("ProColor must be a valid MongoDB ID"),
 
-  check("shape")
+  check("shapes")
     .if((value, { req }) => !req.body.isSpecial)
     .notEmpty()
-    .withMessage("Shape is required")
+    .withMessage("Shapes are required")
+    .isArray({ min: 1 })
+    .withMessage("Shapes must be an array with at least one shape"),
+
+  check("shapes.*.shape")
+    .if((value, { req }) => !req.body.isSpecial)
+    .notEmpty()
+    .withMessage("Shape ID is required")
     .isMongoId()
     .withMessage("Shape must be a valid MongoDB ID"),
 
-  check("shapePosition")
+  check("shapes.*.position")
     .if((value, { req }) => !req.body.isSpecial)
     .notEmpty()
-    .withMessage("Shape position coordinates are required")
+    .withMessage("Shape position is required")
     .isObject()
     .withMessage("Shape position must be an object"),
 
-  check("shapePosition.x")
+  check("shapes.*.position.x")
     .if((value, { req }) => !req.body.isSpecial)
     .notEmpty()
     .withMessage("Shape position X coordinate is required")
     .isNumeric()
     .withMessage("Shape position X coordinate must be a number"),
 
-  check("shapePosition.y")
+  check("shapes.*.position.y")
     .if((value, { req }) => !req.body.isSpecial)
     .notEmpty()
     .withMessage("Shape position Y coordinate is required")
     .isNumeric()
     .withMessage("Shape position Y coordinate must be a number"),
 
-  check("shapeScale")
+  check("shapes.*.scale")
     .if((value, { req }) => !req.body.isSpecial)
     .notEmpty()
     .withMessage("Shape scale is required")
     .isNumeric()
     .withMessage("Shape scale must be a number"),
-
-  check("shape2")
-    .optional()
-    .isMongoId()
-    .withMessage("Shape2 must be a valid MongoDB ID"),
-
-  check("shape2Position")
-    .if((value, { req }) => !req.body.isSpecial && req.body?.shape2)
-    .notEmpty()
-    .withMessage("Shape2 position coordinates are required")
-    .isObject()
-    .withMessage("Shape2 position must be an object"),
-
-  check("shape2Position.x")
-    .if((value, { req }) => !req.body.isSpecial && req.body?.shape2)
-    .notEmpty()
-    .withMessage("Shape2 position X coordinate is required")
-    .isNumeric()
-    .withMessage("Shape2 position X coordinate must be a number"),
-
-  check("shape2Position.y")
-    .if((value, { req }) => !req.body.isSpecial && req.body?.shape2)
-    .notEmpty()
-    .withMessage("Shape2 position Y coordinate is required")
-    .isNumeric()
-    .withMessage("Shape2 position Y coordinate must be a number"),
-
-  check("shape2Scale")
-    .if((value, { req }) => !req.body.isSpecial && req.body?.shape2)
-    .notEmpty()
-    .withMessage("Shape2 scale is required")
-    .isNumeric()
-    .withMessage("Shape2 scale must be a number"),
 
   check("price")
     .notEmpty()

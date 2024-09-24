@@ -94,8 +94,7 @@ exports.buyCard = catchAsync(async (req, res, next) => {
 
   const cardPopOptions = [
     { path: "shop", select: "name isOnline" },
-    { path: "shape", select: "price" },
-    { path: "shape2", select: "price" },
+    { path: "shapes.shape", select: "image price" },
     { path: "proColor", select: "price" },
   ];
 

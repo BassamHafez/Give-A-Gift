@@ -33,24 +33,19 @@ const cardSchema = new mongoose.Schema(
       ref: "Shop",
       required: true,
     },
-    shape: {
-      type: mongoose.Schema.ObjectId,
-      ref: "Shape",
-    },
-    shapePosition: {
-      x: Number,
-      y: Number,
-    },
-    shapeScale: Number,
-    shape2: {
-      type: mongoose.Schema.ObjectId,
-      ref: "Shape",
-    },
-    shape2Position: {
-      x: Number,
-      y: Number,
-    },
-    shape2Scale: Number,
+    shapes: [
+      {
+        shape: {
+          type: mongoose.Schema.ObjectId,
+          ref: "Shape",
+        },
+        position: {
+          x: Number,
+          y: Number,
+        },
+        scale: Number,
+      },
+    ],
     user: {
       type: mongoose.Schema.ObjectId,
       ref: "User",
