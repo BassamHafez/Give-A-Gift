@@ -70,7 +70,7 @@ const router=createBrowserRouter([{
     {path:"profile/:userId",element:<ProtectedRoute><Profile/></ProtectedRoute>},
     {path:"wallet/:userId",element:<ProtectedRoute><Wallet/></ProtectedRoute>},
     {path:"recipient-information/:cardId",element:<ProtectedRoute><RecipientInformation/></ProtectedRoute>},
-    {path:"payment/:type/:userId/:price",element:<ProtectedRoute><Payment/></ProtectedRoute>},
+    {path:"payment/:type/:cardId/:price",element:<ProtectedRoute><Payment/></ProtectedRoute>},
     {path:"account-setting",element:<ProtectedRoute><AccountManageMent/></ProtectedRoute>},
     {path:"help",element:<ProtectedRoute><Help/></ProtectedRoute>},
     {path:"details-after-buying/:cardPrice",element:<ProtectedRoute><DetailsAfterBuying/></ProtectedRoute>},

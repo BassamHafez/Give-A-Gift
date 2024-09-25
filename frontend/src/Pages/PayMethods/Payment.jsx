@@ -35,6 +35,7 @@ const Payment = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: executePayment,
     onSuccess: (response) => {
+      console.log(response)
       if (response.status === "success") {
         notifySuccess(key("redirect"));
         window.open(`${response.data?.Data?.PaymentURL}`, "_blank");
@@ -53,19 +54,14 @@ const Payment = () => {
   };
 
   const onSubmit = (values) => {
-    const successURL =
-      type === "payment"
-        ? `${process.env.REACT_APP_Host}payment-success/${cardId}`
-        : `${process.env.REACT_APP_Host}payment-success/charge`;
-
     const updatedFormData = {
       PaymentMethodId: values.PaymentMethodId,
       InvoiceValue: values.InvoiceValue,
-      type: type === "payment" ? "PAYMENT" : "DEPOSIT",
-      successURL: successURL,
-      // errorURL: successURL,
+      cardId:cardId,
+      successURL: `${process.env.REACT_APP_Host}payment-success/${cardId}`,
       errorURL: `${process.env.REACT_APP_Host}payment-faild`,
     };
+    console.log(updatedFormData)
     mutate({ token: token, formData: updatedFormData });
   };
 

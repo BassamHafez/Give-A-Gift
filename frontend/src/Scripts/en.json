@@ -331,7 +331,7 @@
     "orders":"Orders",
     "allShapes":"All Shapes",
     "changeReadyCards":"Change Ready Cards Shape",
-    "successMsg":"Thank you for your purchase! Your payment has been successfully processed, and your gift card is on its way",
+    "successMsg":"Thank you for your purchase! please wait a few seconds to check balance",
     "faildMsg":"We're sorry, but something went wrong while processing your payment. Please check your payment details and try again.",
     "noDataSearch":"No cards founded for that store",
     "shapePrice":"Shape Price",
