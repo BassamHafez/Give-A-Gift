@@ -3,7 +3,7 @@ const Card = require("../models/cardModel");
 const catchAsync = require("../utils/catchAsync");
 const ApiError = require("../utils/ApiError");
 
-exports.getAllDiscountCodes = catchAsync(async (req, res, next) => {
+exports.getAllMerchantDiscountCodes = catchAsync(async (req, res, next) => {
   const merchant = await User.findById(req.user.id);
 
   if (!merchant || !merchant.merchantShop) {
@@ -49,6 +49,10 @@ exports.getDiscountCodeValue = catchAsync(async (req, res, next) => {
 
   if (card.discountCode.isUsed) {
     return next(new ApiError("Discount code already used", 400));
+  }
+
+  if (card.shop.toString() !== req.user.merchantShop.toString()) {
+    return next(new ApiError("Card does not belong to your shop", 400));
   }
 
   await Card.findByIdAndUpdate(
