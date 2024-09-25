@@ -31,13 +31,15 @@ const AllDiscounts = () => {
     enabled: !!token,
   });
 
-
   const formatDateTime = (dateString) => {
     const date = new Date(dateString);
     const formattedDate = date.toLocaleDateString();
     const formattedTime = date.toLocaleTimeString();
     return { formattedDate, formattedTime };
   };
+
+  const usedCount = data?.data?.filter((disc) => disc.isUsed).length || 0;
+  const unusedCount = data?.data?.filter((disc) => !disc.isUsed).length || 0;
 
   return (
     <>
@@ -48,21 +50,21 @@ const AllDiscounts = () => {
               <>
                 <div className="d-flex flex-wrap justify-content-between align-items-venter mb-3">
                   <h4 className="fw-bolder">
-                    {key("allDisount")}{" "}
-                    ({usedData ? key("used") : key("notUsed")})
+                    {key("allDisount")} (
+                    {usedData ? key("used") : key("notUsed")})
                   </h4>
                   <div className="d-flex flex-wrap">
                     <div className="m-2">
                       <MainButton
                         onClick={() => setUsedData(true)}
-                        text={key("used")}
+                        text={`${key("used")} ${usedCount}`}
                       />
                     </div>
                     <div className="m-2">
                       <MainButton
                         onClick={() => setUsedData(false)}
                         type="white"
-                        text={key("notUsed")}
+                        text={`${key("notUsed")} ${unusedCount}`}
                       />
                     </div>
                   </div>
@@ -71,13 +73,7 @@ const AllDiscounts = () => {
                 {data.data?.map(
                   (disc) =>
                     (usedData ? disc.isUsed : !disc.isUsed) && (
-                      <Col
-                        key={disc.id}
-                        className="my-4"
-                        md={6}
-                        lg={4}
-                        xl={3}
-                      >
+                      <Col key={disc.id} className="my-4" md={6} lg={4} xl={3}>
                         <div
                           className={`${styles.disc_content} ${
                             disc.isUsed && styles.red_shadow
@@ -86,7 +82,9 @@ const AllDiscounts = () => {
                           <ul>
                             <li className="fs-5">
                               <FontAwesomeIcon
-                                className={`${styles.list_icon} ${isArLang?"ms-3":"me-3"}`}
+                                className={`${styles.list_icon} ${
+                                  isArLang ? "ms-3" : "me-3"
+                                }`}
                                 icon={faUser}
                               />
                               <span className="fw-bolder">
@@ -98,7 +96,9 @@ const AllDiscounts = () => {
                             </li>
                             <li className="fs-5">
                               <FontAwesomeIcon
-                                className={`${styles.list_icon} ${isArLang?"ms-3":"me-3"}`}
+                                className={`${styles.list_icon} ${
+                                  isArLang ? "ms-3" : "me-3"
+                                }`}
                                 icon={faHandHoldingDollar}
                               />
                               <span className="fw-bolder">
@@ -108,7 +108,9 @@ const AllDiscounts = () => {
                             </li>
                             <li className="fs-5">
                               <FontAwesomeIcon
-                                className={`${styles.list_icon} ${isArLang?"ms-3":"me-3"}`}
+                                className={`${styles.list_icon} ${
+                                  isArLang ? "ms-3" : "me-3"
+                                }`}
                                 icon={faCreditCard}
                               />
                               <span className="fw-bolder">
@@ -120,7 +122,9 @@ const AllDiscounts = () => {
                               <>
                                 <li className="fs-5">
                                   <FontAwesomeIcon
-                                    className={`${styles.list_icon} ${isArLang?"ms-3":"me-3"}`}
+                                    className={`${styles.list_icon} ${
+                                      isArLang ? "ms-3" : "me-3"
+                                    }`}
                                     icon={faCalendar}
                                   />
                                   <span className="fw-bolder">
@@ -130,7 +134,9 @@ const AllDiscounts = () => {
                                 </li>
                                 <li className="fs-5">
                                   <FontAwesomeIcon
-                                    className={`${styles.list_icon} ${isArLang?"ms-3":"me-3"}`}
+                                    className={`${styles.list_icon} ${
+                                      isArLang ? "ms-3" : "me-3"
+                                    }`}
                                     icon={faClock}
                                   />
                                   <span className="fw-bolder">

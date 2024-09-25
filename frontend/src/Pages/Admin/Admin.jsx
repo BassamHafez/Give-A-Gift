@@ -10,6 +10,7 @@ import {
   faShop,
   faStar,
   faStore,
+  faTag,
   faTicket,
   faUsers,
   faWallet,
@@ -22,6 +23,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import LogoutModal from "../../Components/Ui/LogoutModal";
 import { useSelector } from "react-redux";
+import { faOpencart } from "@fortawesome/free-brands-svg-icons";
 
 const Admin = () => {
   const [logoutModalShow, setLogoutModalShow] = useState(false);
@@ -207,6 +209,36 @@ const Admin = () => {
                     icon={faShop}
                   />
                   <span>{key("merchant")}</span>
+                </div>
+              </Col>
+              <Col
+                xs={6}
+                className="d-flex justify-content-center align-items-center"
+              >
+                <div
+                  className={styles.list_item}
+                  onClick={() => navigate("/admin-carts")}
+                >
+                  <FontAwesomeIcon
+                    className={styles.list_item_icon}
+                    icon={faOpencart}
+                  />
+                  <span>{key("carts")}</span>
+                </div>
+              </Col>
+              <Col
+                xs={6}
+                className="d-flex justify-content-center align-items-center"
+              >
+                <div
+                  className={styles.list_item}
+                  onClick={() => navigate("/admin-discounts")}
+                >
+                  <FontAwesomeIcon
+                    className={styles.list_item_icon}
+                    icon={faTag}
+                  />
+                  <span>{key("discount")}</span>
                 </div>
               </Col>
               <Col

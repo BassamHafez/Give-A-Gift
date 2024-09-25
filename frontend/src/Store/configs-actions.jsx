@@ -22,6 +22,7 @@ const fetchConfigs = (token) => {
         dispatch(configActions.setCelebrateLinkPrice(findConfigByKey(res?.data, "CELEBRATE_LINK_PRICE")?.value));
         dispatch(configActions.setWalletStarting(findConfigByKey(res?.data, "WALLET_STARTING_BALANCE")?.value));
         dispatch(configActions.setCashBack(findConfigByKey(res?.data, "CASH_BACK_PERCENTAGE")?.value));
+        dispatch(configActions.setMessageReminer(findConfigByKey(res?.data, "CART_REMINDER_MESSAGE")?.value));
       } catch (error) {
         console.error(error);
       }

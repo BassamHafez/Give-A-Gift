@@ -173,6 +173,7 @@ const CustomeCardStage = ({
                   onWheel={handleWheel(index)}
                   offsetX={displayWidth / 2}
                   offsetY={displayHeight / 2}
+                  onTap={() => handleShapeClick(index)}
                 />
               );
             })}
@@ -269,7 +270,7 @@ const CustomeCardStage = ({
           />
         </Layer>
       </Stage>
-      {currentStep === 1 && (
+      {currentStep === 1 && selectedShapeIndex!==null&& (
         <div className="mt-3">
           <div className="d-flex align-items-center justify-content-center">
             <label className="mx-2 ">{key("scale")}</label>

@@ -344,5 +344,15 @@
     "amountWithout":"مبلغ",
     "removeAmountToAll": "إزالة الرصيد من جميع المستخدمين",
     "remove":"إزالة",
-    "noUserPhone": "لا يوجد مستخدم مرتبط بهذا الرقم"
+    "noUserPhone": "لا يوجد مستخدم مرتبط بهذا الرقم",
+    "carts":"السلات",
+    "allCarts": "جميع السلات",
+    "cartId": "معرف السلة",
+    "select": "اختر",
+    "noCarts": "لا توجد سلال بعد",
+    "afterDiscount":"بعد الخصم",
+    "sendReminder": "تذكير إلى المحددين",
+    "sendReminderAll": "تذكير إلى الجميع",
+    "reminderMsg":"رسالة التذكير",
+    "sentSucc":"تم ارسال البيانات بنجاح"
 }

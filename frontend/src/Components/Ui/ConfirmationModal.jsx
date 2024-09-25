@@ -35,7 +35,6 @@ const ConfirmationModal = ({
   isCelebrateIcon,
   isCelebrateQR,
   shapePrice,
-  shape2Price,
   isRecPage,
 }) => {
   const { t: key } = useTranslation();
@@ -110,8 +109,7 @@ const ConfirmationModal = ({
       (ProPrice ? Number(ProPrice) : 0) +
       (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
       (isCelebrateQR ? Number(celebrateLinkPrice) : 0) +
-      (shapePrice ? Number(shapePrice) : 0) +
-      (shape2Price ? Number(shape2Price) : 0);
+      (shapePrice ? Number(shapePrice) : 0);
 
     setTotalPurePrice(totalNumber);
 
@@ -137,7 +135,6 @@ const ConfirmationModal = ({
     paymentWay,
     key,
     shapePrice,
-    shape2Price,
   ]);
 
   useEffect(() => {
@@ -186,6 +183,15 @@ const ConfirmationModal = ({
         setIsBalanced(true);
         choosePaymentWay(paymentWay, "balanced", totalPrice, totalPrice);
       }
+    }
+  };
+
+  const checkRec = () => {
+    if (isRecPage) {
+      onHide();
+      navigate(`/user-orders`);
+    } else {
+      onHide();
     }
   };
 
@@ -254,15 +260,6 @@ const ConfirmationModal = ({
                     </li>
                   )}
 
-                  {(shape2Price ? Number(shape2Price) : 0) > 0 && (
-                    <li>
-                      <FontAwesomeIcon
-                        className={styles.list_icon}
-                        icon={faCoins}
-                      />
-                      {key("shape2Price")}: {shape2Price} {key("sar")}
-                    </li>
-                  )}
                   <li>
                     <FontAwesomeIcon
                       className={styles.list_icon}
@@ -325,16 +322,6 @@ const ConfirmationModal = ({
                         icon={faCoins}
                       />
                       {key("shapePrice")}: {shapePrice} {key("sar")}
-                    </li>
-                  )}
-
-                  {(shape2Price ? Number(shape2Price) : 0) > 0 && (
-                    <li>
-                      <FontAwesomeIcon
-                        className={styles.list_icon}
-                        icon={faCoins}
-                      />
-                      {key("shape2Price")}: {shape2Price} {key("sar")}
                     </li>
                   )}
                   {isCelebrateIcon && (
@@ -445,10 +432,7 @@ const ConfirmationModal = ({
         <Button
           variant="primary"
           className={isArLang ? styles.close_btn_ar : styles.close_btn}
-          onClick={() => {
-            isRecPage ? onHide() : navigate(`/user-orders`);
-            onHide();
-          }}
+          onClick={checkRec}
         >
           {key("cancel")}
         </Button>
