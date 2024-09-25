@@ -86,13 +86,15 @@ exports.paymentWebhook = catchAsync(async (req, res, next) => {
         throw new ApiError("Insufficient balance", 400);
       }
 
-      const newBalance = totalBalance - totalAmount || 0;
+      let newBalance =
+        totalBalance - totalAmount > 0 ? totalBalance - totalAmount : 0;
+      newBalance +=
+        (totalAmount - (totalAmount * parseFloat(VAT.value)) / 100) *
+        (parseFloat(cashBackPercentage) / 100);
 
       wallet.balance = newBalance;
       card.isPaid = true;
       card.totalPricePaid = totalAmount;
-      wallet.balance +=
-        card.price.value * (parseFloat(cashBackPercentage) / 100);
 
       if (!card.shop.isOnline) {
         const qrCodeLink = `${process.env.QR_CODE_URL}/${card.id}`;
