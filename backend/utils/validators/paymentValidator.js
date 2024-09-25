@@ -14,13 +14,11 @@ exports.executePaymentValidator = [
     .isNumeric()
     .withMessage("InvoiceValue must be a number"),
 
-  check("type")
+  check("cardId")
     .notEmpty()
-    .withMessage("type is required")
-    .isString()
-    .withMessage("type must be a string")
-    .isIn(["DEPOSIT", "PAYMENT"])
-    .withMessage("type must be either 'DEPOSIT' or 'PAYMENT"),
+    .withMessage("cardId is required")
+    .isMongoId()
+    .withMessage("cardId must be a valid MongoId"),
 
   check("successURL")
     .notEmpty()
