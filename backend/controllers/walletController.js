@@ -126,6 +126,7 @@ exports.buyCard = catchAsync(async (req, res, next) => {
       "VAT_VALUE",
       "CELEBRATE_ICON_PRICE",
       "CELEBRATE_LINK_PRICE",
+      "CASH_BACK_PERCENTAGE",
     ];
     const configs = await Config.find({ key: { $in: configKeys } });
     const VAT = configs.find((c) => c.key === "VAT_VALUE");
@@ -134,6 +135,9 @@ exports.buyCard = catchAsync(async (req, res, next) => {
     ).value;
     const linkPrice = configs.find(
       (c) => c.key === "CELEBRATE_LINK_PRICE"
+    ).value;
+    const cashBackPercentage = configs.find(
+      (c) => c.key === "CASH_BACK_PERCENTAGE"
     ).value;
 
     const totalAmount = calculateTotalCardPrice(
@@ -150,6 +154,7 @@ exports.buyCard = catchAsync(async (req, res, next) => {
     wallet.balance -= totalAmount;
     card.isPaid = true;
     card.totalPricePaid = totalAmount;
+    wallet.balance += card.price.value * (parseFloat(cashBackPercentage) / 100);
 
     if (!card.shop.isOnline) {
       const qrCodeLink = `${process.env.QR_CODE_URL}/${card.id}`;
