@@ -220,7 +220,15 @@ exports.addBalanceToWallet = catchAsync(async (req, res, next) => {
 
   const wallet = await Wallet.findByIdAndUpdate(
     id,
-    { $inc: { balance: amountToIncrease } },
+    [
+      {
+        $set: {
+          balance: {
+            $max: [{ $add: ["$balance", amountToIncrease] }, 0],
+          },
+        },
+      },
+    ],
     { new: true }
   );
 
@@ -233,10 +241,15 @@ exports.addBalanceToWallet = catchAsync(async (req, res, next) => {
 exports.addBalanceToAllWallets = catchAsync(async (req, res, next) => {
   const { amountToIncrease } = req.body;
 
-  const result = await Wallet.updateMany(
-    {},
-    { $inc: { balance: amountToIncrease } }
-  );
+  const result = await Wallet.updateMany({}, [
+    {
+      $set: {
+        balance: {
+          $max: [{ $add: ["$balance", amountToIncrease] }, 0],
+        },
+      },
+    },
+  ]);
 
   res.status(200).json({
     status: "success",
