@@ -7,6 +7,7 @@ const HomeHeader = () => {
 
   return (
     <header className={styles.header_container}>
+      <img className={styles.main_banner} src={`${process.env.REACT_APP_Host}designs/banner.png`} alt="banner" />
       <div
         className={`${styles.layer} position-absolute w-100 h-100`}
         style={{ opacity: 0.5 }}

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   faMoneyBillTransfer,
-  faMoneyBillTrendUp,
   faSquarePlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,18 +11,12 @@ import { useTranslation } from "react-i18next";
 import Transfer from "../../Components/Transfer/Transfer";
 import { useQuery } from "@tanstack/react-query";
 import { getMyWallet } from "../../util/Http";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import ConfirmationModal from "../../Components/Ui/ConfirmationModal";
 
 const Wallet = () => {
 
     const [modalShow, setModalShow] = useState(false);
-    const [chargeModalShow, setChargeModalShow] = useState(false);
-    const profileData = useSelector((state) => state.userInfo.data);
     const token = JSON.parse(localStorage.getItem("token"));
-    const navigate = useNavigate();
     const { t: key } = useTranslation();
   
     const { data,refetch } = useQuery({
@@ -39,10 +32,6 @@ const Wallet = () => {
   
     const notifySuccess = (message) => toast.success(message);
     const notifyError = (message) => toast.error(message);
-  
-    const goToChargeMethods = () => {
-      navigate(`/payment/deposite/${profileData?._id}/charge`);
-    };
   
     const formattedBalance = data?.data?.balance
       ? parseFloat(data.data.balance).toFixed(2)
@@ -81,21 +70,6 @@ const Wallet = () => {
                 <span>{key("transfer")}</span>
               </div>
             </Col>
-            <Col
-              xs={6}
-              className="d-flex justify-content-center align-items-center"
-            >
-              <div
-                className={styles.list_item}
-                onClick={() => setChargeModalShow(true)}
-              >
-                <FontAwesomeIcon
-                  className={styles.list_item_icon}
-                  icon={faMoneyBillTrendUp}
-                />
-                <span>{key("charge")}</span>
-              </div>
-            </Col>
           </Row>
         </div>
       </div>
@@ -111,15 +85,6 @@ const Wallet = () => {
         />
       )}
 
-      {chargeModalShow && (
-        <ConfirmationModal
-          show={chargeModalShow}
-          onHide={() => setChargeModalShow(false)}
-          func={goToChargeMethods}
-          message={key("wouldCharge")}
-          btnMsg={key("continue")}
-        />
-      )}
     </>
   );
 };

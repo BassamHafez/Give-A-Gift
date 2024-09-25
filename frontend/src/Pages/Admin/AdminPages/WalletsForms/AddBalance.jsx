@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
 import InputErrorMessage from "../../../../Components/Ui/InputErrorMessage";
 import Modal from "react-bootstrap/Modal";
+import RemoveBalance from "./RemoveBalance";
 
 const AddBalance = ({ refetch, walletId, show, onHide }) => {
   const { t: key } = useTranslation();
@@ -24,7 +25,7 @@ const AddBalance = ({ refetch, walletId, show, onHide }) => {
       if (data?.data?.status === "success") {
         notifySuccess(key("opSuccess"));
         refetch();
-        onHide()
+        onHide();
       } else {
         notifyError(key("wrong"));
       }
@@ -39,9 +40,9 @@ const AddBalance = ({ refetch, walletId, show, onHide }) => {
   };
 
   const onSubmit = (values) => {
-    const updatedFormData={
-        amountToIncrease:Number(values.amountToIncrease)
-    }
+    const updatedFormData = {
+      amountToIncrease: Number(values.amountToIncrease),
+    };
 
     mutate({
       formData: updatedFormData,
@@ -71,18 +72,22 @@ const AddBalance = ({ refetch, walletId, show, onHide }) => {
           validationSchema={validationSchema}
         >
           <Form className={styles.general_info_form}>
-            <div className={styles.field}>
+            <div className={`${styles.field} mb-2`}>
               <label htmlFor="amountToIncrease">
-                {key("add")} {key("amount")}
+                {key("add")} {key("amountWithout")}
               </label>
-              <Field type="text" id="amountToIncrease" name="amountToIncrease" />
+              <Field
+                type="number"
+                id="amountToIncrease"
+                name="amountToIncrease"
+              />
               <ErrorMessage
                 name="amountToIncrease"
                 component={InputErrorMessage}
               />
             </div>
 
-            <div className="d-flex justify-content-end align-items-center mt-3 px-2">
+            <div className="d-flex justify-content-end align-items-center px-2">
               {isPending ? (
                 <button type="submit" className={styles.save_btn}>
                   <FontAwesomeIcon className="fa-spin" icon={faYinYang} />
@@ -95,6 +100,14 @@ const AddBalance = ({ refetch, walletId, show, onHide }) => {
             </div>
           </Form>
         </Formik>
+        <hr/>
+        <div className="pt-2">
+          <RemoveBalance
+            refetch={refetch}
+            onHide={onHide}
+            walletId={walletId}
+          />
+        </div>
       </Modal.Body>
     </Modal>
   );

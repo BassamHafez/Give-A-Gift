@@ -267,7 +267,16 @@
     top:0;
     transform: translate(-50%,-50%);
 }
-
+.shape_scale_div{
+   width: 100%;
+   display: flex;
+}
+.shape_input{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;    
+}
     @media screen and (max-width:992px) {
       .canva_body {
         height: auto;
@@ -280,11 +289,20 @@
         width: 100%;
         padding: 5px;
       }
+      .shape_scale_div{
+        justify-content: center !important;
+     }
     }
 
     @media screen and (max-width:450px) {
       .step {
         padding: 10px;
+      }
+    }
+    @media screen and (max-width:350px) {
+      .shape_scale_div{
+        flex-direction: column;
+        align-items: center;
       }
     }
     @media screen and (max-width:260px) {
@@ -294,10 +312,9 @@
       .steps_indicator{
         flex-wrap:wrap;
       }
-    }
-    @media screen and (max-width:260px) {
       .color_group{
         width: 100%;
       }
     }
+
 

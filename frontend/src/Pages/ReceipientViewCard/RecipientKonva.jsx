@@ -1,86 +1,69 @@
 import React, { useEffect, useState } from "react";
 import styles from "./RecipientViewCard.module.css";
-import {
-  faGift,
-} from "@fortawesome/free-solid-svg-icons";
+import { faGift } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Image, Layer, Rect, Stage, Text } from "react-konva";
 import useImage from "use-image";
 import { useTranslation } from "react-i18next";
 import mainLogo from "../../Images/logo.png";
+import useIsSmallScreen from "../ViewCard/useIsSmallScreen";
+import useCardSize from "../ViewCard/useCardSize";
 
 const RecipientKonva = ({ card, isFrontShape }) => {
-  const [isSmalogo, setIsSmalogo] = useState(false);
-
+  const isSmallScreen = useIsSmallScreen(480);
+  const isSmallestScreen = useIsSmallScreen(400);
+  const { cardWidth, cardHeight } = useCardSize(480);
   const [mainLogoImage] = useImage(mainLogo);
   const { t: key } = useTranslation();
-  let isArLang = localStorage.getItem("i18nextLng") === "ar";
+  const isArLang = localStorage.getItem("i18nextLng") === "ar";
+  const [loadedImages, setLoadedImages] = useState([]);
 
-  const [shapeImage] = useImage(
-    card?.isSpecial
-      ? `${process.env.REACT_APP_Host}specialCards/back-shape.webp`
-      : `${process.env.REACT_APP_Host}shapes/${card.shape?.image}`
-  );
+  useEffect(() => {
+    const loadImages = async () => {
+      if (!card?.shapes || !Array.isArray(card.shapes)) {
+        setLoadedImages([]);
+        return;
+      }
+
+      const images = await Promise.all(
+        card.shapes.map((shape) => {
+          const imageUrl = `${process.env.REACT_APP_Host}shapes/${shape.shape?.image}`;
+          return new Promise((resolve) => {
+            const img = new window.Image();
+            img.src = imageUrl;
+            img.onload = () => {
+              resolve(img);
+            };
+            img.onerror = (error) => {
+              resolve(null);
+            };
+          });
+        })
+      );
+      setLoadedImages(images);
+    };
+
+    loadImages();
+  }, [card]);
+
   const [shapeImageFront] = useImage(
     card?.isSpecial
       ? `${process.env.REACT_APP_Host}specialCards/front-shape.webp`
       : ""
   );
-
+  const [shapeImageBack] = useImage(
+    card?.isSpecial
+      ? `${process.env.REACT_APP_Host}specialCards/back-shape.webp`
+      : ""
+  );
   const [proColorImage] = useImage(
     card?.proColor
       ? `${process.env.REACT_APP_Host}colors/${card?.proColor?.image}`
       : ""
   );
 
-  const [cardWidth, setCardWidth] = useState(480);
-  const [cardHeight, setCardHeight] = useState(270);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 480) {
-        setIsSmalogo(true);
-      } else {
-        setIsSmalogo(false);
-      }
-      const width = window.innerWidth < 500 ? window.innerWidth * 0.9 : 480;
-      setCardWidth(width);
-      setCardHeight((width * 9) / 16);
-    };
-
-    window.addEventListener("resize", handleResize);
-    handleResize();
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  const imageAspectRatio = shapeImage?.width / shapeImage?.height;
-  const cardAspectRatio = cardWidth / cardHeight;
-
-  let scaledWidth,
-    scaledHeight,
-    offsetX = 0,
+  let offsetX = 0,
     offsetY = 0;
-
-  let scaledWidth2, scaledHeight2;
-
-  if (imageAspectRatio > cardAspectRatio) {
-    scaledHeight = cardHeight;
-    scaledWidth = cardHeight * imageAspectRatio;
-    offsetX = (cardWidth - scaledWidth) / 2;
-  } else {
-    scaledWidth = cardWidth;
-    scaledHeight = cardWidth / imageAspectRatio;
-    offsetY = (cardHeight - scaledHeight) / 2;
-  }
-
-  if (imageAspectRatio > cardAspectRatio) {
-    scaledWidth2 = cardWidth;
-    scaledHeight2 = cardWidth / imageAspectRatio;
-  } else {
-    scaledHeight2 = cardHeight;
-    scaledWidth2 = cardHeight * imageAspectRatio;
-  }
 
   return (
     <>
@@ -109,38 +92,49 @@ const RecipientKonva = ({ card, isFrontShape }) => {
             />
           )}
 
-          {shapeImage &&
-            !isFrontShape &&
+          {!isFrontShape &&
             (card.isSpecial ? (
               <Image
-                image={shapeImage}
-                width={scaledWidth || cardWidth}
-                height={scaledHeight || cardHeight}
+                image={shapeImageBack}
+                width={cardWidth}
+                height={cardHeight}
                 x={offsetX}
                 y={offsetY}
                 cornerRadius={30}
               />
             ) : (
-              <Image
-                image={shapeImage}
-                width={
-                  scaledWidth2 * card?.shapeScale ||
-                  cardWidth * card?.shapeScale
-                }
-                height={
-                  scaledHeight2 * card?.shapeScale ||
-                  cardHeight * card?.shapeScale
-                }
-                x={card?.shapePosition.x || 0}
-                y={card?.shapePosition.y || 0}
-                cornerRadius={10}
-              />
+              <>
+                {card?.shapes.map((shape, index) => {
+                  const img = loadedImages[index];
+                  if (!img) {
+                    return null;
+                  }
+
+                  const displayWidth = img.width * shape.scale || 0;
+                  const displayHeight = img.height * shape.scale || 0;
+
+                  return (
+                    <Image
+                    key={`${shape._id}_${index}`}
+                    image={img}
+                    x={shape.position.x}
+                    y={shape.position.y}
+                    rotation={shape.rotation}
+                    width={isSmallestScreen?displayWidth/2:displayWidth}
+                    height={isSmallestScreen?displayHeight/2:displayHeight}
+                    offsetX={displayWidth / 2}
+                    offsetY={displayHeight / 2}
+                    />
+                  );
+                })}
+              </>
             ))}
+
           {card.isSpecial && !!isFrontShape && (
             <Image
               image={shapeImageFront}
-              width={scaledWidth || cardWidth}
-              height={scaledHeight || cardHeight}
+              width={cardWidth}
+              height={cardHeight}
               x={offsetX}
               y={offsetY}
               cornerRadius={10}
@@ -150,10 +144,10 @@ const RecipientKonva = ({ card, isFrontShape }) => {
           {!card.isSpecial && (
             <Image
               image={mainLogoImage}
-              x={isSmalogo ? 15 : 20}
-              y={isSmalogo ? cardHeight - 30 : cardHeight - 50}
-              width={isSmalogo ? 50 : 100}
-              height={isSmalogo ? 18 : 35}
+              x={isSmallScreen ? 15 : 20}
+              y={isSmallScreen ? cardHeight - 30 : cardHeight - 50}
+              width={isSmallScreen ? 50 : 100}
+              height={isSmallScreen ? 18 : 35}
               visible={true}
             />
           )}
@@ -181,59 +175,33 @@ const RecipientKonva = ({ card, isFrontShape }) => {
           />
         </div>
         <ul className={styles.list}>
-      
-              <li
-                className={`${styles.list_item} ${styles.price_value} text-center`}
-              >
-                {card.price.value} {key("sar")}
-              </li>
-              {isFrontShape ? (
+          <li
+            className={`${styles.list_item} ${styles.price_value} text-center`}
+          >
+            {card.price.value} {key("sar")}
+          </li>
+          {isFrontShape ? (
+            <>
+              {card.celebrateQR ? (
                 <>
-                  {card.celebrateQR ? (
-                    <>
-                      <li
-                        className={`${styles.list_item} ${
-                          isArLang ? styles.list_item_ar : styles.list_item_en
-                        } text-center`}
-                      >
-                        <img
-                          src={card?.celebrateQR}
-                          className={styles.scanner}
-                          alt="celebrate QR"
-                        />
-                      </li>{" "}
-                      <li
-                        className={`${styles.list_item} ${
-                          isArLang ? styles.list_item_ar : styles.list_item_en
-                        } mini_word text-center`}
-                      >
-                        {key("exploreScan")}
-                      </li>
-                    </>
-                  ) : (
-                    <>
-                      <li
-                        className={`${styles.list_item} ${
-                          isArLang ? styles.list_item_ar : styles.list_item_en
-                        } text-center`}
-                      >
-                        <span>
-                          <FontAwesomeIcon
-                            icon={faGift}
-                            className={`${styles.list_icon} ${styles.gift_icon}`}
-                          />
-                          {key("forYou")}
-                        </span>
-                      </li>
-                      <li
-                        className={`${styles.list_item} ${
-                          isArLang ? styles.list_item_ar : styles.list_item_en
-                        } text-success text-center`}
-                      >
-                        {key("cardReady")}
-                      </li>
-                    </>
-                  )}
+                  <li
+                    className={`${styles.list_item} ${
+                      isArLang ? styles.list_item_ar : styles.list_item_en
+                    } text-center`}
+                  >
+                    <img
+                      src={card?.celebrateQR}
+                      className={styles.scanner}
+                      alt="celebrate QR"
+                    />
+                  </li>{" "}
+                  <li
+                    className={`${styles.list_item} ${
+                      isArLang ? styles.list_item_ar : styles.list_item_en
+                    } mini_word text-center`}
+                  >
+                    {key("exploreScan")}
+                  </li>
                 </>
               ) : (
                 <>
@@ -242,21 +210,13 @@ const RecipientKonva = ({ card, isFrontShape }) => {
                       isArLang ? styles.list_item_ar : styles.list_item_en
                     } text-center`}
                   >
-                    {card.discountCode?.qrCode ? (
-                      <img
-                        src={card.discountCode?.qrCode}
-                        className={styles.scanner}
-                        alt="physical store QR"
+                    <span>
+                      <FontAwesomeIcon
+                        icon={faGift}
+                        className={`${styles.list_icon} ${styles.gift_icon}`}
                       />
-                    ) : (
-                      <span>
-                        <FontAwesomeIcon
-                          icon={faGift}
-                          className={`${styles.list_icon} ${styles.gift_icon}`}
-                        />
-                        4b0b5dd8508484a33hb
-                      </span>
-                    )}
+                      {key("forYou")}
+                    </span>
                   </li>
                   <li
                     className={`${styles.list_item} ${
@@ -266,7 +226,40 @@ const RecipientKonva = ({ card, isFrontShape }) => {
                     {key("cardReady")}
                   </li>
                 </>
-              )}           
+              )}
+            </>
+          ) : (
+            <>
+              <li
+                className={`${styles.list_item} ${
+                  isArLang ? styles.list_item_ar : styles.list_item_en
+                } text-center`}
+              >
+                {card.discountCode?.qrCode ? (
+                  <img
+                    src={card.discountCode?.qrCode}
+                    className={styles.scanner}
+                    alt="physical store QR"
+                  />
+                ) : (
+                  <span>
+                    <FontAwesomeIcon
+                      icon={faGift}
+                      className={`${styles.list_icon} ${styles.gift_icon}`}
+                    />
+                    4b0b5dd8508484a33hb
+                  </span>
+                )}
+              </li>
+              <li
+                className={`${styles.list_item} ${
+                  isArLang ? styles.list_item_ar : styles.list_item_en
+                } text-success text-center`}
+              >
+                {key("cardReady")}
+              </li>
+            </>
+          )}
         </ul>
       </div>
     </>

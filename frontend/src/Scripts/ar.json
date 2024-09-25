@@ -92,6 +92,7 @@
     "amountValidate1": "يجب أن يكون المبلغ رقماً",
     "amountValidate2": "المبلغ مطلوب",
     "amountValidate3": "يجب أن يكون المبلغ أكبر من 5 ريال سعودي",
+    "amountValidate4":"يجب أن يكون المبلغ أكبر من 1 ريال سعودي",
     "chooseMethod": "اختر طريقة الدفع",
     "amount": "المبلغ",
     "charge": "شحن",
@@ -223,6 +224,9 @@
     "previewFront":"عرض الأمام",
     "previewBack":"عرض الخلف",
     "walletStartingBalance": "لا يمكن أن يكون الرصيد أقل من 0",
+    "cashBackValidation": "نسبة استرجاع النقود لا يمكن أن تكون أقل من 0",
+    "lessThanZero": "لا يمكن أن تكون أقل من 0",
+    "faildRec": "هذه الخانة تتطلب إدخال قيمة",
     "vatValue": "لا يمكن أن تكون ضريبة القيمة المضافة أقل من 0",
     "walletStarting": "رصيد المحفظة الابتدائي",
     "Vatvalue": "ضريبة القيمة المضافة",
@@ -331,6 +335,14 @@
     "noDataSearch":"لا بطاقات وجدت لهذا المتجر",
     "shapePrice":"سعر الشكل",
     "forYou":"بطاقة هدية من Give A Gift",
-    "cardHaveRec":"تم تسجيل مستلم لهذه البطاقة بالفعل"
-
+    "cardHaveRec":"تم تسجيل مستلم لهذه البطاقة بالفعل",
+    "scale":"الحجم",
+    "rotate":"تدوير",
+    "shape2Price":"سعر الشكل الثاني",
+    "removeShape":"حذف",
+    "cashBack": "نسبة استرجاع النقود",
+    "amountWithout":"مبلغ",
+    "removeAmountToAll": "إزالة الرصيد من جميع المستخدمين",
+    "remove":"إزالة",
+    "noUserPhone": "لا يوجد مستخدم مرتبط بهذا الرقم"
 }

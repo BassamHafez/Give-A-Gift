@@ -45,18 +45,19 @@ const getPhoneValidationSchema = (country, key) => {
       .matches(phoneRegex[country], key("invalidPhoneNumber"))
       .required(key("phoneNumberRequired")),
     DelTime: string()
-      .required(key("deliveryTimeRequired"))
+      .nullable()
       .test("is-future-time", key("deliveryTimeFuture"), function (value) {
-        if (!value) return false;
+        if (!value) return true;
         const selectedDateTime = new Date(value);
         return selectedDateTime > new Date();
       }),
-    celebrationLink:string().url("Please enter a valid URL").nullable(),
+    celebrationLink: string().url("Please enter a valid URL").nullable(),
   });
 };
 
 const RecipientInformation = () => {
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
+  const [disableBtn, setDisableBtn] = useState(false);
   const [dateTime, setDateTime] = useState(null);
   const [selectedCountry, setSelectedCountry] = useState("SA");
   const [modalShow, setModalShow] = useState(false);
@@ -69,6 +70,7 @@ const RecipientInformation = () => {
   const [btnMsg, setBtnMsg] = useState("");
   const [isCelebrateIcon, setIsCelebrationIcon] = useState(false);
   const [isCelebrateQR, setIsCelebrateQR] = useState(false);
+  const [totalShapesPrice, setTotalShapesPrice] = useState(0);
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
   const token = JSON.parse(localStorage.getItem("token"));
@@ -84,9 +86,9 @@ const RecipientInformation = () => {
   const { t: key } = useTranslation();
   const queryClient = useQueryClient();
 
-  useEffect(()=>{
-    window.scrollTo(0 ,0)
-  },[])
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const PriceAlert = (message) =>
     toast(
@@ -144,6 +146,7 @@ const RecipientInformation = () => {
     mutationFn: updateCard,
     onSuccess: (data) => {
       if (data?.status === "success") {
+        console.log(data);
         queryClient.invalidateQueries(["getCard", token]);
         if (data?.data?.celebrateIcon) {
           setIsCelebrationIcon(true);
@@ -155,10 +158,21 @@ const RecipientInformation = () => {
         } else {
           setIsCelebrateQR(false);
         }
+        if (data?.data?.shapes?.length > 0) {
+          const totalPrice = data.data.shapes.reduce((sum, shape) => {
+            const price = shape.shape?.price || 0;
+            return sum + price;
+          }, 0);
+
+          setTotalShapesPrice(totalPrice);
+        }
         notifySuccess(key("saveRec"));
+        setDisableBtn(true);
         confirmMethod("pay");
-      }else if(data.response.data.message==="This card already has a recipient"){
-        notifyError(key("cardHaveRec"))
+      } else if (
+        data.response.data.message === "This card already has a recipient"
+      ) {
+        notifyError(key("cardHaveRec"));
       } else {
         notifyError(key("failRec"));
       }
@@ -205,13 +219,15 @@ const RecipientInformation = () => {
         name: values.RecipientName,
         whatsappNumber: `${phoneBeginning}${values.RecNumber}`,
       },
-      receiveAt: values.DelTime,
     };
-    
+    if (values.DelTime) {
+      updatedValues.receiveAt = values.DelTime;
+    }
+
     if (values.celebrateIcon !== "") {
       updatedValues.celebrateIcon = values.celebrateIcon;
     }
-    
+
     if (values.celebrateLink !== "") {
       updatedValues.celebrateLink = values.celebrateLink;
     }
@@ -255,7 +271,6 @@ const RecipientInformation = () => {
         notifyError(key("wrong"));
       }
     } catch (error) {
-
       if (error?.response?.data?.message === "Card already paid") {
         notifyError(key("cardPaid"));
       } else {
@@ -264,7 +279,7 @@ const RecipientInformation = () => {
     }
   };
 
-  const goToChargeMethods = (price,cardId) => {
+  const goToChargeMethods = (price, cardId) => {
     navigate(`/payment/payment/${cardId}/${price}`);
   };
 
@@ -274,7 +289,7 @@ const RecipientInformation = () => {
       if (way === "wallet") {
         payCard();
       } else if (way === "payment") {
-        goToChargeMethods(price,cardId);
+        goToChargeMethods(price, cardId);
       }
     } else {
       setBtnMsg(key("charge"));
@@ -357,7 +372,7 @@ const RecipientInformation = () => {
                       {key("dateTime")}
                     </label>
                     <DatePicker
-                      value={dateTime}
+                      value={dateTime || null}
                       onChange={(value) => {
                         setDateTime(value);
                         const formattedDateTime = new Date(value).toISOString();
@@ -457,7 +472,11 @@ const RecipientInformation = () => {
                         <FontAwesomeIcon className="fa-spin" icon={faYinYang} />
                       </button>
                     ) : (
-                      <button className={styles.save_btn} type="submit">
+                      <button
+                        disabled={disableBtn}
+                        className={styles.save_btn}
+                        type="submit"
+                      >
                         {key("save")}
                       </button>
                     )}
@@ -493,8 +512,9 @@ const RecipientInformation = () => {
           isCelebrateQR={isCelebrateQR}
           cardId={cardId}
           balanceCase={balanceCase}
-          shapePrice={card?.data?.shape?.price}
+          shapePrice={totalShapesPrice}
           chargeCase={goToChargeMethods}
+          isRecPage={true}
         />
       )}
       {detailsShow && (

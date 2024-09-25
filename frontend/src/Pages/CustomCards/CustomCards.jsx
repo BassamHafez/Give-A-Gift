@@ -25,14 +25,13 @@ const notifyError = (message) => toast.error(message);
 const baseServerUrl = process.env.REACT_APP_Base_API_URl;
 
 const CustomCards = () => {
+  const [shapesArray, setShapesArray] = useState([]);
   const [cardWidth, setCardWidth] = useState(480);
   const [cardHeight, setCardHeight] = useState(270);
   const [cardColor, setCardColor] = useState("#FFFFFF");
   const [cardProColor, setCardProColor] = useState("");
   const [cardColorId, setCardColorId] = useState("");
   const [textColor, setTextColor] = useState("#000000");
-  const [selectedShape, setSelectedShape] = useState(null);
-  const [selectedShapeId, setSelectedShapeId] = useState("");
   const [selectedShopId, setSelectedShopId] = useState("");
   const [logoImage, setLogoImage] = useState(null);
   const [cardText, setCardText] = useState("");
@@ -46,14 +45,8 @@ const CustomCards = () => {
     "'ARAHAMAH1982', sans-serif"
   );
   const [textFont, setTextFont] = useState(40);
-  const [shapeImage] = useImage(selectedShape);
-  const [colorShape] = useImage(cardProColor);
-  const [logo] = useImage(logoImage);
-  const [mainLogoImage] = useImage(mainLogo);
   const [currentStep, setCurrentStep] = useState(0);
   const [isProColor, setIsProColor] = useState(false);
-  const [scale, setScale] = useState(1);
-  const [shapePosition, setShapePosition] = useState({ x: 0, y: 0 });
 
   const token = JSON.parse(localStorage.getItem("token"));
   const navigate = useNavigate();
@@ -61,6 +54,11 @@ const CustomCards = () => {
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
+
+  const [colorShape] = useImage(cardProColor);
+  const [logo] = useImage(logoImage);
+  const [mainLogoImage] = useImage(mainLogo);
+  const priceSafeY = cardHeight * 0.55;
 
   useEffect(() => {
     const handleResize = () => {
@@ -91,10 +89,26 @@ const CustomCards = () => {
     }
   };
 
-  const saveShape = (value, shapeId, showBack) => {
-    setSelectedShape(`${process.env.REACT_APP_Host}shapes/${value} `);
-    setShowBack(showBack);
-    setSelectedShapeId(shapeId);
+  const addShape = (shapeData) => {
+    setShapesArray((prev) => [
+      ...prev,
+      {
+        ...shapeData, // { image, id, showBack, price }
+        scale: 0.3,
+        position: { x: cardWidth/2, y: cardHeight/2 },
+        rotation:0
+      },
+    ]);
+  };
+
+  const removeShape = (shapeId) => {
+    setShapesArray((prev) => prev.filter((shape) => shape.id !== shapeId));
+  };
+  
+  const updateShape = (index, updatedShape) => {
+    setShapesArray((prev) =>
+      prev.map((shape, i) => (i === index ? updatedShape : shape))
+    );
   };
 
   const saveShop = (value, shopId) => {
@@ -102,26 +116,7 @@ const CustomCards = () => {
     setSelectedShopId(shopId);
   };
 
-  const imageAspectRatio = shapeImage?.width / shapeImage?.height;
-  const cardAspectRatio = cardWidth / cardHeight;
-  const priceSafeY = cardHeight * 0.55;
 
-  let scaledWidth,
-    scaledHeight,
-    offsetX = 0,
-    offsetY = 0;
-
-  if (imageAspectRatio > cardAspectRatio) {
-    scaledWidth = cardWidth;
-    scaledHeight = cardWidth / imageAspectRatio;
-    offsetX = 0;
-    offsetY = (cardHeight - scaledHeight) / 2;
-  } else {
-    scaledHeight = cardHeight;
-    scaledWidth = cardHeight * imageAspectRatio;
-    offsetX = (cardWidth - scaledWidth) / 2;
-    offsetY = 0;
-  }
 
   const stepLabels = [
     key("color"),
@@ -144,11 +139,11 @@ const CustomCards = () => {
       return;
     }
 
-    if(isNaN(Number(cardPrice))){
-      notifyError(key("priceNum"))
+    if (isNaN(Number(cardPrice))) {
+      notifyError(key("priceNum"));
       return;
     }
-    if(Number(cardPrice)<1){
+    if (Number(cardPrice) < 1) {
       notifyError(key("priceVali"));
       return;
     }
@@ -156,7 +151,7 @@ const CustomCards = () => {
       notifyError(key("cardStoreError"));
       return;
     }
-    if (selectedShapeId === "") {
+    if (!(shapesArray.length > 0)) {
       notifyError(key("shapereq"));
       return;
     }
@@ -182,32 +177,31 @@ const CustomCards = () => {
       yPosition: textPosition.y,
     };
 
+    const shapes = shapesArray.map((shape) => ({
+      shape: shape.id,
+      position: { x: shape.position.x, y: shape.position.y },
+      scale: shape.scale,
+      rotation:shape.rotation
+    }));
+
     let formData = {};
 
+    formData = {
+      isSpecial: false,
+      price: priceValues,
+      proColor: cardColorId,
+      shop: selectedShopId,
+      shapes: shapes,
+      text: textValues,
+    };
+
     if (isProColor) {
-      formData = {
-        isSpecial: false,
-        price: priceValues,
-        proColor: cardColorId,
-        shop: selectedShopId,
-        shape: selectedShapeId,
-        shapePosition:{x:shapePosition.x,y: shapePosition.y},
-        shapeScale:scale,
-        text: textValues,
-      };
+      formData.proColor = cardColorId;
     } else {
-      formData = {
-        isSpecial: false,
-        price: priceValues,
-        color: cardColorId,
-        shop: selectedShopId,
-        shape: selectedShapeId,
-        shapePosition:{x:shapePosition.x,y: shapePosition.y},
-        shapeScale:scale,
-        text: textValues,
-      };
+      formData.color = cardColorId;
     }
-    console.log(formData)
+
+    console.log(formData);
     try {
       const response = await axios.post(`${baseServerUrl}cards`, formData, {
         headers: {
@@ -226,7 +220,6 @@ const CustomCards = () => {
     }
   };
 
-  
   return (
     <>
       <Toaster position="top-right" />
@@ -241,32 +234,27 @@ const CustomCards = () => {
               </div>
 
               <div>
-              <CustomeCardStage
+                <CustomeCardStage
                   cardWidth={cardWidth}
                   cardHeight={cardHeight}
                   isProColor={isProColor}
                   colorShape={colorShape}
                   cardColor={cardColor}
-                  shapeImage={shapeImage}
                   showBack={showBack}
-                  scaledWidth={scaledWidth}
-                  scaledHeight={scaledHeight}
-                  offsetX={offsetX}
-                  offsetY={offsetY}
                   cardText={cardText}
                   textFont={textFont}
                   textFontFamily={textFontFamily}
                   textColor={textColor}
                   textPosition={textPosition}
                   setTextPosition={setTextPosition}
-                  priceSafeY={priceSafeY}
-                  cardPrice={`${cardPrice}`}
+                  cardPrice={cardPrice}
                   logo={logo}
                   mainLogoImage={mainLogoImage}
-                  scale={scale}
-                  setScale={setScale}
-                  shapePosition={shapePosition}
-                  setShapePosition={setShapePosition}
+                  shapesArray={shapesArray}
+                  updateShape={updateShape}
+                  priceSafeY={priceSafeY}
+                  removeShape={removeShape}
+                  currentStep={currentStep}
                 />
               </div>
             </Col>
@@ -302,11 +290,7 @@ const CustomCards = () => {
                   <CustomCardColors saveColorValues={saveColorValues} />
                 </Carousel.Item>
                 <Carousel.Item className={`${styles.carousel_item}`}>
-                  <CustomCardShapes
-                    saveShape={saveShape}
-                    scale={scale}
-                    setScale={setScale}
-                  />
+                  <CustomCardShapes addShape={addShape} />
                 </Carousel.Item>
                 <Carousel.Item className={`${styles.carousel_item}`}>
                   <CustomCardShops saveShop={saveShop} />

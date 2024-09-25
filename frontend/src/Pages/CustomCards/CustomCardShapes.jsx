@@ -10,7 +10,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown } from "@fortawesome/free-solid-svg-icons";
 import toast from "react-hot-toast";
 
-const CustomCardShapes = ({ saveShape, setScale, scale }) => {
+const CustomCardShapes = ({
+  addShape,
+}) => {
   const token = JSON.parse(localStorage.getItem("token"));
   const { t: key } = useTranslation();
 
@@ -58,16 +60,21 @@ const CustomCardShapes = ({ saveShape, setScale, scale }) => {
     staleTime: Infinity,
   });
 
-  const settingShape = (value, shapeId, showBack, price) => {
-    saveShape(value, shapeId, showBack);
-    if (price > 0) {
-      notifyError(`${key("proShape")} ${price} ${key("sar")}`);
-    }
+
+  const handleShapeClick = (shape) => {
+    addShape({
+      image: shape.image,
+      id: shape._id,
+      showBack: true,
+      price: shape.price,
+    });
   };
 
-  const handleScaleChange = (e) => {
-    const scaleValue = parseFloat(e.target.value);
-    setScale(scaleValue);
+  const settingShape = (shape) => {
+    handleShapeClick(shape);
+    if (shape.price > 0) {
+      notifyError(`${key("proShape")} ${shape.price} ${key("sar")}`);
+    }
   };
 
   return (
@@ -75,17 +82,6 @@ const CustomCardShapes = ({ saveShape, setScale, scale }) => {
       <h4 className={`${styles.title} text-center mb-4`}>
         {key("cardBackground")}
       </h4>
-      <div>
-        <label>Scale:</label>
-        <input
-          type="range"
-          min="0.5"
-          max="2"
-          step="0.01"
-          value={scale}
-          onChange={handleScaleChange}
-        />
-      </div>
       <Row className={styles.shapes_container}>
         {shapes ? (
           shapes?.data.map((shape) => (
@@ -95,9 +91,7 @@ const CustomCardShapes = ({ saveShape, setScale, scale }) => {
               lg={3}
               xl={2}
               className="d-flex justify-content-center align-items-center"
-              onClick={() =>
-                settingShape(shape.image, shape._id, true, shape.price)
-              }
+              onClick={() => settingShape(shape)}
               key={shape._id}
             >
               <div className={styles.shape_div}>

@@ -5,6 +5,7 @@
     align-items: center;
     min-height: 100vh;
     margin: 1.25rem 0;
+    overflow-x: hidden !important;
 }
 .card_body{
     border: 0.0625rem solid rgba(0, 0, 0, .1);
@@ -17,7 +18,7 @@
      box-shadow: 0 0 3px rgba(0, 0, 0, 0.159);
      border-radius: 1.875rem;
      overflow: hidden;
-     width: 100%;
+     width: 98%;
  }
  
  .btns_group{

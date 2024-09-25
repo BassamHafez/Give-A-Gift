@@ -3,22 +3,48 @@ import useImage from "use-image";
 import { Image, Layer, Rect, Stage } from "react-konva";
 import mainLogo from "../../Images/logo.png";
 import styles from "./RecipientInformation.module.css";
+import { useMediaQuery } from "react-responsive";
 
 const KonvaCard = ({ canvaCard, isSpecial }) => {
   const [isSmalogo, setIsSmalogo] = useState(false);
   const [mainLogoImage] = useImage(mainLogo);
   const [cardWidth, setCardWidth] = useState(480);
   const [cardHeight, setCardHeight] = useState(270);
+  const [loadedImages, setLoadedImages] = useState([]);
+  const isSmallScreen = useMediaQuery({ query: "(max-width: 400px)" });
 
-  const imageUrl =
-    !isSpecial && canvaCard?.shape?.image
-      ? `${process.env.REACT_APP_Host}shapes/${canvaCard.shape.image}`
-      : null;
+  useEffect(() => {
+    const loadImages = async () => {
+      if (!canvaCard?.shapes || !Array.isArray(canvaCard.shapes)) {
+        setLoadedImages([]);
+        return;
+      }
 
-  const [shapeImage] = useImage(imageUrl);
+      const images = await Promise.all(
+        canvaCard.shapes.map((shape) => {
+          const imageUrl = `${process.env.REACT_APP_Host}shapes/${shape.shape?.image}`;
+          return new Promise((resolve) => {
+            const img = new window.Image();
+            img.src = imageUrl;
+            img.onload = () => {
+              resolve(img);
+            };
+            img.onerror = (error) => {
+              resolve(null); 
+            };
+          });
+        })
+      );
+      setLoadedImages(images);
+    };
+
+    loadImages();
+  }, [canvaCard]);
 
   const [shapeImageFront] = useImage(
-    isSpecial ? `${process.env.REACT_APP_Host}specialCards/front-shape.webp` : ""
+    isSpecial
+      ? `${process.env.REACT_APP_Host}specialCards/front-shape.webp`
+      : ""
   );
 
   const [proColorImage] = useImage(
@@ -51,21 +77,6 @@ const KonvaCard = ({ canvaCard, isSpecial }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const imageAspectRatio =
-    shapeImage?.width && shapeImage?.height
-      ? shapeImage.width / shapeImage.height
-      : 1;
-  const cardAspectRatio = cardWidth / cardHeight;
-
-  let scaledWidth, scaledHeight;
-
-  if (imageAspectRatio > cardAspectRatio) {
-    scaledWidth = cardWidth;
-    scaledHeight = cardWidth / imageAspectRatio;
-  } else {
-    scaledWidth = cardHeight * imageAspectRatio;
-    scaledHeight = cardHeight;
-  }
 
   return (
     <>
@@ -105,14 +116,31 @@ const KonvaCard = ({ canvaCard, isSpecial }) => {
                 cornerRadius={10}
               />
             ) : (
-              <Image
-                image={shapeImage}
-                width={scaledWidth * canvaCard?.shapeScale || cardWidth * canvaCard?.shapeScale}
-                height={scaledHeight * canvaCard?.shapeScale || cardHeight * canvaCard?.shapeScale}
-                x={canvaCard?.shapePosition.x || 0}
-                y={canvaCard?.shapePosition.y || 0}
-                cornerRadius={10}
-              />
+              <>
+                {canvaCard.shapes.map((shape, index) => {
+                  const img = loadedImages[index];
+                  if (!img) {
+                    return null;
+                  }
+
+                  const displayWidth = img.width * shape.scale || 0;
+                  const displayHeight = img.height * shape.scale || 0;
+
+                  return (
+                    <Image
+                      key={`${shape._id}_${index}`}
+                      image={img}
+                      x={shape.position.x}
+                      y={shape.position.y}
+                      width={isSmallScreen?displayWidth/2:displayWidth}
+                      height={isSmallScreen?displayWidth/2:displayHeight }
+                      rotation={shape.rotation}
+                      offsetX={displayWidth / 2}
+                      offsetY={displayHeight / 2}
+                    />
+                  );
+                })}
+              </>
             )}
 
             {!isSpecial && (

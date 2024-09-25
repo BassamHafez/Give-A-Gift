@@ -10,7 +10,8 @@ import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
 import InputErrorMessage from "../../../../Components/Ui/InputErrorMessage";
 
-const AddBalanceAll = ({ refetch }) => {
+const RemoveBalanceAll = ({refetch}) => {
+
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
 
@@ -36,11 +37,9 @@ const AddBalanceAll = ({ refetch }) => {
     amountToIncrease: "",
   };
 
-  const onSubmit = (values) => {
-    // console.log(values);
-    
+  const onSubmit = (values) => {    
     const updatedFormData={
-        amountToIncrease:Number(values.amountToIncrease)
+        amountToIncrease:-Number(values.amountToIncrease)
     }
     mutate({
       formData: updatedFormData,
@@ -61,27 +60,27 @@ const AddBalanceAll = ({ refetch }) => {
     >
       <Form className={styles.general_info_form}>
         <div className={`${styles.field} mb-2`}>
-          <label htmlFor="amountToIncrease">
-            {key("addAmountToAll")}
+          <label htmlFor="amountToDecrease">
+            {key("removeAmountToAll")}
           </label>
-          <Field type="number" id="amountToIncrease" name="amountToIncrease" />
+          <Field type="number" id="amountToDecrease" name="amountToIncrease" />
           <ErrorMessage name="amountToIncrease" component={InputErrorMessage} />
         </div>
 
-        <div className="d-flex justify-content-end align-items-center px-2">
+        <div className="d-flex justify-content-end align-items-center  px-2">
           {isPending ? (
             <button type="submit" className={styles.save_btn}>
               <FontAwesomeIcon className="fa-spin" icon={faYinYang} />
             </button>
           ) : (
             <button className={styles.save_btn} type="submit">
-              {key("add")}
+              {key("remove")}
             </button>
           )}
         </div>
       </Form>
     </Formik>
-  );
-};
+  )
+}
 
-export default AddBalanceAll;
+export default RemoveBalanceAll
