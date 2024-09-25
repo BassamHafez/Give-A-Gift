@@ -72,25 +72,40 @@ const CustomeCardStage = ({
     updateShape(index, { ...shapesArray[index], scale: newScale });
   };
 
-  const handleTouchMove = (index) => (e) => {
-    e.evt.preventDefault();
-    const { touches } = e.evt;
-
-    if (touches && touches.length === 2) {
-      const [touch1, touch2] = touches;
-      const dx = touch1.clientX - touch2.clientX;
-      const dy = touch1.clientY - touch2.clientY;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      const newScale = distance / 100;
-      const angle = Math.atan2(dy, dx) * (180 / Math.PI);
-
-      updateShape(index, {
-        ...shapesArray[index],
-        scale: newScale,
-        rotation: angle,
-      });
-    }
+  const handleTouchMove = (index) => {
+    let lastDistance = null;
+    let lastAngle = null;
+  
+    return (e) => {
+      e.evt.preventDefault();
+      const { touches } = e.evt;
+  
+      if (touches && touches.length === 2) {
+        const [touch1, touch2] = touches;
+          const dx = touch1.clientX - touch2.clientX;
+        const dy = touch1.clientY - touch2.clientY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+          const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+          if (lastDistance !== null) {
+          const scaleChange = (distance - lastDistance) * 0.005;
+          const newScale = Math.max(0.1, Math.min(shapesArray[index].scale + scaleChange, 2));
+          updateShape(index, { ...shapesArray[index], scale: newScale });
+        }
+          if (lastAngle !== null) {
+          const rotationChange = (angle - lastAngle) * 0.5; 
+          const newRotation = shapesArray[index].rotation + rotationChange;
+          updateShape(index, { ...shapesArray[index], rotation: newRotation });
+        }
+  
+        lastDistance = distance;
+        lastAngle = angle;
+      } else {
+        lastDistance = null;
+        lastAngle = null;
+      }
+    };
   };
+  
 
   const handleWheel = (index) => (e) => {
     e.evt.preventDefault();
@@ -270,7 +285,7 @@ const CustomeCardStage = ({
           />
         </Layer>
       </Stage>
-      {currentStep === 1 && selectedShapeIndex!==null&& (
+      {currentStep === 1 && selectedShapeIndex !== null && (
         <div className="mt-3">
           <div className="d-flex align-items-center justify-content-center">
             <label className="mx-2 ">{key("scale")}</label>
@@ -291,7 +306,7 @@ const CustomeCardStage = ({
               type="range"
               min="0"
               max="360"
-              step="0.01"
+              step="1"
               value={shapesArray[selectedShapeIndex]?.rotation || 0}
               onChange={(e) => handleRotationChange(selectedShapeIndex, e)}
               style={{ cursor: "pointer" }}
