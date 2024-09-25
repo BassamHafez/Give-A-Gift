@@ -39,4 +39,13 @@ router
 
 router.put("/:id/apply-coupon", cardController.applyCoupon);
 
+router.use(authController.restrictTo("admin"));
+
+router
+  .route("/reminders")
+  .post(
+    cardValidator.sendCartRemindersValidator,
+    cardController.sendCartReminders
+  );
+
 module.exports = router;

@@ -3,6 +3,7 @@ const Card = require("../models/cardModel");
 const Coupon = require("../models/couponModel");
 const Config = require("../models/configModel");
 const { calculateTotalCardPrice } = require("../utils/cardUtils");
+const { sendWhatsappText } = require("../utils/sendWhatsappMsg");
 const factory = require("./handlerFactory");
 const catchAsync = require("../utils/catchAsync");
 const ApiError = require("../utils/ApiError");
@@ -131,5 +132,35 @@ exports.applyCoupon = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: "success",
     data: card,
+  });
+});
+
+exports.sendCartReminders = catchAsync(async (req, res, next) => {
+  const { cardsIds } = req.body;
+
+  const [reminderMessage, cards] = await Promise.all([
+    Config.findOne({ key: "CART_REMINDER_MESSAGE" }).lean(),
+    Card.find({
+      _id: { $in: cardsIds },
+      isPaid: false,
+    })
+      .populate([{ path: "user", select: "phone" }])
+      .lean(),
+  ]);
+
+  if (!cards.length) {
+    return next(new ApiError("No unpaid cards found", 404));
+  }
+
+  const message = reminderMessage.value;
+  const promises = cards.map((card) =>
+    sendWhatsappText(card.user.phone, message)
+  );
+
+  await Promise.all(promises);
+
+  res.status(200).json({
+    status: "success",
+    message: "Reminders sent successfully",
   });
 });

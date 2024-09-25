@@ -287,3 +287,17 @@ exports.deleteCardValidator = [
 
   validatorMiddleware,
 ];
+
+exports.sendCartRemindersValidator = [
+  check("cardsIds")
+    .notEmpty()
+    .withMessage("Cards IDs are required")
+    .isArray({ min: 1 })
+    .withMessage("Cards IDs must be an array with at least one ID"),
+
+  check("cardsIds.*")
+    .isMongoId()
+    .withMessage("Card ID must be a valid MongoDB ID"),
+
+  validatorMiddleware,
+];
