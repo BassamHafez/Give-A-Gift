@@ -84,6 +84,10 @@ const cardSchema = new mongoose.Schema(
     receiveAt: Date,
     celebrateIcon: String,
     celebrateQR: String,
+    autoReminderSent: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
