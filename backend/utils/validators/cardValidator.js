@@ -68,6 +68,13 @@ exports.createCardValidator = [
     .isNumeric()
     .withMessage("Shape scale must be a number"),
 
+  check("shapes.*.rotation")
+    .if((value, { req }) => !req.body.isSpecial)
+    .notEmpty()
+    .withMessage("Shape rotation is required")
+    .isNumeric()
+    .withMessage("Shape rotation must be a number"),
+
   check("price")
     .notEmpty()
     .withMessage("Price information is required")

@@ -44,6 +44,7 @@ const cardSchema = new mongoose.Schema(
           y: Number,
         },
         scale: Number,
+        rotation: Number,
       },
     ],
     user: {
