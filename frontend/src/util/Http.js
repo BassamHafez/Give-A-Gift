@@ -232,6 +232,16 @@ export const getAllOrders= async ({token}) => {
 
 // admin pages
 
+export const getAdminDiscount = async ({token }) => {
+  try {
+    const response = await axios.get(`${baseServerUrl}discount-codes`,{
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
 
 export const controlColors=async ({token,method,formData}) => {
   try {
@@ -449,7 +459,7 @@ export const addProColor = async ({ token, formData }) => {
 
 export const getDiscounts = async ({token }) => {
   try {
-    const response = await axios.get(`${baseServerUrl}discount-codes`,{
+    const response = await axios.get(`${baseServerUrl}discount-codes/merchant`,{
       headers: { Authorization: `Bearer ${token}` },
     });
     return response.data;

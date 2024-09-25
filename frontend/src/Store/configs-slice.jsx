@@ -9,7 +9,7 @@ const configsSlice = createSlice({
     celebrateIconPrice: "5",
     celebrateLinkPrice: "5",
     walletStarting:"0",
-    cashBack:"0"
+    messageReminder:""
   },
   reducers: {
     setMainColor(state, action) {
@@ -32,6 +32,9 @@ const configsSlice = createSlice({
     },
     setCashBack(state, action) {
       state.cashBack = action.payload;
+    },
+    setMessageReminer(state, action) {
+      state.messageReminder = action.payload;
     },
   },
 });

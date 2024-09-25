@@ -29,6 +29,9 @@ const Configs = () => {
   const celebrateLinkPrice = useSelector(
     (state) => state.configs.celebrateLinkPrice
   );
+
+  const messageReminder = useSelector((state) => state.configs.messageReminder);
+
   const walletStarting = useSelector((state) => state.configs.walletStarting);
   const cashBack = useSelector((state) => state.configs.cashBack);
 
@@ -48,27 +51,29 @@ const Configs = () => {
   });
 
   const initialValues = {
-    WALLET_STARTING_BALANCE: Number(walletStarting) || "",
+    WALLET_STARTING_BALANCE:walletStarting || "",
     MAIN_COLOR: mainColor || "",
     SECONDRY_COLOR: subColor || "",
     VAT_VALUE: Number(VAT) || "",
     CELEBRATE_ICON_PRICE: Number(celebrateIconPrice) || "",
     CELEBRATE_LINK_PRICE: Number(celebrateLinkPrice) || "",
     CASH_BACK_PERCENTAGE: Number(cashBack) || "",
+    CART_REMINDER_MESSAGE: `${messageReminder}` || "",
   };
 
   const onSubmit = (values) => {
     console.log(values);
     const updatedValues = {
-      WALLET_STARTING_BALANCE: `${walletStarting}`,
-      MAIN_COLOR: mainColor,
-      SECONDRY_COLOR: subColor,
-      VAT_VALUE: `${VAT}`,
-      CELEBRATE_ICON_PRICE: `${celebrateIconPrice}`,
-      CELEBRATE_LINK_PRICE: `${celebrateLinkPrice}`,
-      CASH_BACK_PERCENTAGE: `${cashBack}`,
+      WALLET_STARTING_BALANCE:values.WALLET_STARTING_BALANCE,
+      MAIN_COLOR: values.MAIN_COLOR,
+      SECONDRY_COLOR: values.SECONDRY_COLOR,
+      VAT_VALUE: `${values.VAT_VALUE}`,
+      CELEBRATE_ICON_PRICE: `${values.CELEBRATE_ICON_PRICE}`,
+      CELEBRATE_LINK_PRICE: `${values.CELEBRATE_LINK_PRICE}`,
+      CASH_BACK_PERCENTAGE: `${values.CASH_BACK_PERCENTAGE}`,
+      CART_REMINDER_MESSAGE: `${values.CART_REMINDER_MESSAGE}`,
     };
-    console.log(updatedValues)
+    console.log(updatedValues);
     mutate({
       type: "update",
       formData: updatedValues,
@@ -83,6 +88,7 @@ const Configs = () => {
     VAT_VALUE: number().min(0, key("vatValue")).required(key("faildRec")),
     MAIN_COLOR: string().required(key("faildRec")),
     SECONDRY_COLOR: string().required(key("faildRec")),
+    CART_REMINDER_MESSAGE: string().required(key("faildRec")),
     CASH_BACK_PERCENTAGE: number()
       .min(0, key("cashBackValidation"))
       .required(key("faildRec")),
@@ -96,6 +102,7 @@ const Configs = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   return (
     <>
       <Toaster position="top-right" />
@@ -107,20 +114,6 @@ const Configs = () => {
           enableReinitialize
         >
           <Form className={styles.general_info_form}>
-            <div className={styles.field}>
-              <label htmlFor="walletStarting" className="mt-3">
-                {key("walletStarting")}
-              </label>
-              <Field
-                type="number"
-                id="walletStarting"
-                name="WALLET_STARTING_BALANCE"
-              />
-              <ErrorMessage
-                name="WALLET_STARTING_BALANCE"
-                component={InputErrorMessage}
-              />
-            </div>
             <div className={styles.field}>
               <label htmlFor="VAT_VALUE" className="mt-3">
                 {key("Vatvalue")}
@@ -139,6 +132,20 @@ const Configs = () => {
               />
               <ErrorMessage
                 name="CASH_BACK_PERCENTAGE"
+                component={InputErrorMessage}
+              />
+            </div>
+            <div className={styles.field}>
+              <label htmlFor="WALLET_STARTING_BALANCE" className="mt-3">
+                {key("walletStarting")}
+              </label>
+              <Field
+                type="text"
+                id="WALLET_STARTING_BALANCE"
+                name="WALLET_STARTING_BALANCE"
+              />
+              <ErrorMessage
+                name="WALLET_STARTING_BALANCE"
                 component={InputErrorMessage}
               />
             </div>
@@ -184,6 +191,20 @@ const Configs = () => {
               />
               <ErrorMessage
                 name="CELEBRATE_LINK_PRICE"
+                component={InputErrorMessage}
+              />
+            </div>
+            <div className={styles.field}>
+              <label htmlFor="CART_REMINDER_MESSAGE" className="mt-3">
+                {key("reminderMsg")}
+              </label>
+              <Field
+                type="text"
+                id="CART_REMINDER_MESSAGE"
+                name="CART_REMINDER_MESSAGE"
+              />
+              <ErrorMessage
+                name="CART_REMINDER_MESSAGE"
                 component={InputErrorMessage}
               />
             </div>

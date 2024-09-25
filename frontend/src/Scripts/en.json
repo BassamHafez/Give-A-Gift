@@ -349,5 +349,15 @@
     "cashBack":"Cash back Percentage",
     "amountWithout":"amount",
     "remove":"Remove",
-    "noUserPhone":"No user found with that phone number"
+    "noUserPhone":"No user found with that phone number",
+    "carts":"Carts",
+    "allCarts":"All Carts",
+    "cartId":"Cart ID",
+    "select":"Select",
+    "noCarts":"There is no carts yet",
+    "afterDiscount":"AfterDisc",
+    "sendReminder":"Reminder to the Selected",
+    "sendReminderAll":"Reminder to All",
+    "reminderMsg":"Reminder Message",
+    "sentSucc":"Data Sent Successfully"
 }   
