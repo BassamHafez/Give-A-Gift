@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
 import InputErrorMessage from "../../../../Components/Ui/InputErrorMessage";
 
-const AddBalanceAll = ({ refetch }) => {
+const RemoveBalance = ({refetch,onHide,walletId}) => {
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
 
@@ -23,6 +23,7 @@ const AddBalanceAll = ({ refetch }) => {
       if (data?.data?.status === "success") {
         notifySuccess(key("opSuccess"));
         refetch();
+        onHide();
       } else {
         notifyError(key("wrong"));
       }
@@ -37,15 +38,15 @@ const AddBalanceAll = ({ refetch }) => {
   };
 
   const onSubmit = (values) => {
-    // console.log(values);
-    
-    const updatedFormData={
-        amountToIncrease:Number(values.amountToIncrease)
-    }
+    const updatedFormData = {
+      amountToIncrease: -Number(values.amountToIncrease),
+    };
+
     mutate({
       formData: updatedFormData,
       token: token,
-      type: "add",
+      type: "addOne",
+      walletId: walletId,
     });
   };
 
@@ -62,7 +63,7 @@ const AddBalanceAll = ({ refetch }) => {
       <Form className={styles.general_info_form}>
         <div className={`${styles.field} mb-2`}>
           <label htmlFor="amountToIncrease">
-            {key("addAmountToAll")}
+            {key("remove")} {key("amountWithout")}
           </label>
           <Field type="number" id="amountToIncrease" name="amountToIncrease" />
           <ErrorMessage name="amountToIncrease" component={InputErrorMessage} />
@@ -75,7 +76,7 @@ const AddBalanceAll = ({ refetch }) => {
             </button>
           ) : (
             <button className={styles.save_btn} type="submit">
-              {key("add")}
+              {key("remove")}
             </button>
           )}
         </div>
@@ -84,4 +85,4 @@ const AddBalanceAll = ({ refetch }) => {
   );
 };
 
-export default AddBalanceAll;
+export default RemoveBalance;

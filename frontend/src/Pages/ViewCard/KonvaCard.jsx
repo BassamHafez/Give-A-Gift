@@ -12,30 +12,63 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import mainLogo from "../../Images/logo.png";
 import styles from "./ViewCard.module.css";
+import useIsSmallScreen from "./useIsSmallScreen";
+import useCardSize from "./useCardSize";
 
 const KonvaCard = ({ card, isPaid, isFrontShape }) => {
-  const [isSmalogo, setIsSmalogo] = useState(false);
+  const isSmallScreen = useIsSmallScreen(480);
+  const isSmallestScreen = useIsSmallScreen(400);
+  const { cardWidth, cardHeight } = useCardSize(480);
+  const [loadedImages, setLoadedImages] = useState([]);
 
+  useEffect(() => {
+    const loadImages = async () => {
+      if (!card?.shapes || !Array.isArray(card.shapes)) {
+        setLoadedImages([]);
+        return;
+      }
+
+      const images = await Promise.all(
+        card.shapes.map((shape) => {
+          const imageUrl = `${process.env.REACT_APP_Host}shapes/${shape.shape?.image}`;
+          return new Promise((resolve) => {
+            const img = new window.Image();
+            img.src = imageUrl;
+            img.onload = () => {
+              resolve(img);
+            };
+            img.onerror = (error) => {
+              resolve(null);
+            };
+          });
+        })
+      );
+      setLoadedImages(images);
+    };
+
+    loadImages();
+  }, [card]);
+console.log(card)
   const [mainLogoImage] = useImage(mainLogo);
   const { t: key } = useTranslation();
-  let isArLang = localStorage.getItem("i18nextLng") === "ar";
+  const isArLang = localStorage.getItem("i18nextLng") === "ar";
 
-  const [shapeImage] = useImage(
-    card?.isSpecial
-      ? `${process.env.REACT_APP_Host}specialCards/back-shape.webp`
-      : `${process.env.REACT_APP_Host}shapes/${card.shape?.image}`
-  );
   const [shapeImageFront] = useImage(
     card?.isSpecial
       ? `${process.env.REACT_APP_Host}specialCards/front-shape.webp`
       : ""
   );
-
+  const [shapeImageBack] = useImage(
+    card?.isSpecial
+      ? `${process.env.REACT_APP_Host}specialCards/back-shape.webp`
+      : ""
+  );
   const [proColorImage] = useImage(
     card?.proColor
       ? `${process.env.REACT_APP_Host}colors/${card?.proColor?.image}`
       : ""
   );
+
   const formatDateTime = (dateTimeString) => {
     const date = new Date(dateTimeString);
     const formattedDate = date.toLocaleDateString("en-GB");
@@ -52,56 +85,9 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
         formattedDate: key("recDataInComplete"),
         formattedTime: key("recDataInComplete"),
       };
-  const [cardWidth, setCardWidth] = useState(480);
-  const [cardHeight, setCardHeight] = useState(270);
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 480) {
-        setIsSmalogo(true);
-      } else {
-        setIsSmalogo(false);
-      }
-      const width = window.innerWidth < 500 ? window.innerWidth * 0.9 : 480;
-      setCardWidth(width);
-      setCardHeight((width * 9) / 16);
-    };
-
-    window.addEventListener("resize", handleResize);
-    handleResize();
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  const imageAspectRatio = shapeImage?.width / shapeImage?.height;
-  const cardAspectRatio = cardWidth / cardHeight;
-
-  let scaledWidth,
-    scaledHeight,
-    offsetX = 0,
+  let offsetX = 0,
     offsetY = 0;
-
-  let scaledWidth2, scaledHeight2;
-
-  //special
-  if (imageAspectRatio > cardAspectRatio) {
-    scaledHeight = cardHeight;
-    scaledWidth = cardHeight * imageAspectRatio;
-    offsetX = (cardWidth - scaledWidth) / 2;
-  } else {
-    scaledWidth = cardWidth;
-    scaledHeight = cardWidth / imageAspectRatio;
-    offsetY = (cardHeight - scaledHeight) / 2;
-  }
-
-  //not special
-  if (imageAspectRatio > cardAspectRatio) {
-    scaledWidth2 = cardWidth;
-    scaledHeight2 = cardWidth / imageAspectRatio;
-  } else {
-    scaledHeight2 = cardHeight;
-    scaledWidth2 = cardHeight * imageAspectRatio;
-  }
 
   return (
     <>
@@ -130,38 +116,49 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
             />
           )}
 
-          {shapeImage &&
-            !isFrontShape &&
-            (card.isSpecial ? (
+          {!isFrontShape &&
+            (card.isSpecial && shapeImageBack ? (
               <Image
-                image={shapeImage}
-                width={scaledWidth || cardWidth}
-                height={scaledHeight || cardHeight}
+                image={shapeImageBack}
+                width={cardWidth}
+                height={cardHeight}
                 x={offsetX}
                 y={offsetY}
                 cornerRadius={30}
               />
             ) : (
-              <Image
-                image={shapeImage}
-                width={
-                  scaledWidth2 * card?.shapeScale ||
-                  cardWidth * card?.shapeScale
-                }
-                height={
-                  scaledHeight2 * card?.shapeScale ||
-                  cardHeight * card?.shapeScale
-                }
-                x={card?.shapePosition.x || 0}
-                y={card?.shapePosition.y || 0}
-                cornerRadius={10}
-              />
+              <>
+                {card?.shapes.map((shape, index) => {
+                  const img = loadedImages[index];
+                  if (!img) {
+                    return null;
+                  }
+
+                  const displayWidth = img.width * shape.scale || 0;
+                  const displayHeight = img.height * shape.scale || 0;
+
+                  return (
+                    <Image
+                      key={`${shape._id}_${index}`}
+                      image={img}
+                      x={shape.position.x}
+                      y={shape.position.y}
+                      rotation={shape.rotation}
+                      width={isSmallestScreen?displayWidth/2:displayWidth}
+                      height={isSmallestScreen?displayHeight/2:displayHeight}
+                      offsetX={displayWidth / 2}
+                      offsetY={displayHeight / 2}
+                    />
+                  );
+                })}
+              </>
             ))}
+
           {card.isSpecial && !!isFrontShape && (
             <Image
               image={shapeImageFront}
-              width={scaledWidth || cardWidth}
-              height={scaledHeight || cardHeight}
+              width={cardWidth}
+              height={cardHeight}
               x={offsetX}
               y={offsetY}
               cornerRadius={10}
@@ -171,10 +168,10 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
           {!card.isSpecial && (
             <Image
               image={mainLogoImage}
-              x={isSmalogo ? 15 : 20}
-              y={isSmalogo ? cardHeight - 30 : cardHeight - 50}
-              width={isSmalogo ? 50 : 100}
-              height={isSmalogo ? 18 : 35}
+              x={isSmallScreen ? 15 : 20}
+              y={isSmallScreen ? cardHeight - 30 : cardHeight - 50}
+              width={isSmallScreen ? 50 : 100}
+              height={isSmallScreen ? 18 : 35}
               visible={true}
             />
           )}
@@ -194,7 +191,8 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
           )}
         </Layer>
       </Stage>
-      <div className="mt-1 px-2  position-relative d-flex justify-content-center flex-column">
+
+      <div className="mt-1 px-2 position-relative d-flex justify-content-center flex-column">
         <div className={styles.shop_logo}>
           <img
             src={`${process.env.REACT_APP_Host}shops/${card.shop?.logo}`}
@@ -223,7 +221,7 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
                           className={styles.scanner}
                           alt="celebrate QR"
                         />
-                      </li>{" "}
+                      </li>
                       <li
                         className={`${styles.list_item} ${
                           isArLang ? styles.list_item_ar : styles.list_item_en
@@ -285,51 +283,24 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
               <li
                 className={`${styles.list_item} ${
                   isArLang ? styles.list_item_ar : styles.list_item_en
-                }`}
+                } px-3`}
               >
-                {card.isDelivered ? (
-                  <span>
-                    <FontAwesomeIcon
-                      className={styles.list_icon}
-                      icon={faComment}
-                    />{" "}
-                    {key("cardReceived")}
-                  </span>
-                ) : (
-                  <span>
-                    <FontAwesomeIcon
-                      className={styles.list_icon}
-                      icon={faCommentSlash}
-                    />
-                    {key("didnotReceive")}
-                  </span>
-                )}
+                <FontAwesomeIcon
+                  icon={card.receiveAt ? faCalendarDay : faCommentSlash}
+                  className={styles.list_icon}
+                />
+                {key("date")}: <span>{receiveAtFormatted.formattedDate}</span>
               </li>
               <li
                 className={`${styles.list_item} ${
                   isArLang ? styles.list_item_ar : styles.list_item_en
-                }`}
+                } px-3`}
               >
-                <span>
-                  <FontAwesomeIcon
-                    icon={faCalendarDay}
-                    className={`${styles.list_icon}`}
-                  />{" "}
-                  {key("date")}: {receiveAtFormatted.formattedDate}
-                </span>
-              </li>
-              <li
-                className={`${styles.list_item} ${
-                  isArLang ? styles.list_item_ar : styles.list_item_en
-                }`}
-              >
-                <span>
-                  <FontAwesomeIcon
-                    icon={faClock}
-                    className={`${styles.list_icon}`}
-                  />{" "}
-                  {key("time")}: {receiveAtFormatted.formattedTime}
-                </span>
+                <FontAwesomeIcon
+                  icon={card.receiveAt ? faClock : faComment}
+                  className={styles.list_icon}
+                />
+                {key("time")}: <span>{receiveAtFormatted.formattedTime}</span>
               </li>
             </>
           )}

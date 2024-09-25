@@ -35,6 +35,16 @@ const OrdersDataView = () => {
     XLSX.writeFile(wb, `${key("orderData")}.xlsx`);
   };
 
+  const formatDateTime = (dateTimeString) => {
+    const date = new Date(dateTimeString);
+    const formattedDate = date.toLocaleDateString("en-GB");
+    const formattedTime = date.toLocaleTimeString("en-GB", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    return { formattedDate, formattedTime };
+  };
+
   return (
     <Row className={styles.order_col}>
       {data ? (
@@ -49,10 +59,10 @@ const OrdersDataView = () => {
                 icon={faDownload}
               />
             </h4>
-            {data.data?.map((order) => (
+            {data.data?.map((order,index) => (
               <Col
                 className={styles.order_col}
-                key={order.order_id}  
+                key={`${order.order_id}_${index}`}  
                 md={6}
                 lg={4}
               >
@@ -199,7 +209,16 @@ const OrdersDataView = () => {
                         }
                         icon={isArLang ? faCaretLeft : faCaretRight}
                       />
-                      {key("orderDate")}: {order.order_date}
+                      {key("date")}: {formatDateTime(order.order_date).formattedDate}
+                    </li>
+                    <li>
+                      <FontAwesomeIcon
+                        className={
+                          isArLang ? styles.arrow_icon_ar : styles.arrow_icon_en
+                        }
+                        icon={isArLang ? faCaretLeft : faCaretRight}
+                      />
+                      {key("time")}: {formatDateTime(order.order_date).formattedTime}
                     </li>
                   </ul>
                 </div>

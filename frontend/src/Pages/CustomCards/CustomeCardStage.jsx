@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { Stage, Layer, Rect, Text, Image } from "react-konva";
 import styles from "./CustomCards.module.css";
@@ -10,74 +10,49 @@ const CustomeCardStage = ({
   isProColor,
   colorShape,
   cardColor,
-  shapeImage,
   showBack,
-  scaledWidth,
-  scaledHeight,
   cardText,
   textFont,
   textFontFamily,
   textColor,
   textPosition,
   setTextPosition,
-  priceSafeY,
   cardPrice,
   logo,
   mainLogoImage,
-  scale,
-  shapePosition,
-  setShapePosition,
+  shapesArray,
+  updateShape,
+  priceSafeY,
+  removeShape,
+  currentStep,
 }) => {
   const isSmallScreen = useMediaQuery({ query: "(max-width: 400px)" });
   const { t: key } = useTranslation();
   const [hasDraggedText, setHasDraggedText] = useState(false);
-  const initialTextPosition = useRef(null);
-  const [initialCenteringDone, setInitialCenteringDone] = useState(false);
+
+  const [loadedImages, setLoadedImages] = useState([]);
+  const [selectedShapeIndex, setSelectedShapeIndex] = useState(null);
 
   useEffect(() => {
-    if (!initialCenteringDone) {
-      const centeredX = (cardWidth - scaledWidth * scale) / 2;
-      const centeredY = (cardHeight - scaledHeight * scale) / 2;
-      setShapePosition({ x: centeredX, y: centeredY });
-    }
-  }, [
-    initialCenteringDone,
-    scaledWidth,
-    scaledHeight,
-    scale,
-    cardWidth,
-    cardHeight,
-    setShapePosition,
-  ]);
-
-  useEffect(() => {
-    if (initialCenteringDone) {
-      const positionXPercent = shapePosition.x / cardWidth;
-      const positionYPercent = shapePosition.y / cardHeight;
-      const newPositionX = positionXPercent * cardWidth;
-      const newPositionY = positionYPercent * cardHeight;
-      const clampedX = Math.min(
-        Math.max(newPositionX, 0),
-        cardWidth - scaledWidth * scale
+    const loadImages = async () => {
+      const images = await Promise.all(
+        shapesArray.map((shape) => {
+          return new Promise((resolve) => {
+            const img = new window.Image();
+            img.src = `${process.env.REACT_APP_Host}shapes/${shape.image}`;
+            img.onload = () => {
+              // Store original dimensions
+              resolve({ img, width: img.width, height: img.height });
+            };
+            img.onerror = () => resolve(null);
+          });
+        })
       );
-      const clampedY = Math.min(
-        Math.max(newPositionY, 0),
-        cardHeight - scaledHeight * scale
-      );
+      setLoadedImages(images);
+    };
 
-      setShapePosition({ x: clampedX, y: clampedY });
-    }
-  }, [
-    cardWidth,
-    cardHeight,
-    scaledWidth,
-    scaledHeight,
-    scale,
-    shapePosition.x,
-    shapePosition.y,
-    setShapePosition,
-    initialCenteringDone,
-  ]);
+    loadImages();
+  }, [shapesArray]);
 
   const handleTextDragStart = () => {
     setHasDraggedText(true);
@@ -87,148 +62,251 @@ const CustomeCardStage = ({
     setTextPosition({ x: e.target.x(), y: e.target.y() });
   };
 
-  const handleShapeDragMove = (e) => {
-    setShapePosition({ x: e.target.x(), y: e.target.y() });
-    setInitialCenteringDone(true)
+  const handleDragMove = (index, e) => {
+    const newPos = { x: e.target.x(), y: e.target.y() };
+    updateShape(index, { ...shapesArray[index], position: newPos });
+  };
+
+  const handleScaleChange = (index, e) => {
+    const newScale = parseFloat(e.target.value);
+    updateShape(index, { ...shapesArray[index], scale: newScale });
+  };
+
+  const handleTouchMove = (index) => (e) => {
+    e.evt.preventDefault();
+    const { touches } = e.evt;
+
+    if (touches && touches.length === 2) {
+      const [touch1, touch2] = touches;
+      const dx = touch1.clientX - touch2.clientX;
+      const dy = touch1.clientY - touch2.clientY;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      const newScale = distance / 100;
+      const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+
+      updateShape(index, {
+        ...shapesArray[index],
+        scale: newScale,
+        rotation: angle,
+      });
+    }
+  };
+
+  const handleWheel = (index) => (e) => {
+    e.evt.preventDefault();
+    const delta = e.evt.deltaY;
+    const scaleChange = delta > 0 ? 0.95 : 1.05;
+    updateShape(index, {
+      ...shapesArray[index],
+      scale: shapesArray[index].scale * scaleChange,
+    });
+  };
+
+  const handleRotationChange = (index, e) => {
+    const newRotation = parseFloat(e.target.value);
+    updateShape(index, { ...shapesArray[index], rotation: newRotation });
+  };
+
+  const handleShapeClick = (index) => {
+    setSelectedShapeIndex(selectedShapeIndex === index ? null : index);
+  };
+
+  const handleRemoveShape = () => {
+    if (selectedShapeIndex !== null) {
+      const shapeId = shapesArray[selectedShapeIndex].id;
+      removeShape(shapeId);
+      setSelectedShapeIndex(null);
+    }
   };
 
   return (
-    <Stage
-      className={styles.card}
-      width={cardWidth}
-      height={cardHeight}
-      cornerRadius={30}
-    >
-      <Layer>
-        {isProColor ? (
-          <Image
-            image={colorShape}
-            width={cardWidth}
-            height={cardHeight}
-            opacity={1}
-            visible={true}
-            cornerRadius={30}
-          />
-        ) : (
-          <Rect
-            width={cardWidth}
-            height={cardHeight}
-            fill={cardColor}
-            cornerRadius={30}
-          />
-        )}
+    <>
+      <Stage
+        className={styles.card}
+        width={cardWidth}
+        height={cardHeight}
+        cornerRadius={30}
+      >
+        <Layer>
+          {isProColor ? (
+            <Image
+              image={colorShape}
+              width={cardWidth}
+              height={cardHeight}
+              opacity={1}
+              visible={true}
+              cornerRadius={30}
+            />
+          ) : (
+            <Rect
+              width={cardWidth}
+              height={cardHeight}
+              fill={cardColor}
+              cornerRadius={30}
+            />
+          )}
 
-        {shapeImage && showBack && (
-          <Image
-            image={shapeImage}
-            width={scaledWidth * scale || cardWidth * scale}
-            height={scaledHeight * scale || cardHeight * scale}
-            x={shapePosition.x || 0}
-            y={shapePosition.y || 0}
-            draggable
-            onDragMove={handleShapeDragMove}
-            opacity={1}
-            visible={true}
-            cornerRadius={30}
-          />
-        )}
+          {showBack &&
+            shapesArray.map((shape, index) => {
+              const {
+                img,
+                width: originalWidth = 0,
+                height: originalHeight = 0,
+              } = loadedImages[index] || {};
 
-        {!showBack && (
-          <>
-            {cardText && (
-              <Text
-                text={cardText}
-                fontSize={isSmallScreen ? textFont / 2 : Number(textFont)}
-                fontFamily={textFontFamily}
-                fill={textColor}
-                width={cardWidth * 0.8}
-                x={textPosition.x}
-                y={textPosition.y}
-                align="center"
-                wrap="char"
-                draggable
-                onDragStart={handleTextDragStart}
-                onDragMove={handleTextDragMove}
-                onMouseEnter={(e) => {
-                  const container = e.target.getStage().container();
-                  container.style.cursor = "grab";
-                }}
-                onMouseLeave={(e) => {
-                  const container = e.target.getStage().container();
-                  container.style.cursor = "default";
-                }}
-                onMouseDown={(e) => {
-                  const container = e.target.getStage().container();
-                  container.style.cursor = "grabbing";
-                }}
-                onMouseUp={(e) => {
-                  const container = e.target.getStage().container();
-                  container.style.cursor = "grab";
-                }}
-                ref={(node) => {
-                  if (
-                    node &&
-                    !hasDraggedText &&
-                    initialTextPosition.current === null
-                  ) {
-                    const textWidth = node.getClientRect().width;
-                    const textHeight = node.getClientRect().height;
-                    const centeredX = cardWidth / 2 - textWidth / 2;
-                    let centeredY = cardHeight / 2 - textHeight / 2;
+              const displayWidth = originalWidth * shape.scale || 0;
+              const displayHeight = originalHeight * shape.scale || 0;
 
-                    if (centeredY + textHeight > priceSafeY) {
-                      centeredY = priceSafeY - textHeight;
+              return (
+                <Image
+                  key={`${shape.id}_${index}`}
+                  image={img}
+                  x={shape.position.x}
+                  y={shape.position.y}
+                  width={displayWidth}
+                  height={displayHeight}
+                  rotation={shape.rotation}
+                  draggable
+                  onClick={() => handleShapeClick(index)}
+                  onDragMove={(e) => handleDragMove(index, e)}
+                  onTouchMove={handleTouchMove(index)}
+                  onWheel={handleWheel(index)}
+                  offsetX={displayWidth / 2}
+                  offsetY={displayHeight / 2}
+                />
+              );
+            })}
+
+          {!showBack && (
+            <>
+              {cardText && (
+                <Text
+                  text={cardText}
+                  fontSize={isSmallScreen ? textFont / 2 : Number(textFont)}
+                  fontFamily={textFontFamily}
+                  fill={textColor}
+                  width={cardWidth * 0.8}
+                  x={textPosition.x}
+                  y={textPosition.y}
+                  align="center"
+                  wrap="char"
+                  draggable
+                  onDragStart={handleTextDragStart}
+                  onDragMove={handleTextDragMove}
+                  onMouseEnter={(e) => {
+                    const container = e.target.getStage().container();
+                    container.style.cursor = "grab";
+                  }}
+                  onMouseLeave={(e) => {
+                    const container = e.target.getStage().container();
+                    container.style.cursor = "default";
+                  }}
+                  onMouseDown={(e) => {
+                    const container = e.target.getStage().container();
+                    container.style.cursor = "grabbing";
+                  }}
+                  onMouseUp={(e) => {
+                    const container = e.target.getStage().container();
+                    container.style.cursor = "grab";
+                  }}
+                  ref={(node) => {
+                    if (node && !hasDraggedText) {
+                      const textWidth = node.getClientRect().width;
+                      const textHeight = node.getClientRect().height;
+                      const centeredX = cardWidth / 2 - textWidth / 2;
+                      let centeredY = cardHeight / 2 - textHeight / 2;
+
+                      if (centeredY + textHeight > priceSafeY) {
+                        centeredY = priceSafeY - textHeight;
+                      }
+
+                      if (
+                        textPosition.x !== centeredX ||
+                        textPosition.y !== centeredY
+                      ) {
+                        setTextPosition({
+                          x: centeredX,
+                          y: centeredY,
+                        });
+                      }
                     }
+                  }}
+                />
+              )}
 
-                    if (
-                      textPosition.x !== centeredX ||
-                      textPosition.y !== centeredY
-                    ) {
-                      setTextPosition({
-                        x: centeredX,
-                        y: centeredY,
-                      });
-                    }
-                  }
-                }}
-              />
-            )}
+              {cardPrice && (
+                <Text
+                  text={`${cardPrice} ${key("sar")}`}
+                  fontSize={20}
+                  fontFamily={"'Times New Roman', Times, serif"}
+                  fill={textColor}
+                  x={cardWidth / 2 - 30}
+                  y={cardHeight / 2 + textFont / 2}
+                />
+              )}
+            </>
+          )}
 
-            {cardPrice && (
-              <Text
-                text={`${cardPrice} ${key("sar")}`}
-                fontSize={20}
-                fontFamily={"'Times New Roman', Times, serif"}
-                fill={textColor}
-                x={cardWidth / 2 - 30}
-                y={cardHeight / 2 + textFont / 2}
-              />
-            )}
-          </>
-        )}
+          {logo && (
+            <Image
+              image={logo}
+              x={isSmallScreen ? cardWidth - 60 : cardWidth - 70}
+              y={10}
+              width={isSmallScreen ? 40 : 60}
+              height={isSmallScreen ? 40 : 60}
+              visible={true}
+              cornerRadius={30}
+            />
+          )}
 
-        {logo && (
           <Image
-            image={logo}
-            x={isSmallScreen ? cardWidth - 60 : cardWidth - 70}
-            y={10}
-            width={isSmallScreen ? 40 : 60}
-            height={isSmallScreen ? 40 : 60}
+            image={mainLogoImage}
+            x={20}
+            y={isSmallScreen ? cardHeight - 30 : cardHeight - 50}
+            width={isSmallScreen ? 50 : 100}
+            height={isSmallScreen ? 17.5 : 35}
             visible={true}
-            cornerRadius={30}
           />
-        )}
-
-        <Image
-          image={mainLogoImage}
-          x={20}
-          y={isSmallScreen ? cardHeight - 30 : cardHeight - 50}
-          width={isSmallScreen ? 50 : 100}
-          height={isSmallScreen ? 17.5 : 35}
-          visible={true}
-        />
-      </Layer>
-    </Stage>
+        </Layer>
+      </Stage>
+      {currentStep === 1 && (
+        <div className="mt-3">
+          <div className="d-flex align-items-center justify-content-center">
+            <label className="mx-2 ">{key("scale")}</label>
+            <input
+              type="range"
+              min="0.1"
+              max="2"
+              step="0.01"
+              value={shapesArray[selectedShapeIndex]?.scale || 1}
+              onChange={(e) => handleScaleChange(selectedShapeIndex, e)}
+              style={{ cursor: "pointer" }}
+              disabled={selectedShapeIndex === null}
+            />
+          </div>
+          <div className="d-flex align-items-center justify-content-center">
+            <label className="mx-2">{key("rotate")}</label>
+            <input
+              type="range"
+              min="0"
+              max="360"
+              step="0.01"
+              value={shapesArray[selectedShapeIndex]?.rotation || 0}
+              onChange={(e) => handleRotationChange(selectedShapeIndex, e)}
+              style={{ cursor: "pointer" }}
+              disabled={selectedShapeIndex === null}
+            />
+          </div>
+          <button
+            className="btn btn-danger mx-2"
+            onClick={handleRemoveShape}
+            disabled={selectedShapeIndex === null}
+          >
+            {key("removeShape")}
+          </button>
+        </div>
+      )}
+    </>
   );
 };
 

@@ -10,7 +10,7 @@
     border: 0.0625rem solid rgba(0, 0, 0, .1);
     border-bottom: 0.0625rem solid rgba(0, 0, 0, 0.238);
     border-radius: 1.875rem;
-    margin-inline: 20px !important;
+    margin-inline: 1.25rem !important;
  }
 
  .card_stage{

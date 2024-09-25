@@ -17,6 +17,7 @@ import { controlWallets } from "../../../util/Http";
 import { useQuery } from "@tanstack/react-query";
 import AddBalanceAll from "./WalletsForms/AddBalanceAll";
 import AddBalance from "./WalletsForms/AddBalance";
+import RemoveBalanceAll from "./WalletsForms/RemoveBalanceAll";
 
 const Wallets = () => {
   const { t: key } = useTranslation();
@@ -57,6 +58,7 @@ const Wallets = () => {
       <div className={styles.main_body}>
         <div className={styles.configs_body}>
           <AddBalanceAll refetch={refetch} />
+          <RemoveBalanceAll refetch={refetch}/>
         </div>
         <hr />
         <div>

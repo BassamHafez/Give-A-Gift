@@ -40,7 +40,7 @@ const Cart = ({ onClose, show }) => {
   const [walletDetails, setWalletDetails] = useState({});
   const [isCelebrateIcon, setIsCelebrateIcon] = useState(false);
   const [isCelebrateQR, setIsCelebrateQR] = useState(false);
-  const [shapePrice, setShapePrice] = useState("");
+  const [totalShapesPrice, setTotalShapesPrice] = useState(0);
   const [proColorPrice, setProColorPrice] = useState("");
   const { t: key } = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
@@ -74,7 +74,7 @@ const Cart = ({ onClose, show }) => {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-      
+
         if (response.status === 204) {
           dispatch(cartActions.removeItem());
           notifySuccess(key("cardDeleted"));
@@ -96,18 +96,18 @@ const Cart = ({ onClose, show }) => {
     cardID,
     isIconCelebrate,
     isLinkCelebrate,
-    shapePrice,
+    shapesPrice,
     proColorPrice
   ) => {
     setCardPrice(cardPriceValue);
     setCardId(cardID);
     setIsCelebrateIcon(isIconCelebrate);
     setIsCelebrateQR(isLinkCelebrate);
-    setShapePrice(shapePrice);
-    if(proColorPrice){
-      setProColorPrice(proColorPrice)
-    }else{
-      setProColorPrice("")
+    setTotalShapesPrice(shapesPrice);
+    if (proColorPrice) {
+      setProColorPrice(proColorPrice);
+    } else {
+      setProColorPrice("");
     }
     if (method === "pay") {
       setConfirmModalShow(true);
@@ -173,17 +173,25 @@ const Cart = ({ onClose, show }) => {
     cardId,
     celebrateIcon,
     celebrateQR,
-    shapePrice,
+    shapes,
     proColorPrice
   ) => {
     if (receiveAt) {
+
+      let totalPrice;
+      if (shapes.length > 0) {
+        totalPrice =shapes.reduce((sum, shape) => {
+          const price = shape.shape?.price || 0;
+          return sum + price;
+        }, 0);
+      }
       confirmMethod(
         "pay",
         price,
         cardId,
         celebrateIcon,
         celebrateQR,
-        shapePrice,
+        totalPrice,
         proColorPrice
       );
     } else {
@@ -331,7 +339,7 @@ const Cart = ({ onClose, show }) => {
                                     card?._id,
                                     card?.celebrateIcon,
                                     card?.celebrateQR,
-                                    card?.shape?.price,
+                                    card?.shapes,
                                     card?.proColor ? card.proColor.price : null
                                   )
                                 }
@@ -365,15 +373,13 @@ const Cart = ({ onClose, show }) => {
           btnMsg={btnMsg}
           balance={walletBalance && walletBalance}
           cardPrice={cardPrice}
-          ProPrice={
-            proColorPrice!=="" ? proColorPrice : undefined
-          }
+          ProPrice={proColorPrice !== "" ? proColorPrice : undefined}
           cardId={cardId}
           balanceCase={balanceCase}
           chargeCase={goToChargeMethods}
           isCelebrateIcon={isCelebrateIcon}
           isCelebrateQR={isCelebrateQR}
-          shapePrice={shapePrice}
+          shapePrice={totalShapesPrice}
         />
       )}
       {detailsShow && (

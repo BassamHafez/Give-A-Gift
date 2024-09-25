@@ -11,12 +11,12 @@ import {
 import { useMediaQuery } from "react-responsive";
 
 const CustomXAxisTick = ({ x, y, payload, data }) => {
-  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const isSmallScreen = useMediaQuery({ query: "(max-width: 768px)" });
   const shapeData = data.find((d) => d.name === payload.value);
   if (!shapeData) return null;
 
-  const tickX = isMobile ? x - 40 : x - 20;
-  const tickY = isMobile ? y - 20 : y + 15;
+  const tickX = isSmallScreen ? x - 40 : x - 20;
+  const tickY = isSmallScreen ? y - 20 : y + 15;
 
 
   
@@ -37,12 +37,12 @@ const CustomXAxisTick = ({ x, y, payload, data }) => {
 };
 
 const TinyBar = (props) => {
-  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const isSmallScreen = useMediaQuery({ query: "(max-width: 768px)" });
 
   const { fill, x, y, width, height } = props;
-  const adjustedX = isMobile ? x : x +( width/2 + 2);
-  const adjustedY = isMobile ? y + 8 : y;
-  const adjustedHeight = isMobile ? height / 2 : height;
+  const adjustedX = isSmallScreen ? x : x +( width/2 + 2);
+  const adjustedY = isSmallScreen ? y + 8 : y;
+  const adjustedHeight = isSmallScreen ? height / 2 : height;
   return (
     <rect
       x={adjustedX}
@@ -71,8 +71,8 @@ const CustomLabel = ({ x, y, value }) => {
 };
 
 const TopShapes = ({ topShapes }) => {
-  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
-  const barWidth = isMobile ? 10 : 27;
+  const isSmallScreen = useMediaQuery({ query: "(max-width: 768px)" });
+  const barWidth = isSmallScreen ? 10 : 27;
 
   const data = topShapes?.map((shape,index) => ({
     name: index,
@@ -84,7 +84,7 @@ const TopShapes = ({ topShapes }) => {
   return (
     <div style={{ width: "100%", height: "100%" }}>
       <ResponsiveContainer>
-        {isMobile ? (
+        {isSmallScreen ? (
           <BarChart
             data={data}
             margin={{

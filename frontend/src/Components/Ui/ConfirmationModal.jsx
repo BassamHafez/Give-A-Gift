@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./LogoutModal.module.css";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -17,6 +17,7 @@ import {
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const ConfirmationModal = ({
   show,
@@ -34,15 +35,23 @@ const ConfirmationModal = ({
   isCelebrateIcon,
   isCelebrateQR,
   shapePrice,
+  shape2Price,
+  isRecPage,
 }) => {
   const { t: key } = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const token = JSON.parse(localStorage.getItem("token"));
+  const navigate = useNavigate();
+
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
   const [priceAfterDisc, setPriceAfterDisc] = useState("");
-  const [paymentWay, setPaymentWay] = useState("wallet");
+  const [paymentWay, setPaymentWay] = useState("payment");
   const [isBalanced, setIsBalanced] = useState(true);
+  const [isChargeList, setISChargeList] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [totalPurePrice, setTotalPurePrice] = useState(0);
+
   const VAT = useSelector((state) => state.configs.VAT);
   const celebrateIconPrice = useSelector(
     (state) => state.configs.celebrateIconPrice
@@ -65,7 +74,7 @@ const ConfirmationModal = ({
           }
         );
         const res = response.data;
-        console.log(res);
+        console.log(response);
         if (res?.status === "success") {
           notifySuccess(key("couponSuccess"));
           setPriceAfterDisc(res.data?.priceAfterDiscount);
@@ -75,6 +84,7 @@ const ConfirmationModal = ({
         }
       } catch (error) {
         console.log(error);
+
         if (error.response?.data?.message === "Coupon is invalid or expired") {
           notifyError(key("invalidCoupon"));
         } else if (error?.response?.data?.message === "Card is already paid") {
@@ -94,60 +104,88 @@ const ConfirmationModal = ({
     setPaymentWay(e.target.value);
   };
 
-  const checkBalance = () => {
-    let totalPrice = 0;
+  useEffect(() => {
+    const totalNumber =
+      Number(cardPrice) +
+      (ProPrice ? Number(ProPrice) : 0) +
+      (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
+      (isCelebrateQR ? Number(celebrateLinkPrice) : 0) +
+      (shapePrice ? Number(shapePrice) : 0) +
+      (shape2Price ? Number(shape2Price) : 0);
+
+    setTotalPurePrice(totalNumber);
 
     if (priceAfterDisc !== "") {
-      totalPrice = Number(priceAfterDisc);
+      setTotalPrice(Number(priceAfterDisc));
     } else {
-      totalPrice =
-        (Number(VAT) / 100) *
-          (Number(cardPrice) +
-            (ProPrice ? Number(ProPrice) : 0) +
-            (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
-            (isCelebrateQR ? Number(celebrateLinkPrice) : 0) +
-            (shapePrice ? Number(shapePrice) : 0)) +
-        (Number(cardPrice) +
-          (ProPrice ? Number(ProPrice) : 0) +
-          (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
-          (isCelebrateQR ? Number(celebrateLinkPrice) : 0) +
-          (shapePrice ? Number(shapePrice) : 0));
+      setTotalPrice((Number(VAT) / 100) * totalNumber + totalNumber);
     }
+  }, [
+    priceAfterDisc,
+    cardPrice,
+    VAT,
+    balance,
+    ProPrice,
+    isCelebrateQR,
+    isCelebrateIcon,
+    balanceCase,
+    celebrateIconPrice,
+    celebrateLinkPrice,
+    cardId,
+    chargeCase,
+    choosePaymentWay,
+    paymentWay,
+    key,
+    shapePrice,
+    shape2Price,
+  ]);
 
-    if (balanceCase) {
-      chargeCase(Number(totalPrice) - Number(balance), cardId);
-      return;
+  useEffect(() => {
+    if (Number(totalPrice) > Number(balance)) {
+      setISChargeList(true);
+    } else {
+      setISChargeList(false);
     }
+  }, [totalPrice, setISChargeList, balance]);
 
-    if (Number(cardPrice) === 0) {
-      if (ProPrice || isCelebrateIcon || isCelebrateQR) {
+  const checkBalance = () => {
+    if (!isChargeList) {
+      if (balanceCase) {
+        setISChargeList(true);
+        chargeCase(Number(totalPrice) - Number(balance), cardId);
+        return;
+      }
+
+      if (Number(cardPrice) === 0) {
+        if (ProPrice || isCelebrateIcon || isCelebrateQR) {
+          if (Number(totalPrice) > Number(balance)) {
+            notifyError(key("insuffBalance"));
+            setIsBalanced(false);
+            choosePaymentWay(paymentWay, "noBalance", cardPrice, totalPrice);
+          } else {
+            setIsBalanced(true);
+            choosePaymentWay("wallet", "balanced", cardPrice, totalPrice);
+          }
+        } else {
+          setIsBalanced(true);
+          choosePaymentWay("wallet", "balanced", cardPrice, totalPrice);
+        }
+        return;
+      }
+
+      if (paymentWay === "wallet") {
         if (Number(totalPrice) > Number(balance)) {
           notifyError(key("insuffBalance"));
           setIsBalanced(false);
           choosePaymentWay(paymentWay, "noBalance", cardPrice, totalPrice);
         } else {
           setIsBalanced(true);
-          choosePaymentWay("wallet", "balanced", cardPrice, totalPrice);
+          choosePaymentWay(paymentWay, "balanced", cardPrice, totalPrice);
         }
       } else {
         setIsBalanced(true);
-        choosePaymentWay("wallet", "balanced", cardPrice, totalPrice);
+        choosePaymentWay(paymentWay, "balanced", totalPrice, totalPrice);
       }
-      return;
-    }
-
-    if (paymentWay === "wallet") {
-      if (Number(totalPrice) > Number(balance)) {
-        notifyError(key("insuffBalance"));
-        setIsBalanced(false);
-        choosePaymentWay(paymentWay, "noBalance", cardPrice, totalPrice);
-      } else {
-        setIsBalanced(true);
-        choosePaymentWay(paymentWay, "balanced", cardPrice, totalPrice);
-      }
-    } else {
-      setIsBalanced(true);
-      choosePaymentWay(paymentWay, "balanced", totalPrice, totalPrice);
     }
   };
 
@@ -159,6 +197,7 @@ const ConfirmationModal = ({
       aria-labelledby="contained-modal-title-vcenter"
       centered
       className={styles.modal_container}
+      backdrop="static"
     >
       <Modal.Body className={`${styles.modal_body} text-center`}>
         <h4>{message}</h4>
@@ -167,95 +206,7 @@ const ConfirmationModal = ({
           cardPrice !== null &&
           cardPrice !== undefined && (
             <ul className={styles.details_list}>
-              <li className={`${isBalanced ? "" : "text-danger"}`}>
-                <FontAwesomeIcon className={styles.list_icon} icon={faCoins} />
-                {key("currentBalance")}: {balance.toFixed(2)} {key("sar")}
-              </li>
-
-              {priceAfterDisc === "" ? (
-                <>
-                  <li>
-                    <FontAwesomeIcon
-                      className={styles.list_icon}
-                      icon={faMoneyBill}
-                    />
-                    {key("cardPrice")}: {cardPrice.toFixed(2)} {key("sar")}
-                  </li>
-                  {ProPrice && (
-                    <li>
-                      <FontAwesomeIcon
-                        className={styles.list_icon}
-                        icon={faPalette}
-                      />
-                      {key("colorPrice")}: {ProPrice}
-                    </li>
-                  )}
-                  {(shapePrice ? Number(shapePrice) : 0) > 0 && (
-                    <li>
-                      <FontAwesomeIcon
-                        className={styles.list_icon}
-                        icon={faPalette}
-                      />
-                      {key("shapePrice")}: {shapePrice}
-                    </li>
-                  )}
-                  {isCelebrateIcon && (
-                    <li>
-                      <FontAwesomeIcon
-                        className={styles.list_icon}
-                        icon={faGift}
-                      />
-                      {key("celebrateIcon")}: {celebrateIconPrice}
-                    </li>
-                  )}
-                  {isCelebrateQR && (
-                    <li>
-                      <FontAwesomeIcon
-                        className={styles.list_icon}
-                        icon={faQrcode}
-                      />
-                      {key("celebrateLink")}: {celebrateLinkPrice}
-                    </li>
-                  )}
-                  <li>
-                    <FontAwesomeIcon
-                      className={styles.list_icon}
-                      icon={faPercent}
-                    />
-                    {key("Vatvalue")}:{" "}
-                    {(
-                      (Number(VAT) / 100) *
-                      (Number(cardPrice) +
-                        (ProPrice ? Number(ProPrice) : 0) +
-                        (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
-                        (isCelebrateQR ? Number(celebrateLinkPrice) : 0) +
-                        (shapePrice ? Number(shapePrice) : 0))
-                    ).toFixed(2)}{" "}
-                    {key("sar")}
-                  </li>
-                  <li>
-                    <FontAwesomeIcon
-                      className={styles.list_icon}
-                      icon={faFileInvoiceDollar}
-                    />
-                    {key("totalPrice")}:{" "}
-                    {(
-                      (Number(VAT) / 100) *
-                        (Number(cardPrice) +
-                          (ProPrice ? Number(ProPrice) : 0) +
-                          (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
-                          (isCelebrateQR ? Number(celebrateLinkPrice) : 0) +
-                          (shapePrice ? Number(shapePrice) : 0)) +
-                      (Number(cardPrice) +
-                        (ProPrice ? Number(ProPrice) : 0) +
-                        (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
-                        (isCelebrateQR ? Number(celebrateLinkPrice) : 0) +
-                        (shapePrice ? Number(shapePrice) : 0))
-                    ).toFixed(2)}{" "}
-                    {key("sar")}
-                  </li>
-                </>
-              ) : (
+              {isChargeList ? (
                 <>
                   <li>
                     <FontAwesomeIcon
@@ -271,7 +222,7 @@ const ConfirmationModal = ({
                         className={styles.list_icon}
                         icon={faPalette}
                       />
-                      {key("colorPrice")}: {ProPrice}
+                      {key("colorPrice")}: {ProPrice} {key("sar")}
                     </li>
                   )}
                   {isCelebrateIcon && (
@@ -280,7 +231,7 @@ const ConfirmationModal = ({
                         className={styles.list_icon}
                         icon={faGift}
                       />
-                      {key("celebrateIcon")}: {celebrateIconPrice}
+                      {key("celebrateIcon")}: {celebrateIconPrice} {key("sar")}
                     </li>
                   )}
                   {isCelebrateQR && (
@@ -289,26 +240,40 @@ const ConfirmationModal = ({
                         className={styles.list_icon}
                         icon={faQrcode}
                       />
-                      {key("celebrateLink")}: {celebrateLinkPrice}
-                    </li>
-                  )}
-                  {shapePrice && Number(shapePrice) > 0 && (
-                    <li>
-                      <FontAwesomeIcon
-                        className={styles.list_icon}
-                        icon={faPalette}
-                      />
-                      {key("shapePrice")}: {shapePrice}
+                      {key("celebrateLink")}: {celebrateLinkPrice} {key("sar")}
                     </li>
                   )}
 
+                  {(shapePrice ? Number(shapePrice) : 0) > 0 && (
+                    <li>
+                      <FontAwesomeIcon
+                        className={styles.list_icon}
+                        icon={faCoins}
+                      />
+                      {key("shapePrice")}: {shapePrice} {key("sar")}
+                    </li>
+                  )}
+
+                  {(shape2Price ? Number(shape2Price) : 0) > 0 && (
+                    <li>
+                      <FontAwesomeIcon
+                        className={styles.list_icon}
+                        icon={faCoins}
+                      />
+                      {key("shape2Price")}: {shape2Price} {key("sar")}
+                    </li>
+                  )}
                   <li>
                     <FontAwesomeIcon
                       className={styles.list_icon}
                       icon={faPercent}
                     />
                     {key("Vatvalue")}:{" "}
-                    {((Number(VAT) / 100) * Number(priceAfterDisc)).toFixed(2)}{" "}
+                    {priceAfterDisc !== ""
+                      ? Number(priceAfterDisc).toFixed(2)
+                      : ((Number(VAT) / 100) * Number(totalPurePrice)).toFixed(
+                          2
+                        )}{" "}
                     {key("sar")}
                   </li>
                   <li>
@@ -316,23 +281,109 @@ const ConfirmationModal = ({
                       className={styles.list_icon}
                       icon={faFileInvoiceDollar}
                     />
-                    {key("totalPrice")}: {Number(priceAfterDisc).toFixed(2)}{" "}
-                    <del className="mx-2">
-                      {(
-                        (Number(VAT) / 100) *
-                          (Number(cardPrice) +
-                            (ProPrice ? Number(ProPrice) : 0) +
-                            (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
-                            (isCelebrateQR ? Number(celebrateLinkPrice) : 0) +
-                            (shapePrice ? Number(shapePrice) : 0)) +
-                        (Number(cardPrice) +
-                          (ProPrice ? Number(ProPrice) : 0) +
-                          (isCelebrateIcon ? Number(celebrateIconPrice) : 0) +
-                          (isCelebrateQR ? Number(celebrateLinkPrice) : 0) +
-                          (shapePrice ? Number(shapePrice) : 0))
-                      ).toFixed(2)}{" "}
-                      {key("sar")}
-                    </del>
+                    {key("wallet")}: {-Number(balance).toFixed(2)} {key("sar")}
+                  </li>
+                  <li>
+                    <FontAwesomeIcon
+                      className={styles.list_icon}
+                      icon={faFileInvoiceDollar}
+                    />
+                    {key("totalPrice")}:{" "}
+                    {(Number(totalPrice) - Number(balance)).toFixed(2)}{" "}
+                    {key("sar")}
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li className={`${isBalanced ? "" : "text-danger"}`}>
+                    <FontAwesomeIcon
+                      className={styles.list_icon}
+                      icon={faCoins}
+                    />
+                    {key("currentBalance")}: {balance.toFixed(2)} {key("sar")}
+                  </li>
+                  <li>
+                    <FontAwesomeIcon
+                      className={styles.list_icon}
+                      icon={faMoneyBill}
+                    />
+                    {key("cardPrice")}: {cardPrice.toFixed(2)} {key("sar")}
+                  </li>
+                  {ProPrice && (
+                    <li>
+                      <FontAwesomeIcon
+                        className={styles.list_icon}
+                        icon={faPalette}
+                      />
+                      {key("colorPrice")}: {ProPrice} {key("sar")}
+                    </li>
+                  )}
+                  {(shapePrice ? Number(shapePrice) : 0) > 0 && (
+                    <li>
+                      <FontAwesomeIcon
+                        className={styles.list_icon}
+                        icon={faCoins}
+                      />
+                      {key("shapePrice")}: {shapePrice} {key("sar")}
+                    </li>
+                  )}
+
+                  {(shape2Price ? Number(shape2Price) : 0) > 0 && (
+                    <li>
+                      <FontAwesomeIcon
+                        className={styles.list_icon}
+                        icon={faCoins}
+                      />
+                      {key("shape2Price")}: {shape2Price} {key("sar")}
+                    </li>
+                  )}
+                  {isCelebrateIcon && (
+                    <li>
+                      <FontAwesomeIcon
+                        className={styles.list_icon}
+                        icon={faGift}
+                      />
+                      {key("celebrateIcon")}: {celebrateIconPrice} {key("sar")}
+                    </li>
+                  )}
+                  {isCelebrateQR && (
+                    <li>
+                      <FontAwesomeIcon
+                        className={styles.list_icon}
+                        icon={faQrcode}
+                      />
+                      {key("celebrateLink")}: {celebrateLinkPrice} {key("sar")}
+                    </li>
+                  )}
+                  <li>
+                    <FontAwesomeIcon
+                      className={styles.list_icon}
+                      icon={faPercent}
+                    />
+                    {key("Vatvalue")}:{" "}
+                    {priceAfterDisc !== ""
+                      ? Number(priceAfterDisc).toFixed(2)
+                      : ((Number(VAT) / 100) * Number(totalPurePrice)).toFixed(
+                          2
+                        )}{" "}
+                    {key("sar")}
+                  </li>
+                  <li>
+                    <FontAwesomeIcon
+                      className={styles.list_icon}
+                      icon={faFileInvoiceDollar}
+                    />
+                    {key("totalPrice")}: {Number(totalPrice).toFixed(2)}{" "}
+                    {key("sar")}
+                    {priceAfterDisc !== "" && (
+                      <del className="mx-2">
+                        {(
+                          (Number(VAT) / 100) * totalPurePrice +
+                          totalPurePrice
+                        ).toFixed(2)}{" "}
+                        {key("sar")}
+                      </del>
+                    )}
                   </li>
                 </>
               )}
@@ -394,17 +445,32 @@ const ConfirmationModal = ({
         <Button
           variant="primary"
           className={isArLang ? styles.close_btn_ar : styles.close_btn}
-          onClick={onHide}
+          onClick={() => {
+            isRecPage ? onHide() : navigate(`/user-orders`);
+            onHide();
+          }}
         >
           {key("cancel")}
         </Button>
-        <Button
-          variant="danger"
-          className={isArLang ? styles.logout_btn_ar : styles.logout_btn}
-          onClick={choosePaymentWay ? checkBalance : func}
-        >
-          {btnMsg ? btnMsg : key("continue")}
-        </Button>
+        {isChargeList ? (
+          <Button
+            variant="danger"
+            className={isArLang ? styles.logout_btn_ar : styles.logout_btn}
+            onClick={() =>
+              chargeCase(Number(totalPrice) - Number(balance), cardId)
+            }
+          >
+            {key("charge")}
+          </Button>
+        ) : (
+          <Button
+            variant="danger"
+            className={isArLang ? styles.logout_btn_ar : styles.logout_btn}
+            onClick={choosePaymentWay ? checkBalance : func}
+          >
+            {btnMsg ? btnMsg : key("continue")}
+          </Button>
+        )}
       </Modal.Footer>
     </Modal>
   );

@@ -50,9 +50,12 @@ const Transfer = ({ show, onHide, notifySuccess, notifyError, balance,refetch })
     onSuccess: (response) => {
         if (response.status === "success") {
           notifySuccess(key("succTransfer"));
+
           queryClient.invalidateQueries(["walletBalance", token]);
           refetch()
           onHide()
+        }else if(response.response?.data?.message==="No user found with that phone number"){
+          notifyError(key("noUserPhone"))
         }else if(response.response?.data?.message==="Cannot transfer to yourself"){
           notifyError(key("transferYourself"))
         } else {
