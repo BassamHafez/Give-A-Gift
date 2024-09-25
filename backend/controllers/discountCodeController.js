@@ -75,3 +75,36 @@ exports.getDiscountCodeValue = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.getAllDiscountCodes = catchAsync(async (req, res, next) => {
+  const discountCodes = await Card.aggregate([
+    {
+      $lookup: {
+        from: "users",
+        localField: "user",
+        foreignField: "_id",
+        as: "user",
+      },
+    },
+    {
+      $unwind: "$user",
+    },
+    {
+      $project: {
+        id: "$_id",
+        _id: 0,
+        user_id: "$user._id",
+        user_name: "$user.name",
+        recipient: "$recipient.name",
+        isUsed: "$discountCode.isUsed",
+        usedAt: "$discountCode.usedAt",
+      },
+    },
+  ]);
+
+  res.status(200).json({
+    status: "success",
+    results: discountCodes.length,
+    data: discountCodes,
+  });
+});

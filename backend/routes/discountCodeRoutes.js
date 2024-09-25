@@ -7,6 +7,12 @@ const discountCodeController = require("../controllers/discountCodeController");
 router.use(authController.protect);
 
 router.get(
+  "/",
+  authController.restrictTo("admin"),
+  discountCodeController.getAllDiscountCodes
+);
+
+router.get(
   "/merchant",
   authController.restrictTo("merchant"),
   discountCodeController.getAllMerchantDiscountCodes
