@@ -454,7 +454,20 @@ export const addProColor = async ({ token, formData }) => {
   }
 };
 
+export const updateBanner = async ({ token, formData }) => {
+  try {
+    const response = await axios.put(`${baseServerUrl}configs/banner`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
 
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
 // merchant
 
 export const getDiscounts = async ({token }) => {

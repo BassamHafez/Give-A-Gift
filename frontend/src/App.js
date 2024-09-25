@@ -51,6 +51,7 @@ import Faild from './Pages/PayMethods/Faild';
 import RecipientViewCard from './Pages/ReceipientViewCard/RecipientViewCard';
 import AdminCarts from './Pages/Admin/AdminPages/AdminCarts';
 import Discounts from './Pages/Admin/AdminPages/Discounts';
+import Designs from './Pages/Admin/AdminPages/Designs';
 
 
 const router=createBrowserRouter([{
@@ -94,6 +95,7 @@ const router=createBrowserRouter([{
     {path:"admin-orders",element:<ProtectedRoute><Orders/></ProtectedRoute>},
     {path:"admin-carts",element:<ProtectedRoute><AdminCarts/></ProtectedRoute>},
     {path:"admin-discounts",element:<ProtectedRoute><Discounts/></ProtectedRoute>},
+    {path:"admin-designs",element:<ProtectedRoute><Designs/></ProtectedRoute>},
 
     //merchant
     {path:"merchant/:merchantId",element:<ProtectedRoute><MerchantProfile/></ProtectedRoute>},

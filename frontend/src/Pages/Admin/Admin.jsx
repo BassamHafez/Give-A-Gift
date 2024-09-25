@@ -247,6 +247,21 @@ const Admin = () => {
               >
                 <div
                   className={styles.list_item}
+                  onClick={() => navigate("/admin-designs")}
+                >
+                  <FontAwesomeIcon
+                    className={styles.list_item_icon}
+                    icon={faTag}
+                  />
+                  <span>{key("designs")}</span>
+                </div>
+              </Col>
+              <Col
+                xs={6}
+                className="d-flex justify-content-center align-items-center"
+              >
+                <div
+                  className={styles.list_item}
                   onClick={() => setLogoutModalShow(true)}
                 >
                   <FontAwesomeIcon

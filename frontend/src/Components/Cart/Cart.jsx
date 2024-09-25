@@ -168,7 +168,7 @@ const Cart = ({ onClose, show }) => {
   };
 
   const goToBuyingPhases = (
-    receiveAt,
+    recipient,
     price,
     cardId,
     celebrateIcon,
@@ -176,7 +176,7 @@ const Cart = ({ onClose, show }) => {
     shapes,
     proColorPrice
   ) => {
-    if (receiveAt) {
+    if (recipient) {
       let totalPrice;
       if (shapes.length > 0) {
         totalPrice = shapes.reduce((sum, shape) => {
@@ -333,7 +333,7 @@ const Cart = ({ onClose, show }) => {
                                 icon={!isArLang ? faArrowRight : faArrowLeft}
                                 onClick={() =>
                                   goToBuyingPhases(
-                                    card?.receiveAt,
+                                    card?.recipient,
                                     card?.price?.value,
                                     card?._id,
                                     card?.celebrateIcon,

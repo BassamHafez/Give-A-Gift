@@ -359,5 +359,7 @@
     "sendReminder":"Reminder to the Selected",
     "sendReminderAll":"Reminder to All",
     "reminderMsg":"Reminder Message",
-    "sentSucc":"Data Sent Successfully"
+    "sentSucc":"Data Sent Successfully",
+    "designs":"Designs",
+    "banner":"Update Banner"
 }   
