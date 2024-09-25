@@ -82,8 +82,8 @@ console.log(card)
   const receiveAtFormatted = card.receiveAt
     ? formatDateTime(card.receiveAt)
     : {
-        formattedDate: key("recDataInComplete"),
-        formattedTime: key("recDataInComplete"),
+        formattedDate: key("payFirst"),
+        formattedTime: key("payFirst"),
       };
 
   let offsetX = 0,
