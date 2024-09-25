@@ -153,14 +153,10 @@ exports.sendCartReminders = catchAsync(async (req, res, next) => {
   }
 
   const message = reminderMessage.value;
-  const promises = cards.map((card) =>
-    sendWhatsappText(card.user.phone, message)
-  );
-
-  await Promise.all(promises);
+  cards.forEach((card) => sendWhatsappText(card.user.phone, message));
 
   res.status(200).json({
     status: "success",
-    message: "Reminders sent successfully",
+    data: null,
   });
 });
