@@ -5,6 +5,7 @@
     align-items: center;
     min-height: 100vh;
     margin: 1.25rem 0;
+    overflow-x: hidden !important;
 }
 .card_body{
     border: 0.0625rem solid rgba(0, 0, 0, .1);

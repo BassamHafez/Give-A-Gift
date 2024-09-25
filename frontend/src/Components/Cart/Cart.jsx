@@ -177,10 +177,9 @@ const Cart = ({ onClose, show }) => {
     proColorPrice
   ) => {
     if (receiveAt) {
-
       let totalPrice;
       if (shapes.length > 0) {
-        totalPrice =shapes.reduce((sum, shape) => {
+        totalPrice = shapes.reduce((sum, shape) => {
           const price = shape.shape?.price || 0;
           return sum + price;
         }, 0);
@@ -201,14 +200,14 @@ const Cart = ({ onClose, show }) => {
   };
   return (
     <>
-      <Toaster position="top-right" />
-
       <Offcanvas
         show={show}
         onHide={onClose}
         placement="end"
         className={styles.side_bar}
       >
+        <Toaster position="top-right" />
+
         <Offcanvas.Header className={styles.header}>
           <div className="d-flex justify-content-between align-items-center w-100">
             <h2>{key("cart")}</h2>
