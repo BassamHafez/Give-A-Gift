@@ -9,7 +9,7 @@ const sendScheduledMessages = async () => {
   });
 
   // Send WhatsApp messages in parallel
-  await Promise.all(
+  await Promise.allSettled(
     messages.map((message) =>
       sendWhatsappFile(message.phone, message.fileUrl, message.caption)
     )
