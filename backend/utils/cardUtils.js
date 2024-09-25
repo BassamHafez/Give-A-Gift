@@ -23,7 +23,7 @@ exports.createWhatsAppMessage = (card, user) => {
     caption: `You have received a gift card from ${user.name}. Click here to view: ${process.env.CARD_PREVIEW_URL}/${card.id}`,
     fileUrl:
       "https://nypost.com/wp-content/uploads/sites/2/2023/11/gift-card.jpg",
-    scheduledAt: new Date(card.receiveAt),
+    scheduledAt: card.receiveAt ? new Date(card.receiveAt) : new Date(),
   };
 };
 
@@ -53,7 +53,7 @@ exports.createOrderData = (
     VAT: `${VAT}%`,
     total_paid: totalAmount,
     shop: card.shop.name,
-    order_date: card.receiveAt,
+    order_date: card.receiveAt ? new Date(card.receiveAt) : new Date(),
     recipient_name: card.recipient.name,
     recipient_whatsapp: card.recipient.whatsappNumber,
   };
