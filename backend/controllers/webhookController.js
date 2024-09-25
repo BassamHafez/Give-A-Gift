@@ -1,46 +1,137 @@
+const QRCode = require("qrcode");
 const Wallet = require("../models/walletModel");
-const User = require("../models/userModel");
+const Card = require("../models/cardModel");
+const Order = require("../models/orderModel");
+const ScheduledMessage = require("../models/scheduledMessageModel");
 const Transaction = require("../models/transactionModel");
 const Config = require("../models/configModel");
+const {
+  calculateTotalCardPrice,
+  createWhatsAppMessage,
+  createOrderData,
+} = require("../utils/cardUtils");
 const catchAsync = require("../utils/catchAsync");
+const ApiError = require("../utils/ApiError");
 
 exports.paymentWebhook = catchAsync(async (req, res, next) => {
   console.log("Webhook received 🎈🎉");
 
   try {
-    if (req.body?.TransactionStatus === "SUCCESS") {
-      if (req.body?.UserDefinedField === "DEPOSIT") {
-        console.log("Deposit successful");
-      } else if (req.body?.UserDefinedField === "PAYMENT") {
-        console.log("Payment successful");
-      }
+    const cardId = req.body?.UserDefinedField;
 
-      const user = await User.findOne({ email: req.body.Data.CustomerEmail });
-      let wallet = await Wallet.findOne({ user: user.id });
-
-      if (!wallet) {
-        const STARTING_BALANCE = await Config.findOne({
-          key: "WALLET_STARTING_BALANCE",
-        });
-
-        wallet = await Wallet.create({
-          user: user.id,
-          balance: +STARTING_BALANCE?.value || 0,
-        });
-      }
-
-      wallet.balance += req.body?.Data?.InvoiceValueInBaseCurrency * 1;
-      await wallet.save();
-
-      console.log("Wallet updated successfully");
+    if (!cardId) {
+      throw new ApiError("Card ID not provided", 400);
     }
 
+    if (req.body?.TransactionStatus === "SUCCESS") {
+      console.log("Transaction SUCCESS");
+
+      const cardPopOptions = [
+        { path: "shop", select: "name isOnline" },
+        { path: "shapes.shape", select: "image price" },
+        { path: "proColor", select: "price" },
+      ];
+
+      const [card, wallet] = await Promise.all([
+        Card.findById(cardId).populate(cardPopOptions),
+        Wallet.findOne({ email: req.body.Data.CustomerEmail }),
+      ]);
+
+      if (!card) {
+        throw new ApiError("Card not found", 404);
+      }
+
+      if (card.isPaid) {
+        throw new ApiError("Card already paid", 400);
+      }
+
+      if (
+        !card.recipient ||
+        !card.recipient.whatsappNumber ||
+        !card.recipient.name
+      ) {
+        throw new ApiError("Complete recipient details first", 400);
+      }
+
+      const configKeys = [
+        "VAT_VALUE",
+        "CELEBRATE_ICON_PRICE",
+        "CELEBRATE_LINK_PRICE",
+        "CASH_BACK_PERCENTAGE",
+      ];
+      const configs = await Config.find({ key: { $in: configKeys } });
+      const VAT = configs.find((c) => c.key === "VAT_VALUE");
+      const iconPrice = configs.find(
+        (c) => c.key === "CELEBRATE_ICON_PRICE"
+      ).value;
+      const linkPrice = configs.find(
+        (c) => c.key === "CELEBRATE_LINK_PRICE"
+      ).value;
+      const cashBackPercentage = configs.find(
+        (c) => c.key === "CASH_BACK_PERCENTAGE"
+      ).value;
+
+      const totalAmount = calculateTotalCardPrice(
+        card,
+        iconPrice,
+        linkPrice,
+        VAT
+      );
+
+      const totalBalance =
+        parseFloat(wallet.balance) +
+        parseFloat(req.body?.Data?.InvoiceValueInBaseCurrency);
+
+      if (totalBalance < totalAmount) {
+        throw new ApiError("Insufficient balance", 400);
+      }
+
+      const newBalance = totalBalance - totalAmount || 0;
+
+      wallet.balance = newBalance;
+      card.isPaid = true;
+      card.totalPricePaid = totalAmount;
+      wallet.balance +=
+        card.price.value * (parseFloat(cashBackPercentage) / 100);
+
+      if (!card.shop.isOnline) {
+        const qrCodeLink = `${process.env.QR_CODE_URL}/${card.id}`;
+
+        const qrCode = await QRCode.toDataURL(qrCodeLink, {
+          errorCorrectionLevel: "M",
+        });
+
+        card.discountCode.qrCode = qrCode;
+      }
+      // else { }
+
+      const msgData = createWhatsAppMessage(card, req.user);
+
+      const orderData = createOrderData(
+        card,
+        req.user,
+        totalAmount,
+        VAT.value,
+        iconPrice,
+        linkPrice
+      );
+
+      await Promise.all([
+        wallet.save(),
+        card.save(),
+        Order.create(orderData),
+        ScheduledMessage.create(msgData),
+      ]);
+    } else {
+      console.log("Transaction FAILED");
+    }
+  } catch (error) {
+    console.log(error);
+  } finally {
     Transaction.create({
       ...req.body?.Data,
       InvoiceValue: req.body?.Data?.InvoiceValueInBaseCurrency,
     });
-  } catch (error) {
-    console.log(error);
   }
 
   res.status(200).json({ status: "success" });
