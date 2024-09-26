@@ -3,7 +3,6 @@ import useImage from "use-image";
 import { Image, Layer, Rect, Stage } from "react-konva";
 import mainLogo from "../../Images/logo.png";
 import styles from "./RecipientInformation.module.css";
-import { useMediaQuery } from "react-responsive";
 
 const KonvaCard = ({ canvaCard, isSpecial }) => {
   const [isSmalogo, setIsSmalogo] = useState(false);
@@ -11,7 +10,6 @@ const KonvaCard = ({ canvaCard, isSpecial }) => {
   const [cardWidth, setCardWidth] = useState(480);
   const [cardHeight, setCardHeight] = useState(270);
   const [loadedImages, setLoadedImages] = useState([]);
-  const isSmallScreen = useMediaQuery({ query: "(max-width: 400px)" });
 
   useEffect(() => {
     const loadImages = async () => {
@@ -132,8 +130,8 @@ const KonvaCard = ({ canvaCard, isSpecial }) => {
                       image={img}
                       x={shape.position.x}
                       y={shape.position.y}
-                      width={isSmallScreen?displayWidth/2:displayWidth}
-                      height={isSmallScreen?displayWidth/2:displayHeight }
+                      width={displayWidth}
+                      height={displayWidth }
                       rotation={shape.rotation}
                       offsetX={displayWidth / 2}
                       offsetY={displayHeight / 2}

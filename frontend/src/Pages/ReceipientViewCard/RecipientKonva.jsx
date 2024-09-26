@@ -11,7 +11,6 @@ import useCardSize from "../ViewCard/useCardSize";
 
 const RecipientKonva = ({ card, isFrontShape }) => {
   const isSmallScreen = useIsSmallScreen(480);
-  const isSmallestScreen = useIsSmallScreen(400);
   const { cardWidth, cardHeight } = useCardSize(480);
   const [mainLogoImage] = useImage(mainLogo);
   const { t: key } = useTranslation();
@@ -120,8 +119,8 @@ const RecipientKonva = ({ card, isFrontShape }) => {
                     x={shape.position.x}
                     y={shape.position.y}
                     rotation={shape.rotation}
-                    width={isSmallestScreen?displayWidth/2:displayWidth}
-                    height={isSmallestScreen?displayHeight/2:displayHeight}
+                    width={displayWidth}
+                    height={displayHeight}
                     offsetX={displayWidth / 2}
                     offsetY={displayHeight / 2}
                     />

@@ -17,7 +17,6 @@ import useCardSize from "./useCardSize";
 
 const KonvaCard = ({ card, isPaid, isFrontShape }) => {
   const isSmallScreen = useIsSmallScreen(480);
-  const isSmallestScreen = useIsSmallScreen(400);
   const { cardWidth, cardHeight } = useCardSize(480);
   const [loadedImages, setLoadedImages] = useState([]);
 
@@ -144,8 +143,8 @@ console.log(card)
                       x={shape.position.x}
                       y={shape.position.y}
                       rotation={shape.rotation}
-                      width={isSmallestScreen?displayWidth/2:displayWidth}
-                      height={isSmallestScreen?displayHeight/2:displayHeight}
+                      width={displayWidth}
+                      height={displayHeight}
                       offsetX={displayWidth / 2}
                       offsetY={displayHeight / 2}
                     />
