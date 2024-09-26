@@ -9,7 +9,7 @@ import { saveIsLoginState } from "../../Store/userInfo-actions";
 import { useTranslation } from 'react-i18next';
 import { profileActions } from '../../Store/profileInfo-slice';
 
-const LogoutModal = (props) => {
+const LogoutModal = ({onHide,show,onClose}) => {
   const { t: key } = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar"
 
@@ -24,14 +24,16 @@ const LogoutModal = (props) => {
       dispatch(userActions.setIsLogin(false));
       dispatch(saveIsLoginState(false));
       dispatch(profileActions.setProfileInfo(null));
-      props.onHide();
+      onHide();
+      onClose()
       navigate("/");
     };
   
 
   return (
     <Modal
-    {...props}
+    show={show}
+    onHide={onHide}
     size="md"
     aria-labelledby="contained-modal-title-vcenter"
     centered
@@ -46,7 +48,7 @@ const LogoutModal = (props) => {
       <Button
         variant="primary"
         className={isArLang?styles.close_btn_ar:styles.close_btn}
-        onClick={props.onHide}
+        onClick={onHide}
       >
         {key("cancel")}
       </Button>

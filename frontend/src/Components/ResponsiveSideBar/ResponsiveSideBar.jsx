@@ -152,6 +152,7 @@ const ResponsiveSideBar = ({ onClose, show }) => {
         <LogoutModal
           show={logoutModalShow}
           onHide={() => setLogoutModalShow(false)}
+          onClose={onClose}
         />
       )}
     </>
