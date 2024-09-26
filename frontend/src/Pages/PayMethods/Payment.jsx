@@ -10,9 +10,9 @@ import Row from "react-bootstrap/esm/Row";
 import { getPaymentMethods } from "../../util/Http";
 import { useParams } from "react-router-dom";
 import InputErrorMessage from "../../Components/Ui/InputErrorMessage";
-import styles from "./Payment.module.css";
 import toast, { Toaster } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
+import styles from "./Payment.module.css";
 
 const notifySuccess = (message) => toast.success(message);
 const notifyError = (message) => toast.error(message);
