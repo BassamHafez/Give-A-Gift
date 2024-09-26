@@ -93,7 +93,7 @@ const MainNav = () => {
                   className={({ isActive }) =>
                     isLogin ? (isActive ? styles.active : undefined) : undefined
                   }
-                  to={`${isLogin ? "special-cards" : "/login"}`}
+                  to={"special-cards"}
                 >
                   {key("buyCardNavTitle")}
                 </NavLink>
@@ -103,7 +103,7 @@ const MainNav = () => {
                   className={({ isActive }) =>
                     isLogin ? (isActive ? styles.active : undefined) : undefined
                   }
-                  to={`${isLogin ? "custom-cards" : "/login"}`}
+                  to={"custom-cards"}
                 >
                   {key("createCardPageTitle")}
                 </NavLink>

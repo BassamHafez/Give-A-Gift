@@ -13,7 +13,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import Carousel from "react-bootstrap/Carousel";
 import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { cartActions } from "../../Store/cartCounter-slice";
 import CustomCardColors from "./CustomCardColors";
 import CustomCardShapes from "./CustomCardShapes";
@@ -49,6 +49,7 @@ const CustomCards = () => {
   const [isProColor, setIsProColor] = useState(false);
 
   const token = JSON.parse(localStorage.getItem("token"));
+  const isLogin = useSelector((state) => state.userInfo.isLogin);
   const navigate = useNavigate();
   const { t: key } = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
@@ -59,6 +60,69 @@ const CustomCards = () => {
   const [logo] = useImage(logoImage);
   const [mainLogoImage] = useImage(mainLogo);
   const priceSafeY = cardHeight * 0.55;
+
+
+  const notifyLoginError = (message) =>
+    toast(
+      (t) => (
+        <span>
+          {message}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              marginTop: "10px",
+            }}
+          >
+            <div style={{ display: "flex", gap: "10px" }}>
+              <button
+                onClick={() => toast.dismiss(t.id)}
+                style={{
+                  borderRadius: "1.5625rem",
+                  fontSize: "1.125rem",
+                  fontWeight: "700",
+                  boxShadow: "0 0 0.1875rem rgba(0, 0, 0, 0.5)",
+                  padding: "0.625rem 0.9375rem",
+                  marginRight: "auto",
+                }}
+              >
+                {key("later")}
+              </button>
+
+              <button
+                onClick={() => {
+                  navigate(`/login`);
+                  toast.dismiss(t.id);
+                }}
+                style={{
+                  borderRadius: "1.5625rem",
+                  minWidth: "6.25rem",
+                  fontSize: "1.125rem",
+                  fontWeight: "700",
+                  boxShadow: "0 0 0.1875rem rgba(0, 0, 0, 0.5)",
+                  padding: "0.625rem 0.9375rem",
+                  marginLeft: "auto",
+                  backgroundColor: "red",
+                  color: "#FFF",
+                }}
+              >
+                {key("login")}
+              </button>
+            </div>
+          </div>
+        </span>
+      ),
+      {
+        icon: "⚠️",
+        style: {
+          padding: "16px",
+          color: "#000",
+          fontWeight: "600",
+        },
+        duration: 4000,
+      }
+    );
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -130,6 +194,10 @@ const CustomCards = () => {
   };
 
   const createCard = async () => {
+    if (!isLogin) {
+      notifyLoginError(key("loginFirst"));
+      return;
+    } 
     if (cardText === "") {
       notifyError(key("cardMessageError"));
       return;

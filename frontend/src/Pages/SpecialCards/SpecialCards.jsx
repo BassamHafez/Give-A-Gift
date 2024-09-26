@@ -7,7 +7,7 @@ import Card from "react-bootstrap/Card";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { useQuery,useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getSpecialCards } from "../../util/Http";
 import Placeholders from "../../Components/Ui/Placeholders";
 import LoadingOne from "../../Components/Ui/LoadingOne";
@@ -15,7 +15,7 @@ import MainButton from "../../Components/Ui/MainButton";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import FilterModal from "../../Components/Ui/FilterModal";
 import { cartActions } from "../../Store/cartCounter-slice";
 
@@ -28,11 +28,73 @@ const SpecialCards = () => {
   const [searchInput, setSearchInput] = useState("");
   const [showFilterModal, setShowFilterModal] = useState(false);
   const queryClient = useQueryClient();
+  const isLogin = useSelector((state) => state.userInfo.isLogin);
+
+  const notifyLoginError = (message) =>
+    toast(
+      (t) => (
+        <span>
+          {message}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              marginTop: "10px",
+            }}
+          >
+            <div style={{ display: "flex", gap: "10px" }}>
+              <button
+                onClick={() => toast.dismiss(t.id)}
+                style={{
+                  borderRadius: "1.5625rem",
+                  fontSize: "1.125rem",
+                  fontWeight: "700",
+                  boxShadow: "0 0 0.1875rem rgba(0, 0, 0, 0.5)",
+                  padding: "0.625rem 0.9375rem",
+                  marginRight: "auto",
+                }}
+              >
+                {key("later")}
+              </button>
+
+              <button
+                onClick={() => {
+                  navigate(`/login`);
+                  toast.dismiss(t.id);
+                }}
+                style={{
+                  borderRadius: "1.5625rem",
+                  minWidth: "6.25rem",
+                  fontSize: "1.125rem",
+                  fontWeight: "700",
+                  boxShadow: "0 0 0.1875rem rgba(0, 0, 0, 0.5)",
+                  padding: "0.625rem 0.9375rem",
+                  marginLeft: "auto",
+                  backgroundColor: "red",
+                  color: "#FFF",
+                }}
+              >
+                {key("login")}
+              </button>
+            </div>
+          </div>
+        </span>
+      ),
+      {
+        icon: "⚠️",
+        style: {
+          padding: "16px",
+          color: "#000",
+          fontWeight: "600",
+        },
+        duration: 4000,
+      }
+    );
 
   const navigate = useNavigate();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const token = JSON.parse(localStorage.getItem("token"));
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
 
   const { data, isFetching } = useQuery({
     queryKey: ["special-cards", token],
@@ -48,25 +110,25 @@ const SpecialCards = () => {
 
   const searchStores = ({ selectedNames }) => {
     if (selectedNames.length > 0) {
-      let filtered=[];
-       filtered = data?.data?.cards.filter((card) =>
+      let filtered = [];
+      filtered = data?.data?.cards.filter((card) =>
         selectedNames.includes(card.shop?.name)
       );
-      if(filtered.length>0){
+      if (filtered.length > 0) {
         setFilteredCards(filtered);
-      }else{
-        notifyError(key("noDataSearch"))
-        setFilteredCards(data?.data?.cards)
+      } else {
+        notifyError(key("noDataSearch"));
+        setFilteredCards(data?.data?.cards);
       }
     } else {
       setFilteredCards(data?.data?.cards);
     }
-    if(searchInput){
+    if (searchInput) {
       notifySuccess(key("searchFilterApplied"));
     }
   };
 
-  const buyCard = async (shopId,price) => {
+  const buyCard = async (shopId, price) => {
     const formData = {
       isSpecial: true,
       shop: shopId,
@@ -80,8 +142,8 @@ const SpecialCards = () => {
       );
       const res = response.data;
       if (res.status === "success") {
-        dispatch(cartActions.addItem())
-        queryClient.invalidateQueries(["getMyCards",token]);
+        dispatch(cartActions.addItem());
+        queryClient.invalidateQueries(["getMyCards", token]);
         navigate(`/recipient-information/${res.data?._id}`);
       } else {
         notifyError(key("purchaseFaild"));
@@ -91,9 +153,12 @@ const SpecialCards = () => {
     }
   };
 
-
   const checkLogin = (shopId, price) => {
-      buyCard(shopId,price)
+    if (!isLogin) {
+      notifyLoginError(key("loginFirst"));
+    } else {
+      buyCard(shopId, price);
+    }
   };
 
   return (
