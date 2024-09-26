@@ -79,7 +79,7 @@ const ResponsiveSideBar = ({ onClose, show }) => {
             </Link>
             <Link
               onClick={onClose}
-              to={`${isLogin ? "/special-cards" : "/login"}`}
+              to={"/special-cards"}
               end="true"
             >
               <li className={styles.contact_list_item}>
@@ -92,7 +92,7 @@ const ResponsiveSideBar = ({ onClose, show }) => {
             </Link>
             <Link
               onClick={onClose}
-              to={`${isLogin ? "/custom-cards" : "/login"}`}
+              to={"/custom-cards"}
               end="true"
             >
               <li className={styles.contact_list_item}>
