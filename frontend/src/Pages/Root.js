@@ -83,9 +83,7 @@ const Root = () => {
   
     if (profileData.phoneVerified === false) {
       notifyError(key("verifyMsg"));
-      console.log("Phone verification needed:", profileData.phoneVerified);
     } else {
-      console.log("Phone already verified:", profileData.phoneVerified);
       return;
     }
   
