@@ -33,6 +33,9 @@ const CustomeCardStage = ({
   const [loadedImages, setLoadedImages] = useState([]);
   const [selectedShapeIndex, setSelectedShapeIndex] = useState(null);
 
+  const [lastDistance, setLastDistance] = useState(null);
+  const [lastAngle, setLastAngle] = useState(null);
+
   useEffect(() => {
     const loadImages = async () => {
       const images = await Promise.all(
@@ -73,39 +76,50 @@ const CustomeCardStage = ({
   };
 
   const handleTouchMove = (index) => {
-    let lastDistance = null;
-    let lastAngle = null;
-  
     return (e) => {
       e.evt.preventDefault();
       const { touches } = e.evt;
-  
+
       if (touches && touches.length === 2) {
         const [touch1, touch2] = touches;
-          const dx = touch1.clientX - touch2.clientX;
+        const dx = touch1.clientX - touch2.clientX;
         const dy = touch1.clientY - touch2.clientY;
         const distance = Math.sqrt(dx * dx + dy * dy);
-          const angle = Math.atan2(dy, dx) * (180 / Math.PI);
-          if (lastDistance !== null) {
+        const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+
+        if (lastDistance !== null) {
           const scaleChange = (distance - lastDistance) * 0.005;
-          const newScale = Math.max(0.1, Math.min(shapesArray[index].scale + scaleChange, 2));
+          const newScale = Math.max(
+            0.1,
+            Math.min(shapesArray[index].scale + scaleChange, 2)
+          );
           updateShape(index, { ...shapesArray[index], scale: newScale });
         }
-          if (lastAngle !== null) {
-          const rotationChange = (angle - lastAngle) * 0.5; 
+
+        if (lastAngle !== null) {
+          const rotationChange = (angle - lastAngle) * 0.5;
           const newRotation = shapesArray[index].rotation + rotationChange;
           updateShape(index, { ...shapesArray[index], rotation: newRotation });
         }
-  
-        lastDistance = distance;
-        lastAngle = angle;
+
+        setLastDistance(distance);
+        setLastAngle(angle);
       } else {
-        lastDistance = null;
-        lastAngle = null;
+        setLastDistance(null);
+        setLastAngle(null);
       }
     };
   };
-  
+
+  const handleTouchStart = () => {
+    setLastDistance(null);
+    setLastAngle(null);
+  };
+
+  const handleTouchEnd = () => {
+    setLastDistance(null);
+    setLastAngle(null);
+  };
 
   const handleWheel = (index) => (e) => {
     e.evt.preventDefault();
@@ -189,6 +203,8 @@ const CustomeCardStage = ({
                   offsetX={displayWidth / 2}
                   offsetY={displayHeight / 2}
                   onTap={() => handleShapeClick(index)}
+                  onTouchStart={handleTouchStart}
+                  onTouchEnd={handleTouchEnd}
                 />
               );
             })}
