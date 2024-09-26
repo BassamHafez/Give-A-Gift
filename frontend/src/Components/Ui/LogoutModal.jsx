@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { userActions } from "../../Store/userInfo-slice";
 import { saveIsLoginState } from "../../Store/userInfo-actions";
 import { useTranslation } from 'react-i18next';
+import { profileActions } from '../../Store/profileInfo-slice';
 
 const LogoutModal = (props) => {
   const { t: key } = useTranslation();
@@ -22,6 +23,7 @@ const LogoutModal = (props) => {
       localStorage.removeItem("token");
       dispatch(userActions.setIsLogin(false));
       dispatch(saveIsLoginState(false));
+      dispatch(profileActions.setProfileInfo(null));
       props.onHide();
       navigate("/");
     };

@@ -12,22 +12,29 @@ import TopStores from "../../Components/TopStores/TopStores";
 import HomeSections from "../../Components/Ui/HomeSections";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { profileActions } from "../../Store/profileInfo-slice";
 
 const Home = () => {
   const { t: key } = useTranslation();
   const navigate = useNavigate();
   const role = useSelector((state) => state.userInfo.role);
   const profileData = useSelector((state) => state.profileInfo.data);
+  const isLogin = useSelector((state) => state.userInfo.isLogin);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (role === "admin") {
       navigate(`/admin/${profileData?._id}`);
-    }else if (role==="merchant"){
-      navigate(`/merchant/${profileData?._id}`)
+    } else if (role === "merchant") {
+      navigate(`/merchant/${profileData?._id}`);
     }
   }, [role, navigate, profileData]);
-
+  useEffect(() => {
+    if (!isLogin) {
+      dispatch(profileActions.setProfileInfo(null));
+    }
+  });
   return (
     <>
       <HomeHeader />
