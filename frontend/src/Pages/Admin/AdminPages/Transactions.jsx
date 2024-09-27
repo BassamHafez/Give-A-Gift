@@ -21,7 +21,17 @@ const Transactions = () => {
   const token = JSON.parse(localStorage.getItem("token"));
   const [searchInput, setSearchInput] = useState("");
 
-  const notifySuccess = (message) => toast.success(message);
+  const notifySuccess = (message) => {
+    toast.success((t) => (
+      <div
+        onClick={() => toast.dismiss(t.id)}
+        onTap={() => toast.dismiss(t.id)}
+      >
+        {message}
+      </div>
+    ));
+  };
+
 
   const { data: allTransactions } = useQuery({
     queryKey: ["allTransactions", token],

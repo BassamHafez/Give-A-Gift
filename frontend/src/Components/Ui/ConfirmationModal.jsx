@@ -42,8 +42,27 @@ const ConfirmationModal = ({
   const token = JSON.parse(localStorage.getItem("token"));
   const navigate = useNavigate();
 
-  const notifySuccess = (message) => toast.success(message);
-  const notifyError = (message) => toast.error(message);
+  const notifySuccess = (message) => {
+    toast.success((t) => (
+      <div
+        onClick={() => toast.dismiss(t.id)}
+        onTap={() => toast.dismiss(t.id)}
+      >
+        {message}
+      </div>
+    ));
+  };
+
+  const notifyError = (message) => {
+    toast.error((t) => (
+      <div
+        onClick={() => toast.dismiss(t.id)}
+        onTap={() => toast.dismiss(t.id)}
+      >
+        {message}
+      </div>
+    ));
+  };
   const [priceAfterDisc, setPriceAfterDisc] = useState("");
   const [paymentWay, setPaymentWay] = useState("payment");
   const [isBalanced, setIsBalanced] = useState(true);

@@ -17,8 +17,27 @@ const UpdateCard = ({ show, onHide, cardId, refetch, shopId }) => {
   const token = JSON.parse(localStorage.getItem("token"));
   const [myShops, setMyShops] = useState([]);
   const [initialShop, setInitialShop] = useState(null);
-  const notifySuccess = (message) => toast.success(message);
-  const notifyError = (message) => toast.error(message);
+  const notifySuccess = (message) => {
+    toast.success((t) => (
+      <div
+        onClick={() => toast.dismiss(t.id)}
+        onTap={() => toast.dismiss(t.id)}
+      >
+        {message}
+      </div>
+    ));
+  };
+
+  const notifyError = (message) => {
+    toast.error((t) => (
+      <div
+        onClick={() => toast.dismiss(t.id)}
+        onTap={() => toast.dismiss(t.id)}
+      >
+        {message}
+      </div>
+    ));
+  };
 
   const { data: shops } = useQuery({
     queryKey: ["shops", token],

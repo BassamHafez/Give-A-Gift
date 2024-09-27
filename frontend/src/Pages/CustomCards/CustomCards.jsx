@@ -20,8 +20,27 @@ import CustomCardShapes from "./CustomCardShapes";
 import CustomCardShops from "./CustomCardShops";
 import CustomeCardStage from "./CustomeCardStage";
 
-const notifySuccess = (message) => toast.success(message);
-const notifyError = (message) => toast.error(message);
+const notifySuccess = (message) => {
+  toast.success((t) => (
+    <div
+      onClick={() => toast.dismiss(t.id)}
+      onTap={() => toast.dismiss(t.id)}
+    >
+      {message}
+    </div>
+  ));
+};
+
+const notifyError = (message) => {
+  toast.error((t) => (
+    <div
+      onClick={() => toast.dismiss(t.id)}
+      onTap={() => toast.dismiss(t.id)}
+    >
+      {message}
+    </div>
+  ));
+};
 const baseServerUrl = process.env.REACT_APP_Base_API_URl;
 
 const CustomCards = () => {

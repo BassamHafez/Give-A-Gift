@@ -16,8 +16,27 @@ const AddSpecialCardsShape = () => {
   const [selectedFrontShape, setSelectedFrontShape] = useState(null);
   const [selectedBackShape, setSelectedBackShape] = useState(null);
 
-  const notifySuccess = (message) => toast.success(message);
-  const notifyError = (message) => toast.error(message);
+  const notifySuccess = (message) => {
+    toast.success((t) => (
+      <div
+        onClick={() => toast.dismiss(t.id)}
+        onTap={() => toast.dismiss(t.id)}
+      >
+        {message}
+      </div>
+    ));
+  };
+
+  const notifyError = (message) => {
+    toast.error((t) => (
+      <div
+        onClick={() => toast.dismiss(t.id)}
+        onTap={() => toast.dismiss(t.id)}
+      >
+        {message}
+      </div>
+    ));
+  };
 
   const { mutate, isPending } = useMutation({
     mutationFn: addSpecialColorsShape,

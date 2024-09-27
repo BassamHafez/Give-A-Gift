@@ -7,9 +7,27 @@ import { useTranslation } from "react-i18next";
 const Register = () => {
   const { t: key } = useTranslation();
 
-  const notifySuccess = () => toast.success(key("newAcc"));
-  const notifyError = (message) =>
-    message ? toast.error(message) : toast.error(key("newAccFaild"));
+  const notifySuccess = (message) => {
+    toast.success((t) => (
+      <div
+        onClick={() => toast.dismiss(t.id)}
+        onTap={() => toast.dismiss(t.id)}
+      >
+        {key("newAcc")}
+      </div>
+    ));
+  };
+
+  const notifyError = (message) => {
+    toast.error((t) => (
+      <div
+        onClick={() => toast.dismiss(t.id)}
+        onTap={() => toast.dismiss(t.id)}
+      >
+        {message?message:key("newAccFaild")}
+      </div>
+    ));
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);

@@ -16,8 +16,27 @@ const AddBalance = ({ refetch, walletId, show, onHide }) => {
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
 
-  const notifySuccess = (message) => toast.success(message);
-  const notifyError = (message) => toast.error(message);
+  const notifySuccess = (message) => {
+    toast.success((t) => (
+      <div
+        onClick={() => toast.dismiss(t.id)}
+        onTap={() => toast.dismiss(t.id)}
+      >
+        {message}
+      </div>
+    ));
+  };
+
+  const notifyError = (message) => {
+    toast.error((t) => (
+      <div
+        onClick={() => toast.dismiss(t.id)}
+        onTap={() => toast.dismiss(t.id)}
+      >
+        {message}
+      </div>
+    ));
+  };
 
   const { mutate, isPending } = useMutation({
     mutationFn: controlWallets,

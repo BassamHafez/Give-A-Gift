@@ -30,8 +30,27 @@ const Wallet = () => {
       window.scrollTo(0, 0)
     })
   
-    const notifySuccess = (message) => toast.success(message);
-    const notifyError = (message) => toast.error(message);
+    const notifySuccess = (message) => {
+      toast.success((t) => (
+        <div
+          onClick={() => toast.dismiss(t.id)}
+          onTap={() => toast.dismiss(t.id)}
+        >
+          {message}
+        </div>
+      ));
+    };
+  
+    const notifyError = (message) => {
+      toast.error((t) => (
+        <div
+          onClick={() => toast.dismiss(t.id)}
+          onTap={() => toast.dismiss(t.id)}
+        >
+          {message}
+        </div>
+      ));
+    };
   
     const formattedBalance = data?.data?.balance
       ? parseFloat(data.data.balance).toFixed(2)

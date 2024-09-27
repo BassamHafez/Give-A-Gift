@@ -64,8 +64,27 @@ const Users = () => {
   const [selectedCountry, setSelectedCountry] = useState("SA");
   const [searchInput, setSearchInput] = useState("");
 
-  const notifySuccess = (message) => toast.success(message);
-  const notifyError = (message) => toast.error(message);
+  const notifySuccess = (message) => {
+    toast.success((t) => (
+      <div
+        onClick={() => toast.dismiss(t.id)}
+        onTap={() => toast.dismiss(t.id)}
+      >
+        {message}
+      </div>
+    ));
+  };
+
+  const notifyError = (message) => {
+    toast.error((t) => (
+      <div
+        onClick={() => toast.dismiss(t.id)}
+        onTap={() => toast.dismiss(t.id)}
+      >
+        {message}
+      </div>
+    ));
+  };
 
   const { data: users, refetch } = useQuery({
     queryKey: ["controlUsers", token],

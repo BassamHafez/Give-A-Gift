@@ -18,8 +18,27 @@ import FilterModal from "../../../../Components/Ui/FilterModal";
 import UpdateCard from "./UpdateCard";
 import AddCard from "./AddCard";
 
-const notifySuccess = (message) => toast.success(message);
-const notifyError = (message) => toast.error(message);
+const notifySuccess = (message) => {
+  toast.success((t) => (
+    <div
+      onClick={() => toast.dismiss(t.id)}
+      onTap={() => toast.dismiss(t.id)}
+    >
+      {message}
+    </div>
+  ));
+};
+
+const notifyError = (message) => {
+  toast.error((t) => (
+    <div
+      onClick={() => toast.dismiss(t.id)}
+      onTap={() => toast.dismiss(t.id)}
+    >
+      {message}
+    </div>
+  ));
+};
 
 const AllCards = () => {
   const { t: key } = useTranslation();

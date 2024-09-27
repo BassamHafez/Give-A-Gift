@@ -71,8 +71,27 @@ const RecipientInformation = () => {
   const [isCelebrateIcon, setIsCelebrationIcon] = useState(false);
   const [isCelebrateQR, setIsCelebrateQR] = useState(false);
   const [totalShapesPrice, setTotalShapesPrice] = useState(0);
-  const notifySuccess = (message) => toast.success(message);
-  const notifyError = (message) => toast.error(message);
+  const notifySuccess = (message) => {
+    toast.success((t) => (
+      <div
+        onClick={() => toast.dismiss(t.id)}
+        onTap={() => toast.dismiss(t.id)}
+      >
+        {message}
+      </div>
+    ));
+  };
+
+  const notifyError = (message) => {
+    toast.error((t) => (
+      <div
+        onClick={() => toast.dismiss(t.id)}
+        onTap={() => toast.dismiss(t.id)}
+      >
+        {message}
+      </div>
+    ));
+  };
   const token = JSON.parse(localStorage.getItem("token"));
   const { cardId } = useParams();
   const navigate = useNavigate();

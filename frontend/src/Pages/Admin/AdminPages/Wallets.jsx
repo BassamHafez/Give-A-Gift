@@ -26,7 +26,17 @@ const Wallets = () => {
   const [showModal, setModalShow] = useState(false);
   const [walletId, setWalletId] = useState(false);
 
-  const notifySuccess = (message) => toast.success(message);
+  const notifySuccess = (message) => {
+    toast.success((t) => (
+      <div
+        onClick={() => toast.dismiss(t.id)}
+        onTap={() => toast.dismiss(t.id)}
+      >
+        {message}
+      </div>
+    ));
+  };
+
 
   const { data: wallets, refetch } = useQuery({
     queryKey: ["controlWallets", token],

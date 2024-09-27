@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState } from "react";
 import styles from "./Cart.module.css";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -25,10 +25,34 @@ import { useTranslation } from "react-i18next";
 import { cartActions } from "../../Store/cartCounter-slice";
 import DetailsAfterBuying from "../../Pages/DetailsAfterBuying/DetailsAfterBuying";
 
-const notifySuccess = (message) => toast.success(message);
-const notifyError = (message) => toast.error(message);
+
 
 const Cart = ({ onClose, show }) => {
+
+
+  const notifySuccess = (message) => {
+    toast.success((t) => (
+      <div
+        onClick={() => toast.dismiss(t.id)}
+        onTap={() => toast.dismiss(t.id)}
+      >
+        {message}
+      </div>
+    ));
+  };
+
+  const notifyError = (message) => {
+    toast.error((t) => (
+      <div
+        onClick={() => toast.dismiss(t.id)}
+        onTap={() => toast.dismiss(t.id)}
+      >
+        {message}
+      </div>
+    ));
+  };
+  
+  
   const [modalShow, setModalShow] = useState(false);
   const [confirmModalShow, setConfirmModalShow] = useState(false);
   const [confirmMsg, setConfirmMsg] = useState("");
