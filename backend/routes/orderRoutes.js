@@ -8,6 +8,6 @@ router.use(authController.protect);
 
 router.route("/").get(orderController.setUserId, orderController.getAllOrders);
 
-// router.route("/:id").get(orderController.getOrder);
+router.route("/:id").delete(orderController.cancelOrder);
 
 module.exports = router;
