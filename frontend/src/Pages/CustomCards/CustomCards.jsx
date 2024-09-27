@@ -153,7 +153,6 @@ const CustomCards = () => {
 
   const addShape = (shapeData) => {
     setShapesArray((prev) => {
-      // Check if shape already exists to avoid unnecessary updates
       if (!prev.some((shape) => shape.id === shapeData.id)) {
         return [
           ...prev,
@@ -165,7 +164,7 @@ const CustomCards = () => {
           },
         ];
       }
-      return prev; // No update if the shape already exists
+      return prev;
     });
   };
 
@@ -196,7 +195,6 @@ const CustomCards = () => {
       setCurrentStep(selectedIndex);
     }
   };
-
   const createCard = async () => {
     if (!isLogin) {
       notifyLoginError(key("loginFirst"));
@@ -293,16 +291,15 @@ const CustomCards = () => {
   };
 
   const handleTextChange = (e) => {
-    e.preventDefault();
-    setTimeout(() => setCardText(e.target.value), 200);
+    setCardText(e.target.value);
   };
   const handlePriceChange = (e) => {
     setCardPrice(e.target.value);
   };
 
-  const settingShowBack=(value)=>{
-    setShowBack(value)
-  }
+  const settingShowBack = (value) => {
+    setShowBack(value);
+  };
 
   return (
     <>
@@ -373,7 +370,10 @@ const CustomCards = () => {
                   <CustomCardColors saveColorValues={saveColorValues} />
                 </Carousel.Item>
                 <Carousel.Item className={`${styles.carousel_item}`}>
-                  <CustomCardShapes addShape={addShape} settingShowBack={settingShowBack} />
+                  <CustomCardShapes
+                    addShape={addShape}
+                    settingShowBack={settingShowBack}
+                  />
                 </Carousel.Item>
                 <Carousel.Item className={`${styles.carousel_item}`}>
                   <CustomCardShops saveShop={saveShop} />
@@ -387,10 +387,10 @@ const CustomCards = () => {
                         <h4 className="text-start text-secondary">
                           {key("cardMessage")}
                         </h4>
-                        <textarea
-                          id="cardMessage"
-                          name="cardMessage"
-                          onInput={handleTextChange}
+                        <input
+                          type="text"
+                          value={cardText}
+                          onChange={handleTextChange}
                           onClick={() => setShowBack(false)}
                           className={`${styles.text_input} form-control`}
                         />

@@ -33,7 +33,6 @@ const CustomeCardStage = ({
   const [loadedImages, setLoadedImages] = useState([]);
   const [selectedShapeIndex, setSelectedShapeIndex] = useState(null);
 
-
   useEffect(() => {
     const loadImages = async () => {
       const images = await Promise.all(
@@ -72,7 +71,6 @@ const CustomeCardStage = ({
     const newScale = parseFloat(e.target.value);
     updateShape(index, { ...shapesArray[index], scale: newScale });
   };
-
 
   const handleWheel = (index) => (e) => {
     e.evt.preventDefault();
@@ -163,8 +161,10 @@ const CustomeCardStage = ({
             <>
               {cardText && (
                 <Text
-                  text={cardText}
-                  fontSize={isSmallScreen ? Number(textFont) / 2 : Number(textFont)}
+                  text={`${cardText}`}
+                  fontSize={
+                    isSmallScreen ? Number(textFont) / 2 : Number(textFont)
+                  }
                   fontFamily={textFontFamily}
                   fill={textColor}
                   width={cardWidth * 0.8}
@@ -201,14 +201,18 @@ const CustomeCardStage = ({
                       if (centeredY + textHeight > priceSafeY) {
                         centeredY = priceSafeY - textHeight;
                       }
-
                       if (
                         textPosition.x !== centeredX ||
                         textPosition.y !== centeredY
                       ) {
-                        setTextPosition({
-                          x: centeredX,
-                          y: centeredY,
+                        setTextPosition((prevPosition) => {
+                          if (
+                            prevPosition.x !== centeredX ||
+                            prevPosition.y !== centeredY
+                          ) {
+                            return { x: centeredX, y: centeredY };
+                          }
+                          return prevPosition;
                         });
                       }
                     }
