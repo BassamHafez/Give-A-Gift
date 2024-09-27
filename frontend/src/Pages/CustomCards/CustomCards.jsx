@@ -308,7 +308,6 @@ const CustomCards = () => {
   };
 
   const handleTextChange = (e) => {
-    console.log(e.target.value)
     setCardText(e.target.value);
   };
   const handlePriceChange = (e) => {

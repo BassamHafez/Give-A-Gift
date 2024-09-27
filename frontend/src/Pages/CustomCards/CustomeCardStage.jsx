@@ -169,7 +169,7 @@ const CustomeCardStage = ({
                   fill={textColor}
                   width={cardWidth * 0.8}
                   x={textPosition.x}
-                  y={textPosition.y}
+                  y={textPosition.y-20}
                   align="center"
                   wrap="char"
                   draggable
@@ -191,32 +191,27 @@ const CustomeCardStage = ({
                     const container = e.target.getStage().container();
                     container.style.cursor = "grab";
                   }}
-                  ref={(node) => {
-                    if (node && !hasDraggedText) {
-                      const textWidth = node.getClientRect().width;
-                      const textHeight = node.getClientRect().height;
-                      const centeredX = cardWidth / 2 - textWidth / 2;
-                      let centeredY = cardHeight / 2 - textHeight / 2;
-
-                      if (centeredY + textHeight > priceSafeY) {
-                        centeredY = priceSafeY - textHeight;
-                      }
-                      if (
-                        textPosition.x !== centeredX ||
-                        textPosition.y !== centeredY
-                      ) {
-                        setTextPosition((prevPosition) => {
-                          if (
-                            prevPosition.x !== centeredX ||
-                            prevPosition.y !== centeredY
-                          ) {
-                            return { x: centeredX, y: centeredY };
-                          }
-                          return prevPosition;
-                        });
-                      }
-                    }
-                  }}
+                  // ref={(node) => {
+                  //   if (node && !hasDraggedText) {
+                  //     const textWidth = node.getClientRect().width;
+                  //     const textHeight = node.getClientRect().height;
+                  //     const centeredX = cardWidth / 2 - textWidth / 2;
+                  //     let centeredY = cardHeight / 2 - textHeight / 2;
+                  //     if (centeredY + textHeight > priceSafeY) {
+                  //       centeredY = priceSafeY - textHeight;
+                  //     }
+                  //     setTextPosition((prevPosition) => {
+                  //       const newPosition = { x: centeredX, y: centeredY };
+                  //       if (
+                  //         prevPosition.x !== newPosition.x ||
+                  //         prevPosition.y !== newPosition.y
+                  //       ) {
+                  //         return newPosition;
+                  //       }
+                  //       return prevPosition;
+                  //     });
+                  //   }
+                  // }}
                 />
               )}
 
@@ -227,7 +222,7 @@ const CustomeCardStage = ({
                   fontFamily={"'Times New Roman', Times, serif"}
                   fill={textColor}
                   x={cardWidth / 2 - 30}
-                  y={cardHeight / 2 + Number(textFont) / 2}
+                  y={cardHeight / 2 + Number(textFont) / 2 + 10}
                 />
               )}
             </>
