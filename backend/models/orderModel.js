@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
+const Counter = require("./counterModel");
 
 const orderSchema = new mongoose.Schema({
+  order_number: { type: Number, unique: true },
   card_id: String,
   customer_id: {
     type: mongoose.Schema.Types.ObjectId,
@@ -22,6 +24,25 @@ const orderSchema = new mongoose.Schema({
   order_date: Date,
   recipient_name: String,
   recipient_whatsapp: String,
+});
+
+orderSchema.pre("save", async function (next) {
+  const order = this;
+
+  if (!order.isNew) return next();
+
+  try {
+    const counter = await Counter.findOneAndUpdate(
+      { name: "order_number" },
+      { $inc: { seq: 1 } },
+      { new: true, upsert: true }
+    );
+
+    order.order_number = counter.seq;
+    next();
+  } catch (err) {
+    next(err);
+  }
 });
 
 const Order = mongoose.model("Order", orderSchema);
