@@ -144,6 +144,7 @@ exports.sendCartReminders = catchAsync(async (req, res, next) => {
       _id: { $in: cardsIds },
       isPaid: false,
     })
+      .select("_id")
       .populate([{ path: "user", select: "phone" }])
       .lean(),
   ]);
