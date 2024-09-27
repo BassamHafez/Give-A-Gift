@@ -3,6 +3,7 @@ const router = express.Router();
 
 const authController = require("../controllers/authController");
 const discountCodeController = require("../controllers/discountCodeController");
+const discountCodeValidator = require("../utils/validators/discountCodeValidator");
 
 router.use(authController.protect);
 
@@ -22,6 +23,7 @@ router
   .route("/:cardId")
   .get(
     authController.restrictTo("merchant"),
+    discountCodeValidator.getDiscountCodeValueValidator,
     discountCodeController.getDiscountCodeValue
   );
 
