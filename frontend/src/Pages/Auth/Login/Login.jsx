@@ -7,7 +7,7 @@ import VerifyPhoneNumberModal from "../../../Components/Ui/VerifyPhoneNumberModa
 
 const Login = () => {
   const { t: key } = useTranslation();
-  const [modalShow,setModalShow]=useState();
+  const [modalShow, setModalShow] = useState();
   const notifySuccess = () => toast.success(key("logged"));
   const notifyError = (message) =>
     message ? toast.error(message) : toast.error(key("loggedFaild"));
@@ -18,7 +18,12 @@ const Login = () => {
 
   return (
     <>
-      <Toaster position="top-right" />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+        }}
+      />
       <div className={styles.user_login_container}>
         <div className={styles.user_login_content}>
           <div className={styles.user_login_form}>
@@ -30,10 +35,12 @@ const Login = () => {
           </div>
         </div>
       </div>
-      {modalShow&&<VerifyPhoneNumberModal
-        show={modalShow}
-        onHide={()=>setModalShow(false)}
-      />}
+      {modalShow && (
+        <VerifyPhoneNumberModal
+          show={modalShow}
+          onHide={() => setModalShow(false)}
+        />
+      )}
     </>
   );
 };

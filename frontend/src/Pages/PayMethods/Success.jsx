@@ -44,7 +44,12 @@ const Success = () => {
 
   return (
     <>
-      <Toaster position="top-right" />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+        }}
+      />
       <div className={styles.success_body}>
         <div className={styles.success_img}>
           <img src={successImg} alt="payment success" />

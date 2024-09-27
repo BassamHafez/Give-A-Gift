@@ -53,9 +53,9 @@ const Shapes = () => {
     shapeImage: "",
     price: "",
   };
-  useEffect(()=>{
-    window.scrollTo(0, 0)
-  },[])
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const onSubmit = (values) => {
     const formData = new FormData();
 
@@ -113,7 +113,12 @@ const Shapes = () => {
 
   return (
     <>
-      <Toaster position="top-right" />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+        }}
+      />
       <div className={styles.main_body}>
         <div className={styles.configs_body}>
           <div className="my-5">
@@ -195,7 +200,10 @@ const Shapes = () => {
                     onClick={() => deleteShape(shape._id)}
                   />
                   {shape.price > 0 && (
-                    <FontAwesomeIcon className={styles.shape_crown} icon={faCrown} />
+                    <FontAwesomeIcon
+                      className={styles.shape_crown}
+                      icon={faCrown}
+                    />
                   )}
                   <img
                     src={`${process.env.REACT_APP_Host}shapes/${shape.image}`}

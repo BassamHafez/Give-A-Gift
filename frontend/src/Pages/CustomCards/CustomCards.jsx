@@ -41,9 +41,7 @@ const CustomCards = () => {
     x: cardWidth / 2 - (cardWidth / 2) * 0.8,
     y: cardHeight / 2,
   });
-  const [textFontFamily, setTextFontFamily] = useState(
-    "'ARAHAMAH1982', sans-serif"
-  );
+  const [textFontFamily, setTextFontFamily] = useState("ARAHAMAH1982");
   const [textFont, setTextFont] = useState(40);
   const [currentStep, setCurrentStep] = useState(0);
   const [isProColor, setIsProColor] = useState(false);
@@ -60,7 +58,6 @@ const CustomCards = () => {
   const [logo] = useImage(logoImage);
   const [mainLogoImage] = useImage(mainLogo);
   const priceSafeY = cardHeight * 0.55;
-
 
   const notifyLoginError = (message) =>
     toast(
@@ -127,15 +124,17 @@ const CustomCards = () => {
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth < 500 ? window.innerWidth * 0.9 : 480;
-      setCardWidth(width);
-      setCardHeight((width * 9) / 16);
+      if (width !== cardWidth) {
+        setCardWidth(width);
+        setCardHeight((width * 9) / 16);
+      }
     };
-
+  
     window.addEventListener("resize", handleResize);
     handleResize();
-
+  
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [cardWidth]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -154,21 +153,27 @@ const CustomCards = () => {
   };
 
   const addShape = (shapeData) => {
-    setShapesArray((prev) => [
-      ...prev,
-      {
-        ...shapeData, // { image, id, showBack, price }
-        scale: 0.3,
-        position: { x: cardWidth/2, y: cardHeight/2 },
-        rotation:0
-      },
-    ]);
+    setShapesArray((prev) => {
+      // Check if shape already exists to avoid unnecessary updates
+      if (!prev.some((shape) => shape.id === shapeData.id)) {
+        return [
+          ...prev,
+          {
+            ...shapeData,
+            scale: 0.3,
+            position: { x: cardWidth / 2, y: cardHeight / 2 },
+            rotation: 0,
+          },
+        ];
+      }
+      return prev; // No update if the shape already exists
+    });
   };
 
   const removeShape = (shapeId) => {
     setShapesArray((prev) => prev.filter((shape) => shape.id !== shapeId));
   };
-  
+
   const updateShape = (index, updatedShape) => {
     setShapesArray((prev) =>
       prev.map((shape, i) => (i === index ? updatedShape : shape))
@@ -180,8 +185,6 @@ const CustomCards = () => {
     setSelectedShopId(shopId);
   };
 
-
-
   const stepLabels = [
     key("color"),
     key("shape"),
@@ -190,14 +193,16 @@ const CustomCards = () => {
   ];
 
   const handleSelect = (selectedIndex) => {
-    setCurrentStep(selectedIndex);
+    if (currentStep !== selectedIndex) {
+      setCurrentStep(selectedIndex);
+    }
   };
 
   const createCard = async () => {
     if (!isLogin) {
       notifyLoginError(key("loginFirst"));
       return;
-    } 
+    }
     if (cardText === "") {
       notifyError(key("cardMessageError"));
       return;
@@ -249,7 +254,7 @@ const CustomCards = () => {
       shape: shape.id,
       position: { x: shape.position.x, y: shape.position.y },
       scale: shape.scale,
-      rotation:shape.rotation
+      rotation: shape.rotation,
     }));
 
     let formData = {};
@@ -288,9 +293,20 @@ const CustomCards = () => {
     }
   };
 
+
+  const handleTextChange = (e) => {
+      setCardText(e.target.value);
+  };
+  const handlePriceChange = (e) => {
+    setCardPrice(e.target.value);
+  };
+
+
   return (
     <>
-      <Toaster position="top-right" />
+      <Toaster position="top-right" toastOptions={{
+    duration: 3000
+  }} />
       <div className={`${styles.canva_body} page_height`}>
         <div className={styles.content}>
           <Row className="w-100 h-75 justify-content-between">
@@ -375,7 +391,7 @@ const CustomCards = () => {
                         <textarea
                           id="floatingTextarea"
                           value={cardText}
-                          onChange={(e) => setCardText(e.target.value)}
+                          onChange={handleTextChange}
                           onClick={() => setShowBack(false)}
                           className={`${styles.text_input} form-control`}
                         ></textarea>
@@ -442,7 +458,6 @@ const CustomCards = () => {
                           <input
                             type="number"
                             value={textFont}
-                            placeholder={key("size")}
                             onChange={(e) => setTextFont(e.target.value)}
                             className={styles.fontSize_input}
                           />
@@ -468,7 +483,7 @@ const CustomCards = () => {
                         <input
                           type="text"
                           value={cardPrice}
-                          onChange={(e) => setCardPrice(e.target.value)}
+                          onChange={handlePriceChange}
                           onClick={() => setShowBack(false)}
                           className={`${styles.price_input} text-dark form-control`}
                         />

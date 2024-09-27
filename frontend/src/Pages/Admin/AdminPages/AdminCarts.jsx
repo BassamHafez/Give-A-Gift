@@ -95,7 +95,7 @@ const AdminCarts = () => {
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_Base_API_URl}cards/reminders`,
-        {cardsIds:[...cardsIds]},
+        { cardsIds: [...cardsIds] },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -131,7 +131,12 @@ const AdminCarts = () => {
 
   return (
     <div className={styles.table_body}>
-      <Toaster position="top-right" />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+        }}
+      />
       <div className="d-flex justify-content-between align-itmes-center my-4">
         <h4 className="fw-bold text-secondary">{key("allCarts")}</h4>
 

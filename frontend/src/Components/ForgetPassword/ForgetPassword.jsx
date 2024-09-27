@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { ErrorMessage, Form, Formik, Field } from "formik";
 import { object, string } from "yup";
 import InputErrorMessage from "../../Components/Ui/InputErrorMessage";
-import {signFormsHandler} from "../../util/Http";
+import { signFormsHandler } from "../../util/Http";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faYinYang } from "@fortawesome/free-solid-svg-icons";
 import lock from "../../Images/lock.webp";
@@ -19,7 +19,7 @@ const notifyError = (message) => toast.error(message);
 const ForgetPassword = () => {
   const [isRightEmail, setIsRightEmail] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const {t:key}=useTranslation();
+  const { t: key } = useTranslation();
 
   const { mutate, isPending } = useMutation({
     mutationFn: signFormsHandler,
@@ -54,12 +54,19 @@ const ForgetPassword = () => {
   };
 
   const validationSchema = object({
-    email: string().email(key("emailValidation1")).required(key("emailValidation2")),
+    email: string()
+      .email(key("emailValidation1"))
+      .required(key("emailValidation2")),
   });
 
   return (
     <>
-      <Toaster position="top-right" />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+        }}
+      />
       <div className={styles.general_info_form}>
         <Formik
           initialValues={initialValues}
@@ -72,21 +79,13 @@ const ForgetPassword = () => {
                 <img src={lock} alt="lock" />
               </div>
               <h3>{key("forgetTitle")}</h3>
-              <span className="mini_word">
-                {key("enterEmailToSendCode")}
-              </span>
+              <span className="mini_word">{key("enterEmailToSendCode")}</span>
             </div>
 
             <div className={styles.field}>
               <label htmlFor="getPassEmail">{key("email")}</label>
-              <Field
-                type="email"
-                id="getPassEmail"
-                name="email"
-              />
-              {isRightEmail && (
-                <InputErrorMessage text={key("noAcc")} />
-              )}
+              <Field type="email" id="getPassEmail" name="email" />
+              {isRightEmail && <InputErrorMessage text={key("noAcc")} />}
               <ErrorMessage name="email" component={InputErrorMessage} />
             </div>
             <div className="d-flex justify-content-center align-items-center mt-3 px-2">
@@ -105,7 +104,9 @@ const ForgetPassword = () => {
 
               <span className="mini_word">
                 {key("youCanCreateAcc")}{" "}
-                <Link to={"/register"} className="text-primary">{key("register")}</Link>
+                <Link to={"/register"} className="text-primary">
+                  {key("register")}
+                </Link>
               </span>
             </div>
           </Form>

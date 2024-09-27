@@ -19,7 +19,7 @@ const Discount = () => {
   const navigate = useNavigate();
 
   const token = JSON.parse(localStorage.getItem("token"));
-console.log(recipientName)
+  console.log(recipientName);
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
 
@@ -29,8 +29,8 @@ console.log(recipientName)
   useEffect(() => {
     if (role === "admin") {
       navigate(`/admin/${profileData?._id}`);
-    }else if (role==="user"){
-      navigate(`/`)
+    } else if (role === "user") {
+      navigate(`/`);
     }
   }, [role, navigate, profileData]);
 
@@ -47,22 +47,27 @@ console.log(recipientName)
         notifySuccess(key("opSuccess"));
         setIsDiscValue(true);
         setDiscountValue(res.data?.value);
-        setRecipientName(res.data?.recipient)
+        setRecipientName(res.data?.recipient);
       } else {
         setIsDiscValue(false);
         notifyError(key("wrong"));
       }
     } catch (error) {
       setIsDiscValue(false);
-      if(error.response.data.message==="Discount code already used"){
-        notifyError(key("discUsed"))
+      if (error.response.data.message === "Discount code already used") {
+        notifyError(key("discUsed"));
       }
     }
   };
 
   return (
     <>
-      <Toaster position="top-right" />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+        }}
+      />
       <div className={styles.discount_body}>
         <div className={styles.click_div}>
           <div className={styles.logo_img}>
@@ -88,7 +93,9 @@ console.log(recipientName)
           <div
             className={`${isDiscValue ? styles.disc_reveal : styles.disc_hide}`}
           >
-            <h3 className="mb-3 fw-bolder text-center">{key("discValue")} {recipientName} </h3>
+            <h3 className="mb-3 fw-bolder text-center">
+              {key("discValue")} {recipientName}{" "}
+            </h3>
             <h2 className={styles.disc_value}>
               {discoutValue} <span className={styles.sar}>{key("sar")}</span>
             </h2>

@@ -4,11 +4,14 @@ import { Toaster } from "react-hot-toast";
 import AllCards from "./SpecialCards/AllCards";
 
 const AdminSpecialCards = () => {
-
-
   return (
     <div className={styles.main_body}>
-      <Toaster position="top-right" />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+        }}
+      />
       <AllCards />
     </div>
   );

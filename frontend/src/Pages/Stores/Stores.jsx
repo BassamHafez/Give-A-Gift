@@ -40,7 +40,12 @@ const Stores = () => {
 
   return (
     <>
-      <Toaster position="top-right" />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+        }}
+      />
       <Container className="my-5 page_height">
         <h2 className="text-center my-3 mb-5">{key("storesTitle")}</h2>
         <div

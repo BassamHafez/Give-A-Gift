@@ -63,9 +63,9 @@ const Merchant = () => {
     queryFn: getShops,
     staleTime: Infinity,
   });
-  useEffect(()=>{
-    window.scrollTo(0, 0)
-  },[])
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   useEffect(() => {
     if (shops) {
       const physicalShopsValues = shops.data?.filter(
@@ -92,10 +92,10 @@ const Merchant = () => {
         setIsEmailError(false);
         refetch();
         notifySuccess(key("opSuccess"));
-      }else if(data.response?.data?.message==="Shop already in use"){
+      } else if (data.response?.data?.message === "Shop already in use") {
         notifyError(key("shopeUsed"));
-      }else if(data.response.data.message.split(" ")[0]==="Duplicate"){
-        notifyError(key("duplicate"))
+      } else if (data.response.data.message.split(" ")[0] === "Duplicate") {
+        notifyError(key("duplicate"));
       } else {
         notifyError(key("wrong"));
       }
@@ -167,7 +167,12 @@ const Merchant = () => {
 
   return (
     <>
-      <Toaster position="top-right" />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+        }}
+      />
       <div className={styles.main_body}>
         <h4 className="fw-bold text-secondary">
           {key("add")} {key("merchant")}

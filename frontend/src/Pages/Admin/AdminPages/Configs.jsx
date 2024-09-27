@@ -51,7 +51,7 @@ const Configs = () => {
   });
 
   const initialValues = {
-    WALLET_STARTING_BALANCE:walletStarting || "",
+    WALLET_STARTING_BALANCE: walletStarting || "",
     MAIN_COLOR: mainColor || "",
     SECONDRY_COLOR: subColor || "",
     VAT_VALUE: Number(VAT) || "",
@@ -64,7 +64,7 @@ const Configs = () => {
   const onSubmit = (values) => {
     console.log(values);
     const updatedValues = {
-      WALLET_STARTING_BALANCE:values.WALLET_STARTING_BALANCE,
+      WALLET_STARTING_BALANCE: values.WALLET_STARTING_BALANCE,
       MAIN_COLOR: values.MAIN_COLOR,
       SECONDRY_COLOR: values.SECONDRY_COLOR,
       VAT_VALUE: `${values.VAT_VALUE}`,
@@ -105,7 +105,12 @@ const Configs = () => {
 
   return (
     <>
-      <Toaster position="top-right" />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+        }}
+      />
       <div className={`${styles.main_body} ${styles.configs_body}`}>
         <Formik
           initialValues={initialValues}

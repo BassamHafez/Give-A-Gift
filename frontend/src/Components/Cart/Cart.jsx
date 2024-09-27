@@ -206,7 +206,12 @@ const Cart = ({ onClose, show }) => {
         placement="end"
         className={styles.side_bar}
       >
-        <Toaster position="top-right" />
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 3000,
+          }}
+        />
 
         <Offcanvas.Header className={styles.header}>
           <div className="d-flex justify-content-between align-items-center w-100">

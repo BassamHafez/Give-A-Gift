@@ -35,7 +35,7 @@ const Payment = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: executePayment,
     onSuccess: (response) => {
-      console.log(response)
+      console.log(response);
       if (response.status === "success") {
         notifySuccess(key("redirect"));
         window.open(`${response.data?.Data?.PaymentURL}`, "_blank");
@@ -57,11 +57,11 @@ const Payment = () => {
     const updatedFormData = {
       PaymentMethodId: values.PaymentMethodId,
       InvoiceValue: values.InvoiceValue,
-      cardId:cardId,
+      cardId: cardId,
       successURL: `${process.env.REACT_APP_Host}payment-success/${cardId}`,
       errorURL: `${process.env.REACT_APP_Host}payment-faild`,
     };
-    console.log(updatedFormData)
+    console.log(updatedFormData);
     mutate({ token: token, formData: updatedFormData });
   };
 
@@ -76,7 +76,12 @@ const Payment = () => {
 
   return (
     <>
-      <Toaster position="top-right" />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+        }}
+      />
       <div
         className={`${styles.container} d-flex justify-content-center align-items-center my-5`}
       >

@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useQueryClient } from "@tanstack/react-query";
+import { Toaster } from "react-hot-toast";
 
 const DetailsAfterBuying = ({ show, onHide, cardDetails, walletDetails,totalPrice }) => {
   const { t: key } = useTranslation();
@@ -23,7 +24,8 @@ const DetailsAfterBuying = ({ show, onHide, cardDetails, walletDetails,totalPric
 
   
   return (
-    <Modal
+    <>
+        <Modal
       show={show}
       onHide={onHide}
       size="md"
@@ -101,6 +103,14 @@ const DetailsAfterBuying = ({ show, onHide, cardDetails, walletDetails,totalPric
         </Button>
       </Modal.Footer>
     </Modal>
+    <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+        }}
+      />
+    </>
+
   );
 };
 

@@ -33,7 +33,6 @@ const CustomeCardStage = ({
   const [loadedImages, setLoadedImages] = useState([]);
   const [selectedShapeIndex, setSelectedShapeIndex] = useState(null);
 
-
   useEffect(() => {
     const loadImages = async () => {
       const images = await Promise.all(
@@ -70,9 +69,10 @@ const CustomeCardStage = ({
 
   const handleScaleChange = (index, e) => {
     const newScale = parseFloat(e.target.value);
-    updateShape(index, { ...shapesArray[index], scale: newScale });
+    if (newScale !== shapesArray[index].scale) {
+      updateShape(index, { ...shapesArray[index], scale: newScale });
+    }
   };
-
 
   const handleWheel = (index) => (e) => {
     e.evt.preventDefault();
@@ -164,7 +164,9 @@ const CustomeCardStage = ({
               {cardText && (
                 <Text
                   text={cardText}
-                  fontSize={isSmallScreen ? textFont / 2 : Number(textFont)}
+                  fontSize={
+                    isSmallScreen ? Number(textFont) / 2 : Number(textFont)
+                  }
                   fontFamily={textFontFamily}
                   fill={textColor}
                   width={cardWidth * 0.8}
@@ -193,23 +195,20 @@ const CustomeCardStage = ({
                   }}
                   ref={(node) => {
                     if (node && !hasDraggedText) {
-                      const textWidth = node.getClientRect().width;
-                      const textHeight = node.getClientRect().height;
+                      const { width: textWidth, height: textHeight } =
+                        node.getClientRect();
                       const centeredX = cardWidth / 2 - textWidth / 2;
-                      let centeredY = cardHeight / 2 - textHeight / 2;
+                      let centeredY = Math.min(
+                        cardHeight / 2 - textHeight / 2,
+                        priceSafeY - textHeight
+                      );
 
-                      if (centeredY + textHeight > priceSafeY) {
-                        centeredY = priceSafeY - textHeight;
-                      }
-
+                      // Update text position only if it differs from the current position
                       if (
                         textPosition.x !== centeredX ||
                         textPosition.y !== centeredY
                       ) {
-                        setTextPosition({
-                          x: centeredX,
-                          y: centeredY,
-                        });
+                        setTextPosition({ x: centeredX, y: centeredY });
                       }
                     }
                   }}
@@ -223,7 +222,7 @@ const CustomeCardStage = ({
                   fontFamily={"'Times New Roman', Times, serif"}
                   fill={textColor}
                   x={cardWidth / 2 - 30}
-                  y={cardHeight / 2 + textFont / 2}
+                  y={cardHeight / 2 + Number(textFont) / 2}
                 />
               )}
             </>

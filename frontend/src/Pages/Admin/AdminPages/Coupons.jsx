@@ -30,9 +30,9 @@ const Coupons = () => {
     enabled: !!token,
     staleTime: Infinity,
   });
-  useEffect(()=>{
-    window.scrollTo(0, 0)
-  },[])
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const deleteCoupon = async (couponId) => {
     try {
       const response = await axios.delete(
@@ -54,7 +54,12 @@ const Coupons = () => {
 
   return (
     <>
-      <Toaster position="top-right" />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+        }}
+      />
       <div className={styles.main_body}>
         <div className="p-4 my-5">
           <AddCoupon refetch={refetch} />

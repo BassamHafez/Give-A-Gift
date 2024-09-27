@@ -183,12 +183,17 @@ const Users = () => {
           user._id.includes(searchInput)
       )
     : [];
-    useEffect(()=>{
-      window.scrollTo(0, 0)
-    },[])
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
-      <Toaster position="top-right" />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+        }}
+      />
       <div className={styles.main_body}>
         <div className={styles.configs_body}>
           <h4 className="fw-bold text-secondary">{key("addAdmin")}</h4>
@@ -304,7 +309,6 @@ const Users = () => {
               </Form>
             )}
           </Formik>
-
         </div>
         <hr />
         <div>

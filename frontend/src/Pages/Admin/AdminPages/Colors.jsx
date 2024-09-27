@@ -9,28 +9,32 @@ import { useQuery } from "@tanstack/react-query";
 import AllProColors from "./Colors/AllProColors";
 
 const Colors = () => {
-
   const { data: Colors, refetch } = useQuery({
     queryKey: ["colors"],
     queryFn: getColors,
     staleTime: Infinity,
   });
-  useEffect(()=>{
-    window.scrollTo(0, 0)
-  },[])
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
-      <Toaster position="top-right" />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+        }}
+      />
       <div className={styles.main_body}>
         <div className={`${styles.configs_body} mb-2`}>
           <AddColor refetch={refetch} />
         </div>
         <div className={`${styles.configs_body} mb-2`}>
-          <AddProColor refetch={refetch}/>
+          <AddProColor refetch={refetch} />
         </div>
         <hr />
-        <AllColors Colors={Colors?.data?.colors} refetch={refetch}/>
-        <AllProColors proColors={Colors?.data?.proColors} refetch={refetch}/>
+        <AllColors Colors={Colors?.data?.colors} refetch={refetch} />
+        <AllProColors proColors={Colors?.data?.proColors} refetch={refetch} />
       </div>
     </>
   );

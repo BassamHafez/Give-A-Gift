@@ -164,7 +164,12 @@ const SpecialCards = () => {
   return (
     <>
       <Container fluid className={`page_height my-5`}>
-        <Toaster position="top-right" />
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 3000,
+          }}
+        />
         <h2 className="text-center my-3 mb-5">{key("buyCardPageTitle")}</h2>
         <div
           className={`${styles.controllers} d-flex justify-content-between my-4 px-4`}

@@ -299,7 +299,12 @@ const RecipientInformation = () => {
 
   return (
     <>
-      <Toaster position="top-right" />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+        }}
+      />
       <div className="my-5 px-3 px-lg-5">
         <h1 className="text-center mb-4">{key("recipientInformation")}</h1>
         <Row className={styles.rec_row}>

@@ -47,9 +47,9 @@ const Shops = () => {
       notifyError(key("wrong"));
     },
   });
-  useEffect(()=>{
-    window.scrollTo(0, 0)
-  },[])
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const initialValues = {
     shapeImage: "",
     description: "",
@@ -132,7 +132,12 @@ const Shops = () => {
 
   return (
     <>
-      <Toaster position="top-right" />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+        }}
+      />
       <div className={styles.main_body}>
         <div className={styles.configs_body}>
           <Formik

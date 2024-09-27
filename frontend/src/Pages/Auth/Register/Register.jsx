@@ -17,11 +17,14 @@ const Register = () => {
 
   return (
     <>
-      <Toaster position="top-right" />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+        }}
+      />
       <div className={styles.register_container}>
-        <div
-          className={styles.register_content}
-        >
+        <div className={styles.register_content}>
           <div className={styles.register_form}>
             <h3>{key("register")}</h3>
             <RegisterForm
