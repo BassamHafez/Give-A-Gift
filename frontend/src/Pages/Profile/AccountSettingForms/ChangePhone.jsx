@@ -40,7 +40,6 @@ const ChangePhone = () => {
     toast.success((t) => (
       <div
         onClick={() => toast.dismiss(t.id)}
-        onTap={() => toast.dismiss(t.id)}
       >
         {message}
       </div>
@@ -51,7 +50,6 @@ const ChangePhone = () => {
     toast.error((t) => (
       <div
         onClick={() => toast.dismiss(t.id)}
-        onTap={() => toast.dismiss(t.id)}
       >
         {message}
       </div>

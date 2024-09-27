@@ -11,7 +11,6 @@ const Register = () => {
     toast.success((t) => (
       <div
         onClick={() => toast.dismiss(t.id)}
-        onTap={() => toast.dismiss(t.id)}
       >
         {key("newAcc")}
       </div>
@@ -22,7 +21,6 @@ const Register = () => {
     toast.error((t) => (
       <div
         onClick={() => toast.dismiss(t.id)}
-        onTap={() => toast.dismiss(t.id)}
       >
         {message?message:key("newAccFaild")}
       </div>

@@ -25,7 +25,6 @@ const Coupons = () => {
     toast.success((t) => (
       <div
         onClick={() => toast.dismiss(t.id)}
-        onTap={() => toast.dismiss(t.id)}
       >
         {message}
       </div>
@@ -36,7 +35,6 @@ const Coupons = () => {
     toast.error((t) => (
       <div
         onClick={() => toast.dismiss(t.id)}
-        onTap={() => toast.dismiss(t.id)}
       >
         {message}
       </div>

@@ -22,7 +22,6 @@ const UpdateCoupon = ({ show, onHide, copId, refetch, expire, name, discount }) 
     toast.success((t) => (
       <div
         onClick={() => toast.dismiss(t.id)}
-        onTap={() => toast.dismiss(t.id)}
       >
         {message}
       </div>
@@ -33,7 +32,6 @@ const UpdateCoupon = ({ show, onHide, copId, refetch, expire, name, discount }) 
     toast.error((t) => (
       <div
         onClick={() => toast.dismiss(t.id)}
-        onTap={() => toast.dismiss(t.id)}
       >
         {message}
       </div>

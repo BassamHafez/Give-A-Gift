@@ -20,7 +20,6 @@ const AddBalance = ({ refetch, walletId, show, onHide }) => {
     toast.success((t) => (
       <div
         onClick={() => toast.dismiss(t.id)}
-        onTap={() => toast.dismiss(t.id)}
       >
         {message}
       </div>
@@ -31,7 +30,6 @@ const AddBalance = ({ refetch, walletId, show, onHide }) => {
     toast.error((t) => (
       <div
         onClick={() => toast.dismiss(t.id)}
-        onTap={() => toast.dismiss(t.id)}
       >
         {message}
       </div>

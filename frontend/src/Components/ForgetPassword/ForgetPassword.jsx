@@ -17,7 +17,6 @@ const notifySuccess = (message) => {
   toast.success((t) => (
     <div
       onClick={() => toast.dismiss(t.id)}
-      onTap={() => toast.dismiss(t.id)}
     >
       {message}
     </div>
@@ -28,7 +27,6 @@ const notifyError = (message) => {
   toast.error((t) => (
     <div
       onClick={() => toast.dismiss(t.id)}
-      onTap={() => toast.dismiss(t.id)}
     >
       {message}
     </div>

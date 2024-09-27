@@ -13,7 +13,6 @@ const Login = () => {
     toast.success((t) => (
       <div
         onClick={() => toast.dismiss(t.id)}
-        onTap={() => toast.dismiss(t.id)}
       >
         {key("logged")}
       </div>
@@ -24,7 +23,6 @@ const Login = () => {
     toast.error((t) => (
       <div
         onClick={() => toast.dismiss(t.id)}
-        onTap={() => toast.dismiss(t.id)}
       >
         {message ? message : key("loggedFaild")}
       </div>
