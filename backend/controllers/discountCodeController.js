@@ -1,7 +1,9 @@
 const User = require("../models/userModel");
 const Card = require("../models/cardModel");
+const Config = require("../models/configModel");
 const catchAsync = require("../utils/catchAsync");
 const ApiError = require("../utils/ApiError");
+const { sendWhatsappText } = require("../utils/sendWhatsappMsg");
 
 exports.getAllMerchantDiscountCodes = catchAsync(async (req, res, next) => {
   const merchant = await User.findById(req.user.id);
@@ -106,5 +108,38 @@ exports.getAllDiscountCodes = catchAsync(async (req, res, next) => {
     status: "success",
     results: discountCodes.length,
     data: discountCodes,
+  });
+});
+
+exports.sendDiscountCodeReminders = catchAsync(async (req, res, next) => {
+  const { codesIds } = req.body;
+
+  const [reminderMessage, codes] = await Promise.all([
+    Config.findOne({ key: "UNUSED_CODE_REMINDER_MESSAGE" }).lean(),
+    Card.find({
+      _id: { $in: codesIds },
+      isPaid: true,
+      "discountCode.isUsed": false,
+    })
+      .select("recipient")
+      .populate([{ path: "user", select: "phone" }])
+      .lean(),
+  ]);
+
+  if (!codes.length) {
+    return next(new ApiError("No paid and unused codes found", 404));
+  }
+
+  const message = reminderMessage.value;
+  codes.forEach((code) =>
+    sendWhatsappText(
+      code.recipient?.whatsappNumber || code.user?.phone,
+      message
+    )
+  );
+
+  res.status(200).json({
+    status: "success",
+    data: null,
   });
 });

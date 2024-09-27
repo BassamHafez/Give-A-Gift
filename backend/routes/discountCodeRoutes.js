@@ -13,6 +13,13 @@ router.get(
   discountCodeController.getAllDiscountCodes
 );
 
+router.post(
+  "/reminders",
+  authController.restrictTo("admin"),
+  discountCodeValidator.sendDiscountCodeRemindersValidator,
+  discountCodeController.sendDiscountCodeReminders
+);
+
 router.get(
   "/merchant",
   authController.restrictTo("merchant"),
