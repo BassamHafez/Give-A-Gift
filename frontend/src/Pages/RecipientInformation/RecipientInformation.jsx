@@ -11,7 +11,7 @@ import {
   faYinYang,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
 import DatePicker from "react-multi-date-picker";
@@ -299,12 +299,6 @@ const RecipientInformation = () => {
 
   return (
     <>
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 3000,
-        }}
-      />
       <div className="my-5 px-3 px-lg-5">
         <h1 className="text-center mb-4">{key("recipientInformation")}</h1>
         <Row className={styles.rec_row}>

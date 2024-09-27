@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./Login.module.css";
 import LoginForm from "./LoginForm";
 import { useTranslation } from "react-i18next";
-import toast, { Toaster } from "react-hot-toast";
+import toast  from "react-hot-toast";
 import VerifyPhoneNumberModal from "../../../Components/Ui/VerifyPhoneNumberModal";
 
 const Login = () => {
@@ -18,12 +18,6 @@ const Login = () => {
 
   return (
     <>
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 3000,
-        }}
-      />
       <div className={styles.user_login_container}>
         <div className={styles.user_login_content}>
           <div className={styles.user_login_form}>

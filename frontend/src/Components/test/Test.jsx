@@ -9,7 +9,6 @@
 // import { FontsFamilies } from "../../Components/Logic/Logic";
 // import MainButton from "../../Components/Ui/MainButton";
 // import axios from "axios";
-// import toast, { Toaster } from "react-hot-toast";
 // import { useNavigate } from "react-router-dom";
 // import Carousel from "react-bootstrap/Carousel";
 // import { useTranslation } from "react-i18next";
@@ -250,7 +249,6 @@
 
 //   return (
 //     <>
-//       <Toaster position="top-right" />
 //       <div className={`${styles.canva_body} page_height`}>
 //         <div className={styles.content}>
 //           <Row className="w-100 h-75 justify-content-between">

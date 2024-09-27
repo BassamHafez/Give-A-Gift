@@ -10,7 +10,7 @@ import Row from "react-bootstrap/esm/Row";
 import { getPaymentMethods } from "../../util/Http";
 import { useParams } from "react-router-dom";
 import InputErrorMessage from "../../Components/Ui/InputErrorMessage";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import styles from "./Payment.module.css";
 
@@ -76,12 +76,6 @@ const Payment = () => {
 
   return (
     <>
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 3000,
-        }}
-      />
       <div
         className={`${styles.container} d-flex justify-content-center align-items-center my-5`}
       >

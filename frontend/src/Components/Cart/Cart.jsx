@@ -17,7 +17,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getMyCards, getMyWallet } from "../../util/Http";
 import Placeholders from "../Ui/Placeholders";
 import ConfirmationModal from "../Ui/ConfirmationModal";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -206,13 +206,6 @@ const Cart = ({ onClose, show }) => {
         placement="end"
         className={styles.side_bar}
       >
-        <Toaster
-          position="top-right"
-          toastOptions={{
-            duration: 3000,
-          }}
-        />
-
         <Offcanvas.Header className={styles.header}>
           <div className="d-flex justify-content-between align-items-center w-100">
             <h2>{key("cart")}</h2>
@@ -324,7 +317,7 @@ const Cart = ({ onClose, show }) => {
                               }}
                             />
                             <FontAwesomeIcon
-                              title="view card"
+                              title={key("viewCard")}
                               className={styles.eye}
                               icon={faEye}
                               onClick={() => {

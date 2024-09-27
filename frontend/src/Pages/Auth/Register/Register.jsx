@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styles from "./Register.module.css";
 import RegisterForm from "./RegisterForm";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 
 const Register = () => {
@@ -17,12 +17,6 @@ const Register = () => {
 
   return (
     <>
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 3000,
-        }}
-      />
       <div className={styles.register_container}>
         <div className={styles.register_content}>
           <div className={styles.register_form}>

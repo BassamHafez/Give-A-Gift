@@ -7,7 +7,7 @@ import logo from "../../Images/logo.png";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 
 const Discount = () => {
@@ -62,12 +62,6 @@ const Discount = () => {
 
   return (
     <>
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 3000,
-        }}
-      />
       <div className={styles.discount_body}>
         <div className={styles.click_div}>
           <div className={styles.logo_img}>

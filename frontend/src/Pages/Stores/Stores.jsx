@@ -9,7 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getShops } from "../../util/Http";
 import Placeholders from "../../Components/Ui/Placeholders";
 import LoadingOne from "../../Components/Ui/LoadingOne";
-import toast, { Toaster } from "react-hot-toast";
+import toast  from "react-hot-toast";
 import { Link } from "react-router-dom";
 
 const notifySuccess = (message) => toast.success(message);
@@ -40,12 +40,6 @@ const Stores = () => {
 
   return (
     <>
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 3000,
-        }}
-      />
       <Container className="my-5 page_height">
         <h2 className="text-center my-3 mb-5">{key("storesTitle")}</h2>
         <div

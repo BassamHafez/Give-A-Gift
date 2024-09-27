@@ -131,7 +131,7 @@ const KonvaCard = ({ canvaCard, isSpecial }) => {
                       x={shape.position.x}
                       y={shape.position.y}
                       width={displayWidth}
-                      height={displayWidth }
+                      height={displayHeight }
                       rotation={shape.rotation}
                       offsetX={displayWidth / 2}
                       offsetY={displayHeight / 2}

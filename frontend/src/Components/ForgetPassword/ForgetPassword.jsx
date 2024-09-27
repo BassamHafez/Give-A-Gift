@@ -10,7 +10,7 @@ import { faYinYang } from "@fortawesome/free-solid-svg-icons";
 import lock from "../../Images/lock.webp";
 import { Link } from "react-router-dom";
 import VerificationCode from "./VerificationCode";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 
 const notifySuccess = (message) => toast.success(message);
@@ -61,12 +61,6 @@ const ForgetPassword = () => {
 
   return (
     <>
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 3000,
-        }}
-      />
       <div className={styles.general_info_form}>
         <Formik
           initialValues={initialValues}

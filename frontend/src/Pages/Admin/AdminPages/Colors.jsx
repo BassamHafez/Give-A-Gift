@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import styles from "./AdminPages.module.css";
-import { Toaster } from "react-hot-toast";
 import AddColor from "./Colors/AddColor";
 import AddProColor from "./Colors/AddProColor";
 import AllColors from "./Colors/AllColors";
@@ -19,12 +18,6 @@ const Colors = () => {
   }, []);
   return (
     <>
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 3000,
-        }}
-      />
       <div className={styles.main_body}>
         <div className={`${styles.configs_body} mb-2`}>
           <AddColor refetch={refetch} />
