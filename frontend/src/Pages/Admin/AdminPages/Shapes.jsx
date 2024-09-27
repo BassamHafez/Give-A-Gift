@@ -12,7 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
-import toast, { Toaster } from "react-hot-toast";
+import toast  from "react-hot-toast";
 import InputErrorMessage from "../../../Components/Ui/InputErrorMessage";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
@@ -113,12 +113,6 @@ const Shapes = () => {
 
   return (
     <>
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 3000,
-        }}
-      />
       <div className={styles.main_body}>
         <div className={styles.configs_body}>
           <div className="my-5">

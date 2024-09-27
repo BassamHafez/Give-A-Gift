@@ -362,5 +362,8 @@
     "sentSucc":"Data Sent Successfully",
     "designs":"Designs",
     "banner":"Update Banner",
-    "payFirst":"Purchase the card and it will arrive immediately to the recipient"
+    "payFirst":"Purchase the card and it will arrive immediately to the recipient",
+    "cancelOrder":"Cancel Order",
+    "confirmCancel":"Are you sure you want to cancel order",
+    "viewCard":"View Card"
 }   

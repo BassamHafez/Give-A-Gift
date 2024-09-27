@@ -7,7 +7,7 @@ import { number, object, string } from "yup";
 import { faYinYang } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import InputErrorMessage from "../../../Components/Ui/InputErrorMessage";
 import { useDispatch, useSelector } from "react-redux";
 import fetchConfigs from "../../../Store/configs-actions";
@@ -105,12 +105,6 @@ const Configs = () => {
 
   return (
     <>
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 3000,
-        }}
-      />
       <div className={`${styles.main_body} ${styles.configs_body}`}>
         <Formik
           initialValues={initialValues}

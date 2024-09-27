@@ -33,6 +33,7 @@ const CustomeCardStage = ({
   const [loadedImages, setLoadedImages] = useState([]);
   const [selectedShapeIndex, setSelectedShapeIndex] = useState(null);
 
+
   useEffect(() => {
     const loadImages = async () => {
       const images = await Promise.all(
@@ -69,10 +70,9 @@ const CustomeCardStage = ({
 
   const handleScaleChange = (index, e) => {
     const newScale = parseFloat(e.target.value);
-    if (newScale !== shapesArray[index].scale) {
-      updateShape(index, { ...shapesArray[index], scale: newScale });
-    }
+    updateShape(index, { ...shapesArray[index], scale: newScale });
   };
+
 
   const handleWheel = (index) => (e) => {
     e.evt.preventDefault();
@@ -164,9 +164,7 @@ const CustomeCardStage = ({
               {cardText && (
                 <Text
                   text={cardText}
-                  fontSize={
-                    isSmallScreen ? Number(textFont) / 2 : Number(textFont)
-                  }
+                  fontSize={isSmallScreen ? Number(textFont) / 2 : Number(textFont)}
                   fontFamily={textFontFamily}
                   fill={textColor}
                   width={cardWidth * 0.8}
@@ -195,20 +193,23 @@ const CustomeCardStage = ({
                   }}
                   ref={(node) => {
                     if (node && !hasDraggedText) {
-                      const { width: textWidth, height: textHeight } =
-                        node.getClientRect();
+                      const textWidth = node.getClientRect().width;
+                      const textHeight = node.getClientRect().height;
                       const centeredX = cardWidth / 2 - textWidth / 2;
-                      let centeredY = Math.min(
-                        cardHeight / 2 - textHeight / 2,
-                        priceSafeY - textHeight
-                      );
+                      let centeredY = cardHeight / 2 - textHeight / 2;
 
-                      // Update text position only if it differs from the current position
+                      if (centeredY + textHeight > priceSafeY) {
+                        centeredY = priceSafeY - textHeight;
+                      }
+
                       if (
                         textPosition.x !== centeredX ||
                         textPosition.y !== centeredY
                       ) {
-                        setTextPosition({ x: centeredX, y: centeredY });
+                        setTextPosition({
+                          x: centeredX,
+                          y: centeredY,
+                        });
                       }
                     }
                   }}

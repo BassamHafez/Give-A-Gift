@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 
 const CustomCardShapes = ({
   addShape,
+  settingShowBack
 }) => {
   const token = JSON.parse(localStorage.getItem("token"));
   const { t: key } = useTranslation();
@@ -75,6 +76,7 @@ const CustomCardShapes = ({
     if (shape.price > 0) {
       notifyError(`${key("proShape")} ${shape.price} ${key("sar")}`);
     }
+    settingShowBack(true)
   };
 
   return (

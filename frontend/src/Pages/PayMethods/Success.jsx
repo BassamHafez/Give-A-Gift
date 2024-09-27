@@ -4,7 +4,7 @@ import successImg from "../../Images/Successful purchase-cuate.png";
 import { useTranslation } from "react-i18next";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHourglassHalf } from "@fortawesome/free-solid-svg-icons";
 
@@ -44,12 +44,6 @@ const Success = () => {
 
   return (
     <>
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 3000,
-        }}
-      />
       <div className={styles.success_body}>
         <div className={styles.success_img}>
           <img src={successImg} alt="payment success" />

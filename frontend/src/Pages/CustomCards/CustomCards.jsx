@@ -9,7 +9,7 @@ import Select from "react-select";
 import { FontsFamilies } from "../../Components/Logic/Logic";
 import MainButton from "../../Components/Ui/MainButton";
 import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import Carousel from "react-bootstrap/Carousel";
 import { useTranslation } from "react-i18next";
@@ -120,7 +120,6 @@ const CustomCards = () => {
       }
     );
 
-
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth < 500 ? window.innerWidth * 0.9 : 480;
@@ -129,10 +128,10 @@ const CustomCards = () => {
         setCardHeight((width * 9) / 16);
       }
     };
-  
+
     window.addEventListener("resize", handleResize);
     handleResize();
-  
+
     return () => window.removeEventListener("resize", handleResize);
   }, [cardWidth]);
 
@@ -293,20 +292,20 @@ const CustomCards = () => {
     }
   };
 
-
   const handleTextChange = (e) => {
-      setCardText(e.target.value);
+    e.preventDefault();
+    setTimeout(() => setCardText(e.target.value), 200);
   };
   const handlePriceChange = (e) => {
     setCardPrice(e.target.value);
   };
 
+  const settingShowBack=(value)=>{
+    setShowBack(value)
+  }
 
   return (
     <>
-      <Toaster position="top-right" toastOptions={{
-    duration: 3000
-  }} />
       <div className={`${styles.canva_body} page_height`}>
         <div className={styles.content}>
           <Row className="w-100 h-75 justify-content-between">
@@ -374,7 +373,7 @@ const CustomCards = () => {
                   <CustomCardColors saveColorValues={saveColorValues} />
                 </Carousel.Item>
                 <Carousel.Item className={`${styles.carousel_item}`}>
-                  <CustomCardShapes addShape={addShape} />
+                  <CustomCardShapes addShape={addShape} settingShowBack={settingShowBack} />
                 </Carousel.Item>
                 <Carousel.Item className={`${styles.carousel_item}`}>
                   <CustomCardShops saveShop={saveShop} />
@@ -389,12 +388,12 @@ const CustomCards = () => {
                           {key("cardMessage")}
                         </h4>
                         <textarea
-                          id="floatingTextarea"
-                          value={cardText}
-                          onChange={handleTextChange}
+                          id="cardMessage"
+                          name="cardMessage"
+                          onInput={handleTextChange}
                           onClick={() => setShowBack(false)}
                           className={`${styles.text_input} form-control`}
-                        ></textarea>
+                        />
                         <div className={styles.circle_inputs_div}>
                           <Select
                             className={styles.select_input}

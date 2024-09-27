@@ -13,7 +13,6 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import LogoutModal from "../../Components/Ui/LogoutModal";
-import { Toaster } from "react-hot-toast";
 
 const ProfileContent = () => {
   const [logoutModalShow, setLogoutModalShow] = useState(false);
@@ -23,12 +22,6 @@ const ProfileContent = () => {
 
   return (
     <>
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 3000,
-        }}
-      />
       <div className={styles.container_body}>
         <div>
           <div className={styles.profile_img}>

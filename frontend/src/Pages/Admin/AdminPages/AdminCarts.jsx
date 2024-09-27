@@ -8,7 +8,7 @@ import noData from "../../../Images/noData.jpg";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import SearchField from "../../../Components/Ui/SearchField";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import axios from "axios";
 
 const AdminCarts = () => {
@@ -131,12 +131,6 @@ const AdminCarts = () => {
 
   return (
     <div className={styles.table_body}>
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 3000,
-        }}
-      />
       <div className="d-flex justify-content-between align-itmes-center my-4">
         <h4 className="fw-bold text-secondary">{key("allCarts")}</h4>
 
