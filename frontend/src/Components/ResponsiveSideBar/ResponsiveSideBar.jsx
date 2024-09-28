@@ -50,11 +50,21 @@ const ResponsiveSideBar = ({ onClose, show }) => {
         </Offcanvas.Header>
         <Offcanvas.Body>
           <ul className={styles.contact_list}>
-            <Link onClick={onClose} className={styles.hidden_small} to={`profile/${profileData?._id}`} end="true">
-              <li className={styles.contact_list_item}>
-                {key("profile")}{" "}
-                <FontAwesomeIcon icon={faUser} className={styles.list_icons} />
-              </li>
+            <Link
+              onClick={onClose}
+              className={styles.hidden_small}
+              to={`profile/${profileData?._id}`}
+              end="true"
+            >
+              {isLogin && (
+                <li className={styles.contact_list_item}>
+                  {key("profile")}{" "}
+                  <FontAwesomeIcon
+                    icon={faUser}
+                    className={styles.list_icons}
+                  />
+                </li>
+              )}
             </Link>
             <Link onClick={onClose} to={"/"} end="true">
               <li className={styles.contact_list_item}>
@@ -77,11 +87,7 @@ const ResponsiveSideBar = ({ onClose, show }) => {
                 <FontAwesomeIcon icon={faStore} className={styles.list_icons} />
               </li>
             </Link>
-            <Link
-              onClick={onClose}
-              to={"/special-cards"}
-              end="true"
-            >
+            <Link onClick={onClose} to={"/special-cards"} end="true">
               <li className={styles.contact_list_item}>
                 {key("buyCardNavTitle")}
                 <FontAwesomeIcon
@@ -90,11 +96,7 @@ const ResponsiveSideBar = ({ onClose, show }) => {
                 />
               </li>
             </Link>
-            <Link
-              onClick={onClose}
-              to={"/custom-cards"}
-              end="true"
-            >
+            <Link onClick={onClose} to={"/custom-cards"} end="true">
               <li className={styles.contact_list_item}>
                 {key("createCardPageTitle")}
                 <FontAwesomeIcon

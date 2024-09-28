@@ -153,6 +153,7 @@ const Cart = ({ onClose, show }) => {
 
       if (response.status === 200 || response.status === 201) {
         notifySuccess(key("cardPurchased"));
+        console.log(response)
         setCardDetails(response.data?.data?.card);
         setWalletDetails(response.data?.data?.wallet);
         setConfirmModalShow(false);

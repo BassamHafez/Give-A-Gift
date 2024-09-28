@@ -133,8 +133,11 @@ const AdminCarts = () => {
   };
 
   const filteredCarts = data
-    ? data.data.filter((cart) =>
-        cart.shop?.name.toLowerCase().includes(searchInput.toLowerCase())
+    ? data.data.filter(
+        (cart) =>
+          cart.shop?.name.toLowerCase().trim().includes(searchInput.toLowerCase().trim()) ||
+          cart.user?.name.toLowerCase().trim().includes(searchInput.toLowerCase().trim()) ||
+          cart.user?.phone === searchInput
       )
     : [];
 
@@ -165,6 +168,8 @@ const AdminCarts = () => {
             <thead>
               <tr className="text-center">
                 <th>{key("select")}</th>
+                <th>{key("name")}</th>
+                <th>{key("myPhone")}</th>
                 <th>{key("store")}</th>
                 <th>{key("price")}</th>
                 <th>{key("afterDiscount")}</th>
@@ -188,6 +193,8 @@ const AdminCarts = () => {
                               onChange={() => handleCheckboxChange(cart._id)}
                             />
                           </td>
+                          <td className="text-center">{cart.user?.name}</td>
+                          <td className="text-center">{cart.user?.phone}</td>
                           <td className="text-center">{cart.shop?.name}</td>
                           <td className="text-center">
                             {calculateTotalPrice(

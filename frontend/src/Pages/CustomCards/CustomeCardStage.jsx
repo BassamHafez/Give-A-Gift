@@ -185,7 +185,7 @@ const CustomeCardStage = ({
                 <Text
                   text={`${cardText}`}
                   fontSize={
-                    isSmallScreen ? Number(textFont) / 2 : Number(textFont)
+                    isSmallScreen ? Number(textFont) / 1.5 : Number(textFont)
                   }
                   fontFamily={textFontFamily}
                   fill={textColor}

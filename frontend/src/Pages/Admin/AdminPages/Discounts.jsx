@@ -34,7 +34,7 @@ const Discounts = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const { data } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ["discounts", token],
     queryFn: () => getAdminDiscount({ token }),
     staleTime: Infinity,
@@ -107,6 +107,31 @@ const Discounts = () => {
       )
     : data?.data;
 
+  const cancelDisc = async (discId) => {
+    if (discId && token) {
+      try {
+        const response = await axios.delete(
+          `${process.env.REACT_APP_Base_API_URl}discount-codes/${discId}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        console.log(response);
+        if (response.status === 204) {
+          notifySuccess(key("orderDeleted"));
+          refetch();
+        } else {
+          notifyError(key("wrong"));
+        }
+      } catch (error) {
+        notifyError(key("wrong"));
+        console.log(error);
+      }
+    } else {
+      notifyError(key("deleteDiscWrong"));
+    }
+  };
+
   return (
     <div className={styles.discount_body}>
       <Row>
@@ -147,10 +172,12 @@ const Discounts = () => {
               <Table striped bordered hover>
                 <thead>
                   <tr className="text-center">
-                    <th>{key("select")}</th>
+                    {!usedData && <th>{key("select")}</th>}
                     <th>{key("name")}</th>
-                    <th>{key("userId")}</th>
+                    <th>{key("myPhone")}</th>
+                    <th>{key("store")}</th>
                     <th>{key("isUsed")}</th>
+                    {!usedData && <th>{key("cancelCode")}</th>}
                   </tr>
                 </thead>
                 <tbody className={styles.cart_tbody}>
@@ -175,10 +202,21 @@ const Discounts = () => {
                             </td>
                           )}
                           <td className="text-center">{disc.user_name}</td>
-                          <td className="text-center">{disc.user_id}</td>
+                          <td className="text-center">{disc.user_phone}</td>
+                          <td className="text-center">{disc.shop_name}</td>
                           <td className="text-center">
                             {disc.isUsed ? key("Yes") : key("No")}
                           </td>
+                          {!disc.isUsed && (
+                            <td className="text-center">
+                              <button
+                                onClick={() => cancelDisc(disc.id)}
+                                className="text-danger fw-bold w-100"
+                              >
+                                {key("cancelCode")}
+                              </button>
+                            </td>
+                          )}
                         </tr>
                       )
                   )}

@@ -403,26 +403,28 @@ const ConfirmationModal = ({
                       {key("payment")}
                     </label>
                   </div>
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="choosePaymentWay"
-                      id="choosePaymentWay2"
-                      value="wallet"
-                      onChange={handlePaymentChange}
-                      checked={paymentWay === "wallet" && isBalanced}
-                      disabled={!isBalanced}
-                    />
-                    <label
-                      className="form-check-label  mx-1"
-                      htmlFor="choosePaymentWay2"
-                    >
-                      {key("wallet")}{" "}
-                      <span className={`mini_word`}>
-                        ({balance.toFixed(2)} {key("sar")})
-                      </span>
-                    </label>
+                  <div className="d-flex align-items-center">
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="choosePaymentWay"
+                        id="choosePaymentWay2"
+                        value="wallet"
+                        onChange={handlePaymentChange}
+                        checked={paymentWay === "wallet" && isBalanced}
+                        disabled={!isBalanced}
+                      />
+                      <label
+                        className={`form-check-label  mx-1`}
+                        htmlFor="choosePaymentWay2"
+                      >
+                        {key("wallet")}{" "}
+                      </label>
+                    </div>
+                    <span className={`mini_word mx-2`}>
+                      ({balance.toFixed(2)} {key("sar")})
+                    </span>
                   </div>
                 </li>
               )}
