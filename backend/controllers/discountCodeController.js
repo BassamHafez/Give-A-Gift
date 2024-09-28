@@ -111,6 +111,7 @@ exports.getAllDiscountCodes = catchAsync(async (req, res, next) => {
         user_id: "$user._id",
         user_name: "$user.name",
         user_phone: "$user.phone",
+        order_number: "$orderNumber",
         shop_id: "$shop._id",
         shop_name: "$shop.name",
         code_value: "$price.value",
