@@ -92,12 +92,27 @@ exports.getAllDiscountCodes = catchAsync(async (req, res, next) => {
       $unwind: "$user",
     },
     {
+      $lookup: {
+        from: "shops",
+        localField: "shop",
+        foreignField: "_id",
+        as: "shop",
+      },
+    },
+    {
+      $unwind: "$shop",
+    },
+    {
       $project: {
         id: "$_id",
         _id: 0,
         user_id: "$user._id",
         user_name: "$user.name",
-        recipient: "$recipient.name",
+        user_phone: "$user.phone",
+        shop_id: "$shop._id",
+        shop_name: "$shop.name",
+        code_value: "$price.value",
+        isPaid: 1,
         isUsed: "$discountCode.isUsed",
         usedAt: "$discountCode.usedAt",
       },
