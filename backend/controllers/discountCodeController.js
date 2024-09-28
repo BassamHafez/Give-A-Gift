@@ -127,7 +127,7 @@ exports.sendDiscountCodeReminders = catchAsync(async (req, res, next) => {
   ]);
 
   if (!codes.length) {
-    return next(new ApiError("No paid and unused codes found", 404));
+    return res.status(200).json({ status: "success", data: null });
   }
 
   const message = reminderMessage.value;
