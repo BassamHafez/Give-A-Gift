@@ -114,15 +114,15 @@ const RecipientKonva = ({ card, isFrontShape }) => {
 
                   return (
                     <Image
-                    key={`${shape._id}_${index}`}
-                    image={img}
-                    x={shape.position.x}
-                    y={shape.position.y}
-                    rotation={shape.rotation}
-                    width={displayWidth}
-                    height={displayHeight}
-                    offsetX={displayWidth / 2}
-                    offsetY={displayHeight / 2}
+                      key={`${shape._id}_${index}`}
+                      image={img}
+                      x={shape.position.x}
+                      y={shape.position.y}
+                      rotation={shape.rotation}
+                      width={displayWidth}
+                      height={displayHeight}
+                      offsetX={displayWidth / 2}
+                      offsetY={displayHeight / 2}
                     />
                   );
                 })}
@@ -220,9 +220,17 @@ const RecipientKonva = ({ card, isFrontShape }) => {
                   <li
                     className={`${styles.list_item} ${
                       isArLang ? styles.list_item_ar : styles.list_item_en
-                    } text-success text-center`}
+                    } ${
+                      card?.discountCode?.isUsed
+                        ? "text-danger"
+                        : "text-success"
+                    }  text-center`}
                   >
-                    {key("cardReady")}
+                    {`${
+                      card?.discountCode?.isUsed
+                        ? key("cardUsed")
+                        : key("cardReady")
+                    }`}
                   </li>
                 </>
               )}
@@ -253,9 +261,15 @@ const RecipientKonva = ({ card, isFrontShape }) => {
               <li
                 className={`${styles.list_item} ${
                   isArLang ? styles.list_item_ar : styles.list_item_en
-                } text-success text-center`}
+                } ${
+                  card?.discountCode?.isUsed ? "text-danger" : "text-success"
+                }  text-center`}
               >
-                {key("cardReady")}
+                {`${
+                  card?.discountCode?.isUsed
+                    ? key("cardUsed")
+                    : key("cardReady")
+                }`}
               </li>
             </>
           )}

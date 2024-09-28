@@ -47,7 +47,7 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
 
     loadImages();
   }, [card]);
-console.log(card)
+  console.log(card);
   const [mainLogoImage] = useImage(mainLogo);
   const { t: key } = useTranslation();
   const isArLang = localStorage.getItem("i18nextLng") === "ar";
@@ -233,9 +233,17 @@ console.log(card)
                     <li
                       className={`${styles.list_item} ${
                         isArLang ? styles.list_item_ar : styles.list_item_en
-                      } text-success text-center`}
+                      } ${
+                        card?.discountCode?.isUsed
+                          ? "text-danger"
+                          : "text-success"
+                      }  text-center`}
                     >
-                      {key("cardReady")}
+                      {`${
+                        card?.discountCode?.isUsed
+                          ? key("cardUsed")
+                          : key("cardReady")
+                      }`}
                     </li>
                   )}
                 </>
@@ -265,9 +273,17 @@ console.log(card)
                   <li
                     className={`${styles.list_item} ${
                       isArLang ? styles.list_item_ar : styles.list_item_en
-                    } text-success text-center`}
+                    } ${
+                      card?.discountCode?.isUsed
+                        ? "text-danger"
+                        : "text-success"
+                    }  text-center`}
                   >
-                    {key("cardReady")}
+                    {`${
+                      card?.discountCode?.isUsed
+                        ? key("cardUsed")
+                        : key("cardReady")
+                    }`}
                   </li>
                 </>
               )}
