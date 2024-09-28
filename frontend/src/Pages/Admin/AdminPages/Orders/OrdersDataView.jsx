@@ -67,7 +67,6 @@ const OrdersDataView = ({ isUser }) => {
   };
 
   const cancelOrder = async (oderId) => {
-    console.log(oderId);
     if (oderId && token) {
       try {
         const response = await axios.delete(
@@ -79,7 +78,7 @@ const OrdersDataView = ({ isUser }) => {
         console.log(response);
         if (response.status === 204) {
           queryClient.invalidateQueries(["walletBalance", token]);
-          notifySuccess(key("orderDeleted"));
+          notifySuccess(key("discDeleted"));
           refetch();
         } else {
           notifyError(key("wrong"));

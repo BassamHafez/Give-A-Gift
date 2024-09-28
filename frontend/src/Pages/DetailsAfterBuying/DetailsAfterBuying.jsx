@@ -93,7 +93,7 @@ const DetailsAfterBuying = ({
               </li>
               <li>
                 <span className="fw-bold text-secondary">
-                  {key("whatsAppNum2")}:{" "}
+                  {key("recipientWhatsapp")}:{" "}
                 </span>{" "}
                 {cardDetails?.recipient?.whatsappNumber}
               </li>

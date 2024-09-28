@@ -368,5 +368,9 @@
     "viewCard":"View Card",
     "orderDeleted":"Order deleted successfully.",
     "deleteOrderWrong":"The order no longer exists, or something went wrong. Unable to delete.",
-    "orderNumber":"Order Number"
+    "orderNumber":"Order Number",
+    "myPhone":"Phone",
+    "cancelCode":"Cancel",
+    "discDeleted":"Discount Canceled successfully.",
+    "deleteDiscWrong":"The discount no longer exists, or something went wrong. Unable to Cancel."
 }   
