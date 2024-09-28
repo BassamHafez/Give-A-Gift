@@ -34,11 +34,7 @@ exports.paymentWebhook = catchAsync(async (req, res, next) => {
         { path: "proColor", select: "price" },
       ];
 
-      const [card, wallet, user] = await Promise.all([
-        Card.findById(cardId).populate(cardPopOptions),
-        Wallet.findOne({ email: req.body.Data.CustomerEmail }),
-        User.findOne({ email: req.body.Data.CustomerEmail }),
-      ]);
+      const card = await Card.findById(cardId).populate(cardPopOptions);
 
       if (!card) {
         throw new ApiError("Card not found", 404);
@@ -55,6 +51,11 @@ exports.paymentWebhook = catchAsync(async (req, res, next) => {
       ) {
         throw new ApiError("Complete recipient details first", 400);
       }
+
+      const [wallet, user] = await Promise.all([
+        Wallet.findOne({ user: card.user }),
+        User.findById(card.user).select("name email phone"),
+      ]);
 
       const configKeys = [
         "VAT_VALUE",
