@@ -1,6 +1,7 @@
 const Order = require("../models/orderModel");
 const Card = require("../models/cardModel");
 const Wallet = require("../models/walletModel");
+const Config = require("../models/configModel");
 const factory = require("./handlerFactory");
 const catchAsync = require("../utils/catchAsync");
 const ApiError = require("../utils/ApiError");
@@ -24,9 +25,10 @@ exports.cancelOrder = catchAsync(async (req, res, next) => {
     return next(new ApiError("No order found with that ID", 404));
   }
 
-  const [card, userWallet] = await Promise.all([
+  const [card, userWallet, cashBackPercentage] = await Promise.all([
     Card.findById(order.card_id),
     Wallet.findOne({ user: order.customer_id }),
+    Config.findOne({ key: "CASH_BACK_PERCENTAGE" }),
   ]);
 
   if (!card) {
@@ -38,7 +40,9 @@ exports.cancelOrder = catchAsync(async (req, res, next) => {
   }
 
   userWallet.balance =
-    parseFloat(userWallet.balance) + parseFloat(order.total_paid);
+    parseFloat(userWallet.balance) +
+    (parseFloat(order.total_paid) -
+      card.price.value * (parseFloat(cashBackPercentage.value) / 100));
 
   await Promise.all([
     Order.findByIdAndDelete(id),

@@ -173,9 +173,10 @@ exports.cancelDiscountCode = catchAsync(async (req, res, next) => {
     return next(new ApiError("Code already used", 400));
   }
 
-  const [order, userWallet] = await Promise.all([
+  const [order, userWallet, cashBackPercentage] = await Promise.all([
     Order.findOne({ order_number: card.orderNumber }),
     Wallet.findOne({ user: card.user }),
+    Config.findOne({ key: "CASH_BACK_PERCENTAGE" }),
   ]);
 
   if (!order) {
@@ -187,7 +188,9 @@ exports.cancelDiscountCode = catchAsync(async (req, res, next) => {
   }
 
   userWallet.balance =
-    parseFloat(userWallet.balance) + parseFloat(order.total_paid);
+    parseFloat(userWallet.balance) +
+    (parseFloat(order.total_paid) -
+      card.price.value * (parseFloat(cashBackPercentage.value) / 100));
 
   await Promise.all([
     Card.findByIdAndDelete(cardId),
