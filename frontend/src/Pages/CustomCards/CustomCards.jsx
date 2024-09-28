@@ -404,8 +404,7 @@ const CustomCards = () => {
                         <h4 className="text-start text-secondary">
                           {key("cardMessage")}
                         </h4>
-                        <input
-                          type="text"
+                        <textarea
                           value={cardText}
                           onChange={handleTextChange}
                           onClick={() => setShowBack(false)}
