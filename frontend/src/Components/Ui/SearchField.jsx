@@ -14,7 +14,7 @@ const SearchField = ({ onSearch, text, isSearching }) => {
 
   return (
     <form
-      onSubmit={(e) => onSearch(e, searchInput)} // Pass the search input to the parent component
+      onSubmit={(e) => onSearch(e, searchInput)}
       className={`${styles.search_container}  ${
         isArLang ? "me-auto" : "ms-auto"
       } bg-warinig`}

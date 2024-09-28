@@ -9,7 +9,9 @@ const fetchCartCounter = (token) => {
           headers: { Authorization: `Bearer ${token}` },
         });
         const res = response.data;
-        dispatch(cartActions.setCounter(res.results));
+        let notPaid=[];
+        notPaid=res.data?.filter((cart)=>cart.isPaid===false)
+        dispatch(cartActions.setCounter(notPaid.length));
       } catch (error) {
       }
   };

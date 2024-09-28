@@ -197,9 +197,13 @@ const Users = () => {
     ? users.data.filter(
         (user) =>
           user.name.toLowerCase().includes(searchInput.toLowerCase()) ||
-          user._id.includes(searchInput)
+          user.email.toLowerCase().includes(searchInput.toLowerCase()) ||
+          user._id===searchInput||
+          user.phone===searchInput       
       )
     : [];
+
+    
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

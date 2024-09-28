@@ -10,7 +10,7 @@ const Orders = () => {
   return (
     <>
       <div className={styles.orders_body}>
-        <OrdersDataView/>
+        <OrdersDataView isUser={false}/>
       </div>
     </>
   );

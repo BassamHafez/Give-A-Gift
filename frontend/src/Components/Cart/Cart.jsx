@@ -66,7 +66,6 @@ const Cart = ({ onClose, show }) => {
   const [proColorPrice, setProColorPrice] = useState("");
   const { t: key } = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
-  const [isPaidCard, setIsPaidCard] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
   const [cardId, setCardId] = useState("");
   const token = JSON.parse(localStorage.getItem("token"));
@@ -240,34 +239,14 @@ const Cart = ({ onClose, show }) => {
         </Offcanvas.Header>
 
         <Offcanvas.Body>
-          <div className={styles.header}>
-            <ul className={styles.header_list}>
-              <li
-                className={`${styles.header_list_item} ${
-                  isPaidCard && styles.active
-                }`}
-                onClick={() => setIsPaidCard(true)}
-              >
-                {key("paid")}
-              </li>
-              <li
-                className={`${styles.header_list_item} ${
-                  !isPaidCard && styles.active
-                }`}
-                onClick={() => setIsPaidCard(false)}
-              >
-                {key("nonPaid")}
-              </li>
-            </ul>
-          </div>
           <ul className={styles.list}>
             {isFetching ? (
               <Placeholders isList={true} />
             ) : (
               data?.data?.map(
                 (card) =>
-                  (isPaidCard ? card.isPaid : !card.isPaid) &&
-                  !card?.isDelivered && (
+                  !card.isPaid &&
+                  !card.isDelivered && (
                     <li key={card._id} className={styles.list_item}>
                       <div className={styles.item}>
                         <h4>
@@ -347,7 +326,7 @@ const Cart = ({ onClose, show }) => {
                                 onClose();
                               }}
                             />
-                            {!card.isPaid && (
+
                               <FontAwesomeIcon
                                 className={styles.arrow_right_icon}
                                 icon={!isArLang ? faArrowRight : faArrowLeft}
@@ -363,7 +342,6 @@ const Cart = ({ onClose, show }) => {
                                   )
                                 }
                               />
-                            )}
                           </div>
                         </div>
                       </div>

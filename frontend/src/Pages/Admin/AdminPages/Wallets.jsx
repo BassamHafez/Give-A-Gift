@@ -55,8 +55,10 @@ const Wallets = () => {
   const filterWallets = wallets
     ? wallets.data?.data?.filter(
         (wallet) =>
-          wallet.user?.name.toLowerCase().includes(searchInput.toLowerCase()) ||
-          wallet._id.includes(searchInput)
+          wallet.user?.name.toLowerCase().trim().includes(searchInput.toLowerCase().trim()) ||
+          wallet.user?.email.toLowerCase().includes(searchInput.toLowerCase()) ||
+          wallet._id.includes(searchInput)||
+          wallet.user?.phone.trim()===searchInput.trim()
       )
     : [];
     useEffect(()=>{

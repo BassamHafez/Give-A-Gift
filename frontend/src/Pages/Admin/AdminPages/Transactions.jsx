@@ -23,14 +23,9 @@ const Transactions = () => {
 
   const notifySuccess = (message) => {
     toast.success((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
+      <div onClick={() => toast.dismiss(t.id)}>{message}</div>
     ));
   };
-
 
   const { data: allTransactions } = useQuery({
     queryKey: ["allTransactions", token],
@@ -62,7 +57,8 @@ const Transactions = () => {
     ? allTransactions.data?.filter(
         (op) =>
           op.CustomerName.toLowerCase().includes(searchInput.toLowerCase()) ||
-          op._id.includes(searchInput) ||
+          op.CustomerEmail.toLowerCase().includes(searchInput.toLowerCase()) ||
+          op.PaymentId.trim()===searchInput.trim() ||
           op.PaymentMethod.toLowerCase() === searchInput.toLowerCase() ||
           op.UserDefinedField.toLowerCase() === searchInput.toLowerCase()
       )

@@ -8,9 +8,24 @@ import MainButton from "../../../Components/Ui/MainButton";
 import LoadingOne from "../../../Components/Ui/LoadingOne";
 import noData from "../../../Images/noData.jpg";
 import Table from "react-bootstrap/Table";
+import toast from "react-hot-toast";
+import axios from "axios";
+import SearchField from "../../../Components/Ui/SearchField";
+
+const notifySuccess = (message) => {
+  toast.success((t) => (
+    <div onClick={() => toast.dismiss(t.id)}>{message}</div>
+  ));
+};
+
+const notifyError = (message) => {
+  toast.error((t) => <div onClick={() => toast.dismiss(t.id)}>{message}</div>);
+};
 
 const Discounts = () => {
   const [usedData, setUsedData] = useState(false);
+  const [selectedIds, setSelectedIds] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
 
   const token = JSON.parse(localStorage.getItem("token"));
   const { t: key } = useTranslation();
@@ -29,6 +44,69 @@ const Discounts = () => {
   const usedCount = data?.data?.filter((disc) => disc.isUsed).length || 0;
   const unusedCount = data?.data?.filter((disc) => !disc.isUsed).length || 0;
 
+  const handleCheckboxChange = (id, isUsed) => {
+    if (isUsed) {
+      return;
+    }
+    setSelectedIds((prevSelected) => {
+      if (prevSelected.includes(id)) {
+        return prevSelected.filter((selectedId) => selectedId !== id);
+      } else {
+        return [...prevSelected, id];
+      }
+    });
+  };
+
+  const sendSelectedId = async () => {
+    let codesIds = [];
+    if (selectedIds.length > 0) {
+      codesIds = [...selectedIds];
+    } else {
+      const allIds = data.data
+        .filter((disc) => !disc.isUsed)
+        .map((disc) => disc.id);
+      codesIds = [...allIds];
+    }
+
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_Base_API_URl}discount-codes/reminders`,
+        { codesIds: [...codesIds] },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response);
+      let res = response.data;
+      if (res.status === "success") {
+        notifySuccess(key("sentSucc"));
+      } else {
+        notifyError(key("wrong"));
+      }
+    } catch (error) {
+      notifyError(key("wrong"));
+      console.error(error);
+    }
+  };
+
+  const handleSearch = (e, searchTerm) => {
+    e.preventDefault();
+    if (searchTerm !== "" && searchTerm !== searchInput) {
+      setSearchInput(searchTerm);
+      notifySuccess(key("searchFilterApplied"));
+    }
+  };
+
+  const filteredDisc = data
+    ? data.data.filter(
+        (disc) =>
+          disc.user_id.toLowerCase().includes(searchInput.toLowerCase()) ||
+          disc.user_name.toLowerCase().includes(searchInput.toLowerCase())
+      )
+    : data?.data;
+
   return (
     <div className={styles.discount_body}>
       <Row>
@@ -40,7 +118,7 @@ const Discounts = () => {
                   {key("allDisount")} ({usedData ? key("used") : key("notUsed")}
                   )
                 </h4>
-                <div className="d-flex flex-wrap">
+                <div className="d-flex flex-wrap align-items-center">
                   <div className="m-2">
                     <MainButton
                       onClick={() => setUsedData(true)}
@@ -57,29 +135,64 @@ const Discounts = () => {
                 </div>
               </div>
               <hr />
+              <div className="d-flex flex-wrap justify-content-end my-4">
+                <button
+                  onClick={() => setSearchInput("")}
+                  className="btn btn-outline-danger"
+                >
+                  {key("default")}
+                </button>
+                <SearchField onSearch={handleSearch} text={key("search")} />
+              </div>
               <Table striped bordered hover>
                 <thead>
                   <tr className="text-center">
+                    <th>{key("select")}</th>
                     <th>{key("name")}</th>
                     <th>{key("userId")}</th>
                     <th>{key("isUsed")}</th>
                   </tr>
                 </thead>
                 <tbody className={styles.cart_tbody}>
-                  {data.data?.map(
+                  {filteredDisc?.map(
                     (disc) =>
                       (usedData ? disc.isUsed : !disc.isUsed) && (
                         <tr
                           key={disc.id}
+                          onClick={() =>
+                            handleCheckboxChange(disc.id, disc.isUsed)
+                          }
                         >
+                          {!disc.isUsed && (
+                            <td className="text-center">
+                              <input
+                                type="checkbox"
+                                checked={selectedIds.includes(disc.id)}
+                                onChange={() =>
+                                  handleCheckboxChange(disc.id, disc.isUsed)
+                                }
+                              />
+                            </td>
+                          )}
                           <td className="text-center">{disc.user_name}</td>
                           <td className="text-center">{disc.user_id}</td>
-                          <td className="text-center">{disc.isUsed?key("Yes"):key("No")}</td>
+                          <td className="text-center">
+                            {disc.isUsed ? key("Yes") : key("No")}
+                          </td>
                         </tr>
                       )
                   )}
                 </tbody>
               </Table>
+              {!usedData && (
+                <div className="text-end">
+                  <button onClick={sendSelectedId} className="btn btn-primary">
+                    {selectedIds.length > 0
+                      ? key("sendReminder")
+                      : key("sendReminderAll")}
+                  </button>
+                </div>
+              )}
             </>
           ) : (
             <div className={styles.noData}>

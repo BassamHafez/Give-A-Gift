@@ -5,7 +5,7 @@ import OrdersDataView from "../../Admin/AdminPages/Orders/OrdersDataView";
 const ProfileOrders = () => {
   return (
     <div className={styles.orders_body}>
-      <OrdersDataView />
+      <OrdersDataView isUser={true} />
     </div>
   );
 };

@@ -44,21 +44,13 @@ const ConfirmationModal = ({
 
   const notifySuccess = (message) => {
     toast.success((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
+      <div onClick={() => toast.dismiss(t.id)}>{message}</div>
     ));
   };
 
   const notifyError = (message) => {
     toast.error((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
+      <div onClick={() => toast.dismiss(t.id)}>{message}</div>
     ));
   };
   const [priceAfterDisc, setPriceAfterDisc] = useState("");
@@ -290,13 +282,16 @@ const ConfirmationModal = ({
                         )}{" "}
                     {key("sar")}
                   </li>
-                  <li>
-                    <FontAwesomeIcon
-                      className={styles.list_icon}
-                      icon={faFileInvoiceDollar}
-                    />
-                    {key("wallet")}: {-Number(balance).toFixed(2)} {key("sar")}
-                  </li>
+                  {paymentWay === "wallet" && (
+                    <li>
+                      <FontAwesomeIcon
+                        className={styles.list_icon}
+                        icon={faFileInvoiceDollar}
+                      />
+                      {key("wallet")}: {-Number(balance).toFixed(2)}{" "}
+                      {key("sar")}
+                    </li>
+                  )}
                   <li>
                     <FontAwesomeIcon
                       className={styles.list_icon}
@@ -309,13 +304,6 @@ const ConfirmationModal = ({
                 </>
               ) : (
                 <>
-                  <li className={`${isBalanced ? "" : "text-danger"}`}>
-                    <FontAwesomeIcon
-                      className={styles.list_icon}
-                      icon={faCoins}
-                    />
-                    {key("currentBalance")}: {balance.toFixed(2)} {key("sar")}
-                  </li>
                   <li>
                     <FontAwesomeIcon
                       className={styles.list_icon}
@@ -372,22 +360,26 @@ const ConfirmationModal = ({
                         )}{" "}
                     {key("sar")}
                   </li>
+                  {paymentWay === "wallet" && (
+                    <li>
+                      <FontAwesomeIcon
+                        className={styles.list_icon}
+                        icon={faPercent}
+                      />
+                      {key("wallet")}: {-Number(totalPrice).toFixed(2)}{" "}
+                      {key("sar")}
+                    </li>
+                  )}
+
                   <li>
                     <FontAwesomeIcon
                       className={styles.list_icon}
                       icon={faFileInvoiceDollar}
                     />
-                    {key("totalPrice")}: {Number(totalPrice).toFixed(2)}{" "}
-                    {key("sar")}
-                    {priceAfterDisc !== "" && (
-                      <del className="mx-2">
-                        {(
-                          (Number(VAT) / 100) * totalPurePrice +
-                          totalPurePrice
-                        ).toFixed(2)}{" "}
-                        {key("sar")}
-                      </del>
-                    )}
+                    {key("totalPrice")}:{" "}
+                    {paymentWay === "wallet"
+                      ? 0
+                      : Number(totalPrice).toFixed(2) + " " + key("sar")}{" "}
                   </li>
                 </>
               )}
@@ -426,7 +418,10 @@ const ConfirmationModal = ({
                       className="form-check-label  mx-1"
                       htmlFor="choosePaymentWay2"
                     >
-                      {key("wallet")}
+                      {key("wallet")}{" "}
+                      <span className={`mini_word`}>
+                        ({balance.toFixed(2)} {key("sar")})
+                      </span>
                     </label>
                   </div>
                 </li>

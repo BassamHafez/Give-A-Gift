@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { getAllOrders } from "../../../../util/Http";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import LoadingOne from "../../../../Components/Ui/LoadingOne";
 import { useTranslation } from "react-i18next";
 import styles from "./Orders.module.css";
@@ -12,20 +12,36 @@ import {
   faCaretLeft,
   faCaretRight,
   faDownload,
-  // faEye,
+  faEye,
 } from "@fortawesome/free-solid-svg-icons";
 import * as XLSX from "xlsx";
-// import ConfirmationModal from "../../../../Components/Ui/ConfirmationModal";
-// import { useNavigate } from "react-router-dom";
+import ConfirmationModal from "../../../../Components/Ui/ConfirmationModal";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import axios from "axios";
+import SearchField from "../../../../Components/Ui/SearchField";
 
-const OrdersDataView = () => {
-  // const [modalShow, setModalShow] = useState(false);
+const notifySuccess = (message) => {
+  toast.success((t) => (
+    <div onClick={() => toast.dismiss(t.id)}>{message}</div>
+  ));
+};
+
+const notifyError = (message) => {
+  toast.error((t) => <div onClick={() => toast.dismiss(t.id)}>{message}</div>);
+};
+
+const OrdersDataView = ({ isUser }) => {
+  const [modalShow, setModalShow] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
+
   const token = JSON.parse(localStorage.getItem("token"));
   const { t: key } = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
-  const { data } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ["orders", token],
     queryFn: () => getAllOrders({ token }),
     staleTime: Infinity,
@@ -50,9 +66,56 @@ const OrdersDataView = () => {
     return { formattedDate, formattedTime };
   };
 
-  // const cancelOrder = async () => {
-  //   // we will cancel order here
-  // };
+  const cancelOrder = async (oderId) => {
+    console.log(oderId);
+    if (oderId && token) {
+      try {
+        const response = await axios.delete(
+          `${process.env.REACT_APP_Base_API_URl}orders/${oderId}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        console.log(response);
+        if (response.status === 204) {
+          queryClient.invalidateQueries(["walletBalance", token]);
+          notifySuccess(key("orderDeleted"));
+          refetch();
+        } else {
+          notifyError(key("wrong"));
+        }
+      } catch (error) {
+        notifyError(key("wrong"));
+        console.log(error);
+      }
+    } else {
+      notifyError(key("deleteOrderWrong"));
+    }
+  };
+
+  const handleSearch = (e, searchTerm) => {
+    e.preventDefault();
+    if (searchTerm !== "" && searchTerm !== searchInput) {
+      setSearchInput(searchTerm);
+      notifySuccess(key("searchFilterApplied"));
+    }
+  };
+
+  const filteredDisc =
+    data?.data?.filter((order) => {
+      const searchValue = searchInput.trim().toLowerCase();
+
+      return (
+        order?.shop?.toLowerCase().includes(searchValue) ||
+        order?.card_id === searchValue ||
+        order?.customer_name?.toLowerCase().includes(searchValue) ||
+        order?.recipient_name?.toLowerCase().includes(searchValue) ||
+        order?.customer_email === searchValue ||
+        order?.recipient_whatsapp === searchValue ||
+        order?.customer_phone === searchValue ||
+        order.order_number === Number(searchValue)
+      );
+    }) || [];
 
   return (
     <>
@@ -69,7 +132,16 @@ const OrdersDataView = () => {
                   icon={faDownload}
                 />
               </h4>
-              {data.data?.map((order, index) => (
+              <div className="d-flex flex-wrap justify-content-end my-4">
+                <button
+                  onClick={() => setSearchInput("")}
+                  className="btn btn-outline-danger"
+                >
+                  {key("default")}
+                </button>
+                <SearchField onSearch={handleSearch} text={key("search")} />
+              </div>
+              {filteredDisc?.map((order, index) => (
                 <Col
                   className={styles.order_col}
                   key={`${order.order_id}_${index}`}
@@ -94,7 +166,6 @@ const OrdersDataView = () => {
                         />
                         {key("price")}: {order.value}
                       </li>
-
                       <li>
                         <FontAwesomeIcon
                           className={
@@ -163,6 +234,17 @@ const OrdersDataView = () => {
                         />
                         {key("totalPrice")}: {order.total_paid}
                       </li>
+                      <li>
+                        <FontAwesomeIcon
+                          className={
+                            isArLang
+                              ? styles.arrow_icon_ar
+                              : styles.arrow_icon_en
+                          }
+                          icon={isArLang ? faCaretLeft : faCaretRight}
+                        />
+                        {key("store")}: {order.shop}
+                      </li>
                     </ul>
                     <hr />
                     <h4>{key("customerRec")}</h4>
@@ -188,6 +270,17 @@ const OrdersDataView = () => {
                           icon={isArLang ? faCaretLeft : faCaretRight}
                         />
                         {key("email")}: {order.customer_email}
+                      </li>
+                      <li>
+                        <FontAwesomeIcon
+                          className={
+                            isArLang
+                              ? styles.arrow_icon_ar
+                              : styles.arrow_icon_en
+                          }
+                          icon={isArLang ? faCaretLeft : faCaretRight}
+                        />
+                        {key("phone")}: {order.customer_phone}
                       </li>
 
                       <li>
@@ -225,7 +318,7 @@ const OrdersDataView = () => {
                           }
                           icon={isArLang ? faCaretLeft : faCaretRight}
                         />
-                        {key("orderId")}: {order.order_number}
+                        {key("orderNumber")}: {`${order.order_number}`}
                       </li>
                       <li>
                         <FontAwesomeIcon
@@ -263,24 +356,35 @@ const OrdersDataView = () => {
                         {formatDateTime(order.order_date).formattedTime}
                       </li>
                     </ul>
-                    {/* <div className="d-flex justify-content-between align-items-center mt-3">
-                      <button className="btn btn-secondary">
+                    <div
+                      className={`d-flex ${
+                        isUser
+                          ? "justify-content-between"
+                          : "justify-content-end"
+                      }  align-items-center mt-3`}
+                    >
+                      <button
+                        onClick={() => cancelOrder(order._id)}
+                        className="btn btn-secondary"
+                      >
                         {key("cancelOrder")}
                       </button>
-                      <button
-                        onClick={() => {
-                          navigate(`/view-card/${order.card_id}`);
-                        }}
-                        className="btn btn-danger p-2"
-                      >
-                        {key("viewCard")}{" "}
-                        <FontAwesomeIcon
-                          title={key("viewCard")}
-                          className="mx-1"
-                          icon={faEye}
-                        />
-                      </button>
-                    </div> */}
+                      {isUser && (
+                        <button
+                          onClick={() => {
+                            navigate(`/view-card/${order.card_id}`);
+                          }}
+                          className="btn btn-danger p-2"
+                        >
+                          {key("viewCard")}{" "}
+                          <FontAwesomeIcon
+                            title={key("viewCard")}
+                            className="mx-1"
+                            icon={faEye}
+                          />
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </Col>
               ))}
@@ -297,7 +401,7 @@ const OrdersDataView = () => {
           <LoadingOne />
         )}
       </Row>
-      {/* {modalShow && (
+      {modalShow && (
         <ConfirmationModal
           show={modalShow}
           onHide={() => setModalShow(false)}
@@ -305,7 +409,7 @@ const OrdersDataView = () => {
           message={key("confirmCancel")}
           btnMsg={key("cancel")}
         />
-      )} */}
+      )}
     </>
   );
 };

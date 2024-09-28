@@ -54,6 +54,28 @@ const CustomeCardStage = ({
     loadImages();
   }, [shapesArray]);
 
+  useEffect(() => {
+    if (cardText && !hasDraggedText) {
+      const textWidth = cardWidth * 0.8;
+      const centeredX = cardWidth / 2 - textWidth / 2;
+      const textHeight = 30;
+      let centeredY = cardHeight / 2 - textHeight / 2;
+
+      if (centeredY + textHeight > priceSafeY) {
+        centeredY = priceSafeY - textHeight;
+      }
+
+      setTextPosition({ x: centeredX, y: centeredY });
+    }
+  }, [
+    cardText,
+    cardWidth,
+    cardHeight,
+    priceSafeY,
+    hasDraggedText,
+    setTextPosition,
+  ]);
+
   const handleTextDragStart = () => {
     setHasDraggedText(true);
   };
@@ -169,7 +191,7 @@ const CustomeCardStage = ({
                   fill={textColor}
                   width={cardWidth * 0.8}
                   x={textPosition.x}
-                  y={textPosition.y-20}
+                  y={textPosition.y}
                   align="center"
                   wrap="char"
                   draggable
@@ -191,27 +213,6 @@ const CustomeCardStage = ({
                     const container = e.target.getStage().container();
                     container.style.cursor = "grab";
                   }}
-                  // ref={(node) => {
-                  //   if (node && !hasDraggedText) {
-                  //     const textWidth = node.getClientRect().width;
-                  //     const textHeight = node.getClientRect().height;
-                  //     const centeredX = cardWidth / 2 - textWidth / 2;
-                  //     let centeredY = cardHeight / 2 - textHeight / 2;
-                  //     if (centeredY + textHeight > priceSafeY) {
-                  //       centeredY = priceSafeY - textHeight;
-                  //     }
-                  //     setTextPosition((prevPosition) => {
-                  //       const newPosition = { x: centeredX, y: centeredY };
-                  //       if (
-                  //         prevPosition.x !== newPosition.x ||
-                  //         prevPosition.y !== newPosition.y
-                  //       ) {
-                  //         return newPosition;
-                  //       }
-                  //       return prevPosition;
-                  //     });
-                  //   }
-                  // }}
                 />
               )}
 

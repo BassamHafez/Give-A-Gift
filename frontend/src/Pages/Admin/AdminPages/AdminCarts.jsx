@@ -16,21 +16,13 @@ const AdminCarts = () => {
   const [searchInput, setSearchInput] = useState("");
   const notifySuccess = (message) => {
     toast.success((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
+      <div onClick={() => toast.dismiss(t.id)}>{message}</div>
     ));
   };
 
   const notifyError = (message) => {
     toast.error((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
+      <div onClick={() => toast.dismiss(t.id)}>{message}</div>
     ));
   };
 
@@ -142,7 +134,7 @@ const AdminCarts = () => {
 
   const filteredCarts = data
     ? data.data.filter((cart) =>
-        cart._id.toLowerCase().includes(searchInput.toLowerCase())
+        cart.shop?.name.toLowerCase().includes(searchInput.toLowerCase())
       )
     : [];
 
@@ -173,7 +165,7 @@ const AdminCarts = () => {
             <thead>
               <tr className="text-center">
                 <th>{key("select")}</th>
-                <th>{key("cartId")}</th>
+                <th>{key("store")}</th>
                 <th>{key("price")}</th>
                 <th>{key("afterDiscount")}</th>
                 <th>{key("date")}</th>
@@ -196,7 +188,7 @@ const AdminCarts = () => {
                               onChange={() => handleCheckboxChange(cart._id)}
                             />
                           </td>
-                          <td className="text-center">{cart._id}</td>
+                          <td className="text-center">{cart.shop?.name}</td>
                           <td className="text-center">
                             {calculateTotalPrice(
                               cart.price.value,
