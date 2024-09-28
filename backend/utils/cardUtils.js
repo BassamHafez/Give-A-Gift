@@ -17,7 +17,7 @@ exports.calculateTotalCardPrice = (
   return cardPrice + cardPrice * (parseFloat(VAT.value) / 100);
 };
 
-exports.createWhatsAppMessage = (card, user) => {
+exports.createCardWhatsappMessage = (card, user) => {
   return {
     phone: card.recipient.whatsappNumber,
     caption: `You have received a gift card from ${user.name}. Click here to view: ${process.env.CARD_PREVIEW_URL}/${card.id}`,

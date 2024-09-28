@@ -9,7 +9,7 @@ const Transaction = require("../models/transactionModel");
 const Config = require("../models/configModel");
 const {
   calculateTotalCardPrice,
-  createWhatsAppMessage,
+  createCardWhatsappMessage,
   createOrderData,
 } = require("../utils/cardUtils");
 const catchAsync = require("../utils/catchAsync");
@@ -121,7 +121,7 @@ exports.paymentWebhook = catchAsync(async (req, res, next) => {
       }
       // else { }
 
-      const msgData = createWhatsAppMessage(card, user);
+      const msgData = createCardWhatsappMessage(card, user);
 
       const orderData = createOrderData(
         counter.seq,

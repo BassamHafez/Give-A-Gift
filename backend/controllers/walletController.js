@@ -10,7 +10,7 @@ const QRCode = require("qrcode");
 const factory = require("./handlerFactory");
 const {
   calculateTotalCardPrice,
-  createWhatsAppMessage,
+  createCardWhatsappMessage,
   createOrderData,
 } = require("../utils/cardUtils");
 const catchAsync = require("../utils/catchAsync");
@@ -178,7 +178,7 @@ exports.buyCard = catchAsync(async (req, res, next) => {
     }
     // else { }
 
-    const msgData = createWhatsAppMessage(card, req.user);
+    const msgData = createCardWhatsappMessage(card, req.user);
 
     const orderData = createOrderData(
       counter.seq,
