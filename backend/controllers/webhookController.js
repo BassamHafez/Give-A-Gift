@@ -11,7 +11,11 @@ const {
   calculateTotalCardPrice,
   createCardWhatsappMessage,
 } = require("../utils/cardUtils");
-const { createOrderData } = require("../utils/orderUtils");
+const {
+  createOrderData,
+  createOrderConfirmEmailData,
+} = require("../utils/orderUtils");
+const sendEmail = require("../utils/sendEmail");
 const catchAsync = require("../utils/catchAsync");
 const ApiError = require("../utils/ApiError");
 
@@ -133,12 +137,15 @@ exports.paymentWebhook = catchAsync(async (req, res, next) => {
         linkPrice
       );
 
-      await Promise.all([
+      const [, , order] = await Promise.all([
         wallet.save(),
         card.save(),
         Order.create(orderData),
         ScheduledMessage.create(msgData),
       ]);
+
+      const emailData = createOrderConfirmEmailData(order[0]);
+      sendEmail(emailData);
     } else {
       console.log("Transaction FAILED");
     }

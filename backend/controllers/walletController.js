@@ -12,7 +12,11 @@ const {
   calculateTotalCardPrice,
   createCardWhatsappMessage,
 } = require("../utils/cardUtils");
-const { createOrderData } = require("../utils/orderUtils");
+const {
+  createOrderData,
+  createOrderConfirmEmailData,
+} = require("../utils/orderUtils");
+const sendEmail = require("../utils/sendEmail");
 const catchAsync = require("../utils/catchAsync");
 const ApiError = require("../utils/ApiError");
 
@@ -193,7 +197,10 @@ exports.buyCard = catchAsync(async (req, res, next) => {
     await wallet.save({ session });
     await card.save({ session });
     await ScheduledMessage.create([msgData], { session });
-    await Order.create([orderData], { session });
+    const order = await Order.create([orderData], { session });
+
+    const emailData = createOrderConfirmEmailData(order[0]);
+    sendEmail(emailData);
 
     await session.commitTransaction();
 
