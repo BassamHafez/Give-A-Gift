@@ -1,5 +1,6 @@
 const QRCode = require("qrcode");
 const Wallet = require("../models/walletModel");
+const User = require("../models/userModel");
 const Card = require("../models/cardModel");
 const Order = require("../models/orderModel");
 const Counter = require("../models/counterModel");
@@ -33,9 +34,10 @@ exports.paymentWebhook = catchAsync(async (req, res, next) => {
         { path: "proColor", select: "price" },
       ];
 
-      const [card, wallet] = await Promise.all([
+      const [card, wallet, user] = await Promise.all([
         Card.findById(cardId).populate(cardPopOptions),
         Wallet.findOne({ email: req.body.Data.CustomerEmail }),
+        User.findOne({ email: req.body.Data.CustomerEmail }),
       ]);
 
       if (!card) {
@@ -118,12 +120,12 @@ exports.paymentWebhook = catchAsync(async (req, res, next) => {
       }
       // else { }
 
-      const msgData = createWhatsAppMessage(card, req.user);
+      const msgData = createWhatsAppMessage(card, user);
 
       const orderData = createOrderData(
         counter.seq,
         card,
-        req.user,
+        user,
         totalAmount,
         VAT.value,
         iconPrice,
