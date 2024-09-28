@@ -32,6 +32,11 @@ router
     authController.restrictTo("merchant"),
     discountCodeValidator.getDiscountCodeValueValidator,
     discountCodeController.getDiscountCodeValue
+  )
+  .delete(
+    authController.restrictTo("admin"),
+    discountCodeValidator.cancelDiscountCodeValidator,
+    discountCodeController.cancelDiscountCode
   );
 
 module.exports = router;

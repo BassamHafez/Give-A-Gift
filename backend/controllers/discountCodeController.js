@@ -1,5 +1,7 @@
 const User = require("../models/userModel");
 const Card = require("../models/cardModel");
+const Order = require("../models/orderModel");
+const Wallet = require("../models/walletModel");
 const Config = require("../models/configModel");
 const catchAsync = require("../utils/catchAsync");
 const ApiError = require("../utils/ApiError");
@@ -154,6 +156,46 @@ exports.sendDiscountCodeReminders = catchAsync(async (req, res, next) => {
   );
 
   res.status(200).json({
+    status: "success",
+    data: null,
+  });
+});
+
+exports.cancelDiscountCode = catchAsync(async (req, res, next) => {
+  const { cardId } = req.params;
+  const card = await Card.findById(cardId);
+
+  if (!card) {
+    return next(new ApiError("No code with this ID", 404));
+  }
+
+  if (card.discountCode.isUsed) {
+    return next(new ApiError("Code already used", 400));
+  }
+
+  const [order, userWallet] = await Promise.all([
+    Order.findOne({ order_number: card.orderNumber }),
+    Wallet.findOne({ user: card.user }),
+  ]);
+
+  if (!order) {
+    return next(new ApiError("No order found for this card", 404));
+  }
+
+  if (!userWallet) {
+    return next(new ApiError("No wallet found for this user", 404));
+  }
+
+  userWallet.balance =
+    parseFloat(userWallet.balance) + parseFloat(order.total_paid);
+
+  await Promise.all([
+    Card.findByIdAndDelete(cardId),
+    Order.findByIdAndDelete(order._id),
+    userWallet.save(),
+  ]);
+
+  res.status(204).json({
     status: "success",
     data: null,
   });

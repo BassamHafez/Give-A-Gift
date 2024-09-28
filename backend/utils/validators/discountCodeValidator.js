@@ -24,3 +24,13 @@ exports.getDiscountCodeValueValidator = [
 
   validatorMiddleware,
 ];
+
+exports.cancelDiscountCodeValidator = [
+  check("cardId")
+    .notEmpty()
+    .withMessage("Card ID is required")
+    .isMongoId()
+    .withMessage("Invalid card ID"),
+
+  validatorMiddleware,
+];
