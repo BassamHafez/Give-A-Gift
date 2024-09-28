@@ -177,6 +177,7 @@ const Discounts = () => {
                 <thead>
                   <tr className="text-center">
                     {!usedData && <th>{key("select")}</th>}
+                    <th>{key("orderNumber")}</th>
                     <th>{key("name")}</th>
                     <th>{key("myPhone")}</th>
                     <th>{key("store")}</th>
@@ -205,6 +206,7 @@ const Discounts = () => {
                               />
                             </td>
                           )}
+                          <td className="text-center">{`${disc.order_number?disc.order_number:"-"}`}</td>
                           <td className="text-center">{disc.user_name}</td>
                           <td className="text-center">{disc.user_phone}</td>
                           <td className="text-center">{disc.shop_name}</td>
