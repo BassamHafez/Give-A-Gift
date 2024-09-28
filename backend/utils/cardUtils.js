@@ -53,7 +53,7 @@ exports.createOrderData = (
     VAT: `${VAT}%`,
     total_paid: totalAmount,
     shop: card.shop.name,
-    order_date: card.receiveAt ? new Date(card.receiveAt) : new Date(),
+    order_date: new Date(),
     recipient_name: card.recipient.name,
     recipient_whatsapp: card.recipient.whatsappNumber,
   };
