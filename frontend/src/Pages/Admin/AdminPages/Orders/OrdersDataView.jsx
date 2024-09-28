@@ -78,7 +78,7 @@ const OrdersDataView = ({ isUser }) => {
         console.log(response);
         if (response.status === 204) {
           queryClient.invalidateQueries(["walletBalance", token]);
-          notifySuccess(key("discDeleted"));
+          notifySuccess(key("orderDeleted"));
           refetch();
         } else {
           notifyError(key("wrong"));

@@ -1,4 +1,4 @@
-import React, {useState } from "react";
+import React, { useState } from "react";
 import styles from "./Stores.module.css";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -18,11 +18,7 @@ const Stores = () => {
 
   const notifySuccess = (message) => {
     toast.success((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
+      <div onClick={() => toast.dismiss(t.id)}>{message}</div>
     ));
   };
 
@@ -71,11 +67,31 @@ const Stores = () => {
                     className="d-flex justify-content-center align-items-center"
                     key={shop._id}
                   >
-                    <Link
-                      target="_blank"
-                      to={`${shop.link}`}
-                      rel="noopener noreferrer"
-                    >
+                    {shop.isOnline ? (
+                      <Link
+                        target="_blank"
+                        to={`${shop.link}`}
+                        rel="noopener noreferrer"
+                      >
+                        <div className={styles.store_card}>
+                          <div className={styles.store_item}>
+                            <div className={styles.store_logo}>
+                              <img
+                                alt={shop.name}
+                                className="w-100"
+                                src={`${process.env.REACT_APP_Host}shops/${shop.logo}`}
+                              />
+                            </div>
+                            <div className="text-center">
+                              <h5 className=" fw-bold">{shop.name}</h5>
+                              <span className=" text-secondary">
+                                {shop.description}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+                    ) : (
                       <div className={styles.store_card}>
                         <div className={styles.store_item}>
                           <div className={styles.store_logo}>
@@ -93,7 +109,7 @@ const Stores = () => {
                           </div>
                         </div>
                       </div>
-                    </Link>
+                    )}
                   </Col>
                 ))
               ) : (
