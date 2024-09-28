@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./DetailsAfterBuying.module.css";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useQueryClient } from "@tanstack/react-query";
@@ -18,7 +18,6 @@ const DetailsAfterBuying = ({
 }) => {
   const { t: key } = useTranslation();
   const navigate = useNavigate();
-  const profileData = useSelector((state) => state.userInfo.data);
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const queryClient = useQueryClient();
   const token = JSON.parse(localStorage.getItem("token"));
@@ -27,7 +26,7 @@ const DetailsAfterBuying = ({
   const navigateToProfile = () => {
     queryClient.invalidateQueries(["walletBalance", token]);
     dispatch(fetchCartCounter(token));
-    navigate(`/wallet/${profileData?._id}`);
+    navigate(`/user-orders`);
     onHide();
   };
   console.log("card", cardDetails);

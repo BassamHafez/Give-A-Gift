@@ -5,6 +5,7 @@ import {
   faChartPie,
   faDoorOpen,
   faGifts,
+  faImage,
   faMoneyBillTransfer,
   faPallet,
   faShop,
@@ -251,7 +252,7 @@ const Admin = () => {
                 >
                   <FontAwesomeIcon
                     className={styles.list_item_icon}
-                    icon={faTag}
+                    icon={faImage}
                   />
                   <span>{key("designs")}</span>
                 </div>
