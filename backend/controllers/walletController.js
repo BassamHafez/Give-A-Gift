@@ -11,8 +11,8 @@ const factory = require("./handlerFactory");
 const {
   calculateTotalCardPrice,
   createCardWhatsappMessage,
-  createOrderData,
 } = require("../utils/cardUtils");
+const { createOrderData } = require("../utils/orderUtils");
 const catchAsync = require("../utils/catchAsync");
 const ApiError = require("../utils/ApiError");
 
