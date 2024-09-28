@@ -73,7 +73,7 @@ const cardSchema = new mongoose.Schema(
       xPosition: Number,
       yPosition: Number,
     },
-    orderNumber: String,
+    orderNumber: Number,
     recipient: {
       name: String,
       whatsappNumber: String,
