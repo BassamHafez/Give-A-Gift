@@ -2,6 +2,7 @@ const QRCode = require("qrcode");
 const Wallet = require("../models/walletModel");
 const Card = require("../models/cardModel");
 const Order = require("../models/orderModel");
+const Counter = require("../models/counterModel");
 const ScheduledMessage = require("../models/scheduledMessageModel");
 const Transaction = require("../models/transactionModel");
 const Config = require("../models/configModel");
@@ -59,7 +60,15 @@ exports.paymentWebhook = catchAsync(async (req, res, next) => {
         "CELEBRATE_LINK_PRICE",
         "CASH_BACK_PERCENTAGE",
       ];
-      const configs = await Config.find({ key: { $in: configKeys } });
+      const [configs, counter] = await Promise.all([
+        Config.find({ key: { $in: configKeys } }),
+        Counter.findOneAndUpdate(
+          { name: "order_number" },
+          { $inc: { seq: 1 } },
+          { new: true, upsert: true }
+        ),
+      ]);
+
       const VAT = configs.find((c) => c.key === "VAT_VALUE");
       const iconPrice = configs.find(
         (c) => c.key === "CELEBRATE_ICON_PRICE"
@@ -94,7 +103,9 @@ exports.paymentWebhook = catchAsync(async (req, res, next) => {
 
       wallet.balance = newBalance;
       card.isPaid = true;
+      card.paidAt = new Date();
       card.totalPricePaid = totalAmount;
+      card.orderNumber = counter.seq;
 
       if (!card.shop.isOnline) {
         const qrCodeLink = `${process.env.QR_CODE_URL}/${card.id}`;
@@ -110,6 +121,7 @@ exports.paymentWebhook = catchAsync(async (req, res, next) => {
       const msgData = createWhatsAppMessage(card, req.user);
 
       const orderData = createOrderData(
+        counter.seq,
         card,
         req.user,
         totalAmount,

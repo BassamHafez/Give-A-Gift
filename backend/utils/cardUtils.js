@@ -28,6 +28,7 @@ exports.createWhatsAppMessage = (card, user) => {
 };
 
 exports.createOrderData = (
+  order_number,
   card,
   user,
   totalAmount,
@@ -36,6 +37,7 @@ exports.createOrderData = (
   linkPrice
 ) => {
   return {
+    order_number,
     card_id: card.id,
     customer_id: user.id,
     customer_name: user.name,

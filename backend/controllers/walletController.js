@@ -2,6 +2,7 @@ const Wallet = require("../models/walletModel");
 const User = require("../models/userModel");
 const Card = require("../models/cardModel");
 const Order = require("../models/orderModel");
+const Counter = require("../models/counterModel");
 const Config = require("../models/configModel");
 const ScheduledMessage = require("../models/scheduledMessageModel");
 const mongoose = require("mongoose");
@@ -128,7 +129,15 @@ exports.buyCard = catchAsync(async (req, res, next) => {
       "CELEBRATE_LINK_PRICE",
       "CASH_BACK_PERCENTAGE",
     ];
-    const configs = await Config.find({ key: { $in: configKeys } });
+    const [configs, counter] = await Promise.all([
+      Config.find({ key: { $in: configKeys } }),
+      Counter.findOneAndUpdate(
+        { name: "order_number" },
+        { $inc: { seq: 1 } },
+        { new: true, upsert: true }
+      ),
+    ]);
+
     const VAT = configs.find((c) => c.key === "VAT_VALUE");
     const iconPrice = configs.find(
       (c) => c.key === "CELEBRATE_ICON_PRICE"
@@ -153,7 +162,9 @@ exports.buyCard = catchAsync(async (req, res, next) => {
 
     wallet.balance -= totalAmount;
     card.isPaid = true;
+    card.paidAt = new Date();
     card.totalPricePaid = totalAmount;
+    card.orderNumber = counter.seq;
     wallet.balance += card.price.value * (parseFloat(cashBackPercentage) / 100);
 
     if (!card.shop.isOnline) {
@@ -170,6 +181,7 @@ exports.buyCard = catchAsync(async (req, res, next) => {
     const msgData = createWhatsAppMessage(card, req.user);
 
     const orderData = createOrderData(
+      counter.seq,
       card,
       req.user,
       totalAmount,

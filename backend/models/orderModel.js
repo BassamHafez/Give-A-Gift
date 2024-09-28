@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const Counter = require("./counterModel");
 
 const orderSchema = new mongoose.Schema({
   order_number: { type: Number, unique: true },
@@ -26,6 +25,7 @@ const orderSchema = new mongoose.Schema({
   recipient_whatsapp: String,
 });
 
+/*
 orderSchema.pre("save", async function (next) {
   const order = this;
 
@@ -44,6 +44,7 @@ orderSchema.pre("save", async function (next) {
     next(err);
   }
 });
+*/
 
 const Order = mongoose.model("Order", orderSchema);
 
