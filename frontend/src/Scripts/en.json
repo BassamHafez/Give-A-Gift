@@ -373,5 +373,6 @@
     "cancelCode":"Cancel",
     "discDeleted":"Discount Canceled successfully.",
     "deleteDiscWrong":"The discount no longer exists, or something went wrong. Unable to Cancel.",
-    "cardUsed":"Code is Already Used"
+    "cardUsed":"Code is Already Used",
+    "noOrder":"No order found for this card"
 }   

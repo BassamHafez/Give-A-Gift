@@ -118,13 +118,17 @@ const Discounts = () => {
         );
         console.log(response);
         if (response.status === 204) {
-          notifySuccess(key("orderDeleted"));
+          notifySuccess(key("discDeleted"));
           refetch();
         } else {
           notifyError(key("wrong"));
         }
       } catch (error) {
-        notifyError(key("wrong"));
+        if (error?.response?.data?.message === "No order found for this card") {
+          notifyError(key("noOrder"));
+        } else {
+          notifyError(key("wrong"));
+        }
         console.log(error);
       }
     } else {
@@ -205,7 +209,7 @@ const Discounts = () => {
                           <td className="text-center">{disc.user_phone}</td>
                           <td className="text-center">{disc.shop_name}</td>
                           <td className="text-center">
-                            {disc.isUsed ? key("Yes") : key("No")}
+                            {disc.isUsed ? key("yes") : key("no")}
                           </td>
                           {!disc.isUsed && (
                             <td className="text-center">
