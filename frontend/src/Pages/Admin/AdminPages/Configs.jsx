@@ -50,6 +50,7 @@ const Configs = () => {
   const messageReminder = useSelector((state) => state.configs.messageReminder);
 
   const messageCodeReminder = useSelector((state) => state.configs.messageCodeReminder);
+  const whatsappMessage = useSelector((state) => state.configs.whatsappMessage);
   const walletStarting = useSelector((state) => state.configs.walletStarting);
   const cashBack = useSelector((state) => state.configs.cashBack);
 
@@ -78,6 +79,7 @@ const Configs = () => {
     CASH_BACK_PERCENTAGE: Number(cashBack) || "",
     CART_REMINDER_MESSAGE: `${messageReminder}` || "",
     UNUSED_CODE_REMINDER_MESSAGE: `${messageCodeReminder}` || "",
+    WHATSAPP_CARD_MESSAGE: `${whatsappMessage}` || "",
   };
 
   const onSubmit = (values) => {
@@ -92,6 +94,7 @@ const Configs = () => {
       CASH_BACK_PERCENTAGE: `${values.CASH_BACK_PERCENTAGE}`,
       CART_REMINDER_MESSAGE: `${values.CART_REMINDER_MESSAGE}`,
       UNUSED_CODE_REMINDER_MESSAGE: `${values.UNUSED_CODE_REMINDER_MESSAGE}`,
+      WHATSAPP_CARD_MESSAGE: `${values.WHATSAPP_CARD_MESSAGE}`,
     };
     console.log(updatedValues);
     mutate({
@@ -110,6 +113,7 @@ const Configs = () => {
     SECONDRY_COLOR: string().required(key("faildRec")),
     CART_REMINDER_MESSAGE: string().required(key("faildRec")),
     UNUSED_CODE_REMINDER_MESSAGE: string().required(key("faildRec")),
+    WHATSAPP_CARD_MESSAGE: string().required(key("faildRec")),
     CASH_BACK_PERCENTAGE: number()
       .min(0, key("cashBackValidation"))
       .required(key("faildRec")),
@@ -239,6 +243,20 @@ const Configs = () => {
               />
               <ErrorMessage
                 name="UNUSED_CODE_REMINDER_MESSAGE"
+                component={InputErrorMessage}
+              />
+            </div>
+            <div className={styles.field}>
+              <label htmlFor="WHATSAPP_CARD_MESSAGE" className="mt-3">
+                {key("whatsappMsg")}
+              </label>
+              <Field
+                type="text"
+                id="WHATSAPP_CARD_MESSAGE"
+                name="WHATSAPP_CARD_MESSAGE"
+              />
+              <ErrorMessage
+                name="WHATSAPP_CARD_MESSAGE"
                 component={InputErrorMessage}
               />
             </div>
