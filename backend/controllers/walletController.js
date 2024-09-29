@@ -179,8 +179,9 @@ exports.buyCard = catchAsync(async (req, res, next) => {
       });
 
       card.discountCode.qrCode = qrCode;
+    } else {
+      card.discountCode.code = card.id;
     }
-    // else { }
 
     const msgData = await createCardWhatsappMessage(card, req.user);
 
