@@ -3,7 +3,6 @@ import {
   faClock,
   faComment,
   faCommentSlash,
-  faGift,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Image, Layer, Rect, Stage, Text } from "react-konva";
@@ -78,8 +77,8 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
     return { formattedDate, formattedTime };
   };
 
-  const receiveAtFormatted = card.receiveAt
-    ? formatDateTime(card.receiveAt)
+  const receiveAtFormatted = card?.receiveAt
+    ? formatDateTime(card?.receiveAt)
     : {
         formattedDate: key("payFirst"),
         formattedTime: key("payFirst"),
@@ -115,10 +114,10 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
             />
           )}
 
-          {!isFrontShape &&
+          {isFrontShape==="front" &&
             (card.isSpecial && shapeImageBack ? (
               <Image
-                image={shapeImageBack}
+                image={shapeImageFront}
                 width={cardWidth}
                 height={cardHeight}
                 x={offsetX}
@@ -153,9 +152,9 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
               </>
             ))}
 
-          {card.isSpecial && !!isFrontShape && (
+          {card.isSpecial && isFrontShape==="back" && (
             <Image
-              image={shapeImageFront}
+              image={shapeImageBack}
               width={cardWidth}
               height={cardHeight}
               x={offsetX}
@@ -175,7 +174,7 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
             />
           )}
 
-          {card.text && !card.isSpecial && !!isFrontShape && (
+          {card.text && !card.isSpecial && isFrontShape==="back" && (
             <Text
               text={card.text.message}
               fontSize={Number(card.text.fontSize)}
@@ -204,9 +203,9 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
               <li
                 className={`${styles.list_item} ${styles.price_value} text-center`}
               >
-                {card.price.value} {key("sar")}
+                {card?.price?.value} {key("sar")}
               </li>
-              {isFrontShape ? (
+              {isFrontShape === "back" ? (
                 <>
                   {card.celebrateQR ? (
                     <>
@@ -248,44 +247,25 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
                   )}
                 </>
               ) : (
-                <>
-                  <li
-                    className={`${styles.list_item} ${
-                      isArLang ? styles.list_item_ar : styles.list_item_en
-                    } text-center`}
-                  >
-                    {card.discountCode?.qrCode ? (
-                      <img
-                        src={card.discountCode?.qrCode}
-                        className={styles.scanner}
-                        alt="physical store QR"
-                      />
-                    ) : (
-                      <span>
-                        <FontAwesomeIcon
-                          icon={faGift}
-                          className={`${styles.list_icon} ${styles.gift_icon}`}
-                        />
-                        4b0b5dd8508484a33hb
-                      </span>
-                    )}
-                  </li>
-                  <li
-                    className={`${styles.list_item} ${
-                      isArLang ? styles.list_item_ar : styles.list_item_en
-                    } ${
-                      card?.discountCode?.isUsed
-                        ? "text-danger"
-                        : "text-success"
-                    }  text-center`}
-                  >
-                    {`${
-                      card?.discountCode?.isUsed
-                        ? key("cardUsed")
-                        : key("cardReady")
-                    }`}
-                  </li>
-                </>
+                isFrontShape === "front" && (
+                  <>
+                    <li
+                      className={`${styles.list_item} ${
+                        isArLang ? styles.list_item_ar : styles.list_item_en
+                      } ${
+                        card?.discountCode?.isUsed
+                          ? "text-danger"
+                          : "text-success"
+                      }  text-center`}
+                    >
+                      {`${
+                        card?.discountCode?.isUsed
+                          ? key("cardUsed")
+                          : key("cardReady")
+                      }`}
+                    </li>
+                  </>
+                )
               )}
             </>
           ) : (

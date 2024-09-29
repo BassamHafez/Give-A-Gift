@@ -12,7 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
-import toast  from "react-hot-toast";
+import toast from "react-hot-toast";
 import InputErrorMessage from "../../../Components/Ui/InputErrorMessage";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
@@ -26,21 +26,13 @@ const Shops = () => {
 
   const notifySuccess = (message) => {
     toast.success((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
+      <div onClick={() => toast.dismiss(t.id)}>{message}</div>
     ));
   };
 
   const notifyError = (message) => {
     toast.error((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
+      <div onClick={() => toast.dismiss(t.id)}>{message}</div>
     ));
   };
 
@@ -274,11 +266,16 @@ const Shops = () => {
         <hr />
         <div className="d-flex justify-content-between align-items-center">
           <h4 className="fw-bold">{key("storesPageTitle")} </h4>
-          <span className="mini_word">
-            <FontAwesomeIcon className="text-success" icon={faCircle} />{" "}
-            physical {"  "}
-            <FontAwesomeIcon className="text-danger" icon={faCircle} /> online
-          </span>
+          <div className="d-flex">
+            <span className="mini_word mx-2 d-flex align-items-center">
+              <FontAwesomeIcon className="text-success mx-1" icon={faCircle} />
+              {key("online")}
+            </span>
+            <span className="mini_word mx-2">
+              <FontAwesomeIcon className="text-danger mx-1" icon={faCircle} />
+              {key("physical")}
+            </span>
+          </div>
         </div>
         <Row className="justify-content-center">
           {shops ? (

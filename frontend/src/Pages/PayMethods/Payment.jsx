@@ -16,22 +16,12 @@ import styles from "./Payment.module.css";
 
 const notifySuccess = (message) => {
   toast.success((t) => (
-    <div
-      onClick={() => toast.dismiss(t.id)}
-    >
-      {message}
-    </div>
+    <div onClick={() => toast.dismiss(t.id)}>{message}</div>
   ));
 };
 
 const notifyError = (message) => {
-  toast.error((t) => (
-    <div
-      onClick={() => toast.dismiss(t.id)}
-    >
-      {message}
-    </div>
-  ));
+  toast.error((t) => <div onClick={() => toast.dismiss(t.id)}>{message}</div>);
 };
 
 const Payment = () => {
@@ -88,7 +78,8 @@ const Payment = () => {
       .required(key("paymentIdValidate2")),
     InvoiceValue: number()
       .typeError(key("amountValidate1"))
-      .required(key("amountValidate2")),
+      .required(key("amountValidate2"))
+      .min(20, key("min20")),
   });
 
   return (
@@ -145,10 +136,23 @@ const Payment = () => {
                   </Col>
                 ))}
               </Row>
+              <div className="text-center mt-4">
+                {isPending ? (
+                  <button type="submit" className={styles.save_btn}>
+                    <FontAwesomeIcon className="fa-spin" icon={faYinYang} />
+                  </button>
+                ) : (
+                  <button type="submit" className={styles.save_btn}>
+                    {key("charge")}
+                  </button>
+                )}
+              </div>
+
               <ErrorMessage
                 name="PaymentMethodId"
                 component={InputErrorMessage}
               />
+              <ErrorMessage name="InvoiceValue" component={InputErrorMessage} />
             </div>
 
             <div
@@ -160,18 +164,7 @@ const Payment = () => {
                 {key("amount")} ({key("sar")})
               </label>
               <Field type="text" id="Amount" name="InvoiceValue" />
-              <ErrorMessage name="InvoiceValue" component={InputErrorMessage} />
             </div>
-
-            {isPending ? (
-              <button type="submit" className={styles.save_btn}>
-                <FontAwesomeIcon className="fa-spin" icon={faYinYang} />
-              </button>
-            ) : (
-              <button type="submit" className={styles.save_btn}>
-                {key("charge")}
-              </button>
-            )}
           </Form>
         </Formik>
       </div>

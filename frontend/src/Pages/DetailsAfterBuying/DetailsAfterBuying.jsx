@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./DetailsAfterBuying.module.css";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useQueryClient } from "@tanstack/react-query";
@@ -29,8 +29,6 @@ const DetailsAfterBuying = ({
     navigate(`/user-orders`);
     onHide();
   };
-  console.log("card", cardDetails);
-  console.log("wallet", walletDetails);
 
   const formatDateTime = (dateTimeString) => {
     const date = new Date(dateTimeString);
@@ -41,6 +39,13 @@ const DetailsAfterBuying = ({
     });
     return { formattedDate, formattedTime };
   };
+
+  const receiveAtFormatted = cardDetails?.receiveAt
+    ? formatDateTime(cardDetails?.receiveAt)
+    : {
+        formattedDate: key("payFirst"),
+        formattedTime: key("payFirst"),
+      };
 
   return (
     <>
@@ -82,7 +87,11 @@ const DetailsAfterBuying = ({
               </li>
               <li>
                 <span className="fw-bold text-secondary">{key("store")}: </span>{" "}
-                {cardDetails.shop?.name} ({cardDetails.shop.isOnline?key("onlineStore"):key("physicalStore")})
+                {cardDetails.shop?.name} (
+                {cardDetails.shop.isOnline
+                  ? key("onlineStore")
+                  : key("physicalStore")}
+                )
               </li>
               <li>
                 <span className="fw-bold text-secondary">
@@ -98,16 +107,13 @@ const DetailsAfterBuying = ({
               </li>
               <li>
                 <span className="fw-bold text-secondary">{key("date")}: </span>{" "}
-                {formatDateTime(cardDetails?.receiveAt).formattedDate}
+                {receiveAtFormatted.formattedDate}
               </li>
               <li>
                 <span className="fw-bold text-secondary">{key("time")}: </span>{" "}
-                {formatDateTime(cardDetails?.receiveAt).formattedTime}
+                {receiveAtFormatted.formattedTime}
               </li>
             </ul>
-
-            {/* <ul className={styles.sub_details_list}>
-            </ul> */}
           </div>
         </Modal.Body>
         <Modal.Footer className={styles.modal_footer}>

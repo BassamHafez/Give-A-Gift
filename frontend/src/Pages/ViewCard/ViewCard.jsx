@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
-import {viewCard } from "../../util/Http";
+import { viewCard } from "../../util/Http";
 import Placeholder from "react-bootstrap/Placeholder";
 import Card from "react-bootstrap/Card";
 import styles from "./ViewCard.module.css";
@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import confetti from "canvas-confetti";
 import KonvaCard from "./KonvaCard";
+import scan from "../../Images/scan.jpg";
 
 const shapes = {
   all: ["circle", "triangle", "square"],
@@ -21,13 +22,9 @@ const shapes = {
 };
 
 const triggerConfetti = (shape) => {
-  const origins = [
-    { y: 0.6 },
-    { x: 1, y: 1 },
-    { x: 0, y: 1 },
-  ];
-  
-  origins.forEach(origin => {
+  const origins = [{ y: 0.6 }, { x: 1, y: 1 }, { x: 0, y: 1 }];
+
+  origins.forEach((origin) => {
     confetti({
       particleCount: 400,
       spread: 200,
@@ -40,15 +37,14 @@ const triggerConfetti = (shape) => {
 const ViewCard = () => {
   const { cardId } = useParams();
   const [isFirstVisit, setIsFirstVisit] = useState(true);
-  const [isFrontShape, setIsFrontShape] = useState(false);
+  const [isFrontShape, setIsFrontShape] = useState("front");
   const { t: key } = useTranslation();
 
   const { data: myCard, isFetching } = useQuery({
-    queryKey: ["viewCard",cardId],
+    queryKey: ["viewCard", cardId],
     queryFn: () => viewCard(cardId),
     staleTime: Infinity,
   });
- 
 
   useEffect(() => {
     if (isFirstVisit) {
@@ -65,6 +61,10 @@ const ViewCard = () => {
     }
   }, [myCard, isFirstVisit]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const loadingCard = (
     <Card style={{ width: "18rem" }}>
       <Card.Body>
@@ -79,35 +79,91 @@ const ViewCard = () => {
       </Card.Body>
     </Card>
   );
-
+console.log(myCard)
   return (
     <div className={`${styles.card_container}`}>
       {!isFetching ? (
         myCard ? (
-          <div className="d-flex flex-column justify-content-center align-items-center" xlg={6} key={myCard.data._id}>
+          <div
+            className="d-flex flex-column justify-content-center align-items-center"
+            xlg={6}
+            key={myCard.data._id}
+          >
             <div className={styles.header}>
               <ul className={styles.header_list}>
                 <li
-                  className={`${styles.header_list_item} ${isFrontShape && styles.active}`}
-                  onClick={() => { setIsFirstVisit(false); setIsFrontShape(true); }}
+                  className={`${styles.header_list_item} ${
+                    isFrontShape === "usage" && styles.active
+                  }`}
+                  onClick={() => {
+                    setIsFirstVisit(false);
+                    setIsFrontShape("usage");
+                  }}
                 >
-                  {key("previewFront")}
+                  {key("howToUse")}
                 </li>
                 <li
-                  className={`${styles.header_list_item} ${!isFrontShape && styles.active}`}
-                  onClick={() => { setIsFirstVisit(false); setIsFrontShape(false); }}
+                  className={`${styles.header_list_item} ${
+                    isFrontShape === "back" && styles.active
+                  }`}
+                  onClick={() => {
+                    setIsFirstVisit(false);
+                    setIsFrontShape("back");
+                  }}
                 >
                   {key("previewBack")}
                 </li>
+                <li
+                  className={`${styles.header_list_item} ${
+                    isFrontShape === "front" && styles.active
+                  }`}
+                  onClick={() => {
+                    setIsFirstVisit(false);
+                    setIsFrontShape("front");
+                  }}
+                >
+                  {key("previewFront")}
+                </li>
               </ul>
             </div>
-            <div className={styles.card_body}>
-              <KonvaCard
-                isPaid={myCard?.data.isPaid}
-                isFrontShape={isFrontShape}
-                card={myCard?.data}
-              />
-            </div>
+            {isFrontShape === "usage" ? (
+              <div className={styles.steps_div}>
+                <h4 className="fw-bold">{key("followSteps")}</h4>
+
+                {myCard.data?.discountCode?.qrCode ? (
+                  <>
+                    <ul>
+                      <li>{key("qrUsageStep1")}</li>
+                      <li>{key("qrUsageStep2")}</li>
+                      <li>{key("qrUsageStep3")}</li>
+                      <li>{key("qrUsageStep4")}</li>
+                    </ul>
+                    <div className={styles.scan_img}>
+                      <img
+                       className="w-100" 
+                        src={scan}
+                        alt="scan the code"
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <ul>
+                    <li>{key("promoCodeUsageStep1")}</li>
+                    <li>{key("promoCodeUsageStep2")}</li>
+                    <li>{key("promoCodeUsageStep3")}</li>
+                    <li>{key("promoCodeUsageStep4")}</li>
+                  </ul>
+                )}
+              </div>
+            ) : (
+              <div className={styles.card_body}>
+                <KonvaCard
+                  isPaid={myCard?.data?.isPaid}
+                  isFrontShape={isFrontShape}
+                  card={myCard?.data}
+                />
+              </div>
+            )}
           </div>
         ) : (
           loadingCard

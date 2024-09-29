@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   faMoneyBillTransfer,
-  faSquarePlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "../Profile/ProfileContent.module.css";
@@ -61,7 +60,6 @@ const Wallet = () => {
         <div>
           <div className={styles.title}>
             {key("currentBalance")}
-            <FontAwesomeIcon className={styles.plus_icon} icon={faSquarePlus} />
           </div>
           <h1 className={styles.balance}>
             <span className={styles.sar}>{key("sar")}</span>{" "}

@@ -356,19 +356,9 @@ const OrdersDataView = ({ isUser }) => {
                       </li>
                     </ul>
                     <div
-                      className={`d-flex ${
-                        isUser
-                          ? "justify-content-between"
-                          : "justify-content-end"
-                      }  align-items-center mt-3`}
+                      className={`d-flex justify-content-end align-items-center mt-3`}
                     >
-                      <button
-                        onClick={() => cancelOrder(order._id)}
-                        className="btn btn-secondary"
-                      >
-                        {key("cancelOrder")}
-                      </button>
-                      {isUser && (
+                      {isUser ? (
                         <button
                           onClick={() => {
                             navigate(`/view-card/${order.card_id}`);
@@ -381,6 +371,13 @@ const OrdersDataView = ({ isUser }) => {
                             className="mx-1"
                             icon={faEye}
                           />
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => cancelOrder(order._id)}
+                          className="btn btn-secondary"
+                        >
+                          {key("cancelOrder")}
                         </button>
                       )}
                     </div>

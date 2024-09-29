@@ -23,6 +23,7 @@ const fetchConfigs = (token) => {
         dispatch(configActions.setWalletStarting(findConfigByKey(res?.data, "WALLET_STARTING_BALANCE")?.value));
         dispatch(configActions.setCashBack(findConfigByKey(res?.data, "CASH_BACK_PERCENTAGE")?.value));
         dispatch(configActions.setMessageReminer(findConfigByKey(res?.data, "CART_REMINDER_MESSAGE")?.value));
+        dispatch(configActions.setCodeMessage(findConfigByKey(res?.data, "UNUSED_CODE_REMINDER_MESSAGE")?.value));
       } catch (error) {
         console.error(error);
       }
