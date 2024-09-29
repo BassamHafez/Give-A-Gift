@@ -49,6 +49,7 @@ const Configs = () => {
 
   const messageReminder = useSelector((state) => state.configs.messageReminder);
 
+  const messageCodeReminder = useSelector((state) => state.configs.messageCodeReminder);
   const walletStarting = useSelector((state) => state.configs.walletStarting);
   const cashBack = useSelector((state) => state.configs.cashBack);
 
@@ -71,11 +72,12 @@ const Configs = () => {
     WALLET_STARTING_BALANCE: walletStarting || "",
     MAIN_COLOR: mainColor || "",
     SECONDRY_COLOR: subColor || "",
-    VAT_VALUE: Number(VAT) || "",
+    VAT_VALUE: `${VAT}` || "",
     CELEBRATE_ICON_PRICE: Number(celebrateIconPrice) || "",
     CELEBRATE_LINK_PRICE: Number(celebrateLinkPrice) || "",
     CASH_BACK_PERCENTAGE: Number(cashBack) || "",
     CART_REMINDER_MESSAGE: `${messageReminder}` || "",
+    UNUSED_CODE_REMINDER_MESSAGE: `${messageCodeReminder}` || "",
   };
 
   const onSubmit = (values) => {
@@ -89,6 +91,7 @@ const Configs = () => {
       CELEBRATE_LINK_PRICE: `${values.CELEBRATE_LINK_PRICE}`,
       CASH_BACK_PERCENTAGE: `${values.CASH_BACK_PERCENTAGE}`,
       CART_REMINDER_MESSAGE: `${values.CART_REMINDER_MESSAGE}`,
+      UNUSED_CODE_REMINDER_MESSAGE: `${values.UNUSED_CODE_REMINDER_MESSAGE}`,
     };
     console.log(updatedValues);
     mutate({
@@ -106,6 +109,7 @@ const Configs = () => {
     MAIN_COLOR: string().required(key("faildRec")),
     SECONDRY_COLOR: string().required(key("faildRec")),
     CART_REMINDER_MESSAGE: string().required(key("faildRec")),
+    UNUSED_CODE_REMINDER_MESSAGE: string().required(key("faildRec")),
     CASH_BACK_PERCENTAGE: number()
       .min(0, key("cashBackValidation"))
       .required(key("faildRec")),
@@ -134,7 +138,7 @@ const Configs = () => {
               <label htmlFor="VAT_VALUE" className="mt-3">
                 {key("Vatvalue")}
               </label>
-              <Field type="number" id="VAT_VALUE" name="VAT_VALUE" />
+              <Field type="text" id="VAT_VALUE" name="VAT_VALUE" />
               <ErrorMessage name="VAT_VALUE" component={InputErrorMessage} />
             </div>
             <div className={styles.field}>
@@ -221,6 +225,20 @@ const Configs = () => {
               />
               <ErrorMessage
                 name="CART_REMINDER_MESSAGE"
+                component={InputErrorMessage}
+              />
+            </div>
+            <div className={styles.field}>
+              <label htmlFor="UNUSED_CODE_REMINDER_MESSAGE" className="mt-3">
+                {key("reminderCodeMsg")}
+              </label>
+              <Field
+                type="text"
+                id="UNUSED_CODE_REMINDER_MESSAGE"
+                name="UNUSED_CODE_REMINDER_MESSAGE"
+              />
+              <ErrorMessage
+                name="UNUSED_CODE_REMINDER_MESSAGE"
                 component={InputErrorMessage}
               />
             </div>

@@ -33,7 +33,7 @@
     padding: 10px 15px;
     border-radius: 8px;
     font-weight: 700;
-    min-width: 50%;
+    min-width:150px;
     transition:all .3s;
 }
 .save_btn:hover{

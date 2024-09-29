@@ -8,7 +8,7 @@ import { executePayment } from "../../util/Http";
 import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
 import { getPaymentMethods } from "../../util/Http";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import InputErrorMessage from "../../Components/Ui/InputErrorMessage";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
@@ -16,22 +16,12 @@ import styles from "./Payment.module.css";
 
 const notifySuccess = (message) => {
   toast.success((t) => (
-    <div
-      onClick={() => toast.dismiss(t.id)}
-    >
-      {message}
-    </div>
+    <div onClick={() => toast.dismiss(t.id)}>{message}</div>
   ));
 };
 
 const notifyError = (message) => {
-  toast.error((t) => (
-    <div
-      onClick={() => toast.dismiss(t.id)}
-    >
-      {message}
-    </div>
-  ));
+  toast.error((t) => <div onClick={() => toast.dismiss(t.id)}>{message}</div>);
 };
 
 const Payment = () => {
@@ -39,6 +29,7 @@ const Payment = () => {
   const { type, cardId, price } = useParams();
   const [activeMethod, setActiveMethod] = useState(0);
   const { t: key } = useTranslation();
+  const navigate=useNavigate();
 
   const { data } = useQuery({
     queryKey: ["paymentMethods", token],
@@ -52,10 +43,10 @@ const Payment = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: executePayment,
     onSuccess: (response) => {
-      console.log(response);
       if (response.status === "success") {
         notifySuccess(key("redirect"));
         window.open(`${response.data?.Data?.PaymentURL}`, "_blank");
+        navigate(`/user-orders`)
       } else {
         notifyError(key("wrong"));
       }
@@ -74,9 +65,7 @@ const Payment = () => {
     const updatedFormData = {
       PaymentMethodId: values.PaymentMethodId,
       InvoiceValue: values.InvoiceValue,
-      cardId: cardId,
-      successURL: `${process.env.REACT_APP_Host}payment-success/${cardId}`,
-      errorURL: `${process.env.REACT_APP_Host}payment-faild`,
+      cardId: cardId
     };
     console.log(updatedFormData);
     mutate({ token: token, formData: updatedFormData });
@@ -88,7 +77,8 @@ const Payment = () => {
       .required(key("paymentIdValidate2")),
     InvoiceValue: number()
       .typeError(key("amountValidate1"))
-      .required(key("amountValidate2")),
+      .required(key("amountValidate2"))
+      .min(20, key("min20")),
   });
 
   return (
@@ -145,10 +135,23 @@ const Payment = () => {
                   </Col>
                 ))}
               </Row>
+              <div className="text-center mt-4">
+                {isPending ? (
+                  <button type="submit" className={styles.save_btn}>
+                    <FontAwesomeIcon className="fa-spin" icon={faYinYang} />
+                  </button>
+                ) : (
+                  <button type="submit" className={styles.save_btn}>
+                    {key("charge")}
+                  </button>
+                )}
+              </div>
+
               <ErrorMessage
                 name="PaymentMethodId"
                 component={InputErrorMessage}
               />
+              <ErrorMessage name="InvoiceValue" component={InputErrorMessage} />
             </div>
 
             <div
@@ -160,18 +163,7 @@ const Payment = () => {
                 {key("amount")} ({key("sar")})
               </label>
               <Field type="text" id="Amount" name="InvoiceValue" />
-              <ErrorMessage name="InvoiceValue" component={InputErrorMessage} />
             </div>
-
-            {isPending ? (
-              <button type="submit" className={styles.save_btn}>
-                <FontAwesomeIcon className="fa-spin" icon={faYinYang} />
-              </button>
-            ) : (
-              <button type="submit" className={styles.save_btn}>
-                {key("charge")}
-              </button>
-            )}
           </Form>
         </Formik>
       </div>

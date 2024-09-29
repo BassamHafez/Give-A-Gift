@@ -326,7 +326,7 @@ const CustomCards = () => {
             <Col sm={12} className={styles.card_side_container}>
               <div className={styles.card_side_header}>
                 <h3>
-                  {key("CardDisplay")} ({showBack ? key("back") : key("front")})
+                  {key("CardDisplay")} ({showBack ? key("front") : key("back")})
                 </h3>
               </div>
 

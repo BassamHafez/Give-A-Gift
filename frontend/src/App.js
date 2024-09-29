@@ -46,8 +46,6 @@ import MerchantAccountSetting from './Pages/MerchangProfile/MerchantAccountSetti
 import AllDiscounts from './Pages/MerchangProfile/AllDiscounts';
 import Orders from './Pages/Admin/AdminPages/Orders/Orders';
 import ProfileOrders from './Pages/Profile/ProfileOrders/ProfileOrders';
-import Success from './Pages/PayMethods/Success';
-import Faild from './Pages/PayMethods/Faild';
 import RecipientViewCard from './Pages/ReceipientViewCard/RecipientViewCard';
 import AdminCarts from './Pages/Admin/AdminPages/AdminCarts';
 import Discounts from './Pages/Admin/AdminPages/Discounts';
@@ -76,8 +74,6 @@ const router=createBrowserRouter([{
     {path:"help",element:<ProtectedRoute><Help/></ProtectedRoute>},
     {path:"details-after-buying/:cardPrice",element:<ProtectedRoute><DetailsAfterBuying/></ProtectedRoute>},
     {path:"user-orders",element:<ProtectedRoute><ProfileOrders/></ProtectedRoute>},
-    {path:"payment-success/:cardId",element:<ProtectedRoute><Success/></ProtectedRoute>},
-    {path:"payment-faild",element:<ProtectedRoute><Faild/></ProtectedRoute>},
 
     //admin
     {path:"admin/:adminId",element:<ProtectedRoute><Admin/></ProtectedRoute>},

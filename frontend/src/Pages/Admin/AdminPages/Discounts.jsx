@@ -102,8 +102,10 @@ const Discounts = () => {
   const filteredDisc = data
     ? data.data.filter(
         (disc) =>
-          disc.user_id.toLowerCase().includes(searchInput.toLowerCase()) ||
-          disc.user_name.toLowerCase().includes(searchInput.toLowerCase())
+          disc.user_phone.toLowerCase() === searchInput.toLowerCase() ||
+          disc.user_name.toLowerCase().includes(searchInput.toLowerCase()) ||
+          disc?.order_number?.toString() === searchInput ||
+          disc.shop_name.toLowerCase().includes(searchInput.toLowerCase())
       )
     : data?.data;
 
@@ -206,7 +208,9 @@ const Discounts = () => {
                               />
                             </td>
                           )}
-                          <td className="text-center">{`${disc.order_number?disc.order_number:"-"}`}</td>
+                          <td className="text-center">{`${
+                            disc.order_number ? disc.order_number : "-"
+                          }`}</td>
                           <td className="text-center">{disc.user_name}</td>
                           <td className="text-center">{disc.user_phone}</td>
                           <td className="text-center">{disc.shop_name}</td>
