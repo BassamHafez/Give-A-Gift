@@ -8,7 +8,7 @@ import { executePayment } from "../../util/Http";
 import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
 import { getPaymentMethods } from "../../util/Http";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import InputErrorMessage from "../../Components/Ui/InputErrorMessage";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
@@ -29,6 +29,7 @@ const Payment = () => {
   const { type, cardId, price } = useParams();
   const [activeMethod, setActiveMethod] = useState(0);
   const { t: key } = useTranslation();
+  const navigate=useNavigate();
 
   const { data } = useQuery({
     queryKey: ["paymentMethods", token],
@@ -42,10 +43,10 @@ const Payment = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: executePayment,
     onSuccess: (response) => {
-      console.log(response);
       if (response.status === "success") {
         notifySuccess(key("redirect"));
         window.open(`${response.data?.Data?.PaymentURL}`, "_blank");
+        navigate(`/user-orders`)
       } else {
         notifyError(key("wrong"));
       }
@@ -64,9 +65,7 @@ const Payment = () => {
     const updatedFormData = {
       PaymentMethodId: values.PaymentMethodId,
       InvoiceValue: values.InvoiceValue,
-      cardId: cardId,
-      successURL: `${process.env.REACT_APP_Host}payment-success/${cardId}`,
-      errorURL: `${process.env.REACT_APP_Host}payment-faild`,
+      cardId: cardId
     };
     console.log(updatedFormData);
     mutate({ token: token, formData: updatedFormData });
