@@ -44,7 +44,6 @@ const OrdersDataView = ({ isUser }) => {
   const { data, refetch } = useQuery({
     queryKey: ["orders", token],
     queryFn: () => getAllOrders({ token }),
-    staleTime: Infinity,
     enabled: !!token,
   });
 
