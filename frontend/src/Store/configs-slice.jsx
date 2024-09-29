@@ -10,7 +10,8 @@ const configsSlice = createSlice({
     celebrateLinkPrice: "5",
     walletStarting:"0",
     messageReminder:"",
-    messageCodeReminder:""
+    messageCodeReminder:"",
+    whatsappMessage:""
   },
   reducers: {
     setMainColor(state, action) {
@@ -39,6 +40,9 @@ const configsSlice = createSlice({
     },
     setCodeMessage(state, action) {
       state.messageCodeReminder = action.payload;
+    },
+    setWhatsappMessage(state, action) {
+      state.whatsappMessage = action.payload;
     },
   },
 });
