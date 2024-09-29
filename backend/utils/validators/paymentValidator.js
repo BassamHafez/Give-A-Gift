@@ -20,17 +20,5 @@ exports.executePaymentValidator = [
     .isMongoId()
     .withMessage("cardId must be a valid MongoId"),
 
-  check("successURL")
-    .notEmpty()
-    .withMessage("successURL is required")
-    .isString()
-    .withMessage("successURL must be a string"),
-
-  check("errorURL")
-    .notEmpty()
-    .withMessage("errorURL is required")
-    .isString()
-    .withMessage("errorURL must be a string"),
-
   validatorMiddleware,
 ];

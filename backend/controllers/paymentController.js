@@ -34,8 +34,7 @@ exports.getPaymentMethods = catchAsync(async (req, res, next) => {
 });
 
 exports.executePayment = catchAsync(async (req, res, next) => {
-  const { PaymentMethodId, InvoiceValue, cardId, successURL, errorURL } =
-    req.body;
+  const { PaymentMethodId, InvoiceValue, cardId } = req.body;
 
   const response = await axios.post(
     `${baseURL}/v2/ExecutePayment`,
@@ -45,8 +44,6 @@ exports.executePayment = catchAsync(async (req, res, next) => {
       DisplayCurrencyIso: "SAR",
       CustomerEmail: req.user.email,
       InvoiceValue,
-      CallBackUrl: successURL,
-      ErrorUrl: errorURL,
       UserDefinedField: cardId,
     },
     {
