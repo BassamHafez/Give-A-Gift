@@ -5,6 +5,12 @@ const authController = require("../controllers/authController");
 const discountCodeController = require("../controllers/discountCodeController");
 const discountCodeValidator = require("../utils/validators/discountCodeValidator");
 
+router.post(
+  "/",
+  discountCodeValidator.getOnlineDiscountCodeValueValidator,
+  discountCodeController.getOnlineDiscountCodeValue
+);
+
 router.use(authController.protect);
 
 router.get(

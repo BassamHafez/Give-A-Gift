@@ -34,3 +34,19 @@ exports.cancelDiscountCodeValidator = [
 
   validatorMiddleware,
 ];
+
+exports.getOnlineDiscountCodeValueValidator = [
+  check("token")
+    .notEmpty()
+    .withMessage("Token is required")
+    .isUUID(4)
+    .withMessage("Invalid token"),
+
+  check("code")
+    .notEmpty()
+    .withMessage("Code is required")
+    .isMongoId()
+    .withMessage("Invalid code"),
+
+  validatorMiddleware,
+];

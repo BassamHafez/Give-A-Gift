@@ -1,4 +1,5 @@
 const User = require("../models/userModel");
+const Shop = require("../models/shopModel");
 const Card = require("../models/cardModel");
 const Order = require("../models/orderModel");
 const Wallet = require("../models/walletModel");
@@ -202,5 +203,48 @@ exports.cancelDiscountCode = catchAsync(async (req, res, next) => {
   res.status(204).json({
     status: "success",
     data: null,
+  });
+});
+
+exports.getOnlineDiscountCodeValue = catchAsync(async (req, res, next) => {
+  const { token, code } = req.body;
+
+  const [card, shop] = await Promise.all([
+    Card.findById(code).select("price discountCode isPaid"),
+    Shop.findOne({ token }),
+  ]);
+
+  if (!shop) {
+    return next(new ApiError("Invalid token", 400));
+  }
+
+  if (!card) {
+    return next(new ApiError("Invalid code", 400));
+  }
+
+  if (!card.isPaid) {
+    return next(new ApiError("Card not paid", 400));
+  }
+
+  if (card.discountCode.isUsed) {
+    return next(new ApiError("Code already used", 400));
+  }
+
+  if (card.shop.toString() !== shop._id.toString()) {
+    return next(new ApiError("Code does not belong to this shop", 400));
+  }
+
+  await Card.findByIdAndUpdate(code, {
+    $set: {
+      "discountCode.isUsed": true,
+      "discountCode.usedAt": Date.now(),
+    },
+  });
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      value: card.price.value,
+    },
   });
 });
