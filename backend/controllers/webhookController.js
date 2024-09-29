@@ -143,7 +143,7 @@ exports.paymentWebhook = catchAsync(async (req, res, next) => {
       }
       // else { }
 
-      const msgData = createCardWhatsappMessage(card, user);
+      const msgData = await createCardWhatsappMessage(card, user);
 
       const orderData = createOrderData(
         counter.seq,

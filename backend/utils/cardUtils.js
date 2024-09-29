@@ -1,3 +1,5 @@
+const Config = require("../models/configModel");
+
 exports.calculateTotalCardPrice = (
   card,
   iconPrice,
@@ -17,12 +19,22 @@ exports.calculateTotalCardPrice = (
   return cardPrice + cardPrice * (parseFloat(VAT.value) / 100);
 };
 
-exports.createCardWhatsappMessage = (card, user) => {
-  return {
-    phone: card.recipient.whatsappNumber,
-    caption: `You have received a gift card from ${user.name}. Click here to view: ${process.env.CARD_PREVIEW_URL}/${card.id}`,
-    fileUrl:
-      "https://nypost.com/wp-content/uploads/sites/2/2023/11/gift-card.jpg",
-    scheduledAt: card.receiveAt ? new Date(card.receiveAt) : new Date(),
-  };
+exports.createCardWhatsappMessage = async (card, user) => {
+  try {
+    const cardMsg = await Config.findOne({ key: "WHATSAPP_CARD_MESSAGE" });
+
+    caption = cardMsg.value
+      .replace("[USER_NAME]", user.name)
+      .replace("[CARD_LINK]", `${process.env.CARD_PREVIEW_URL}/${card.id}`);
+
+    return {
+      phone: card.recipient.whatsappNumber,
+      caption,
+      fileUrl:
+        "https://nypost.com/wp-content/uploads/sites/2/2023/11/gift-card.jpg",
+      scheduledAt: card.receiveAt ? new Date(card.receiveAt) : new Date(),
+    };
+  } catch (error) {
+    console.log(error);
+  }
 };
