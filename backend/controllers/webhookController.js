@@ -11,7 +11,11 @@ const {
   calculateTotalCardPrice,
   createCardWhatsappMessage,
 } = require("../utils/cardUtils");
-const { createOrderData } = require("../utils/orderUtils");
+const {
+  createOrderData,
+  createOrderConfirmEmailData,
+} = require("../utils/orderUtils");
+const sendEmail = require("../utils/sendEmail");
 const catchAsync = require("../utils/catchAsync");
 const ApiError = require("../utils/ApiError");
 
@@ -19,13 +23,17 @@ exports.paymentWebhook = catchAsync(async (req, res, next) => {
   console.log("Webhook received 🎈🎉");
 
   try {
-    const cardId = req.body?.UserDefinedField;
+    const cardId = req.body?.Data?.UserDefinedField;
 
     if (!cardId) {
-      throw new ApiError("Card ID not provided", 400);
+      throw new ApiError(
+        `Card ID not provided for invoice ${req.body?.Data?.InvoiceId}.
+        User: ${req.body?.Data?.CustomerName} - ${req.body?.Data?.CustomerMobile}`,
+        400
+      );
     }
 
-    if (req.body?.TransactionStatus === "SUCCESS") {
+    if (req.body?.Data?.TransactionStatus === "SUCCESS") {
       console.log("Transaction SUCCESS");
 
       const cardPopOptions = [
@@ -37,11 +45,19 @@ exports.paymentWebhook = catchAsync(async (req, res, next) => {
       const card = await Card.findById(cardId).populate(cardPopOptions);
 
       if (!card) {
-        throw new ApiError("Card not found", 404);
+        throw new ApiError(
+          `No card found with ID ${cardId}, for invoice ${req.body?.Data?.InvoiceId}.
+          User: ${req.body?.Data?.CustomerName} - ${req.body?.Data?.CustomerMobile}`,
+          404
+        );
       }
 
       if (card.isPaid) {
-        throw new ApiError("Card already paid", 400);
+        throw new ApiError(
+          `Card ${card.id} already paid for invoice ${req.body?.Data?.InvoiceId}.
+          User: ${req.body?.Data?.CustomerName} - ${req.body?.Data?.CustomerMobile}`,
+          400
+        );
       }
 
       if (
@@ -49,7 +65,11 @@ exports.paymentWebhook = catchAsync(async (req, res, next) => {
         !card.recipient.whatsappNumber ||
         !card.recipient.name
       ) {
-        throw new ApiError("Complete recipient details first", 400);
+        throw new ApiError(
+          `Recipient details not complete for card ${card.id}, for invoice ${req.body?.Data?.InvoiceId}.
+          User: ${req.body?.Data?.CustomerName} - ${req.body?.Data?.CustomerMobile}`,
+          400
+        );
       }
 
       const [wallet, user] = await Promise.all([
@@ -95,14 +115,16 @@ exports.paymentWebhook = catchAsync(async (req, res, next) => {
         parseFloat(req.body?.Data?.InvoiceValueInBaseCurrency);
 
       if (totalBalance < totalAmount) {
-        throw new ApiError("Insufficient balance", 400);
+        throw new ApiError(
+          `Insufficient balance for card ${card.id}, for invoice ${req.body?.Data?.InvoiceId}.
+          User: ${req.body?.Data?.CustomerName} - ${req.body?.Data?.CustomerMobile}`,
+          400
+        );
       }
 
       let newBalance =
         totalBalance - totalAmount > 0 ? totalBalance - totalAmount : 0;
-      newBalance +=
-        (totalAmount - (totalAmount * parseFloat(VAT.value)) / 100) *
-        (parseFloat(cashBackPercentage) / 100);
+      newBalance += card.price.value * (parseFloat(cashBackPercentage) / 100);
 
       wallet.balance = newBalance;
       card.isPaid = true;
@@ -133,17 +155,26 @@ exports.paymentWebhook = catchAsync(async (req, res, next) => {
         linkPrice
       );
 
-      await Promise.all([
+      const [, , order] = await Promise.all([
         wallet.save(),
         card.save(),
         Order.create(orderData),
         ScheduledMessage.create(msgData),
       ]);
+
+      const emailData = createOrderConfirmEmailData(order);
+      sendEmail(emailData);
     } else {
       console.log("Transaction FAILED");
     }
   } catch (error) {
     console.log(error);
+    sendEmail({
+      email: "Giveagift.sa@gmail.com",
+      subject: "Payment Failed",
+      text: JSON.stringify(error),
+      html: `<pre>${JSON.stringify(error, null, 2)}</pre>`,
+    });
   } finally {
     Transaction.create({
       ...req.body?.Data,
@@ -155,32 +186,40 @@ exports.paymentWebhook = catchAsync(async (req, res, next) => {
 });
 
 /*
-// example
-{
+// Example
+req.body {
   EventType: 1,
   Event: 'TransactionsStatusChanged',
-  DateTime: '31082024003443',
+  DateTime: '29092024150120',
   CountryIsoCode: 'SAU',
   Data: {
-    InvoiceId: 35434084,
-    InvoiceReference: '2024000320',
-    CreatedDate: '31082024003113',
+    InvoiceId: 37002699,
+    InvoiceReference: '2024000447',
+    CreatedDate: '29092024145906',
     CustomerReference: null,
     CustomerName: 'Ammar Yasser',
     CustomerMobile: '+966',
-    CustomerEmail: 'ammar.yassr.33@gmail.com',
+    CustomerEmail: 'ammar.yassr.959@gmail.com',
     TransactionStatus: 'FAILED',
     PaymentMethod: 'VISA/MASTER',
-    UserDefinedField: 'DEPOSIT',
-    ReferenceId: '0808354340843455990283',
-    TrackId: '31-08-2024_34559902',
-    PaymentId: '0808354340843455990283',
-    AuthorizationId: '0808354340843455990283',
-    InvoiceValueInBaseCurrency: '81',
+    UserDefinedField: '66f94095eef4719b7f313def',
+    ReferenceId: '0808370026993609545684',
+    TrackId: '29-09-2024_36095456',
+    PaymentId: '0808370026993609545684',
+    AuthorizationId: '0808370026993609545684',
+    TrackId: '29-09-2024_36095456',
+    PaymentId: '0808370026993609545684',
+    AuthorizationId: '0808370026993609545684',
+    PaymentId: '0808370026993609545684',
+    AuthorizationId: '0808370026993609545684',
+    AuthorizationId: '0808370026993609545684',
+    InvoiceValueInBaseCurrency: '30',
     BaseCurrency: 'SAR',
-    InvoiceValueInDisplayCurreny: '81',
+    BaseCurrency: 'SAR',
+    InvoiceValueInDisplayCurreny: '30',
+    InvoiceValueInDisplayCurreny: '30',
     DisplayCurrency: 'SAR',
-    InvoiceValueInPayCurrency: '81',
+    InvoiceValueInPayCurrency: '30',
     PayCurrency: 'SAR'
   }
 }
