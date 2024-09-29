@@ -16,10 +16,7 @@ exports.getAllOrders = factory.getAll(Order);
 exports.cancelOrder = catchAsync(async (req, res, next) => {
   const { id } = req.params;
 
-  const order = await Order.findOne({
-    _id: id,
-    ...(req.user.role !== "admin" && { customer_id: req.user.id }),
-  });
+  const order = await Order.findById(id);
 
   if (!order) {
     return next(new ApiError("No order found with that ID", 404));
