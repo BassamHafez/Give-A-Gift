@@ -197,8 +197,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     user.passwordResetExpires = undefined;
     user.passwordResetVerified = undefined;
 
-    console.log("send email error");
-    console.log(err);
+    console.log(`Error in sending email. Time: ${new Date()}\n`, err);
 
     await user.save();
     return next(new ApiError("There is an error in sending email", 500));
