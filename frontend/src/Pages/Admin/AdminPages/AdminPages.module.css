@@ -574,6 +574,27 @@
         padding: 3px;
     }
 }
+
+@media screen and (max-width:550px) {
+    .select_input{
+        width:35%;
+    }
+    
+    .phone_input{
+        width: 65%;
+    }
+}
+
+@media screen and (max-width:430px) {
+    .select_input{
+        width:40%;
+    }
+    
+    .phone_input{
+        width: 60%;
+    }
+}
+
 @media screen and (max-width:400px) {
     .cop_div {
         width: 98%;

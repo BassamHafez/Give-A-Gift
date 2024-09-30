@@ -73,15 +73,16 @@
     width:20%;
     font-family: Arial, Helvetica, sans-serif;
 }
-.select_input * {
-    border: none !important;
-}
+
 .phone_input{
     border-radius: 0 5px 5px  0;
     width: 80%;
     font-family: Arial, Helvetica, sans-serif;
     color: black;
     height: 100%;
+    border: none !important;
+}
+.select_input * {
     border: none !important;
 }
 .crown_icon{
@@ -102,6 +103,22 @@
         margin: 0;
         text-align: center;
     }
+    .select_input{
+        width:30%;
+    }
+    
+    .phone_input{
+        width: 70%;
+    }
+}
+@media screen and (max-width:430px) {
+    .select_input{
+        width:40%;
+    }
+    
+    .phone_input{
+        width: 60%;
+    }
 }
 
 @media only screen and (max-width: 370px) {
@@ -112,9 +129,6 @@
 
 @media only screen and (max-width: 320px) {
     .select_input {
-        width: 50%;
-    }
-    .phone_input img{
         width: 50%;
     }
     .btn_group{
