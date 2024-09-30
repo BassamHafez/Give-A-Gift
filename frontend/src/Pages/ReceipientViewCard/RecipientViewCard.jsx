@@ -134,7 +134,7 @@ const RecipientViewCard = () => {
                 {myCard.data?.discountCode?.qrCode ? (
                   <>
                     <ul>
-                      <li>{key("qrUsageStep1")}</li>
+                      <li>{key("qrUsageStep1")} "{myCard.data?.shop?.name}"</li>
                       <li>{key("qrUsageStep2")}</li>
                       <li>{key("qrUsageStep3")}</li>
                       <li>{key("qrUsageStep4")}</li>

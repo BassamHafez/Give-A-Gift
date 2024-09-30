@@ -79,7 +79,7 @@ const ViewCard = () => {
       </Card.Body>
     </Card>
   );
-console.log(myCard)
+
   return (
     <div className={`${styles.card_container}`}>
       {!isFetching ? (
@@ -133,17 +133,15 @@ console.log(myCard)
                 {myCard.data?.discountCode?.qrCode ? (
                   <>
                     <ul>
-                      <li>{key("qrUsageStep1")}</li>
+                      <li>
+                        {key("qrUsageStep1")} "{myCard.data?.shop?.name}"
+                      </li>
                       <li>{key("qrUsageStep2")}</li>
                       <li>{key("qrUsageStep3")}</li>
                       <li>{key("qrUsageStep4")}</li>
                     </ul>
                     <div className={styles.scan_img}>
-                      <img
-                       className="w-100" 
-                        src={scan}
-                        alt="scan the code"
-                      />
+                      <img className="w-100" src={scan} alt="scan the code" />
                     </div>
                   </>
                 ) : (

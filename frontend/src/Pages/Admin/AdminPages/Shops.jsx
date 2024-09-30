@@ -139,6 +139,17 @@ const Shops = () => {
     notifySuccess(key("photoDownloaded"));
   };
 
+  const handleTokenCopy = (token) => {
+    navigator.clipboard.writeText(token).then(
+      () => {
+        notifySuccess(key("tokenCopied"));
+      },
+      () => {
+        notifyError(key("copyError"));
+      }
+    );
+  };
+
   return (
     <>
       <div className={styles.main_body}>
@@ -283,7 +294,9 @@ const Shops = () => {
               <Col
                 key={shop._id}
                 sm={4}
-                className="d-flex justify-content-center align-items-center"
+                className="d-flex flex-column justify-content-center align-items-center"
+                style={{ cursor: "pointer" }}
+                onClick={() => handleTokenCopy(shop.token)}
               >
                 <div className={styles.shop_div}>
                   <FontAwesomeIcon
