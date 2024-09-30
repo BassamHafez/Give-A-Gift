@@ -50,6 +50,8 @@ import RecipientViewCard from './Pages/ReceipientViewCard/RecipientViewCard';
 import AdminCarts from './Pages/Admin/AdminPages/AdminCarts';
 import Discounts from './Pages/Admin/AdminPages/Discounts';
 import Designs from './Pages/Admin/AdminPages/Designs';
+import {ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const router=createBrowserRouter([{
@@ -179,8 +181,16 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        draggable
+        pauseOnHover={false}
+        pauseOnFocusLoss={false}
+      />
       <RouterProvider router={router}/>
-
     </QueryClientProvider>
   );
 }

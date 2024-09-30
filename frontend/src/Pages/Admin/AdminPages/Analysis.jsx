@@ -14,10 +14,11 @@ import {
   faStore,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
-import TopShapes from "../../../Components/Charts/TopSHapes";
 import TopStores from "../../../Components/Charts/TopStores";
 import LastMonthsIncome from "../../../Components/Charts/LastMonthsIncome";
 import * as XLSX from "xlsx";
+import TopShapesCharts from "../../../Components/Charts/TopShapesCharts";
+
 
 const Analysis = () => {
   const { t: key } = useTranslation();
@@ -124,7 +125,7 @@ const Analysis = () => {
             />
           </h4>
           <section className={styles.chart_div} dir={isArLang ? "ltr" : "ltr"}>
-            <TopShapes topShapes={data?.data?.topShapes} />
+            <TopShapesCharts topShapes={data?.data?.topShapes}/>
           </section>
 
           <h4

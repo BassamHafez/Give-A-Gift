@@ -11,7 +11,6 @@ import Alert from "react-bootstrap/Alert";
 
 const MerchantAccountSetting = () => {
   const profileData = useSelector((state) => state.profileInfo.data);
-  console.log(profileData);
   return (
     <>
       <div className={styles.acc_setting_body}>

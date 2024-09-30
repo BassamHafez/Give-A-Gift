@@ -28,7 +28,7 @@ const CustomCardShops = ({ saveShop }) => {
       </h4>
       <Row className={styles.logo_container}>
         {shops ? (
-          shops.data.map((shop) => (
+          shops?.data?.map((shop) => (
             <Col
               xs={12}
               sm={6}

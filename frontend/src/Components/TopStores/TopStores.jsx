@@ -53,7 +53,7 @@ const TopStores = () => {
           modules={[Pagination, Autoplay, Navigation]}
           className={`${styles.swiper_content} mySwiper`}
         >
-          {shops.data.map((shop) => (
+          {shops?.data?.map((shop) => (
               <SwiperSlide className={styles.company} key={shop._id}>
                 <div className={styles.single_container}>
                   <img

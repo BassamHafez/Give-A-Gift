@@ -11,11 +11,11 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family:'ARAHAMAH1982', sans-serif !important;
 }
 body {
   overflow-x: hidden;
   background-color: var(--main_bg_color);
+  font-family:'ARAHAMAH1982', sans-serif !important;
 }
 
 :root{

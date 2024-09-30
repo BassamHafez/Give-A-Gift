@@ -12,20 +12,16 @@ import Col from "react-bootstrap/esm/Col";
 import LoadingOne from "../../../Components/Ui/LoadingOne";
 import SearchField from "../../../Components/Ui/SearchField";
 import { useTranslation } from "react-i18next";
-import toast from "react-hot-toast";
 import { controlTransactions } from "../../../util/Http";
 import { useQuery } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 const Transactions = () => {
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
   const [searchInput, setSearchInput] = useState("");
 
-  const notifySuccess = (message) => {
-    toast.success((t) => (
-      <div onClick={() => toast.dismiss(t.id)}>{message}</div>
-    ));
-  };
+  const notifySuccess = (message) => toast.success(message);
 
   const { data: allTransactions } = useQuery({
     queryKey: ["allTransactions", token],
@@ -50,7 +46,6 @@ const Transactions = () => {
       notifySuccess(key("searchFilterApplied"));
     }
   };
-  console.log(allTransactions);
   let filterTransactions;
 
   filterTransactions = allTransactions
@@ -94,7 +89,7 @@ const Transactions = () => {
       <Row className="justify-content-center position-relative">
         {allTransactions ? (
           filterTransactions?.length > 0 ? (
-            filterTransactions.map((trans) => (
+            filterTransactions?.map((trans) => (
               <Col
                 key={trans._id}
                 sm={6}
@@ -148,7 +143,7 @@ const Transactions = () => {
               </Col>
             ))
           ) : (
-            allTransactions.data?.map((trans) => (
+            allTransactions?.data?.map((trans) => (
               <Col
                 key={trans._id}
                 sm={6}

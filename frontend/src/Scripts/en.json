@@ -392,5 +392,6 @@
     "online":"online",
     "shopToken":"Shop Token",
     "tokenCopied":"Store Token Copied",
-    "copyError":"Copy Error try again"
+    "copyError":"Copy Error try again",
+    "downloadapp":"Download our app for a better experience!"
 }   

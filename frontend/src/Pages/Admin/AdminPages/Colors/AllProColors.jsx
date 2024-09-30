@@ -2,33 +2,16 @@ import axios from "axios";
 import React from "react";
 import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
-import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import styles from "../AdminPages.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown, faTrash } from "@fortawesome/free-solid-svg-icons";
 import LoadingOne from "../../../../Components/Ui/LoadingOne";
+import { toast } from "react-toastify";
 
 const AllProColors = ({ refetch, proColors }) => {
-  const notifySuccess = (message) => {
-    toast.success((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
-
-  const notifyError = (message) => {
-    toast.error((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
   const { t: key } = useTranslation();
 
   const token = JSON.parse(localStorage.getItem("token"));
@@ -57,7 +40,7 @@ const AllProColors = ({ refetch, proColors }) => {
       <h4>{key("allProColors")}</h4>
       <Row className="justify-content-center">
         {proColors ? (
-          proColors.map((color) => (
+          proColors?.map((color) => (
             <Col
               key={color._id}
               xs={6}

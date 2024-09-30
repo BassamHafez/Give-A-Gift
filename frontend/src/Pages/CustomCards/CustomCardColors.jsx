@@ -8,48 +8,12 @@ import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { getColors } from "../../util/Http";
 import LoadingOne from "../../Components/Ui/LoadingOne";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 
 const CustomCardColors = ({ saveColorValues }) => {
   const { t: key } = useTranslation();
 
-  const notifyError = (message) =>
-    toast(
-      (t) => (
-        <div>
-          <span>{message}</span>
-
-          <div style={{ textAlign: "end" }}>
-            <button
-              onClick={() => toast.dismiss(t.id)}
-              style={{
-                borderRadius: "1.5625rem",
-                minWidth: "6.25rem",
-                fontSize: "1.125rem",
-                fontWeight: "700",
-                boxShadow: "0 0 0.1875rem rgba(0, 0, 0, 0.5)",
-                padding: "0.625rem 0.9375rem",
-                marginTop: "10px",
-                backgroundColor: "#FFF",
-                color: "#000",
-              }}
-            >
-              {key("confirm")}
-            </button>
-          </div>
-        </div>
-      ),
-      {
-        icon: "🔔",
-        style: {
-          padding: "16px",
-          color: "#FFF",
-          fontWeight: "600",
-          backgroundColor: "#b62026",
-        },
-        position: "bottom-right",
-      }
-    );
+  const notifyError = (message) => toast.info(`⚠️ ${message}`);
 
   const { data: colors } = useQuery({
     queryKey: ["colors"],

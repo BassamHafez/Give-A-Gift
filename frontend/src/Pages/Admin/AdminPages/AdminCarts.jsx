@@ -8,23 +8,14 @@ import noData from "../../../Images/noData.jpg";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import SearchField from "../../../Components/Ui/SearchField";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 import axios from "axios";
 
 const AdminCarts = () => {
   const [selectedIds, setSelectedIds] = useState([]);
   const [searchInput, setSearchInput] = useState("");
-  const notifySuccess = (message) => {
-    toast.success((t) => (
-      <div onClick={() => toast.dismiss(t.id)}>{message}</div>
-    ));
-  };
-
-  const notifyError = (message) => {
-    toast.error((t) => (
-      <div onClick={() => toast.dismiss(t.id)}>{message}</div>
-    ));
-  };
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
 
   const token = JSON.parse(localStorage.getItem("token"));
   const { t: key } = useTranslation();
@@ -111,7 +102,6 @@ const AdminCarts = () => {
           },
         }
       );
-      console.log(response);
       let res = response.data;
       if (res.status === "success") {
         notifySuccess(key("sentSucc"));
@@ -220,7 +210,7 @@ const AdminCarts = () => {
                         </tr>
                       )
                   )
-                : data.data.map(
+                : data?.data?.map(
                     (cart) =>
                       !cart.isPaid && (
                         <tr

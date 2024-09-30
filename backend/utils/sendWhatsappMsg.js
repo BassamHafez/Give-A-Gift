@@ -13,7 +13,6 @@ const sendWhatsappText = async (phone, message) => {
       },
     });
 
-    console.log("Message sent:", response.data);
   } catch (error) {
     console.error(
       "Error sending message:",
@@ -36,7 +35,6 @@ const sendWhatsappFile = async (phone, fileUrl, caption) => {
       },
     });
 
-    console.log("File sent:", response.data);
   } catch (error) {
     console.error(
       "Error sending file:",

@@ -12,12 +12,12 @@ import LoadingOne from "../../../Components/Ui/LoadingOne";
 import defaultImg from "../../../Images/default.png";
 import SearchField from "../../../Components/Ui/SearchField";
 import { useTranslation } from "react-i18next";
-import toast from "react-hot-toast";
 import { controlWallets } from "../../../util/Http";
 import { useQuery } from "@tanstack/react-query";
 import AddBalanceAll from "./WalletsForms/AddBalanceAll";
 import AddBalance from "./WalletsForms/AddBalance";
 import RemoveBalanceAll from "./WalletsForms/RemoveBalanceAll";
+import { toast } from "react-toastify";
 
 const Wallets = () => {
   const { t: key } = useTranslation();
@@ -26,15 +26,7 @@ const Wallets = () => {
   const [showModal, setModalShow] = useState(false);
   const [walletId, setWalletId] = useState(false);
 
-  const notifySuccess = (message) => {
-    toast.success((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
+  const notifySuccess = (message) => toast.success(message);
 
 
   const { data: wallets, refetch } = useQuery({
@@ -93,7 +85,7 @@ const Wallets = () => {
           <Row className="justify-content-center position-relative">
             {wallets ? (
               filterWallets?.length > 0 ? (
-                filterWallets.map((wallet) => (
+                filterWallets?.map((wallet) => (
                   <Col
                     key={wallet._id}
                     sm={6}
@@ -152,7 +144,7 @@ const Wallets = () => {
                   </Col>
                 ))
               ) : (
-                wallets.data?.data?.map((wallet) => (
+                wallets?.data?.data?.map((wallet) => (
                   <Col
                     key={wallet._id}
                     sm={6}

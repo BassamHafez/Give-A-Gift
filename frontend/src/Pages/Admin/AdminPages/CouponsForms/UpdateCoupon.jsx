@@ -7,36 +7,19 @@ import { number, object, string } from "yup";
 import { faYinYang } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
-import toast from "react-hot-toast";
 import InputErrorMessage from "../../../../Components/Ui/InputErrorMessage";
 import DatePicker from "react-multi-date-picker";
 import TimePicker from "react-multi-date-picker/plugins/time_picker";
 import Modal from "react-bootstrap/Modal";
+import { toast } from "react-toastify";
 
 const UpdateCoupon = ({ show, onHide, copId, refetch, expire, name, discount }) => {
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
   const [dateTime, setDateTime] = useState(null);
 
-  const notifySuccess = (message) => {
-    toast.success((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
-
-  const notifyError = (message) => {
-    toast.error((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
 
   const { mutate, isPending } = useMutation({
     mutationFn: controlCoupons,
@@ -69,7 +52,6 @@ const UpdateCoupon = ({ show, onHide, copId, refetch, expire, name, discount }) 
   }, [expire]);
 
   const onSubmit = (values) => {
-    console.log(values);
 
     mutate({
       formData: values,

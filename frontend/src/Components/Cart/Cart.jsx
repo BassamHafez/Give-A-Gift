@@ -17,39 +17,21 @@ import { useQuery } from "@tanstack/react-query";
 import { getMyCards, getMyWallet } from "../../util/Http";
 import Placeholders from "../Ui/Placeholders";
 import ConfirmationModal from "../Ui/ConfirmationModal";
-import toast from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { cartActions } from "../../Store/cartCounter-slice";
 import DetailsAfterBuying from "../../Pages/DetailsAfterBuying/DetailsAfterBuying";
+import { toast } from "react-toastify";
 
 
 
 const Cart = ({ onClose, show }) => {
 
 
-  const notifySuccess = (message) => {
-    toast.success((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
-
-  const notifyError = (message) => {
-    toast.error((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
-  
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
   
   const [modalShow, setModalShow] = useState(false);
   const [confirmModalShow, setConfirmModalShow] = useState(false);
@@ -153,7 +135,6 @@ const Cart = ({ onClose, show }) => {
 
       if (response.status === 200 || response.status === 201) {
         notifySuccess(key("cardPurchased"));
-        console.log(response)
         setCardDetails(response.data?.data?.card);
         setWalletDetails(response.data?.data?.wallet);
         setConfirmModalShow(false);

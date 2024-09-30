@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import MainNav from "../Components/MainNavbar/MainNav";
 import Footer from "../Components/Footer/Footer";
 import { Outlet } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
+import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import VerifyPhoneNumberModal from "../Components/Ui/VerifyPhoneNumberModal";
 import { useTranslation } from "react-i18next";
@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 const Root = () => {
   const profileData = useSelector((state) => state.profileInfo.data);
   const [modalShow, setModalShow] = useState();
+  const [storeLink, setStoreLink] = useState("");
   const { t: key } = useTranslation();
   const isLogin = useSelector((state) => state.userInfo.isLogin);
 
@@ -17,79 +18,136 @@ const Root = () => {
   const subColor = useSelector((state) => state.configs.subColor);
 
   useEffect(() => {
-    const notifyError = (message) =>
-      toast(
-        (t) => (
-          <span>
-            {message}
-            <div
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+    if (/android/i.test(userAgent)) {
+      setStoreLink(
+        "https://play.google.com/store/apps/details?id=your.android.app"
+      );
+    } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+      setStoreLink("https://apps.apple.com/app/your-ios-app-id");
+    }
+  }, []);
+
+  const Msg2 = ({ closeToast, toastProps }) => (
+    <span>
+      {key("downloadapp")}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          marginTop: "10px",
+        }}
+      >
+        <div style={{ display: "flex", gap: "10px" }}>
+          <button
+            onClick={closeToast}
+            style={{
+              borderRadius: "1.5625rem",
+              fontSize: "1.125rem",
+              fontWeight: "700",
+              boxShadow: "0 0 0.1875rem rgba(0, 0, 0, 0.5)",
+              padding: "0.625rem 0.9375rem",
+              marginRight: "auto",
+            }}
+          >
+            {key("later")}
+          </button>
+
+          <button
+            onClick={() => {
+              window.open(`${storeLink}`);
+            }}
+            style={{
+              borderRadius: "1.5625rem",
+              minWidth: "6.25rem",
+              fontSize: "1.125rem",
+              fontWeight: "700",
+              boxShadow: "0 0 0.1875rem rgba(0, 0, 0, 0.5)",
+              padding: "10px",
+              marginLeft: "auto",
+              backgroundColor: "red",
+              color: "#FFF",
+            }}
+          >
+            {key("download")}
+          </button>
+        </div>
+      </div>
+    </span>
+  );
+
+  useEffect(() => {
+    if (storeLink && !sessionStorage.getItem("appDownloadToastShown")) {
+      toast.info(<Msg2 />, { autoClose: false });
+      sessionStorage.setItem("appDownloadToastShown", "true");
+    }
+  }, [storeLink]);
+
+  useEffect(() => {
+    const Msg = ({ closeToast, toastProps }) => (
+      <span>
+        {key("verifyMsg")}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            marginTop: "10px",
+          }}
+        >
+          <div style={{ display: "flex", gap: "10px" }}>
+            <button
+              onClick={closeToast}
               style={{
-                display: "flex",
-                flexDirection: "column",
-                marginTop: "10px",
+                borderRadius: "1.5625rem",
+                fontSize: "1.125rem",
+                fontWeight: "700",
+                boxShadow: "0 0 0.1875rem rgba(0, 0, 0, 0.5)",
+                padding: "0.625rem 0.9375rem",
+                marginRight: "auto",
               }}
             >
-              <div style={{ display: "flex", gap: "10px" }}>
-                <button
-                  onClick={() => toast.dismiss(t.id)}
-                  style={{
-                    borderRadius: "1.5625rem",
-                    fontSize: "1.125rem",
-                    fontWeight: "700",
-                    boxShadow: "0 0 0.1875rem rgba(0, 0, 0, 0.5)",
-                    padding: "0.625rem 0.9375rem",
-                    marginRight: "auto",
-                  }}
-                >
-                  {key("later")}
-                </button>
+              {key("later")}
+            </button>
 
-                <button
-                  onClick={() => {
-                    setModalShow(true);
-                    toast.dismiss(t.id);
-                  }}
-                  style={{
-                    borderRadius: "1.5625rem",
-                    minWidth: "6.25rem",
-                    fontSize: "1.125rem",
-                    fontWeight: "700",
-                    boxShadow: "0 0 0.1875rem rgba(0, 0, 0, 0.5)",
-                    padding: "0.625rem 0.9375rem",
-                    marginLeft: "auto",
-                    backgroundColor: "red",
-                    color: "#FFF",
-                  }}
-                >
-                  {key("verify")}
-                </button>
-              </div>
-            </div>
-          </span>
-        ),
-        {
-          icon: "⚠️",
-          style: {
-            padding: "16px",
-            color: "#000",
-            fontWeight: "600",
-          },
-        }
-      );
+            <button
+              onClick={() => {
+                setModalShow(true);
+              }}
+              style={{
+                borderRadius: "1.5625rem",
+                minWidth: "6.25rem",
+                fontSize: "1.125rem",
+                fontWeight: "700",
+                boxShadow: "0 0 0.1875rem rgba(0, 0, 0, 0.5)",
+                padding: "10px",
+                marginLeft: "auto",
+                backgroundColor: "red",
+                color: "#FFF",
+              }}
+            >
+              {key("verify")}
+            </button>
+          </div>
+        </div>
+      </span>
+    );
+
+    const notifyError = () => toast(<Msg />);
 
     if (!isLogin || !profileData) {
       return;
     }
 
     if (profileData.phoneVerified === false) {
-      notifyError(key("verifyMsg"));
+      notifyError();
     } else {
       return;
     }
 
     const intervalId = setInterval(() => {
       if (profileData?.phoneVerified === false) {
-        notifyError(key("verifyMsg"));
+        notifyError();
       }
     }, 30 * 60 * 1000);
 
@@ -105,12 +163,6 @@ const Root = () => {
 
   return (
     <>
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 3000,
-        }}
-      />
       <div>
         <MainNav />
         <Outlet />

@@ -1,6 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
-import toast from "react-hot-toast";
 import { addProColor } from "../../../../util/Http";
 import { useTranslation } from "react-i18next";
 import { mixed, number, object } from "yup";
@@ -9,6 +8,7 @@ import styles from "../AdminPages.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage, faYinYang } from "@fortawesome/free-solid-svg-icons";
 import InputErrorMessage from "../../../../Components/Ui/InputErrorMessage";
+import { toast } from "react-toastify";
 
 const AddProColor = ({ refetch }) => {
   const { t: key } = useTranslation();
@@ -16,25 +16,8 @@ const AddProColor = ({ refetch }) => {
   const [selectedFile, setSelectedFile] = useState(null);
 
 
-  const notifySuccess = (message) => {
-    toast.success((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
-
-  const notifyError = (message) => {
-    toast.error((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
 
   const { mutate, isPending } = useMutation({
     mutationFn: addProColor,

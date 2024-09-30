@@ -9,7 +9,7 @@ import Select from "react-select";
 import { FontsFamilies } from "../../Components/Logic/Logic";
 import MainButton from "../../Components/Ui/MainButton";
 import axios from "axios";
-import toast from "react-hot-toast";
+
 import { useNavigate } from "react-router-dom";
 import Carousel from "react-bootstrap/Carousel";
 import { useTranslation } from "react-i18next";
@@ -19,29 +19,13 @@ import CustomCardColors from "./CustomCardColors";
 import CustomCardShapes from "./CustomCardShapes";
 import CustomCardShops from "./CustomCardShops";
 import CustomeCardStage from "./CustomeCardStage";
+import { toast } from "react-toastify";
 
-const notifySuccess = (message) => {
-  toast.success((t) => (
-    <div
-      onClick={() => toast.dismiss(t.id)}
-    >
-      {message}
-    </div>
-  ));
-};
-
-const notifyError = (message) => {
-  toast.error((t) => (
-    <div
-      onClick={() => toast.dismiss(t.id)}
-    >
-      {message}
-    </div>
-  ));
-};
 const baseServerUrl = process.env.REACT_APP_Base_API_URl;
 
 const CustomCards = () => {
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
   const [shapesArray, setShapesArray] = useState([]);
   const [cardWidth, setCardWidth] = useState(480);
   const [cardHeight, setCardHeight] = useState(270);
@@ -76,66 +60,55 @@ const CustomCards = () => {
   const [mainLogoImage] = useImage(mainLogo);
   const priceSafeY = cardHeight * 0.55;
 
-  const notifyLoginError = (message) =>
-    toast(
-      (t) => (
-        <span>
-          {message}
-          <div
+  const Msg = ({ closeToast, toastProps }) => (
+    <span>
+      {key("loginFirst")}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          marginTop: "10px",
+        }}
+      >
+        <div style={{ display: "flex", gap: "10px" }}>
+          <button
+            onClick={closeToast}
             style={{
-              display: "flex",
-              flexDirection: "column",
-              marginTop: "10px",
+              borderRadius: "1.5625rem",
+              fontSize: "1.125rem",
+              fontWeight: "700",
+              boxShadow: "0 0 0.1875rem rgba(0, 0, 0, 0.5)",
+              padding: "0.625rem 0.9375rem",
+              marginRight: "auto",
             }}
           >
-            <div style={{ display: "flex", gap: "10px" }}>
-              <button
-                onClick={() => toast.dismiss(t.id)}
-                style={{
-                  borderRadius: "1.5625rem",
-                  fontSize: "1.125rem",
-                  fontWeight: "700",
-                  boxShadow: "0 0 0.1875rem rgba(0, 0, 0, 0.5)",
-                  padding: "0.625rem 0.9375rem",
-                  marginRight: "auto",
-                }}
-              >
-                {key("later")}
-              </button>
+            {key("later")}
+          </button>
 
-              <button
-                onClick={() => {
-                  navigate(`/login`);
-                  toast.dismiss(t.id);
-                }}
-                style={{
-                  borderRadius: "1.5625rem",
-                  minWidth: "6.25rem",
-                  fontSize: "1.125rem",
-                  fontWeight: "700",
-                  boxShadow: "0 0 0.1875rem rgba(0, 0, 0, 0.5)",
-                  padding: "0.625rem 0.9375rem",
-                  marginLeft: "auto",
-                  backgroundColor: "red",
-                  color: "#FFF",
-                }}
-              >
-                {key("login")}
-              </button>
-            </div>
-          </div>
-        </span>
-      ),
-      {
-        icon: "⚠️",
-        style: {
-          padding: "16px",
-          color: "#000",
-          fontWeight: "600",
-        },
-        duration: 4000,
-      }
-    );
+          <button
+            onClick={() => {
+              navigate(`/login`);
+            }}
+            style={{
+              borderRadius: "1.5625rem",
+              minWidth: "6.25rem",
+              fontSize: "1.125rem",
+              fontWeight: "700",
+              boxShadow: "0 0 0.1875rem rgba(0, 0, 0, 0.5)",
+              padding: "0.625rem 0.9375rem",
+              marginLeft: "auto",
+              backgroundColor: "red",
+              color: "#FFF",
+            }}
+          >
+            {key("login")}
+          </button>
+        </div>
+      </div>
+    </span>
+  );
+
+  const notifyLoginError = () => toast.info(<Msg />);
 
   useEffect(() => {
     const handleResize = () => {
@@ -213,10 +186,6 @@ const CustomCards = () => {
     }
   };
   const createCard = async () => {
-    if (!isLogin) {
-      notifyLoginError(key("loginFirst"));
-      return;
-    }
     if (cardText === "") {
       notifyError(key("cardMessageError"));
       return;
@@ -264,7 +233,7 @@ const CustomCards = () => {
       yPosition: textPosition.y,
     };
 
-    const shapes = shapesArray.map((shape) => ({
+    const shapes = shapesArray?.map((shape) => ({
       shape: shape.id,
       position: { x: shape.position.x, y: shape.position.y },
       scale: shape.scale,
@@ -288,7 +257,13 @@ const CustomCards = () => {
       formData.color = cardColorId;
     }
 
-    console.log(formData);
+    if (!isLogin) {
+      notifyLoginError();
+      localStorage.setItem("notReadyCard", JSON.stringify(formData));
+      localStorage.setItem("isNotReadyCard", "true");
+      return;
+    }
+
     try {
       const response = await axios.post(`${baseServerUrl}cards`, formData, {
         headers: {
@@ -357,7 +332,7 @@ const CustomCards = () => {
             </Col>
             <Col sm={12} className={styles.control_side_container}>
               <div className={styles.steps_indicator}>
-                {stepLabels.map((label, index) => (
+                {stepLabels?.map((label, index) => (
                   <div
                     key={index}
                     className={`${styles.step} ${

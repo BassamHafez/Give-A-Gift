@@ -10,19 +10,9 @@ import Row from "react-bootstrap/esm/Row";
 import { getPaymentMethods } from "../../util/Http";
 import { useNavigate, useParams } from "react-router-dom";
 import InputErrorMessage from "../../Components/Ui/InputErrorMessage";
-import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import styles from "./Payment.module.css";
-
-const notifySuccess = (message) => {
-  toast.success((t) => (
-    <div onClick={() => toast.dismiss(t.id)}>{message}</div>
-  ));
-};
-
-const notifyError = (message) => {
-  toast.error((t) => <div onClick={() => toast.dismiss(t.id)}>{message}</div>);
-};
+import { toast } from "react-toastify";
 
 const Payment = () => {
   const token = JSON.parse(localStorage.getItem("token"));
@@ -30,6 +20,9 @@ const Payment = () => {
   const [activeMethod, setActiveMethod] = useState(0);
   const { t: key } = useTranslation();
   const navigate=useNavigate();
+
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
 
   const { data } = useQuery({
     queryKey: ["paymentMethods", token],
@@ -67,7 +60,6 @@ const Payment = () => {
       InvoiceValue: values.InvoiceValue,
       cardId: cardId
     };
-    console.log(updatedFormData);
     mutate({ token: token, formData: updatedFormData });
   };
 

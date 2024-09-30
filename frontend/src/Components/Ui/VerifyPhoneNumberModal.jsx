@@ -3,7 +3,7 @@ import styles from "./LogoutModal.module.css";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useTranslation } from "react-i18next";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorMessage, Form, Formik, Field } from "formik";
 import { number, object } from "yup";
@@ -16,25 +16,8 @@ const VerifyPhoneNumberModal = ({ onHide, show }) => {
   const { t: key } = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const token = JSON.parse(localStorage.getItem("token"));
-  const notifySuccess = (message) => {
-    toast.success((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
-
-  const notifyError = (message) => {
-    toast.error((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
   const dispatch = useDispatch();
 
   const { mutate } = useMutation({
@@ -51,7 +34,6 @@ const VerifyPhoneNumberModal = ({ onHide, show }) => {
       }
     },
     onError: (error) => {
-      console.log(error);
       notifyError(key("verifyCodeFailResend"));
     },
   });
@@ -61,7 +43,6 @@ const VerifyPhoneNumberModal = ({ onHide, show }) => {
   };
 
   const onSubmit = (values) => {
-    console.log(values);
 
     mutate({
       formData: values,

@@ -8,25 +8,18 @@ import MainButton from "../../../Components/Ui/MainButton";
 import LoadingOne from "../../../Components/Ui/LoadingOne";
 import noData from "../../../Images/noData.jpg";
 import Table from "react-bootstrap/Table";
-import toast from "react-hot-toast";
 import axios from "axios";
 import SearchField from "../../../Components/Ui/SearchField";
+import { toast } from "react-toastify";
 
-const notifySuccess = (message) => {
-  toast.success((t) => (
-    <div onClick={() => toast.dismiss(t.id)}>{message}</div>
-  ));
-};
 
-const notifyError = (message) => {
-  toast.error((t) => <div onClick={() => toast.dismiss(t.id)}>{message}</div>);
-};
 
 const Discounts = () => {
   const [usedData, setUsedData] = useState(false);
   const [selectedIds, setSelectedIds] = useState([]);
   const [searchInput, setSearchInput] = useState("");
-
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
   const token = JSON.parse(localStorage.getItem("token"));
   const { t: key } = useTranslation();
 
@@ -78,7 +71,6 @@ const Discounts = () => {
           },
         }
       );
-      console.log(response);
       let res = response.data;
       if (res.status === "success") {
         notifySuccess(key("sentSucc"));
@@ -118,7 +110,6 @@ const Discounts = () => {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        console.log(response);
         if (response.status === 204) {
           notifySuccess(key("discDeleted"));
           refetch();
@@ -131,7 +122,6 @@ const Discounts = () => {
         } else {
           notifyError(key("wrong"));
         }
-        console.log(error);
       }
     } else {
       notifyError(key("deleteDiscWrong"));

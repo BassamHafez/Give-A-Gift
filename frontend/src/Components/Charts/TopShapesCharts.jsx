@@ -18,8 +18,6 @@ const CustomXAxisTick = ({ x, y, payload, data }) => {
   const tickX = isSmallScreen ? x - 40 : x - 20;
   const tickY = isSmallScreen ? y - 20 : y + 15;
 
-
-  
   return (
     <g transform={`translate(${tickX},${tickY})`}>
       <svg width={40} height={40} viewBox="0 0 40 40">
@@ -40,7 +38,7 @@ const TinyBar = (props) => {
   const isSmallScreen = useMediaQuery({ query: "(max-width: 768px)" });
 
   const { fill, x, y, width, height } = props;
-  const adjustedX = isSmallScreen ? x : x +( width/2 + 2);
+  const adjustedX = isSmallScreen ? x : x + (width / 2 + 2);
   const adjustedY = isSmallScreen ? y + 8 : y;
   const adjustedHeight = isSmallScreen ? height / 2 : height;
   return (
@@ -70,16 +68,15 @@ const CustomLabel = ({ x, y, value }) => {
   );
 };
 
-const TopShapes = ({ topShapes }) => {
+const TopShapesCharts = ({ topShapes }) => {
   const isSmallScreen = useMediaQuery({ query: "(max-width: 768px)" });
   const barWidth = isSmallScreen ? 10 : 27;
 
-  const data = topShapes?.map((shape,index) => ({
+  const data = topShapes?.map((shape, index) => ({
     name: index,
     sales: shape.cardsCount,
     img: `${process.env.REACT_APP_Host}shapes/${shape.image}`,
   }));
-
 
   return (
     <div style={{ width: "100%", height: "100%" }}>
@@ -97,14 +94,18 @@ const TopShapes = ({ topShapes }) => {
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis type="number" />
-            <YAxis dataKey="name" type="category" tick={<CustomXAxisTick data={data} />} />
+            <YAxis
+              dataKey="name"
+              type="category"
+              tick={<CustomXAxisTick data={data} />}
+            />
             <Bar
               dataKey="sales"
               fill="#8884d8"
               shape={<TinyBar />}
               label={{ position: "right" }}
             >
-              {data.map((entry, index) => (
+              {data?.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={"#0088FE"} />
               ))}
             </Bar>
@@ -128,7 +129,7 @@ const TopShapes = ({ topShapes }) => {
               shape={<TinyBar width={barWidth} />}
               label={<CustomLabel />}
             >
-              {data.map((entry, index) => (
+              {data?.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={"#0088FE"} />
               ))}
             </Bar>
@@ -139,4 +140,4 @@ const TopShapes = ({ topShapes }) => {
   );
 };
 
-export default TopShapes;
+export default TopShapesCharts;

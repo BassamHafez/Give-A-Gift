@@ -1,5 +1,4 @@
 import React from "react";
-import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 import Row from "react-bootstrap/esm/Row";
@@ -8,27 +7,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import styles from "../AdminPages.module.css";
 import LoadingOne from "../../../../Components/Ui/LoadingOne";
+import { toast } from "react-toastify";
 
 const AllColors = ({ refetch,Colors }) => {
-  const notifySuccess = (message) => {
-    toast.success((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
-
-  const notifyError = (message) => {
-    toast.error((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
 
@@ -56,7 +39,7 @@ const AllColors = ({ refetch,Colors }) => {
       <h4>{key("allColors")}</h4>
       <Row className="justify-content-center">
         {Colors ? (
-          Colors.map((color) => (
+          Colors?.map((color) => (
             <Col
               key={color._id}
               xs={6}

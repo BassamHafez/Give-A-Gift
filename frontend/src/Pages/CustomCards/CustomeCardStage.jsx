@@ -36,12 +36,11 @@ const CustomeCardStage = ({
   useEffect(() => {
     const loadImages = async () => {
       const images = await Promise.all(
-        shapesArray.map((shape) => {
+        shapesArray?.map((shape) => {
           return new Promise((resolve) => {
             const img = new window.Image();
             img.src = `${process.env.REACT_APP_Host}shapes/${shape.image}`;
             img.onload = () => {
-              // Store original dimensions
               resolve({ img, width: img.width, height: img.height });
             };
             img.onerror = () => resolve(null);
@@ -149,7 +148,7 @@ const CustomeCardStage = ({
           )}
 
           {showBack &&
-            shapesArray.map((shape, index) => {
+            shapesArray?.map((shape, index) => {
               const {
                 img,
                 width: originalWidth = 0,

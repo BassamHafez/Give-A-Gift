@@ -3,32 +3,15 @@ import { useTranslation } from "react-i18next";
 import Button from "react-bootstrap/Button";
 import VerifyPhoneNumberModal from "../../../Components/Ui/VerifyPhoneNumberModal";
 import axios from "axios";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 
 const VerifyPhoneNumber = () => {
   const { t: key } = useTranslation();
   const [modalShow, setModalShow] = useState();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const token = JSON.parse(localStorage.getItem("token"));
-  const notifySuccess = (message) => {
-    toast.success((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
-
-  const notifyError = (message) => {
-    toast.error((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
 
   const sendVerificationCode = async () => {
     try {

@@ -8,7 +8,7 @@ import styles from "./AdminPages.module.css";
 import { faCheck, faImage, faYinYang } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 
 
 const Designs = () => {
@@ -17,30 +17,12 @@ const Designs = () => {
     const token = JSON.parse(localStorage.getItem("token"));
     const [selectedFile, setSelectedFile] = useState(null);
   
-    const notifySuccess = (message) => {
-      toast.success((t) => (
-        <div
-          onClick={() => toast.dismiss(t.id)}
-        >
-          {message}
-        </div>
-      ));
-    };
-  
-    const notifyError = (message) => {
-      toast.error((t) => (
-        <div
-          onClick={() => toast.dismiss(t.id)}
-        >
-          {message}
-        </div>
-      ));
-    };
+    const notifySuccess = (message) => toast.success(message);
+    const notifyError = (message) => toast.error(message);
   
     const { mutate, isPending } = useMutation({
       mutationFn: updateBanner,
       onSuccess: (data) => {
-        console.log(data)
         if (data?.status === "success") {
           notifySuccess(key("photoChanged"));
         } else{

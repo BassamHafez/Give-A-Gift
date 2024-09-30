@@ -1,6 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
 import React from 'react'
-import toast from 'react-hot-toast';
 import { controlColors } from '../../../../util/Http';
 import { useTranslation } from 'react-i18next';
 import { object, string } from 'yup';
@@ -9,6 +8,7 @@ import styles from "../AdminPages.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faYinYang } from '@fortawesome/free-solid-svg-icons';
 import InputErrorMessage from '../../../../Components/Ui/InputErrorMessage';
+import { toast } from 'react-toastify';
 
 const AddColor = ({refetch}) => {
 
@@ -16,25 +16,8 @@ const AddColor = ({refetch}) => {
     const { t: key } = useTranslation();
     const token = JSON.parse(localStorage.getItem("token"));
     
-    const notifySuccess = (message) => {
-      toast.success((t) => (
-        <div
-          onClick={() => toast.dismiss(t.id)}
-        >
-          {message}
-        </div>
-      ));
-    };
-  
-    const notifyError = (message) => {
-      toast.error((t) => (
-        <div
-          onClick={() => toast.dismiss(t.id)}
-        >
-          {message}
-        </div>
-      ));
-    };
+    const notifySuccess = (message) => toast.success(message);
+    const notifyError = (message) => toast.error(message);
 
     const { mutate, isPending } = useMutation({
         mutationFn: controlColors,

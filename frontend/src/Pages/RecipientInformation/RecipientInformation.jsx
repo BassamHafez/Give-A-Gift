@@ -11,7 +11,6 @@ import {
   faYinYang,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import toast from "react-hot-toast";
 import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
 import DatePicker from "react-multi-date-picker";
@@ -29,6 +28,7 @@ import axios from "axios";
 import { useTranslation } from "react-i18next";
 import KonvaCard from "./KonvaCard";
 import DetailsAfterBuying from "../DetailsAfterBuying/DetailsAfterBuying";
+import { toast } from "react-toastify";
 
 const getPhoneValidationSchema = (country, key) => {
   const phoneRegex = {
@@ -71,25 +71,8 @@ const RecipientInformation = () => {
   const [isCelebrateIcon, setIsCelebrationIcon] = useState(false);
   const [isCelebrateQR, setIsCelebrateQR] = useState(false);
   const [totalShapesPrice, setTotalShapesPrice] = useState(0);
-  const notifySuccess = (message) => {
-    toast.success((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
-
-  const notifyError = (message) => {
-    toast.error((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
   const token = JSON.parse(localStorage.getItem("token"));
   const { cardId } = useParams();
   const navigate = useNavigate();
@@ -163,7 +146,6 @@ const RecipientInformation = () => {
     mutationFn: updateCard,
     onSuccess: (data) => {
       if (data?.status === "success") {
-        console.log(data);
         queryClient.invalidateQueries(["getCard", token]);
         if (data?.data?.celebrateIcon) {
           setIsCelebrationIcon(true);

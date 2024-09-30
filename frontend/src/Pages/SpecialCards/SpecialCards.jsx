@@ -14,30 +14,12 @@ import LoadingOne from "../../Components/Ui/LoadingOne";
 import MainButton from "../../Components/Ui/MainButton";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import toast  from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import FilterModal from "../../Components/Ui/FilterModal";
 import { cartActions } from "../../Store/cartCounter-slice";
+import { toast } from "react-toastify";
 
-const notifySuccess = (message) => {
-  toast.success((t) => (
-    <div
-      onClick={() => toast.dismiss(t.id)}
-    >
-      {message}
-    </div>
-  ));
-};
 
-const notifyError = (message) => {
-  toast.error((t) => (
-    <div
-      onClick={() => toast.dismiss(t.id)}
-    >
-      {message}
-    </div>
-  ));
-};
 
 const SpecialCards = () => {
   const { t: key } = useTranslation();
@@ -46,67 +28,58 @@ const SpecialCards = () => {
   const [showFilterModal, setShowFilterModal] = useState(false);
   const queryClient = useQueryClient();
   const isLogin = useSelector((state) => state.userInfo.isLogin);
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
 
-  const notifyLoginError = (message) =>
-    toast(
-      (t) => (
-        <span>
-          {message}
-          <div
+  const Msg = ({ closeToast, toastProps }) => (
+    <span>
+      {key("loginFirst")}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          marginTop: "10px",
+        }}
+      >
+        <div style={{ display: "flex", gap: "10px" }}>
+          <button
+             onClick={closeToast}
             style={{
-              display: "flex",
-              flexDirection: "column",
-              marginTop: "10px",
+              borderRadius: "1.5625rem",
+              fontSize: "1.125rem",
+              fontWeight: "700",
+              boxShadow: "0 0 0.1875rem rgba(0, 0, 0, 0.5)",
+              padding: "0.625rem 0.9375rem",
+              marginRight: "auto",
             }}
           >
-            <div style={{ display: "flex", gap: "10px" }}>
-              <button
-                onClick={() => toast.dismiss(t.id)}
-                style={{
-                  borderRadius: "1.5625rem",
-                  fontSize: "1.125rem",
-                  fontWeight: "700",
-                  boxShadow: "0 0 0.1875rem rgba(0, 0, 0, 0.5)",
-                  padding: "0.625rem 0.9375rem",
-                  marginRight: "auto",
-                }}
-              >
-                {key("later")}
-              </button>
+            {key("later")}
+          </button>
 
-              <button
-                onClick={() => {
-                  navigate(`/login`);
-                  toast.dismiss(t.id);
-                }}
-                style={{
-                  borderRadius: "1.5625rem",
-                  minWidth: "6.25rem",
-                  fontSize: "1.125rem",
-                  fontWeight: "700",
-                  boxShadow: "0 0 0.1875rem rgba(0, 0, 0, 0.5)",
-                  padding: "0.625rem 0.9375rem",
-                  marginLeft: "auto",
-                  backgroundColor: "red",
-                  color: "#FFF",
-                }}
-              >
-                {key("login")}
-              </button>
-            </div>
-          </div>
-        </span>
-      ),
-      {
-        icon: "⚠️",
-        style: {
-          padding: "16px",
-          color: "#000",
-          fontWeight: "600",
-        },
-        duration: 4000,
-      }
-    );
+          <button
+            onClick={() => {
+              navigate(`/login`);
+            }}
+            style={{
+              borderRadius: "1.5625rem",
+              minWidth: "6.25rem",
+              fontSize: "1.125rem",
+              fontWeight: "700",
+              boxShadow: "0 0 0.1875rem rgba(0, 0, 0, 0.5)",
+              padding: "0.625rem 0.9375rem",
+              marginLeft: "auto",
+              backgroundColor: "red",
+              color: "#FFF",
+            }}
+          >
+            {key("login")}
+          </button>
+        </div>
+      </div>
+    </span>
+  );
+
+  const notifyLoginError = () => toast.info(<Msg />);
 
   const navigate = useNavigate();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
@@ -172,7 +145,7 @@ const SpecialCards = () => {
 
   const checkLogin = (shopId, price) => {
     if (!isLogin) {
-      notifyLoginError(key("loginFirst"));
+      notifyLoginError();
     } else {
       buyCard(shopId, price);
     }

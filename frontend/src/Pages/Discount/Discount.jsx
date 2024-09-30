@@ -7,8 +7,8 @@ import logo from "../../Images/logo.png";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const Discount = () => {
   const { t: key } = useTranslation();
@@ -19,26 +19,8 @@ const Discount = () => {
   const navigate = useNavigate();
 
   const token = JSON.parse(localStorage.getItem("token"));
-  console.log(recipientName);
-  const notifySuccess = (message) => {
-    toast.success((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
-
-  const notifyError = (message) => {
-    toast.error((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
 
   const role = useSelector((state) => state.userInfo.role);
   const profileData = useSelector((state) => state.profileInfo.data);

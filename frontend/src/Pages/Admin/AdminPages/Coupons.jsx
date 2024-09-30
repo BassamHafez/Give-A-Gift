@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styles from "./AdminPages.module.css";
-import toast, { Toaster } from "react-hot-toast";
 import AddCoupon from "./CouponsForms/AddCoupon";
 import UpdateCoupon from "./CouponsForms/UpdateCoupon";
 import { useQuery } from "@tanstack/react-query";
@@ -11,6 +10,7 @@ import LoadingOne from "../../../Components/Ui/LoadingOne";
 import { useTranslation } from "react-i18next";
 import MainButton from "../../../Components/Ui/MainButton";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Coupons = () => {
   const [modalShow, setModalShow] = useState(false);
@@ -21,25 +21,9 @@ const Coupons = () => {
 
   const token = JSON.parse(localStorage.getItem("token"));
   const { t: key } = useTranslation();
-  const notifySuccess = (message) => {
-    toast.success((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
 
-  const notifyError = (message) => {
-    toast.error((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
 
   const { data: coupons, refetch } = useQuery({
     queryKey: ["coupons", token],
@@ -71,12 +55,6 @@ const Coupons = () => {
 
   return (
     <>
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 3000,
-        }}
-      />
       <div className={styles.main_body}>
         <div className="p-4 my-5">
           <AddCoupon refetch={refetch} />
