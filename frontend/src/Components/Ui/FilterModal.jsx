@@ -94,7 +94,7 @@ const FilterModal = ({ onHide, show, triggerFunc }) => {
               </ul>
             ) : (
               <ul>
-                {data.data.map((shop) => (
+                {data?.data?.map((shop) => (
                   <li key={shop.name} className="my-3 text-end fw-bold">
                     {isArLang ? (
                       <label>

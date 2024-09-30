@@ -8,33 +8,16 @@ import styles from "./Forms.module.css";
 import { faYinYang } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
-import toast from "react-hot-toast";
 import fetchProfileData from "../../../Store/profileInfo-actions";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 const ChangeName = () => {
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
 
-  const notifySuccess = (message) => {
-    toast.success((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
-
-  const notifyError = (message) => {
-    toast.error((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
   const dispatch=useDispatch();
 
   const { mutate, isPending } = useMutation({

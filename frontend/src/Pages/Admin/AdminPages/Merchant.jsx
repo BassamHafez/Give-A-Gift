@@ -7,10 +7,10 @@ import { object, ref, string } from "yup";
 import { faYinYang } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
-import toast  from "react-hot-toast";
 import InputErrorMessage from "../../../Components/Ui/InputErrorMessage";
 import Select from "react-select";
 import { CountriesPhoneNumbers } from "../../../Components/Logic/Logic";
+import { toast } from "react-toastify";
 
 const getPhoneValidationSchema = (country, key) => {
   const phoneRegex = {
@@ -55,25 +55,8 @@ const Merchant = () => {
   const [physicalShops, setPhysicalShops] = useState([]);
   const [physicalShopsOptions, setPhysicalShopsOptions] = useState([]);
 
-  const notifySuccess = (message) => {
-    toast.success((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
-
-  const notifyError = (message) => {
-    toast.error((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
 
   const { data: shops, refetch } = useQuery({
     queryKey: ["shops", token],
@@ -94,7 +77,7 @@ const Merchant = () => {
 
   useEffect(() => {
     if (physicalShops.length > 0) {
-      const options = physicalShops.map((shop) => ({
+      const options = physicalShops?.map((shop) => ({
         label: shop.name,
         value: shop._id,
       }));

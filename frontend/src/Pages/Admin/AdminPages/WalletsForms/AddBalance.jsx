@@ -7,34 +7,17 @@ import { number, object } from "yup";
 import { faYinYang } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
-import toast from "react-hot-toast";
 import InputErrorMessage from "../../../../Components/Ui/InputErrorMessage";
 import Modal from "react-bootstrap/Modal";
 import RemoveBalance from "./RemoveBalance";
+import { toast } from "react-toastify";
 
 const AddBalance = ({ refetch, walletId, show, onHide }) => {
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
 
-  const notifySuccess = (message) => {
-    toast.success((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
-
-  const notifyError = (message) => {
-    toast.error((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
 
   const { mutate, isPending } = useMutation({
     mutationFn: controlWallets,

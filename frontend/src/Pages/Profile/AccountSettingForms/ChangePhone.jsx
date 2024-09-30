@@ -8,11 +8,11 @@ import styles from "./Forms.module.css";
 import { faYinYang } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
-import toast from "react-hot-toast";
 import { CountriesPhoneNumbers } from "../../../Components/Logic/Logic";
 import Select from "react-select";
 import fetchProfileData from "../../../Store/profileInfo-actions";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 const getPhoneValidationSchema = (country, key) => {
   const phoneRegex = {
@@ -36,25 +36,8 @@ const ChangePhone = () => {
   const [selectedCountry, setSelectedCountry] = useState("SA");
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
 
-  const notifySuccess = (message) => {
-    toast.success((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
-
-  const notifyError = (message) => {
-    toast.error((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
   const dispatch=useDispatch();
   
   const { mutate, isPending } = useMutation({

@@ -6,7 +6,6 @@ import { useDispatch } from "react-redux";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useQueryClient } from "@tanstack/react-query";
-import { Toaster } from "react-hot-toast";
 import fetchCartCounter from "../../Store/cartCounter-actions";
 
 const DetailsAfterBuying = ({
@@ -126,12 +125,6 @@ const DetailsAfterBuying = ({
           </Button>
         </Modal.Footer>
       </Modal>
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 3000,
-        }}
-      />
     </>
   );
 };

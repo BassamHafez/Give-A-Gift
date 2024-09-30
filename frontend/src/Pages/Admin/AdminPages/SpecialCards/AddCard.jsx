@@ -7,33 +7,16 @@ import { number, object, string } from "yup";
 import { faYinYang } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
-import toast from "react-hot-toast";
 import InputErrorMessage from "../../../../Components/Ui/InputErrorMessage";
 import Select from "react-select";
+import { toast } from "react-toastify";
 
 const AddCard = ({ refetch }) => {
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
   const [myShops, setMyShops] = useState([]);
-  const notifySuccess = (message) => {
-    toast.success((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
-
-  const notifyError = (message) => {
-    toast.error((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
 
   const { data: shops } = useQuery({
     queryKey: ["shops", token],
@@ -43,7 +26,7 @@ const AddCard = ({ refetch }) => {
 
   useEffect(() => {
     if (shops) {
-      const shopArr = shops.data?.map((shop) => ({
+      const shopArr = shops?.data?.map((shop) => ({
         label: shop.name,
         value: shop._id,
       }));

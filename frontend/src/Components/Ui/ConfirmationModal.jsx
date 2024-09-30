@@ -15,7 +15,7 @@ import {
   faReceipt,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -42,17 +42,9 @@ const ConfirmationModal = ({
   const token = JSON.parse(localStorage.getItem("token"));
   const navigate = useNavigate();
 
-  const notifySuccess = (message) => {
-    toast.success((t) => (
-      <div onClick={() => toast.dismiss(t.id)}>{message}</div>
-    ));
-  };
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
 
-  const notifyError = (message) => {
-    toast.error((t) => (
-      <div onClick={() => toast.dismiss(t.id)}>{message}</div>
-    ));
-  };
   const [priceAfterDisc, setPriceAfterDisc] = useState("");
   const [paymentWay, setPaymentWay] = useState("payment");
   const [isBalanced, setIsBalanced] = useState(true);

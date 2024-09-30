@@ -12,29 +12,20 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
-import toast from "react-hot-toast";
 import InputErrorMessage from "../../../Components/Ui/InputErrorMessage";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import LoadingOne from "../../../Components/Ui/LoadingOne";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Shops = () => {
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const notifySuccess = (message) => {
-    toast.success((t) => (
-      <div onClick={() => toast.dismiss(t.id)}>{message}</div>
-    ));
-  };
-
-  const notifyError = (message) => {
-    toast.error((t) => (
-      <div onClick={() => toast.dismiss(t.id)}>{message}</div>
-    ));
-  };
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
 
   const { data: shops, refetch } = useQuery({
     queryKey: ["shops", token],

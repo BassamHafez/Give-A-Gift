@@ -8,59 +8,19 @@ import { getShapes } from "../../util/Http";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown } from "@fortawesome/free-solid-svg-icons";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 
-const CustomCardShapes = ({
-  addShape,
-  settingShowBack
-}) => {
+const CustomCardShapes = ({ addShape, settingShowBack }) => {
   const token = JSON.parse(localStorage.getItem("token"));
   const { t: key } = useTranslation();
 
-  const notifyError = (message) =>
-    toast(
-      (t) => (
-        <div>
-          <span>{message}</span>
-
-          <div style={{ textAlign: "end" }}>
-            <button
-              onClick={() => toast.dismiss(t.id)}
-              style={{
-                borderRadius: "1.5625rem",
-                minWidth: "6.25rem",
-                fontSize: "1.125rem",
-                fontWeight: "700",
-                boxShadow: "0 0 0.1875rem rgba(0, 0, 0, 0.5)",
-                padding: "0.625rem 0.9375rem",
-                marginTop: "10px",
-                backgroundColor: "#FFF",
-                color: "#000",
-              }}
-            >
-              {key("confirm")}
-            </button>
-          </div>
-        </div>
-      ),
-      {
-        icon: "🔔",
-        style: {
-          padding: "16px",
-          color: "#FFF",
-          fontWeight: "600",
-          backgroundColor: "#b62026",
-        },
-        position: "bottom-right",
-      }
-    );
+  const notifyError = (message) => toast.info(message);
 
   const { data: shapes } = useQuery({
     queryKey: ["shapes", token],
     queryFn: getShapes,
     staleTime: Infinity,
   });
-
 
   const handleShapeClick = (shape) => {
     addShape({
@@ -76,7 +36,7 @@ const CustomCardShapes = ({
     if (shape.price > 0) {
       notifyError(`${key("proShape")} ${shape.price} ${key("sar")}`);
     }
-    settingShowBack(true)
+    settingShowBack(true);
   };
 
   return (
@@ -86,7 +46,7 @@ const CustomCardShapes = ({
       </h4>
       <Row className={styles.shapes_container}>
         {shapes ? (
-          shapes?.data.map((shape) => (
+          shapes?.data?.map((shape) => (
             <Col
               xs={6}
               sm={4}

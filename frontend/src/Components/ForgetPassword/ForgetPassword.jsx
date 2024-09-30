@@ -10,33 +10,20 @@ import { faYinYang } from "@fortawesome/free-solid-svg-icons";
 import lock from "../../Images/lock.webp";
 import { Link } from "react-router-dom";
 import VerificationCode from "./VerificationCode";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 
-const notifySuccess = (message) => {
-  toast.success((t) => (
-    <div
-      onClick={() => toast.dismiss(t.id)}
-    >
-      {message}
-    </div>
-  ));
-};
 
-const notifyError = (message) => {
-  toast.error((t) => (
-    <div
-      onClick={() => toast.dismiss(t.id)}
-    >
-      {message}
-    </div>
-  ));
-};
+
 
 const ForgetPassword = () => {
   const [isRightEmail, setIsRightEmail] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const { t: key } = useTranslation();
+  
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
+
 
   const { mutate, isPending } = useMutation({
     mutationFn: signFormsHandler,

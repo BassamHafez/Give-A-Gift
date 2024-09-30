@@ -17,21 +17,13 @@ import {
 import * as XLSX from "xlsx";
 import ConfirmationModal from "../../../../Components/Ui/ConfirmationModal";
 import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
 import axios from "axios";
 import SearchField from "../../../../Components/Ui/SearchField";
-
-const notifySuccess = (message) => {
-  toast.success((t) => (
-    <div onClick={() => toast.dismiss(t.id)}>{message}</div>
-  ));
-};
-
-const notifyError = (message) => {
-  toast.error((t) => <div onClick={() => toast.dismiss(t.id)}>{message}</div>);
-};
+import { toast } from "react-toastify";
 
 const OrdersDataView = ({ isUser }) => {
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
   const [modalShow, setModalShow] = useState(false);
   const [searchInput, setSearchInput] = useState("");
 

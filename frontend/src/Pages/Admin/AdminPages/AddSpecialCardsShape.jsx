@@ -7,7 +7,7 @@ import { mixed, object } from "yup";
 import { faImage, faYinYang } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 import InputErrorMessage from "../../../Components/Ui/InputErrorMessage";
 
 const AddSpecialCardsShape = () => {
@@ -16,25 +16,8 @@ const AddSpecialCardsShape = () => {
   const [selectedFrontShape, setSelectedFrontShape] = useState(null);
   const [selectedBackShape, setSelectedBackShape] = useState(null);
 
-  const notifySuccess = (message) => {
-    toast.success((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
-
-  const notifyError = (message) => {
-    toast.error((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
 
   const { mutate, isPending } = useMutation({
     mutationFn: addSpecialColorsShape,

@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import Transfer from "../../Components/Transfer/Transfer";
 import { useQuery } from "@tanstack/react-query";
 import { getMyWallet } from "../../util/Http";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 
 const Wallet = () => {
 
@@ -29,25 +29,8 @@ const Wallet = () => {
       window.scrollTo(0, 0)
     })
   
-    const notifySuccess = (message) => {
-      toast.success((t) => (
-        <div
-          onClick={() => toast.dismiss(t.id)}
-        >
-          {message}
-        </div>
-      ));
-    };
-  
-    const notifyError = (message) => {
-      toast.error((t) => (
-        <div
-          onClick={() => toast.dismiss(t.id)}
-        >
-          {message}
-        </div>
-      ));
-    };
+    const notifySuccess = (message) => toast.success(message);
+    const notifyError = (message) => toast.error(message);
   
     const formattedBalance = data?.data?.balance
       ? parseFloat(data.data.balance).toFixed(2)

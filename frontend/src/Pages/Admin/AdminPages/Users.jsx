@@ -12,7 +12,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
-import toast from "react-hot-toast";
 import InputErrorMessage from "../../../Components/Ui/InputErrorMessage";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
@@ -22,6 +21,8 @@ import Select from "react-select";
 import { CountriesPhoneNumbers } from "../../../Components/Logic/Logic";
 import defaultImg from "../../../Images/default.png";
 import SearchField from "../../../Components/Ui/SearchField";
+import { toast } from "react-toastify";
+
 
 const getPhoneValidationSchema = (country, key) => {
   const phoneRegex = {
@@ -64,25 +65,8 @@ const Users = () => {
   const [selectedCountry, setSelectedCountry] = useState("SA");
   const [searchInput, setSearchInput] = useState("");
 
-  const notifySuccess = (message) => {
-    toast.success((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
-
-  const notifyError = (message) => {
-    toast.error((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
 
   const { data: users, refetch } = useQuery({
     queryKey: ["controlUsers", token],
@@ -347,7 +331,7 @@ const Users = () => {
           <Row className="justify-content-center position-relative">
             {users ? (
               filteredUsers?.length > 0 ? (
-                filteredUsers.map((user) => (
+                filteredUsers?.map((user) => (
                   <Col
                     key={user._id}
                     sm={6}
@@ -396,7 +380,7 @@ const Users = () => {
                   </Col>
                 ))
               ) : (
-                users.data?.map((user) => (
+                users?.data?.map((user) => (
                   <Col
                     key={user._id}
                     sm={6}

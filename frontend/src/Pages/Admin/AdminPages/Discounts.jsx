@@ -8,25 +8,18 @@ import MainButton from "../../../Components/Ui/MainButton";
 import LoadingOne from "../../../Components/Ui/LoadingOne";
 import noData from "../../../Images/noData.jpg";
 import Table from "react-bootstrap/Table";
-import toast from "react-hot-toast";
 import axios from "axios";
 import SearchField from "../../../Components/Ui/SearchField";
+import { toast } from "react-toastify";
 
-const notifySuccess = (message) => {
-  toast.success((t) => (
-    <div onClick={() => toast.dismiss(t.id)}>{message}</div>
-  ));
-};
 
-const notifyError = (message) => {
-  toast.error((t) => <div onClick={() => toast.dismiss(t.id)}>{message}</div>);
-};
 
 const Discounts = () => {
   const [usedData, setUsedData] = useState(false);
   const [selectedIds, setSelectedIds] = useState([]);
   const [searchInput, setSearchInput] = useState("");
-
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
   const token = JSON.parse(localStorage.getItem("token"));
   const { t: key } = useTranslation();
 

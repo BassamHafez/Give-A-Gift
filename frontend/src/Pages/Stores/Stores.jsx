@@ -9,18 +9,14 @@ import { useQuery } from "@tanstack/react-query";
 import { getShops } from "../../util/Http";
 import Placeholders from "../../Components/Ui/Placeholders";
 import LoadingOne from "../../Components/Ui/LoadingOne";
-import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Stores = () => {
   const { t: key } = useTranslation();
   const [searchInput, setSearchInput] = useState("");
 
-  const notifySuccess = (message) => {
-    toast.success((t) => (
-      <div onClick={() => toast.dismiss(t.id)}>{message}</div>
-    ));
-  };
+  const notifySuccess = (message) => toast.success(message);
 
   const { data: shops, isFetching } = useQuery({
     queryKey: ["shops"],

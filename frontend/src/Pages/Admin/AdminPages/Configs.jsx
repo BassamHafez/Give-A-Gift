@@ -7,7 +7,7 @@ import { number, object, string } from "yup";
 import { faYinYang } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 import InputErrorMessage from "../../../Components/Ui/InputErrorMessage";
 import { useDispatch, useSelector } from "react-redux";
 import fetchConfigs from "../../../Store/configs-actions";
@@ -17,25 +17,8 @@ const Configs = () => {
   const token = JSON.parse(localStorage.getItem("token"));
   const dispatch = useDispatch();
 
-  const notifySuccess = (message) => {
-    toast.success((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
-
-  const notifyError = (message) => {
-    toast.error((t) => (
-      <div
-        onClick={() => toast.dismiss(t.id)}
-      >
-        {message}
-      </div>
-    ));
-  };
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
 
   const mainColor = useSelector((state) => state.configs.mainColor);
   const subColor = useSelector((state) => state.configs.subColor);

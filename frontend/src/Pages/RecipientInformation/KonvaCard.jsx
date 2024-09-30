@@ -19,7 +19,7 @@ const KonvaCard = ({ canvaCard, isSpecial }) => {
       }
 
       const images = await Promise.all(
-        canvaCard.shapes.map((shape) => {
+        canvaCard?.shapes?.map((shape) => {
           const imageUrl = `${process.env.REACT_APP_Host}shapes/${shape.shape?.image}`;
           return new Promise((resolve) => {
             const img = new window.Image();
@@ -115,7 +115,7 @@ const KonvaCard = ({ canvaCard, isSpecial }) => {
               />
             ) : (
               <>
-                {canvaCard.shapes.map((shape, index) => {
+                {canvaCard?.shapes?.map((shape, index) => {
                   const img = loadedImages[index];
                   if (!img) {
                     return null;

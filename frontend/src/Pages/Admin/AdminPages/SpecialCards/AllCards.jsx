@@ -9,7 +9,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import toast from "react-hot-toast";
 import { getSpecialCards } from "../../../../util/Http";
 import Placeholders from "../../../../Components/Ui/Placeholders";
 import LoadingOne from "../../../../Components/Ui/LoadingOne";
@@ -17,28 +16,11 @@ import MainButton from "../../../../Components/Ui/MainButton";
 import FilterModal from "../../../../Components/Ui/FilterModal";
 import UpdateCard from "./UpdateCard";
 import AddCard from "./AddCard";
-
-const notifySuccess = (message) => {
-  toast.success((t) => (
-    <div
-      onClick={() => toast.dismiss(t.id)}
-    >
-      {message}
-    </div>
-  ));
-};
-
-const notifyError = (message) => {
-  toast.error((t) => (
-    <div
-      onClick={() => toast.dismiss(t.id)}
-    >
-      {message}
-    </div>
-  ));
-};
+import { toast } from "react-toastify";
 
 const AllCards = () => {
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
   const { t: key } = useTranslation();
   const [filteredCards, setFilteredCards] = useState([]);
   const [searchInput, setSearchInput] = useState("");
@@ -61,8 +43,6 @@ const AllCards = () => {
     }
   }, [data]);
 
-
-
   const searchStores = ({ selectedNames }) => {
     if (selectedNames.length > 0) {
       const filtered = data?.data?.cards.filter((card) =>
@@ -72,7 +52,7 @@ const AllCards = () => {
     } else {
       setFilteredCards(data?.data?.cards);
     }
-    if(searchInput){
+    if (searchInput) {
       notifySuccess(key("searchFilterApplied"));
     }
   };
@@ -151,7 +131,7 @@ const AllCards = () => {
             <>
               {filteredCards?.length > 0 ? (
                 <>
-                  {filteredCards.map((card) => (
+                  {filteredCards?.map((card) => (
                     <Col
                       key={card._id}
                       lg={6}
@@ -209,7 +189,11 @@ const AllCards = () => {
                             <div className="text-center mt-3 mb-2">
                               <MainButton
                                 text={key("update")}
-                                onClick={() => {setCardId(card._id); setShopId(card.shop?._id); setModalShow(true)}}
+                                onClick={() => {
+                                  setCardId(card._id);
+                                  setShopId(card.shop?._id);
+                                  setModalShow(true);
+                                }}
                               />
                             </div>
                           </Card.Body>

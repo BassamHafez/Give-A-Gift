@@ -92,7 +92,7 @@ const TopStores = ({ topShops }) => {
               shape={<TinyBar />}
               label={{ position: "right" }}
             >
-              {data.map((entry, index) => (
+              {data?.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={"#0088FE"} />
               ))}
             </Bar>
@@ -116,7 +116,7 @@ const TopStores = ({ topShops }) => {
               shape={<TinyBar width={barWidth} />}
               label={<CustomLabel />}
             >
-              {data.map((entry, index) => (
+              {data?.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={"#0088FE"} />
               ))}
             </Bar>
