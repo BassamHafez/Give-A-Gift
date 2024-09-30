@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { object, string } from "yup";
 import InputErrorMessage from "../../../Components/Ui/InputErrorMessage";
 import styles from "./LoginForm.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faYinYang } from "@fortawesome/free-solid-svg-icons";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import { userActions } from "../../../Store/userInfo-slice";
 import saveUserInfoIntoLocalStorag, {
   saveIsLoginState,
@@ -17,6 +17,8 @@ import saveUserInfoIntoLocalStorag, {
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { signFormsHandler } from "../../../util/Http";
 import { useTranslation } from "react-i18next";
+import axios from "axios";
+import { cartActions } from "../../../Store/cartCounter-slice";
 
 const LoginForm = ({ notifySuccess, notifyError }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -25,6 +27,40 @@ const LoginForm = ({ notifySuccess, notifyError }) => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
+
+  const saveNotReadyCard = async (token) => {
+    
+    let formData = JSON.parse(localStorage.getItem("notReadyCard"));
+    console.log(formData)
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_Base_API_URl}cards`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const res = response.data;
+      console.log(res);
+      if (res?.status === "success") {
+        queryClient.invalidateQueries(["getMyCards", token]);
+        dispatch(cartActions.addItem());
+        notifySuccess(key("cardSaved"));
+        localStorage.removeItem("notReadyCard");
+        localStorage.setItem("isNotReadyCard", "false");
+        navigate(`/recipient-information/${res.data?._id}`);
+      } else {
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error)
+      notifyError(key("wrong"));
+      navigate("/");
+    }
+  };
 
   const { mutate, isPending } = useMutation({
     mutationFn: signFormsHandler,
@@ -43,7 +79,11 @@ const LoginForm = ({ notifySuccess, notifyError }) => {
           notifySuccess();
           dispatch(userActions.setRole("user"));
           dispatch(saveRoleState("user"));
-          navigate("/");
+          if (localStorage.getItem("isNotReadyCard") === "true") {
+            saveNotReadyCard(res.token);
+          } else {
+            navigate("/");
+          }
         } else if (res.data?.user?.role === "admin") {
           dispatch(saveRoleState("admin"));
           dispatch(userActions.setRole("admin"));

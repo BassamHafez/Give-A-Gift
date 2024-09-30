@@ -213,10 +213,6 @@ const CustomCards = () => {
     }
   };
   const createCard = async () => {
-    if (!isLogin) {
-      notifyLoginError(key("loginFirst"));
-      return;
-    }
     if (cardText === "") {
       notifyError(key("cardMessageError"));
       return;
@@ -286,6 +282,13 @@ const CustomCards = () => {
       formData.proColor = cardColorId;
     } else {
       formData.color = cardColorId;
+    }
+
+    if (!isLogin) {
+      notifyLoginError(key("loginFirst"));
+      localStorage.setItem("notReadyCard",JSON.stringify(formData))
+      localStorage.setItem("isNotReadyCard","true")
+      return;
     }
 
     console.log(formData);
