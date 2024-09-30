@@ -210,7 +210,7 @@ exports.getOnlineDiscountCodeValue = catchAsync(async (req, res, next) => {
   const { token, code } = req.body;
 
   const [card, shop] = await Promise.all([
-    Card.findById(code).select("price discountCode isPaid"),
+    Card.findById(code).select("price discountCode isPaid shop"),
     Shop.findOne({ token }),
   ]);
 
