@@ -1,7 +1,7 @@
 {
   "name": "give_a_gift",
   "version": "0.1.0",
-  "homepage": ".",
+  "homepage": "",
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
