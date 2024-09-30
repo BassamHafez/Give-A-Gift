@@ -379,7 +379,7 @@
     "noOrder":"No order found for this card",
     "howToUse":"Card Usage",
     "followSteps":"Follow the steps",
-    "qrUsageStep1":"Visit the store",
+    "qrUsageStep1":"Go to Store",
     "qrUsageStep2":"Present the QR code the store associate",
     "qrUsageStep3":"Discount will be shown",
     "qrUsageStep4":"Receive your discount",
@@ -389,5 +389,8 @@
     "promoCodeUsageStep4":"Get your discount From Store",
     "min20":"Minimum charge allowed for this transaction is 20 SAR.",
     "physical":"physical",
-    "online":"online"
+    "online":"online",
+    "shopToken":"Shop Token",
+    "tokenCopied":"Store Token Copied",
+    "copyError":"Copy Error try again"
 }   

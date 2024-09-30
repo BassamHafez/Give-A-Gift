@@ -154,7 +154,7 @@
 
 .shop_div{
     width: 150px;
-    aspect-ratio: 1/1;
+    height: 150px;
     margin: 40px 0;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.353);
     border-radius:4px;
@@ -163,7 +163,7 @@
 .shop_div img{
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     border-radius:4px;
 }
 .shop_div:hover .delete_icon{
