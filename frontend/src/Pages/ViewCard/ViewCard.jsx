@@ -5,7 +5,7 @@ import Placeholder from "react-bootstrap/Placeholder";
 import Card from "react-bootstrap/Card";
 import styles from "./ViewCard.module.css";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import confetti from "canvas-confetti";
 import KonvaCard from "./KonvaCard";
 import scan from "../../Images/scan.jpg";
@@ -79,6 +79,7 @@ const ViewCard = () => {
       </Card.Body>
     </Card>
   );
+  
 
   return (
     <div className={`${styles.card_container}`}>
@@ -146,7 +147,12 @@ const ViewCard = () => {
                   </>
                 ) : (
                   <ul>
-                    <li>{key("promoCodeUsageStep1")}</li>
+                    <li>
+                      {key("promoCodeUsageStep1")}{" "}
+                      <Link className="text-primary fw-bold" target="_blank" to={myCard.data?.shop?.link}>
+                        {key("here")}
+                      </Link>
+                    </li>
                     <li>{key("promoCodeUsageStep2")}</li>
                     <li>{key("promoCodeUsageStep3")}</li>
                     <li>{key("promoCodeUsageStep4")}</li>

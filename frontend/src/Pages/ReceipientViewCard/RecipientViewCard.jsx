@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./RecipientViewCard.module.css";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import confetti from "canvas-confetti";
 import Placeholder from "react-bootstrap/Placeholder";
 import Card from "react-bootstrap/Card";
@@ -145,7 +145,7 @@ const RecipientViewCard = () => {
                   </>
                 ) : (
                   <ul>
-                    <li>{key("promoCodeUsageStep1")}</li>
+                    <li>{key("promoCodeUsageStep1")} <Link className="text-primary fw-bold" target="_blank" to={myCard.data?.shop?.link}>{key("here")}</Link></li>
                     <li>{key("promoCodeUsageStep2")}</li>
                     <li>{key("promoCodeUsageStep3")}</li>
                     <li>{key("promoCodeUsageStep4")}</li>
