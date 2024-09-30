@@ -308,17 +308,19 @@ const OrdersDataView = ({ isUser }) => {
                         />
                         {key("orderNumber")}: {`${order.order_number}`}
                       </li>
-                      <li>
-                        <FontAwesomeIcon
-                          className={
-                            isArLang
-                              ? styles.arrow_icon_ar
-                              : styles.arrow_icon_en
-                          }
-                          icon={isArLang ? faCaretLeft : faCaretRight}
-                        />
-                        {key("cardId")}: {order.card_id}
-                      </li>
+                      {!isUser && (
+                        <li>
+                          <FontAwesomeIcon
+                            className={
+                              isArLang
+                                ? styles.arrow_icon_ar
+                                : styles.arrow_icon_en
+                            }
+                            icon={isArLang ? faCaretLeft : faCaretRight}
+                          />
+                          {key("cardId")}: {order.card_id}
+                        </li>
+                      )}
                       <li>
                         <FontAwesomeIcon
                           className={
