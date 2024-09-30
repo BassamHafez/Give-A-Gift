@@ -44,7 +44,6 @@ const ResetPassword = ({ onHide, show, notifySuccess, notifyError }) => {
   };
 
   const onSubmit = (values) => {
-    console.log(values);
     mutate({
       formData: values,
       method: "put",

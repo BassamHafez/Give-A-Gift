@@ -69,7 +69,6 @@ const UpdateCoupon = ({ show, onHide, copId, refetch, expire, name, discount }) 
   }, [expire]);
 
   const onSubmit = (values) => {
-    console.log(values);
 
     mutate({
       formData: values,

@@ -50,7 +50,6 @@ const Transactions = () => {
       notifySuccess(key("searchFilterApplied"));
     }
   };
-  console.log(allTransactions);
   let filterTransactions;
 
   filterTransactions = allTransactions

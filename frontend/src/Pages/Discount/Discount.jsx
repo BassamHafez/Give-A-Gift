@@ -19,7 +19,6 @@ const Discount = () => {
   const navigate = useNavigate();
 
   const token = JSON.parse(localStorage.getItem("token"));
-  console.log(recipientName);
   const notifySuccess = (message) => {
     toast.success((t) => (
       <div

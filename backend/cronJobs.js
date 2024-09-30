@@ -41,7 +41,6 @@ const deleteOldMessages = async () => {
 };
 
 const sendCartReminders = async () => {
-  console.log("Sending cart reminders...");
   const [reminderMessage, cards] = await Promise.all([
     Config.findOne({ key: "CART_REMINDER_MESSAGE" }).lean(),
     Card.find({

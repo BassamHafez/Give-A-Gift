@@ -46,7 +46,6 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
 
     loadImages();
   }, [card]);
-  console.log(card);
   const [mainLogoImage] = useImage(mainLogo);
   const { t: key } = useTranslation();
   const isArLang = localStorage.getItem("i18nextLng") === "ar";

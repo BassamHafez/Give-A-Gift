@@ -83,7 +83,6 @@ const Configs = () => {
   };
 
   const onSubmit = (values) => {
-    console.log(values);
     const updatedValues = {
       WALLET_STARTING_BALANCE: values.WALLET_STARTING_BALANCE,
       MAIN_COLOR: values.MAIN_COLOR,
@@ -96,7 +95,6 @@ const Configs = () => {
       UNUSED_CODE_REMINDER_MESSAGE: `${values.UNUSED_CODE_REMINDER_MESSAGE}`,
       WHATSAPP_CARD_MESSAGE: `${values.WHATSAPP_CARD_MESSAGE}`,
     };
-    console.log(updatedValues);
     mutate({
       type: "update",
       formData: updatedValues,

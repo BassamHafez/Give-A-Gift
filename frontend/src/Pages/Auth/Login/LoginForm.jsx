@@ -32,7 +32,6 @@ const LoginForm = ({ notifySuccess, notifyError }) => {
   const saveNotReadyCard = async (token) => {
     
     let formData = JSON.parse(localStorage.getItem("notReadyCard"));
-    console.log(formData)
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_Base_API_URl}cards`,
@@ -44,7 +43,6 @@ const LoginForm = ({ notifySuccess, notifyError }) => {
         }
       );
       const res = response.data;
-      console.log(res);
       if (res?.status === "success") {
         queryClient.invalidateQueries(["getMyCards", token]);
         dispatch(cartActions.addItem());
@@ -56,7 +54,6 @@ const LoginForm = ({ notifySuccess, notifyError }) => {
         navigate("/");
       }
     } catch (error) {
-      console.log(error)
       notifyError(key("wrong"));
       navigate("/");
     }

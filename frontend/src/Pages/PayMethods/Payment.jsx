@@ -67,7 +67,6 @@ const Payment = () => {
       InvoiceValue: values.InvoiceValue,
       cardId: cardId
     };
-    console.log(updatedFormData);
     mutate({ token: token, formData: updatedFormData });
   };
 

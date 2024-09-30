@@ -51,7 +51,6 @@ const VerifyPhoneNumberModal = ({ onHide, show }) => {
       }
     },
     onError: (error) => {
-      console.log(error);
       notifyError(key("verifyCodeFailResend"));
     },
   });
@@ -61,7 +60,6 @@ const VerifyPhoneNumberModal = ({ onHide, show }) => {
   };
 
   const onSubmit = (values) => {
-    console.log(values);
 
     mutate({
       formData: values,

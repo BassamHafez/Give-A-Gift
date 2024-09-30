@@ -163,7 +163,6 @@ const RecipientInformation = () => {
     mutationFn: updateCard,
     onSuccess: (data) => {
       if (data?.status === "success") {
-        console.log(data);
         queryClient.invalidateQueries(["getCard", token]);
         if (data?.data?.celebrateIcon) {
           setIsCelebrationIcon(true);

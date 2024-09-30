@@ -449,7 +449,6 @@ export const addProColor = async ({ token, formData }) => {
 
     return response.data;
   } catch (error) {
-    console.log(error);
     return error;
   }
 };

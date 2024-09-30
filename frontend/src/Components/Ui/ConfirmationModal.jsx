@@ -82,7 +82,6 @@ const ConfirmationModal = ({
           }
         );
         const res = response.data;
-        console.log(response);
         if (res?.status === "success") {
           notifySuccess(key("couponSuccess"));
           setPriceAfterDisc(res.data?.priceAfterDiscount);
@@ -91,7 +90,6 @@ const ConfirmationModal = ({
           setPriceAfterDisc("");
         }
       } catch (error) {
-        console.log(error);
 
         if (error.response?.data?.message === "Coupon is invalid or expired") {
           notifyError(key("invalidCoupon"));

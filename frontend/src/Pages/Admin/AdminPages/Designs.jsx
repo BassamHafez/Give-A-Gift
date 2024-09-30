@@ -40,7 +40,6 @@ const Designs = () => {
     const { mutate, isPending } = useMutation({
       mutationFn: updateBanner,
       onSuccess: (data) => {
-        console.log(data)
         if (data?.status === "success") {
           notifySuccess(key("photoChanged"));
         } else{

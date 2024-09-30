@@ -54,7 +54,6 @@ const AddBalanceAll = ({ refetch }) => {
   };
 
   const onSubmit = (values) => {
-    // console.log(values);
     
     const updatedFormData={
         amountToIncrease:Number(values.amountToIncrease)

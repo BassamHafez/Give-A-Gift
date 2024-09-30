@@ -111,7 +111,6 @@ const AdminCarts = () => {
           },
         }
       );
-      console.log(response);
       let res = response.data;
       if (res.status === "success") {
         notifySuccess(key("sentSucc"));

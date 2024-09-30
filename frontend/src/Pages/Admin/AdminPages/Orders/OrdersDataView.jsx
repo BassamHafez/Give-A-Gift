@@ -74,7 +74,6 @@ const OrdersDataView = ({ isUser }) => {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        console.log(response);
         if (response.status === 204) {
           queryClient.invalidateQueries(["walletBalance", token]);
           notifySuccess(key("orderDeleted"));
@@ -84,7 +83,6 @@ const OrdersDataView = ({ isUser }) => {
         }
       } catch (error) {
         notifyError(key("wrong"));
-        console.log(error);
       }
     } else {
       notifyError(key("deleteOrderWrong"));

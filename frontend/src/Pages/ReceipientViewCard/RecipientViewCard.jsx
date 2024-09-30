@@ -46,7 +46,6 @@ const RecipientViewCard = () => {
     staleTime: Infinity,
   });
 
-  console.log(myCard);
   useEffect(() => {
     if (isFirstVisit) {
       const timer = setTimeout(() => {

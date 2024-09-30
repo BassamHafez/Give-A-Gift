@@ -78,7 +78,6 @@ const Discounts = () => {
           },
         }
       );
-      console.log(response);
       let res = response.data;
       if (res.status === "success") {
         notifySuccess(key("sentSucc"));
@@ -118,7 +117,6 @@ const Discounts = () => {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        console.log(response);
         if (response.status === 204) {
           notifySuccess(key("discDeleted"));
           refetch();
@@ -131,7 +129,6 @@ const Discounts = () => {
         } else {
           notifyError(key("wrong"));
         }
-        console.log(error);
       }
     } else {
       notifyError(key("deleteDiscWrong"));
