@@ -6,6 +6,7 @@
     align-items: center;
     padding: 1.25rem;
     position: relative;
+    overflow-x: hidden;
 }
 .user_login_content{
     display: flex;

@@ -133,7 +133,7 @@ const Root = () => {
       </span>
     );
 
-    const notifyError = () => toast(<Msg />);
+    const notifyError = () => toast(<Msg />, { autoClose: false });
 
     if (!isLogin || !profileData) {
       return;
