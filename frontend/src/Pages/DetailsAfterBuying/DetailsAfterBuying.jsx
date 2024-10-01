@@ -14,6 +14,7 @@ const DetailsAfterBuying = ({
   cardDetails,
   walletDetails,
   totalPrice,
+  onClose
 }) => {
   const { t: key } = useTranslation();
   const navigate = useNavigate();
@@ -25,6 +26,9 @@ const DetailsAfterBuying = ({
   const navigateToProfile = () => {
     queryClient.invalidateQueries(["walletBalance", token]);
     dispatch(fetchCartCounter(token));
+    if(onClose){
+      onClose()
+    }
     navigate(`/user-orders`);
     onHide();
   };

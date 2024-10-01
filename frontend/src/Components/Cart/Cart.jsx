@@ -369,6 +369,7 @@ const Cart = ({ onClose, show }) => {
           cardDetails={cardDetails}
           walletDetails={walletDetails}
           totalPrice={totalPrice}
+          onClose={onClose}
         />
       )}
     </>
