@@ -19,19 +19,9 @@ const Payment = () => {
   const { type, cardId, price } = useParams();
   const [activeMethod, setActiveMethod] = useState(0);
   const { t: key } = useTranslation();
+  const navigate = useNavigate();
 
   const notifyError = (message) => toast.error(message);
-  const notifyConfirm = (message) =>
-    toast.info(message, {
-      autoClose: false,
-      position:"top-right",
-      style: {
-        backgroundColor: '#f0f0f0',
-        color:"black",
-        boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-      },
-    });
-  const navigate = useNavigate();
 
   const { data } = useQuery({
     queryKey: ["paymentMethods", token],
@@ -46,64 +36,8 @@ const Payment = () => {
     mutationFn: executePayment,
     onSuccess: (response) => {
       if (response.status === "success") {
-        const paymentUrl = response.data?.Data?.PaymentURL;
-        const Msg = ({ closeToast, toastProps }) => (
-          <div>
-            <span>{key("openPageNewTab")}</span>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                marginTop: "10px",
-              }}
-            >
-              <div style={{ display: "flex", gap: "10px" }}>
-                <a
-                  href={`${paymentUrl}`}
-                  onClick={() => {
-                    closeToast();
-                  }}
-                  style={{
-                    borderRadius: "1.5625rem",
-                    fontWeight: "700",
-                    boxShadow: "0 0 0.1875rem rgba(0, 0, 0, 0.5)",
-                    padding: "0.625rem 0.9375rem",
-                    marginRight: "auto",
-                    textAlign: "center",
-                  }}
-                  className="text-dark"
-                >
-                  {key("sameTab")}
-                </a>
-
-                <a
-                  href={`${paymentUrl}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() => {
-                    closeToast();
-                    navigate(`/user-orders`);
-                  }}
-                  style={{
-                    borderRadius: "1.5625rem",
-                    minWidth: "6.25rem",
-                    fontWeight: "700",
-                    boxShadow: "0 0 0.1875rem rgba(0, 0, 0, 0.5)",
-                    padding: "0.625rem",
-                    marginLeft: "auto",
-                    backgroundColor: "red",
-                    color: "#FFF",
-                    textAlign: "center",
-                  }}
-                  className="text-white"
-                >
-                  {key("newTab")}
-                </a>
-              </div>
-            </div>
-          </div>
-        );
-        notifyConfirm(<Msg />);
+        window.open(`${response.data?.Data?.PaymentURL}`, "_blank");
+        navigate(`/user-orders`);
       } else {
         notifyError(key("wrong"));
       }
