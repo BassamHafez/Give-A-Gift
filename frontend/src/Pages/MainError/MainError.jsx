@@ -15,7 +15,7 @@ const MainError = () => {
       <span className="mini_word text-center">{key("mainError")}</span>
       <div className=" mb-5 mt-3 text-center">
         <MainButton
-          onClick={() => navigate(-1)}
+          onClick={() => navigate(`/`)}
           className="special_main_color"
           text={key("reloadPage")}
         />

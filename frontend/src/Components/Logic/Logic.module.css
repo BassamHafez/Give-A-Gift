@@ -4,12 +4,13 @@
     padding-right: 0.625rem;
 }
 .flag_div img{
-    width: 40px;
+    width: 28px;
 }
+
 
 
 @media screen and (max-width:280px) {
     .flag_div img{
-        width: 30px;
+        width: 25px;
     }
 }
