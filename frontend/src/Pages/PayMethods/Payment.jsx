@@ -22,7 +22,15 @@ const Payment = () => {
 
   const notifyError = (message) => toast.error(message);
   const notifyConfirm = (message) =>
-    toast.info(message, { autoClose: false, position: "top-center" });
+    toast.info(message, {
+      autoClose: false,
+      position:"top-right",
+      style: {
+        backgroundColor: '#f0f0f0',
+        color:"black",
+        boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+      },
+    });
   const navigate = useNavigate();
 
   const { data } = useQuery({
@@ -40,8 +48,8 @@ const Payment = () => {
       if (response.status === "success") {
         const paymentUrl = response.data?.Data?.PaymentURL;
         const Msg = ({ closeToast, toastProps }) => (
-          <span>
-            {key("openPageNewTab")}
+          <div>
+            <span>{key("openPageNewTab")}</span>
             <div
               style={{
                 display: "flex",
@@ -93,7 +101,7 @@ const Payment = () => {
                 </a>
               </div>
             </div>
-          </span>
+          </div>
         );
         notifyConfirm(<Msg />);
       } else {
@@ -126,7 +134,7 @@ const Payment = () => {
     InvoiceValue: number()
       .typeError(key("amountValidate1"))
       .required(key("amountValidate2"))
-      .min(20, key("min20")),
+      .min(10, key("min10")),
   });
 
   return (

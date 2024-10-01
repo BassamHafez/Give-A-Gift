@@ -154,6 +154,7 @@ const Cart = ({ onClose, show }) => {
   const goToChargeMethods = (price, cardId) => {
     setConfirmModalShow(false);
     navigate(`/payment/payment/${cardId}/${price}`);
+    onClose()
   };
 
   const choosePaymentWay = (way, isBalanced, price, totalPrice) => {

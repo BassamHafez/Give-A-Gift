@@ -387,7 +387,7 @@
     "promoCodeUsageStep2":"Copy the promo Code",
     "promoCodeUsageStep3":"Paste the code in the designated input field",
     "promoCodeUsageStep4":"Get your discount From Store",
-    "min20":"Minimum charge allowed for this transaction is 20 SAR.",
+    "min10":"Minimum charge allowed for this transaction is 10 SAR.",
     "physical":"physical",
     "online":"online",
     "shopToken":"Shop Token",
