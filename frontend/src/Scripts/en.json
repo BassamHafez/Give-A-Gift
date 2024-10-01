@@ -393,5 +393,8 @@
     "shopToken":"Shop Token",
     "tokenCopied":"Store Token Copied",
     "copyError":"Copy Error try again",
-    "downloadapp":"Download our app for a better experience!"
+    "downloadapp":"Download our app for a better experience!",
+    "openPageNewTab":"Open payment page in a new tab?",
+    "newTab":"New Tab",
+    "sameTab":"Same Tab"
 }   

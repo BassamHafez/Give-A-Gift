@@ -64,7 +64,7 @@ const Root = () => {
               fontSize: "1.125rem",
               fontWeight: "700",
               boxShadow: "0 0 0.1875rem rgba(0, 0, 0, 0.5)",
-              padding: "10px",
+              padding: "0.625rem",
               marginLeft: "auto",
               backgroundColor: "red",
               color: "#FFF",
@@ -100,7 +100,6 @@ const Root = () => {
               onClick={closeToast}
               style={{
                 borderRadius: "1.5625rem",
-                fontSize: "1.125rem",
                 fontWeight: "700",
                 boxShadow: "0 0 0.1875rem rgba(0, 0, 0, 0.5)",
                 padding: "0.625rem 0.9375rem",
@@ -116,8 +115,7 @@ const Root = () => {
               }}
               style={{
                 borderRadius: "1.5625rem",
-                minWidth: "6.25rem",
-                fontSize: "1.125rem",
+                minWidth: "5rem",
                 fontWeight: "700",
                 boxShadow: "0 0 0.1875rem rgba(0, 0, 0, 0.5)",
                 padding: "10px",

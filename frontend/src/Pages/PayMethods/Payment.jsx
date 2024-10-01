@@ -19,10 +19,11 @@ const Payment = () => {
   const { type, cardId, price } = useParams();
   const [activeMethod, setActiveMethod] = useState(0);
   const { t: key } = useTranslation();
-  const navigate=useNavigate();
 
-  const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
+  const notifyConfirm = (message) =>
+    toast.info(message, { autoClose: false, position: "top-center" });
+  const navigate = useNavigate();
 
   const { data } = useQuery({
     queryKey: ["paymentMethods", token],
@@ -37,9 +38,64 @@ const Payment = () => {
     mutationFn: executePayment,
     onSuccess: (response) => {
       if (response.status === "success") {
-        notifySuccess(key("redirect"));
-        window.open(`${response.data?.Data?.PaymentURL}`, "_blank");
-        navigate(`/user-orders`)
+        const paymentUrl = response.data?.Data?.PaymentURL;
+        const Msg = ({ closeToast, toastProps }) => (
+          <span>
+            {key("openPageNewTab")}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                marginTop: "10px",
+              }}
+            >
+              <div style={{ display: "flex", gap: "10px" }}>
+                <a
+                  href={`${paymentUrl}`}
+                  onClick={() => {
+                    closeToast();
+                  }}
+                  style={{
+                    borderRadius: "1.5625rem",
+                    fontWeight: "700",
+                    boxShadow: "0 0 0.1875rem rgba(0, 0, 0, 0.5)",
+                    padding: "0.625rem 0.9375rem",
+                    marginRight: "auto",
+                    textAlign: "center",
+                  }}
+                  className="text-dark"
+                >
+                  {key("sameTab")}
+                </a>
+
+                <a
+                  href={`${paymentUrl}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => {
+                    closeToast();
+                    navigate(`/user-orders`);
+                  }}
+                  style={{
+                    borderRadius: "1.5625rem",
+                    minWidth: "6.25rem",
+                    fontWeight: "700",
+                    boxShadow: "0 0 0.1875rem rgba(0, 0, 0, 0.5)",
+                    padding: "0.625rem",
+                    marginLeft: "auto",
+                    backgroundColor: "red",
+                    color: "#FFF",
+                    textAlign: "center",
+                  }}
+                  className="text-white"
+                >
+                  {key("newTab")}
+                </a>
+              </div>
+            </div>
+          </span>
+        );
+        notifyConfirm(<Msg />);
       } else {
         notifyError(key("wrong"));
       }
@@ -58,7 +114,7 @@ const Payment = () => {
     const updatedFormData = {
       PaymentMethodId: values.PaymentMethodId,
       InvoiceValue: values.InvoiceValue,
-      cardId: cardId
+      cardId: cardId,
     };
     mutate({ token: token, formData: updatedFormData });
   };
