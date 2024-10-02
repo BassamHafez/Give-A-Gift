@@ -3,7 +3,7 @@
     "homePageTitle":"Home",
     "aboutPageTitle":"About",
     "storesPageTitle":"Stores",
-    "createCardPageTitle":"Create A Card",
+    "createCardPageTitle":"Custom Card",
     "buyCardNavTitle":"Ready Cards",
     "buyCardPageTitle":"Ready Cards for you",
     "login":"Login",
@@ -19,7 +19,7 @@
     "giftCardsCaption":"Choose a gift card from our wide collection",
     "sec2Title":"Our Policy",
     "sec2Caption":"We offer a wide range of gift cards that suit all tastes and occasions. We also offer the possibility of creating a custom gift card with your own design and text.",
-    "sec3Title":"Give Choice give a gift",
+    "sec3Title":"A Gift to Suit Their Taste",
     "sec3Caption":"When gifting becomes personal",
     "password":"password",
     "email":"Email",
@@ -401,5 +401,6 @@
     "reqApi":"Request Api",
     "reqBody":"Request Body",
     "exRes":"Example Response",
-    "connectStores":"Connect stores"
+    "connectStores":"Connect stores",
+    "design":"Design"
 }   

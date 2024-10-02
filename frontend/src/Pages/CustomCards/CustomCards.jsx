@@ -173,7 +173,7 @@ const CustomCards = () => {
 
   const stepLabels = [
     key("color"),
-    key("shape"),
+    key("design"),
     key("storesPageTitle"),
     key("message"),
   ];
