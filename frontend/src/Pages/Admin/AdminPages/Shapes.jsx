@@ -19,12 +19,24 @@ import LoadingOne from "../../../Components/Ui/LoadingOne";
 import axios from "axios";
 import AddSpecialCardsShape from "./AddSpecialCardsShape";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Shapes = () => {
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
   const [selectedFile, setSelectedFile] = useState(null);
+  const role = useSelector((state) => state.userInfo.role);
+  const profileData = useSelector((state) => state.profileInfo.data);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    if (role === "user") {
+      navigate(`/`);
+    } else if (role === "merchant") {
+      navigate(`/merchant/${profileData?._id}`);
+    }
+  }, [role, navigate, profileData]);
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
 

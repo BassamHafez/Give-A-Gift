@@ -11,6 +11,8 @@ import InputErrorMessage from "../../../Components/Ui/InputErrorMessage";
 import Select from "react-select";
 import { CountriesPhoneNumbers } from "../../../Components/Logic/Logic";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const getPhoneValidationSchema = (country, key) => {
   const phoneRegex = {
@@ -54,7 +56,17 @@ const Merchant = () => {
   const [selectedCountry, setSelectedCountry] = useState("SA");
   const [physicalShops, setPhysicalShops] = useState([]);
   const [physicalShopsOptions, setPhysicalShopsOptions] = useState([]);
+  const role = useSelector((state) => state.userInfo.role);
+  const profileData = useSelector((state) => state.profileInfo.data);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    if (role === "user") {
+      navigate(`/`);
+    } else if (role === "merchant") {
+      navigate(`/merchant/${profileData?._id}`);
+    }
+  }, [role, navigate, profileData]);
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  faBook,
   faBrush,
   faCashRegister,
   faChartPie,
@@ -28,8 +29,9 @@ import { faOpencart } from "@fortawesome/free-brands-svg-icons";
 
 const Admin = () => {
   const [logoutModalShow, setLogoutModalShow] = useState(false);
-  const navigate = useNavigate();
   const { t: key } = useTranslation();
+
+  const navigate = useNavigate();
   const role = useSelector((state) => state.userInfo.role);
   const profileData = useSelector((state) => state.profileInfo.data);
 
@@ -255,6 +257,21 @@ const Admin = () => {
                     icon={faImage}
                   />
                   <span>{key("designs")}</span>
+                </div>
+              </Col>
+              <Col
+                xs={6}
+                className="d-flex justify-content-center align-items-center"
+              >
+                <div
+                  className={styles.list_item}
+                  onClick={() => navigate("/docs")}
+                >
+                  <FontAwesomeIcon
+                    className={styles.list_item_icon}
+                    icon={faBook}
+                  />
+                  <span>{key("docs")}</span>
                 </div>
               </Col>
               <Col

@@ -394,7 +394,11 @@
     "tokenCopied":"Store Token Copied",
     "copyError":"Copy Error try again",
     "downloadapp":"Download our app for a better experience!",
-    "openPageNewTab":"Open payment page in a new tab?",
-    "newTab":"New Tab",
-    "sameTab":"Same Tab"
+    "openPageNewTab": "You will be redirected to the payment page now",
+    "pay":"Pay",
+    "docs":"Docs",
+    "contactDocs":"Contact us to add your store and get a token",
+    "reqApi":"Request Api",
+    "reqBody":"Request Body",
+    "exRes":"Example Response"
 }   

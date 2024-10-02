@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./AdminPages.module.css";
-import {addSpecialColorsShape} from "../../../util/Http";
+import { addSpecialColorsShape } from "../../../util/Http";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorMessage, Form, Formik } from "formik";
 import { mixed, object } from "yup";
@@ -9,12 +9,26 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import InputErrorMessage from "../../../Components/Ui/InputErrorMessage";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const AddSpecialCardsShape = () => {
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
   const [selectedFrontShape, setSelectedFrontShape] = useState(null);
   const [selectedBackShape, setSelectedBackShape] = useState(null);
+
+  const role = useSelector((state) => state.userInfo.role);
+  const profileData = useSelector((state) => state.profileInfo.data);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (role === "user") {
+      navigate(`/`);
+    } else if (role === "merchant") {
+      navigate(`/merchant/${profileData?._id}`);
+    }
+  }, [role, navigate, profileData]);
 
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
@@ -39,7 +53,6 @@ const AddSpecialCardsShape = () => {
   };
 
   const onSubmit = (values) => {
-
     const formData = new FormData();
 
     if (selectedFrontShape) {
@@ -54,7 +67,7 @@ const AddSpecialCardsShape = () => {
     }
     mutate({
       formData: formData,
-      token: token
+      token: token,
     });
   };
 
@@ -69,7 +82,6 @@ const AddSpecialCardsShape = () => {
           : true;
       }),
   });
-
 
   const handleFrontChange = (e) => {
     const file = e.currentTarget.files[0];
@@ -103,9 +115,12 @@ const AddSpecialCardsShape = () => {
               onChange={handleFrontChange}
               className="d-none"
             />
-            <ErrorMessage name="frontShapeImage" component={InputErrorMessage} />
+            <ErrorMessage
+              name="frontShapeImage"
+              component={InputErrorMessage}
+            />
           </div>
-          <br/>
+          <br />
           <div className={styles.photo_field}>
             <h4 className="fw-bold">{key("backShape")}</h4>
             <label className={styles.photo_label} htmlFor="backShapeImage">

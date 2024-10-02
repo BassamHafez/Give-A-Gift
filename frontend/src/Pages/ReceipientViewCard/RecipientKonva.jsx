@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import mainLogo from "../../Images/logo.png";
 import useIsSmallScreen from "../ViewCard/useIsSmallScreen";
 import useCardSize from "../ViewCard/useCardSize";
+import { Link } from "react-router-dom";
 
 const RecipientKonva = ({ card, isFrontShape }) => {
   const isSmallScreen = useIsSmallScreen(480);
@@ -167,12 +168,19 @@ const RecipientKonva = ({ card, isFrontShape }) => {
         </Layer>
       </Stage>
       <div className="mt-1 px-2  position-relative d-flex justify-content-center flex-column">
-        <div className={styles.shop_logo}>
-          <img
-            src={`${process.env.REACT_APP_Host}shops/${card?.shop?.logo}`}
-            alt="shop_logo"
-          />
-        </div>
+        <Link
+          className="text-primary fw-bold"
+          target="_blank"
+          to={card?.shop?.link}
+        >
+          <div className={styles.shop_logo}>
+            <img
+              src={`${process.env.REACT_APP_Host}shops/${card?.shop?.logo}`}
+              alt="shop_logo"
+            />
+          </div>
+        </Link>
+
         <ul className={styles.list}>
           <li
             className={`${styles.list_item} ${styles.price_value} text-center`}

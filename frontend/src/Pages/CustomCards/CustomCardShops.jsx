@@ -30,9 +30,8 @@ const CustomCardShops = ({ saveShop }) => {
         {shops ? (
           shops?.data?.map((shop) => (
             <Col
-              xs={12}
-              sm={6}
-              md={4}
+              xs={4}
+              sm={4}
               lg={3}
               className="d-flex justify-content-center"
               onClick={() => settingShop(shop.logo, shop._id)}

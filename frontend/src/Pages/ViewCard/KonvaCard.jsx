@@ -13,6 +13,7 @@ import mainLogo from "../../Images/logo.png";
 import styles from "./ViewCard.module.css";
 import useIsSmallScreen from "./useIsSmallScreen";
 import useCardSize from "./useCardSize";
+import { Link } from "react-router-dom";
 
 const KonvaCard = ({ card, isPaid, isFrontShape }) => {
   const isSmallScreen = useIsSmallScreen(480);
@@ -113,7 +114,7 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
             />
           )}
 
-          {isFrontShape==="front" &&
+          {isFrontShape === "front" &&
             (card.isSpecial && shapeImageBack ? (
               <Image
                 image={shapeImageFront}
@@ -151,7 +152,7 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
               </>
             ))}
 
-          {card.isSpecial && isFrontShape==="back" && (
+          {card.isSpecial && isFrontShape === "back" && (
             <Image
               image={shapeImageBack}
               width={cardWidth}
@@ -173,7 +174,7 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
             />
           )}
 
-          {card.text && !card.isSpecial && isFrontShape==="back" && (
+          {card.text && !card.isSpecial && isFrontShape === "back" && (
             <Text
               text={card.text.message}
               fontSize={Number(card.text.fontSize)}
@@ -190,12 +191,18 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
       </Stage>
 
       <div className="mt-1 px-2 position-relative d-flex justify-content-center flex-column">
-        <div className={styles.shop_logo}>
-          <img
-            src={`${process.env.REACT_APP_Host}shops/${card.shop?.logo}`}
-            alt="shop_logo"
-          />
-        </div>
+        <Link
+          className="text-primary fw-bold"
+          target="_blank"
+          to={card?.shop?.link}
+        >
+          <div className={styles.shop_logo}>
+            <img
+              src={`${process.env.REACT_APP_Host}shops/${card?.shop?.logo}`}
+              alt="shop_logo"
+            />
+          </div>
+        </Link>
         <ul className={styles.list}>
           {isPaid ? (
             <>

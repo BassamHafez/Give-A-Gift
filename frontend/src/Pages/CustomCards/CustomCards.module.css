@@ -299,10 +299,28 @@
         padding: 10px;
       }
     }
+    @media screen and (max-width:430px) {
+      .logo_div{
+        width: 5rem;
+        height: 5rem;
+    }
+    }
     @media screen and (max-width:350px) {
       .shape_scale_div{
         flex-direction: column;
         align-items: center;
+      }
+    }
+    @media screen and (max-width:335px) {
+      .logo_div{
+        width: 12.5rem;
+        aspect-ratio: 1/1;
+    }
+      .logo_container{
+        flex-direction: column;
+        align-items: center !important;
+        width: 100%;
+        padding: 0 !important;
       }
     }
     @media screen and (max-width:260px) {

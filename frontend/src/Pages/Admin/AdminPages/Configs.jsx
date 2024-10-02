@@ -11,12 +11,23 @@ import { toast } from "react-toastify";
 import InputErrorMessage from "../../../Components/Ui/InputErrorMessage";
 import { useDispatch, useSelector } from "react-redux";
 import fetchConfigs from "../../../Store/configs-actions";
+import { useNavigate } from "react-router-dom";
 
 const Configs = () => {
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
   const dispatch = useDispatch();
+  const role = useSelector((state) => state.userInfo.role);
+  const profileData = useSelector((state) => state.profileInfo.data);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    if (role === "user") {
+      navigate(`/`);
+    } else if (role === "merchant") {
+      navigate(`/merchant/${profileData?._id}`);
+    }
+  }, [role, navigate, profileData]);
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
 
@@ -32,7 +43,9 @@ const Configs = () => {
 
   const messageReminder = useSelector((state) => state.configs.messageReminder);
 
-  const messageCodeReminder = useSelector((state) => state.configs.messageCodeReminder);
+  const messageCodeReminder = useSelector(
+    (state) => state.configs.messageCodeReminder
+  );
   const whatsappMessage = useSelector((state) => state.configs.whatsappMessage);
   const walletStarting = useSelector((state) => state.configs.walletStarting);
   const cashBack = useSelector((state) => state.configs.cashBack);

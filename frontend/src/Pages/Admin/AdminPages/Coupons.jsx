@@ -11,6 +11,8 @@ import { useTranslation } from "react-i18next";
 import MainButton from "../../../Components/Ui/MainButton";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Coupons = () => {
   const [modalShow, setModalShow] = useState(false);
@@ -21,7 +23,17 @@ const Coupons = () => {
 
   const token = JSON.parse(localStorage.getItem("token"));
   const { t: key } = useTranslation();
+  const role = useSelector((state) => state.userInfo.role);
+  const profileData = useSelector((state) => state.profileInfo.data);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    if (role === "user") {
+      navigate(`/`);
+    } else if (role === "merchant") {
+      navigate(`/merchant/${profileData?._id}`);
+    }
+  }, [role, navigate, profileData]);
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
 

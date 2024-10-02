@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { updateBanner } from "../../../util/Http";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorMessage, Form, Formik } from "formik";
@@ -9,69 +9,78 @@ import { faCheck, faImage, faYinYang } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
-
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Designs = () => {
+  const { t: key } = useTranslation();
+  const token = JSON.parse(localStorage.getItem("token"));
+  const [selectedFile, setSelectedFile] = useState(null);
 
-    const { t: key } = useTranslation();
-    const token = JSON.parse(localStorage.getItem("token"));
-    const [selectedFile, setSelectedFile] = useState(null);
-  
-    const notifySuccess = (message) => toast.success(message);
-    const notifyError = (message) => toast.error(message);
-  
-    const { mutate, isPending } = useMutation({
-      mutationFn: updateBanner,
-      onSuccess: (data) => {
-        if (data?.status === "success") {
-          notifySuccess(key("photoChanged"));
-        } else{
-          notifyError(key("photoFaild"));
-        }
-      },
-      onError: (error) => {
-        notifyError(key("photoFaild"));
-      },
-    });
-  
-    const initialValues = {
-      banner: "",
-    };
-  
-    const onSubmit = () => {
-      const formData = new FormData();
-  
-      if (selectedFile) {
-        formData.append("image", selectedFile);
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
+  const role = useSelector((state) => state.userInfo.role);
+  const profileData = useSelector((state) => state.profileInfo.data);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (role === "user") {
+      navigate(`/`);
+    } else if (role === "merchant") {
+      navigate(`/merchant/${profileData?._id}`);
+    }
+  }, [role, navigate, profileData]);
+  const { mutate, isPending } = useMutation({
+    mutationFn: updateBanner,
+    onSuccess: (data) => {
+      if (data?.status === "success") {
+        notifySuccess(key("photoChanged"));
       } else {
-        notifyError(key("uploadPhoto"));
-        return;
+        notifyError(key("photoFaild"));
       }
-  
-      mutate({
-        formData: formData,
-        token: token,
-      });
-    };
-  
-    const validationSchema = object({
-      photo: mixed()
-        .test("fileSize", `${key("photoValidationSize")}`, (value) => {
-          return value ? value.size <= 3000000 : true;
-        })
-        .test("fileType", `${key("photoValidationType")}`, (value) => {
-          return value
-            ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
-            : true;
-        }),
+    },
+    onError: (error) => {
+      notifyError(key("photoFaild"));
+    },
+  });
+
+  const initialValues = {
+    banner: "",
+  };
+
+  const onSubmit = () => {
+    const formData = new FormData();
+
+    if (selectedFile) {
+      formData.append("image", selectedFile);
+    } else {
+      notifyError(key("uploadPhoto"));
+      return;
+    }
+
+    mutate({
+      formData: formData,
+      token: token,
     });
-  
-    const handleFileChange = (e) => {
-      const file = e.currentTarget.files[0];
-      setSelectedFile(file);
-      notifySuccess(key("photoDownloaded"))
-    };
-  
+  };
+
+  const validationSchema = object({
+    photo: mixed()
+      .test("fileSize", `${key("photoValidationSize")}`, (value) => {
+        return value ? value.size <= 3000000 : true;
+      })
+      .test("fileType", `${key("photoValidationType")}`, (value) => {
+        return value
+          ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+          : true;
+      }),
+  });
+
+  const handleFileChange = (e) => {
+    const file = e.currentTarget.files[0];
+    setSelectedFile(file);
+    notifySuccess(key("photoDownloaded"));
+  };
 
   return (
     <div className={`${styles.main_body} ${styles.configs_body}`}>
@@ -81,8 +90,12 @@ const Designs = () => {
         validationSchema={validationSchema}
       >
         <Form className={styles.general_info_form}>
-
-          <h5 className="mb-4 fw-bold">{key("banner")} {selectedFile&&<FontAwesomeIcon className="text-success" icon={faCheck}/>}</h5>
+          <h5 className="mb-4 fw-bold">
+            {key("banner")}{" "}
+            {selectedFile && (
+              <FontAwesomeIcon className="text-success" icon={faCheck} />
+            )}
+          </h5>
           <div className={styles.photo_field}>
             <label className={styles.photo_label} htmlFor="banner">
               <FontAwesomeIcon className={styles.img_icon} icon={faImage} />
@@ -112,7 +125,7 @@ const Designs = () => {
         </Form>
       </Formik>
     </div>
-  )
-}
+  );
+};
 
-export default Designs
+export default Designs;

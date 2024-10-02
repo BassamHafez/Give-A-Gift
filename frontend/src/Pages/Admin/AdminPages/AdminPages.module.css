@@ -539,6 +539,30 @@
 }
 
 
+/* docs */
+.docs_body{
+    min-height: 85vh;
+    padding: 1.25rem;
+    font-family: 'Times New Roman', Times, serif !important;
+}
+.request_api{
+    box-shadow: 0 0 0.1875rem rgba(0, 0, 0, 0.2);
+    color: var(--main_color);
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.3125rem;
+    margin: 0.625rem;
+    background-color: aliceblue;
+}
+
+.request_body{
+    background-color: aliceblue;
+    padding: 1.25rem;
+    margin: 0.625rem;
+    box-shadow: 0 0 0.1875rem rgba(0, 0, 0, 0.2);
+}
+.request_body ul li span{
+color: var(--main_color);
+}
 
 @media screen and (max-width:1130px) {
     .register_form div{
@@ -608,6 +632,19 @@
     }
     .shape_div{
         width: 90%;
+    }
+    .docs_body{
+        padding: 5px;
+    }
+    .request_api{
+        padding: 10px;
+        margin: 10px 0;
+        word-break: break-all;
+    }
+    .request_body{
+        padding: 10px;
+        margin: 10px 0;
+        word-break: break-all;
     }
 }
 
