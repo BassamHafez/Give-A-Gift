@@ -68,6 +68,7 @@ const router=createBrowserRouter([{
     {path:"register",element:<Register/>},
     {path:"special-cards",element:<SpecialCards/>},
     {path:"custom-cards",element:<CustomCards/>},
+    {path:"docs",element:<Docs/>},
     {path:"view-card/:cardId",element:<ProtectedRoute><ViewCard/></ProtectedRoute>},
     {path:"profile/:userId",element:<ProtectedRoute><Profile/></ProtectedRoute>},
     {path:"wallet/:userId",element:<ProtectedRoute><Wallet/></ProtectedRoute>},
@@ -95,7 +96,6 @@ const router=createBrowserRouter([{
     {path:"admin-carts",element:<ProtectedRoute><AdminCarts/></ProtectedRoute>},
     {path:"admin-discounts",element:<ProtectedRoute><Discounts/></ProtectedRoute>},
     {path:"admin-designs",element:<ProtectedRoute><Designs/></ProtectedRoute>},
-    {path:"docs",element:<ProtectedRoute><Docs/></ProtectedRoute>},
 
     //merchant
     {path:"merchant/:merchantId",element:<ProtectedRoute><MerchantProfile/></ProtectedRoute>},

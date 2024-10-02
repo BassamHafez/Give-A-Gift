@@ -11,8 +11,8 @@ import { getPaymentMethods } from "../../util/Http";
 import { useNavigate, useParams } from "react-router-dom";
 import InputErrorMessage from "../../Components/Ui/InputErrorMessage";
 import { useTranslation } from "react-i18next";
-import styles from "./Payment.module.css";
 import { toast } from "react-toastify";
+import styles from "./MyPay.module.css";
 
 const Payment = () => {
   const token = JSON.parse(localStorage.getItem("token"));
