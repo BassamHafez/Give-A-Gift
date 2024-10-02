@@ -22,7 +22,8 @@ import { CountriesPhoneNumbers } from "../../../Components/Logic/Logic";
 import defaultImg from "../../../Images/default.png";
 import SearchField from "../../../Components/Ui/SearchField";
 import { toast } from "react-toastify";
-
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const getPhoneValidationSchema = (country, key) => {
   const phoneRegex = {
@@ -64,7 +65,17 @@ const Users = () => {
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const [selectedCountry, setSelectedCountry] = useState("SA");
   const [searchInput, setSearchInput] = useState("");
+  const role = useSelector((state) => state.userInfo.role);
+  const profileData = useSelector((state) => state.profileInfo.data);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    if (role === "user") {
+      navigate(`/`);
+    } else if (role === "merchant") {
+      navigate(`/merchant/${profileData?._id}`);
+    }
+  }, [role, navigate, profileData]);
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
 
@@ -182,12 +193,11 @@ const Users = () => {
         (user) =>
           user.name.toLowerCase().includes(searchInput.toLowerCase()) ||
           user.email.toLowerCase().includes(searchInput.toLowerCase()) ||
-          user._id===searchInput||
-          user.phone===searchInput       
+          user._id === searchInput ||
+          user.phone === searchInput
       )
     : [];
 
-    
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

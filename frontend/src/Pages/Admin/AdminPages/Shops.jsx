@@ -18,6 +18,8 @@ import Col from "react-bootstrap/esm/Col";
 import LoadingOne from "../../../Components/Ui/LoadingOne";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Shops = () => {
   const { t: key } = useTranslation();
@@ -26,7 +28,17 @@ const Shops = () => {
 
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
+  const role = useSelector((state) => state.userInfo.role);
+  const profileData = useSelector((state) => state.profileInfo.data);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    if (role === "user") {
+      navigate(`/`);
+    } else if (role === "merchant") {
+      navigate(`/merchant/${profileData?._id}`);
+    }
+  }, [role, navigate, profileData]);
   const { data: shops, refetch } = useQuery({
     queryKey: ["shops", token],
     queryFn: getShops,

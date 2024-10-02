@@ -15,6 +15,8 @@ import { useTranslation } from "react-i18next";
 import { controlTransactions } from "../../../util/Http";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Transactions = () => {
   const { t: key } = useTranslation();
@@ -22,7 +24,17 @@ const Transactions = () => {
   const [searchInput, setSearchInput] = useState("");
 
   const notifySuccess = (message) => toast.success(message);
+  const role = useSelector((state) => state.userInfo.role);
+  const profileData = useSelector((state) => state.profileInfo.data);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    if (role === "user") {
+      navigate(`/`);
+    } else if (role === "merchant") {
+      navigate(`/merchant/${profileData?._id}`);
+    }
+  }, [role, navigate, profileData]);
   const { data: allTransactions } = useQuery({
     queryKey: ["allTransactions", token],
     queryFn: () => controlTransactions({ type: "all", token }),
@@ -53,7 +65,7 @@ const Transactions = () => {
         (op) =>
           op.CustomerName.toLowerCase().includes(searchInput.toLowerCase()) ||
           op.CustomerEmail.toLowerCase().includes(searchInput.toLowerCase()) ||
-          op.PaymentId.trim()===searchInput.trim() ||
+          op.PaymentId.trim() === searchInput.trim() ||
           op.PaymentMethod.toLowerCase() === searchInput.toLowerCase() ||
           op.UserDefinedField.toLowerCase() === searchInput.toLowerCase()
       )

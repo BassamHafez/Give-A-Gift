@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import SearchField from "../../../Components/Ui/SearchField";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const AdminCarts = () => {
   const [selectedIds, setSelectedIds] = useState([]);
@@ -26,6 +27,18 @@ const AdminCarts = () => {
   const celebrateLinkPrice = useSelector(
     (state) => state.configs.celebrateLinkPrice
   );
+
+  const role = useSelector((state) => state.userInfo.role);
+  const profileData = useSelector((state) => state.profileInfo.data);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (role === "user") {
+      navigate(`/`);
+    } else if (role === "merchant") {
+      navigate(`/merchant/${profileData?._id}`);
+    }
+  }, [role, navigate, profileData]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -125,8 +138,14 @@ const AdminCarts = () => {
   const filteredCarts = data
     ? data.data.filter(
         (cart) =>
-          cart.shop?.name.toLowerCase().trim().includes(searchInput.toLowerCase().trim()) ||
-          cart.user?.name.toLowerCase().trim().includes(searchInput.toLowerCase().trim()) ||
+          cart.shop?.name
+            .toLowerCase()
+            .trim()
+            .includes(searchInput.toLowerCase().trim()) ||
+          cart.user?.name
+            .toLowerCase()
+            .trim()
+            .includes(searchInput.toLowerCase().trim()) ||
           cart.user?.phone === searchInput
       )
     : [];

@@ -18,12 +18,25 @@ import TopStores from "../../../Components/Charts/TopStores";
 import LastMonthsIncome from "../../../Components/Charts/LastMonthsIncome";
 import * as XLSX from "xlsx";
 import TopShapesCharts from "../../../Components/Charts/TopShapesCharts";
-
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Analysis = () => {
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
+
+  const role = useSelector((state) => state.userInfo.role);
+  const profileData = useSelector((state) => state.profileInfo.data);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (role === "user") {
+      navigate(`/`);
+    } else if (role === "merchant") {
+      navigate(`/merchant/${profileData?._id}`);
+    }
+  }, [role, navigate, profileData]);
 
   const { data } = useQuery({
     queryKey: ["successTransactions", token],
@@ -32,16 +45,16 @@ const Analysis = () => {
     staleTime: Infinity,
   });
 
-  const handleDownloadExcelSheet = (data,msg) => {
+  const handleDownloadExcelSheet = (data, msg) => {
     const wb = XLSX.utils.book_new();
     const ws = XLSX.utils.json_to_sheet(data);
     XLSX.utils.book_append_sheet(wb, ws, "LastMonthData");
 
     XLSX.writeFile(wb, `${msg}`);
   };
-  useEffect(()=>{
-    window.scrollTo(0, 0)
-  },[])
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div>
       {data ? (
@@ -102,7 +115,12 @@ const Analysis = () => {
             {key("topthreeShops")}{" "}
             <FontAwesomeIcon
               className={styles.download_icon}
-              onClick={() => handleDownloadExcelSheet(data?.data?.topShops,"Top_stores.xlsx")}
+              onClick={() =>
+                handleDownloadExcelSheet(
+                  data?.data?.topShops,
+                  "Top_stores.xlsx"
+                )
+              }
               icon={faDownload}
               title={key("download")}
             />
@@ -119,13 +137,18 @@ const Analysis = () => {
             {key("topthreeShapes")}
             <FontAwesomeIcon
               className={styles.download_icon}
-              onClick={() => handleDownloadExcelSheet(data?.data?.topShapes,"Top_shapes.xlsx")}
+              onClick={() =>
+                handleDownloadExcelSheet(
+                  data?.data?.topShapes,
+                  "Top_shapes.xlsx"
+                )
+              }
               icon={faDownload}
               title={key("download")}
             />
           </h4>
           <section className={styles.chart_div} dir={isArLang ? "ltr" : "ltr"}>
-            <TopShapesCharts topShapes={data?.data?.topShapes}/>
+            <TopShapesCharts topShapes={data?.data?.topShapes} />
           </section>
 
           <h4
@@ -137,7 +160,10 @@ const Analysis = () => {
             <FontAwesomeIcon
               className={styles.download_icon}
               onClick={() =>
-                handleDownloadExcelSheet(data?.data?.lastMonthsIncome,"last_months_income.xlsx")
+                handleDownloadExcelSheet(
+                  data?.data?.lastMonthsIncome,
+                  "last_months_income.xlsx"
+                )
               }
               icon={faDownload}
               title={key("download")}

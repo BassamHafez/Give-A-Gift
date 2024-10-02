@@ -22,6 +22,16 @@ const Payment = () => {
   const navigate = useNavigate();
 
   const notifyError = (message) => toast.error(message);
+  const notifyConfirm = (message) =>
+    toast(message, {
+      autoClose: false,
+      position: "top-right",
+      style: {
+        backgroundColor: "rgb(240, 243, 247)",
+        color: "black",
+        boxShadow: "0px 0px 8px rgba(0, 0, 0, 0.5)",
+      },
+    });
 
   const { data } = useQuery({
     queryKey: ["paymentMethods", token],
@@ -36,8 +46,40 @@ const Payment = () => {
     mutationFn: executePayment,
     onSuccess: (response) => {
       if (response.status === "success") {
-        window.open(`${response.data?.Data?.PaymentURL}`, "_blank");
-        navigate(`/user-orders`);
+        const paymentUrl = response.data?.Data?.PaymentURL;
+        const Msg = ({ closeToast, toastProps }) => (
+          <div>
+            <span>{key("openPageNewTab")}</span>
+            <div
+              style={{
+                marginTop: "20px",
+              }}
+            >
+              <div style={{ textAlign: "center" }}>
+                <a
+                  href={`${paymentUrl}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => {
+                    closeToast();
+                    navigate(`/user-orders`);
+                  }}
+                  style={{
+                    borderRadius: "1.5625rem",
+                    padding: "0.625rem 0.9375rem",
+                    backgroundColor: "#b62026",
+                    color: "#FFF",
+                    textAlign: "center",
+                  }}
+                  className="text-white"
+                >
+                  {key("confirm")}
+                </a>
+              </div>
+            </div>
+          </div>
+        );
+        notifyConfirm(<Msg />);
       } else {
         notifyError(key("wrong"));
       }
@@ -132,7 +174,7 @@ const Payment = () => {
                   </button>
                 ) : (
                   <button type="submit" className={styles.save_btn}>
-                    {key("charge")}
+                    {key("pay")}
                   </button>
                 )}
               </div>
@@ -162,3 +204,74 @@ const Payment = () => {
 };
 
 export default Payment;
+
+// const { mutate, isPending } = useMutation({
+//   mutationFn: executePayment,
+//   onSuccess: (response) => {
+//     if (response.status === "success") {
+//       const paymentUrl = response.data?.Data?.PaymentURL;
+//       const Msg = ({ closeToast, toastProps }) => (
+//         <div>
+//           <span>{key("openPageNewTab")}</span>
+//           <div
+//             style={{
+//               display: "flex",
+//               flexDirection: "column",
+//               marginTop: "10px",
+//             }}
+//           >
+//             <div style={{ display: "flex", gap: "10px" }}>
+//               <a
+//                 href={`${paymentUrl}`}
+//                 onClick={() => {
+//                   closeToast();
+//                 }}
+//                 style={{
+//                   borderRadius: "1.5625rem",
+//                   fontWeight: "700",
+//                   boxShadow: "0 0 0.1875rem rgba(0, 0, 0, 0.5)",
+//                   padding: "0.625rem 0.9375rem",
+//                   marginRight: "auto",
+//                   textAlign: "center",
+//                 }}
+//                 className="text-dark"
+//               >
+//                 {key("sameTab")}
+//               </a>
+
+//               <a
+//                 href={`${paymentUrl}`}
+//                 target="_blank"
+//                 rel="noreferrer"
+//                 onClick={() => {
+//                   closeToast();
+//                   navigate(`/user-orders`);
+//                 }}
+//                 style={{
+//                   borderRadius: "1.5625rem",
+//                   minWidth: "6.25rem",
+//                   fontWeight: "700",
+//                   boxShadow: "0 0 0.1875rem rgba(0, 0, 0, 0.5)",
+//                   padding: "0.625rem",
+//                   marginLeft: "auto",
+//                   backgroundColor: "red",
+//                   color: "#FFF",
+//                   textAlign: "center",
+//                 }}
+//                 className="text-white"
+//               >
+//                 {key("newTab")}
+//               </a>
+//             </div>
+//           </div>
+//         </div>
+//       );
+//       notifyConfirm(<Msg />);
+//     } else {
+//       notifyError(key("wrong"));
+//     }
+//   },
+//   onError: (error) => {
+//     notifyError(key("wrong"));
+//   },
+// });

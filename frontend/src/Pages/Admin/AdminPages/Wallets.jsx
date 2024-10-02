@@ -18,6 +18,8 @@ import AddBalanceAll from "./WalletsForms/AddBalanceAll";
 import AddBalance from "./WalletsForms/AddBalance";
 import RemoveBalanceAll from "./WalletsForms/RemoveBalanceAll";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Wallets = () => {
   const { t: key } = useTranslation();
@@ -27,7 +29,17 @@ const Wallets = () => {
   const [walletId, setWalletId] = useState(false);
 
   const notifySuccess = (message) => toast.success(message);
+  const role = useSelector((state) => state.userInfo.role);
+  const profileData = useSelector((state) => state.profileInfo.data);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    if (role === "user") {
+      navigate(`/`);
+    } else if (role === "merchant") {
+      navigate(`/merchant/${profileData?._id}`);
+    }
+  }, [role, navigate, profileData]);
 
   const { data: wallets, refetch } = useQuery({
     queryKey: ["controlWallets", token],
@@ -38,7 +50,7 @@ const Wallets = () => {
 
   const handleSearch = (e, searchTerm) => {
     e.preventDefault();
-    if (searchTerm !== ""&&searchTerm!==searchInput) {
+    if (searchTerm !== "" && searchTerm !== searchInput) {
       setSearchInput(searchTerm);
       notifySuccess(key("searchFilterApplied"));
     }
@@ -47,21 +59,26 @@ const Wallets = () => {
   const filterWallets = wallets
     ? wallets.data?.data?.filter(
         (wallet) =>
-          wallet.user?.name.toLowerCase().trim().includes(searchInput.toLowerCase().trim()) ||
-          wallet.user?.email.toLowerCase().includes(searchInput.toLowerCase()) ||
-          wallet._id.includes(searchInput)||
-          wallet.user?.phone.trim()===searchInput.trim()
+          wallet.user?.name
+            .toLowerCase()
+            .trim()
+            .includes(searchInput.toLowerCase().trim()) ||
+          wallet.user?.email
+            .toLowerCase()
+            .includes(searchInput.toLowerCase()) ||
+          wallet._id.includes(searchInput) ||
+          wallet.user?.phone.trim() === searchInput.trim()
       )
     : [];
-    useEffect(()=>{
-      window.scrollTo(0, 0)
-    },[])
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
       <div className={styles.main_body}>
         <div className={styles.configs_body}>
           <AddBalanceAll refetch={refetch} />
-          <RemoveBalanceAll refetch={refetch}/>
+          <RemoveBalanceAll refetch={refetch} />
         </div>
         <hr />
         <div>
