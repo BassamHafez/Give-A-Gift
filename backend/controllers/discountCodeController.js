@@ -231,7 +231,7 @@ exports.getOnlineDiscountCodeValue = catchAsync(async (req, res, next) => {
   }
 
   if (card.shop.toString() !== shop._id.toString()) {
-    return next(new ApiError("Code does not belong to this shop", 400));
+    return next(new ApiError("Code does not belong to this shop", 401));
   }
 
   await Card.findByIdAndUpdate(code, {
