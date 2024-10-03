@@ -166,6 +166,11 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
+
+.FontFamily__control,.fontSizes__control{
+  background-color: var(--main_color) !important;
+  color: white !important;
+}
 #react-select-2-placeholder,.fontSizes__single-value{
   color: white !important;
   z-index: 3;
@@ -176,7 +181,10 @@ input::-webkit-inner-spin-button {
   z-index: 3;
   font-size: 1.125rem;
 }
-
+.FontFamily__option,.fontSizes__option{
+  background-color: white !important;
+  color: black !important;
+}
 
 @media screen and (max-width:768px) {
   body,html{

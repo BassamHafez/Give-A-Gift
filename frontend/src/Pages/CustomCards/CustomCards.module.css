@@ -172,14 +172,14 @@
       width: 12.5rem;
       margin-inline: 0.625rem;
     }
-    .fontSize_input div{
+    /* .fontSize_input div{
       background-color: var(--main_color) !important;
       color: white !important;
     }
     .fontSize_input div input *{
       color: white !important;
       z-index: 3 !important;
-    }
+    } */
     .control_inputs_div{
       display: flex;
       align-items: center;
