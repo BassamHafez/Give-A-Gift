@@ -6,7 +6,7 @@ import styles from "./CustomCards.module.css";
 import { useQueryClient } from "@tanstack/react-query";
 import mainLogo from "../../Images/logo.png";
 import Select from "react-select";
-import { FontsFamilies } from "../../Components/Logic/Logic";
+import { FontsFamilies, fontSizes } from "../../Components/Logic/Logic";
 import MainButton from "../../Components/Ui/MainButton";
 import axios from "axios";
 
@@ -32,7 +32,7 @@ const CustomCards = () => {
   const [cardColor, setCardColor] = useState("#FFFFFF");
   const [cardProColor, setCardProColor] = useState("");
   const [cardColorId, setCardColorId] = useState("");
-  const [textColor, setTextColor] = useState("#000000");
+  const [textColor, setTextColor] = useState("#000");
   const [selectedShopId, setSelectedShopId] = useState("");
   const [logoImage, setLogoImage] = useState(null);
   const [cardText, setCardText] = useState("");
@@ -72,7 +72,7 @@ const CustomCards = () => {
       >
         <div style={{ display: "flex", gap: "10px" }}>
           <button
-             onClick={closeToast}
+            onClick={closeToast}
             style={{
               borderRadius: "1.5625rem",
               fontWeight: "700",
@@ -374,95 +374,50 @@ const CustomCards = () => {
                       <div
                         className={`${styles.message_container} position-relative`}
                       >
-                        <h4 className="text-start text-secondary">
-                          {key("cardMessage")}
-                        </h4>
+                        <h4>{key("cardMessage")}</h4>
                         <textarea
                           value={cardText}
                           onChange={handleTextChange}
                           onClick={() => setShowBack(false)}
                           className={`${styles.text_input} form-control`}
                         />
-                        <div className={styles.circle_inputs_div}>
-                          <Select
-                            className={styles.select_input}
-                            classNamePrefix="FontFamily"
-                            isClearable={false}
-                            isSearchable={true}
-                            name="fontFamily"
-                            placeholder={"TT"}
-                            options={FontsFamilies}
-                            onChange={(value) => setTextFontFamily(value.value)}
-                            styles={{
-                              control: (provided) => ({
-                                ...provided,
-                                borderRadius: "50%",
-                                width: "45px",
-                                height: "45px",
-                                padding: "10px",
-                                textAlign: "center",
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                              }),
-                              valueContainer: (provided) => ({
-                                ...provided,
-                                justifyContent: "center",
-                                display: "flex",
-                                alignItems: "center",
-                                padding: "0",
-                              }),
-                              singleValue: (provided) => ({
-                                ...provided,
-                                justifyContent: "center",
-                                display: "flex",
-                                alignItems: "center",
-                                padding: "0",
-                              }),
-                              placeholder: (provided) => ({
-                                ...provided,
-                                justifyContent: "center",
-                                display: "flex",
-                                alignItems: "center",
-                                width: "100%",
-                                textAlign: "center",
-                                fontWeight: "bold",
-                              }),
-                              dropdownIndicator: (provided) => ({
-                                ...provided,
-                                display: "none",
-                              }),
-                              indicatorSeparator: () => ({
-                                display: "none",
-                              }),
-                              menu: (provided) => ({
-                                ...provided,
-                                minWidth: "150px",
-                                maxWidth: "100%",
-                                zIndex: 9999,
-                              }),
-                            }}
-                          />
-                          <input
-                            type="number"
-                            value={textFont}
-                            onChange={(e) => setTextFont(e.target.value)}
-                            className={styles.fontSize_input}
-                          />
-                          <input
-                            type="color"
-                            value={textColor}
-                            onChange={(e) => setTextColor(e.target.value)}
-                            className={styles.color_input}
-                          />
-                        </div>
                       </div>
                     </div>
 
+                    <div className={styles.control_inputs_div}>
+                      <Select
+                        classNamePrefix="fontSizes"
+                        placeholder={key("fontSize")}
+                        isClearable={false}
+                        isSearchable={true}
+                        name="fontSizes"
+                        options={fontSizes}
+                        onChange={(value) => setTextFont(value.value)}
+                        className={`${styles.fontSize_input} ${styles.fontSize_width}`}
+                      />
+                      <Select
+                        classNamePrefix="FontFamily"
+                        placeholder={key("fontType")}
+                        isClearable={false}
+                        isSearchable={true}
+                        name="fontFamily"
+                        options={FontsFamilies}
+                        onChange={(value) => setTextFontFamily(value.value)}
+                        className={styles.fontSize_input}
+                      />
+                      <div className={styles.color_input_div}>
+                        <label className={`${textColor==="#000"?"":"d-none"}`} htmlFor="colorInput">{key("color")}</label>
+                        <input
+                          type="color"
+                          value={textColor}
+                          onChange={(e) => setTextColor(e.target.value)}
+                          className={textColor==="#000"?styles.color_input:styles.input_color_show}
+                          id="colorInput"
+                        />
+                      </div>
+                    </div>
                     <div className={`${styles.text_container} my-5`}>
-                      <h4 className="text-start text-secondary">
-                        {key("cardPrice")}
-                      </h4>
+                      <h4>{key("cardPrice")}</h4>
                       <div
                         className={`${
                           isArLang ? "flex-row-reverse" : ""

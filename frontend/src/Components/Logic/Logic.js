@@ -44,4 +44,21 @@ export const FontsFamilies = [
     {label:"■ square",value:"square"},
   ]
   
-  
+  export const fontSizes = [
+    { label: "40", value: 40 },
+    { label: "39", value: 39 },
+    { label: "38", value: 38 },
+    { label: "37", value: 37 },
+    { label: "36", value: 36 },
+    { label: "35", value: 35 },
+    { label: "34", value: 34 },
+    { label: "33", value: 33 },
+    { label: "32", value: 32 },
+    { label: "31", value: 31 },
+    { label: "30", value: 30 },
+    { label: "29", value: 29 },
+    { label: "28", value: 28 },
+    { label: "27", value: 27 },
+    { label: "26", value: 26 },
+    { label: "25", value: 25 },
+  ];

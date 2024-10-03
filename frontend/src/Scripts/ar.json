@@ -63,7 +63,7 @@
     "store":"المتجر",
     "size":"الحجم",
     "fontFamily":"نوع الخط",
-    "cardMessage":"رسالة البطاقة",
+    "cardMessage":"الرسالة",
     "cardPrice":"سعر البطاقة",
     "saveChanges":"حفظ التغييرات",
     "loginFirst":"يرجى تسجيل الدخول للمتابعة",
@@ -394,5 +394,7 @@
     "reqBody": "جسم الطلب",
     "exRes": "مثال على الاستجابة",
     "connectStores":"ربط المتاجر",
-    "design":"التصميم"
+    "design":"التصميم",
+    "fontType":"نوع الخط",
+    "fontSize":"حجم الخط"
 }

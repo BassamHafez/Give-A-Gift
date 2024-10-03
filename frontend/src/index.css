@@ -166,9 +166,18 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
-/* input[type=number]{
-  -moz-appearance: textfield;
-} */
+#react-select-2-placeholder,.fontSizes__single-value{
+  color: white !important;
+  z-index: 3;
+  font-size: 1.125rem;
+}
+#react-select-3-placeholder,.FontFamily__single-value{
+  color: white !important;
+  z-index: 3;
+  font-size: 1.125rem;
+}
+
+
 @media screen and (max-width:768px) {
   body,html{
     font-size: 14px;

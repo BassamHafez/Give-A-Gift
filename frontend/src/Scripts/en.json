@@ -65,7 +65,7 @@
     "store":"Store",
     "size":"Size",
     "fontFamily":"Font Family",
-    "cardMessage":"Card Message",
+    "cardMessage":"Message",
     "message":"Message",
     "cardPrice":"Card Price",
     "saveChanges":"Save Changes",
@@ -402,5 +402,7 @@
     "reqBody":"Request Body",
     "exRes":"Example Response",
     "connectStores":"Connect stores",
-    "design":"Design"
+    "design":"Design",
+    "fontType":"font type",
+    "fontSize":"font size"
 }   
