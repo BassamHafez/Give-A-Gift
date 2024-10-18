@@ -3,6 +3,7 @@ const Shape = require("./shapeModel");
 const Shop = require("./shopModel");
 const Color = require("./colorModel");
 const Category = require("./categoryModel");
+const SpecialCard = require("./SpecialCardModel");
 
 const uploadSampleData = async () => {
   try {
@@ -395,6 +396,57 @@ const uploadSampleData = async () => {
           hex: "#D4AC0D",
         },
       ]),
+    ]);
+
+    const shopsIDs = await Shop.find().select("_id");
+
+    await SpecialCard.insertMany([
+      {
+        shop: shopsIDs[0]._id,
+        price: 200,
+        priority: 3,
+      },
+      {
+        shop: shopsIDs[1]._id,
+        price: 300,
+      },
+      {
+        shop: shopsIDs[2]._id,
+        price: 400,
+      },
+      {
+        shop: shopsIDs[3]._id,
+        price: 500,
+      },
+      {
+        shop: shopsIDs[4]._id,
+        price: 600,
+      },
+      {
+        shop: shopsIDs[5]._id,
+        price: 700,
+      },
+      {
+        shop: shopsIDs[6]._id,
+        price: 800,
+      },
+      {
+        shop: shopsIDs[7]._id,
+        price: 900,
+      },
+      {
+        shop: shopsIDs[8]._id,
+        price: 1000,
+      },
+      {
+        shop: shopsIDs[9]._id,
+        price: 1100,
+      },
+      {
+        shop: shopsIDs[10]._id,
+        price: 1200,
+        priority: 2,
+      },
     ]);
 
     console.log("Data loaded successfully");
