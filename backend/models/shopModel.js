@@ -30,7 +30,7 @@ const shopSchema = new mongoose.Schema(
     },
     priority: {
       type: Number,
-      default: 999,
+      default: 99999,
     },
     category: {
       type: mongoose.Schema.Types.ObjectId,
