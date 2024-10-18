@@ -17,10 +17,14 @@ router.post(
   shopController.createShop
 );
 
-router.delete(
-  "/:id",
-  shopValidator.deleteShopValidator,
-  shopController.deleteShop
-);
+router
+  .route("/:id")
+  .patch(
+    shopController.uploadShopLogo,
+    shopController.resizeShopLogo,
+    shopValidator.updateShopValidator,
+    shopController.updateShop
+  )
+  .delete(shopValidator.deleteShopValidator, shopController.deleteShop);
 
 module.exports = router;
