@@ -43,9 +43,9 @@ exports.createOne = (Model) =>
     });
   });
 
-exports.getOne = (Model, popOptions = []) =>
+exports.getOne = (Model, popOptions = [], selectedFields = "") =>
   catchAsync(async (req, res, next) => {
-    let query = Model.findById(req.params.id);
+    let query = Model.findById(req.params.id, selectedFields);
 
     const doc = await query.populate(popOptions);
 
@@ -59,11 +59,14 @@ exports.getOne = (Model, popOptions = []) =>
     });
   });
 
-exports.getAll = (Model, popOptions = []) =>
+exports.getAll = (Model, popOptions = [], selectedFields = "") =>
   catchAsync(async (req, res, next) => {
     let filter = {};
 
-    const features = new APIFeatures(Model.find(filter), req.query)
+    const features = new APIFeatures(
+      Model.find(filter, selectedFields),
+      req.query
+    )
       .filter()
       .sort()
       .limitFields()
