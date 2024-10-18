@@ -5,6 +5,13 @@ const authController = require("../controllers/authController");
 const shopController = require("../controllers/shopController");
 const shopValidator = require("../utils/validators/shopValidator");
 
+router.get(
+  "/tokens",
+  authController.protect,
+  authController.restrictTo("admin"),
+  shopController.getAllShopTokens
+);
+
 router.get("/", shopController.getAllShops);
 router.get("/:id", shopValidator.getShopValidator, shopController.getShop);
 
