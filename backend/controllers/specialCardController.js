@@ -11,7 +11,9 @@ exports.deleteCard = factory.deleteOne(SpecialCard);
 
 exports.getAllCards = catchAsync(async (req, res, next) => {
   const [cards, frontShapeImagePath, backShapeImagePath] = await Promise.all([
-    SpecialCard.find().populate({ path: "shop", select: "name logo" }),
+    SpecialCard.find()
+      .populate({ path: "shop", select: "name logo" })
+      .sort("priority"),
     Config.findOne({ key: "SPECIAL_FRONT_SHAPE_PATH" }),
     Config.findOne({ key: "SPECIAL_BACK_SHAPE_PATH" }),
   ]);

@@ -11,6 +11,10 @@ const specialCardSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    priority: {
+      type: Number,
+      default: 99999,
+    },
   },
   {
     timestamps: true,
