@@ -2,9 +2,37 @@ const { v4: uuidv4 } = require("uuid");
 const Shape = require("./shapeModel");
 const Shop = require("./shopModel");
 const Color = require("./colorModel");
+const Category = require("./categoryModel");
 
 const uploadSampleData = async () => {
   try {
+    await Category.insertMany([
+      {
+        name: "ساعات",
+        icon: "smart-watch.png",
+      },
+      {
+        name: "ملابس",
+        icon: "laundry.png",
+      },
+      {
+        name: "مطاعم ومقاهي",
+        icon: "dinner.png",
+      },
+      {
+        name: "ورد",
+        icon: "flowers.png",
+      },
+      {
+        name: "مجوهرات",
+        icon: "wedding-ring.png",
+      },
+      {
+        name: "عطور",
+        icon: "perfume.png",
+      },
+    ]);
+
     await Promise.all([
       Shape.insertMany([
         {
