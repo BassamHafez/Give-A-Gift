@@ -6,6 +6,7 @@ const shopController = require("../controllers/shopController");
 const shopValidator = require("../utils/validators/shopValidator");
 
 router.get("/", shopController.getAllShops);
+router.get("/:id", shopValidator.getShopValidator, shopController.getShop);
 
 router.use(authController.protect, authController.restrictTo("admin"));
 

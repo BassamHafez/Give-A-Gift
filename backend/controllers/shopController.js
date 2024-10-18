@@ -7,9 +7,12 @@ const catchAsync = require("../utils/catchAsync");
 const ApiError = require("../utils/ApiError");
 const { uploadSingleImage } = require("../utils/uploadImage");
 
+// middleware to remove token from response if not admin
+
 const shopPopulateOptions = [{ path: "category", select: "name icon" }];
 
 exports.getAllShops = factory.getAll(Shop, shopPopulateOptions);
+exports.getShop = factory.getOne(Shop, shopPopulateOptions);
 
 exports.uploadShopLogo = uploadSingleImage("logo");
 

@@ -1,6 +1,16 @@
 const { check } = require("express-validator");
 const validatorMiddleware = require("./validatorMiddleware");
 
+exports.getShopValidator = [
+  check("id")
+    .notEmpty()
+    .withMessage("Shop ID is required")
+    .isMongoId()
+    .withMessage("Shop ID must be a valid MongoDB ID"),
+
+  validatorMiddleware,
+];
+
 exports.createShopValidator = [
   check("name")
     .notEmpty()
