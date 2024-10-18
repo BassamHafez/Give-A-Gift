@@ -7,7 +7,9 @@ const catchAsync = require("../utils/catchAsync");
 const ApiError = require("../utils/ApiError");
 const { uploadSingleImage } = require("../utils/uploadImage");
 
-exports.getAllShops = factory.getAll(Shop);
+const shopPopulateOptions = [{ path: "category", select: "name icon" }];
+
+exports.getAllShops = factory.getAll(Shop, shopPopulateOptions);
 
 exports.uploadShopLogo = uploadSingleImage("logo");
 
