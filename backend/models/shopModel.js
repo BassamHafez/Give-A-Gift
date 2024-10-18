@@ -7,6 +7,14 @@ const shopSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    email: {
+      type: String,
+      required: true,
+    },
+    phone: {
+      type: String,
+      required: true,
+    },
     logo: {
       type: String,
     },
@@ -17,6 +25,18 @@ const shopSchema = new mongoose.Schema(
       type: String,
     },
     isOnline: {
+      type: Boolean,
+      default: false,
+    },
+    priority: {
+      type: Number,
+      default: 999,
+    },
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+    },
+    showInHome: {
       type: Boolean,
       default: false,
     },
