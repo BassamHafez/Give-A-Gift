@@ -3,6 +3,7 @@ const authRoutes = require("../routes/authRoutes");
 const userRoutes = require("../routes/userRoutes");
 const shapeRoutes = require("../routes/shapeRoutes");
 const shopRoutes = require("../routes/shopRoutes");
+const categoryRoutes = require("../routes/categoryRoutes");
 const colorRoutes = require("../routes/colorRoutes");
 const proColorRoutes = require("../routes/proColorRoutes");
 const couponRoutes = require("../routes/couponRoutes");
@@ -22,6 +23,7 @@ const mountRoutes = (app) => {
   app.use("/api/v1/users", userRoutes);
   app.use("/api/v1/shapes", shapeRoutes);
   app.use("/api/v1/shops", shopRoutes);
+  app.use("/api/v1/categories", categoryRoutes);
   app.use("/api/v1/colors", colorRoutes);
   app.use("/api/v1/pro-colors", proColorRoutes);
   app.use("/api/v1/coupons", couponRoutes);
