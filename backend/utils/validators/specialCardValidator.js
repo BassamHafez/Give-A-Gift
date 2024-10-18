@@ -14,6 +14,11 @@ exports.createSpecialCardValidator = [
     .isFloat({ gt: 0 })
     .withMessage("Price must be a number greater than 0"),
 
+  check("priority")
+    .optional()
+    .isNumeric()
+    .withMessage("Priority must be a number"),
+
   validatorMiddleware,
 ];
 
@@ -43,6 +48,11 @@ exports.updateSpecialCardValidator = [
     .optional()
     .isFloat({ gt: 0 })
     .withMessage("Price must be a number greater than 0"),
+
+  check("priority")
+    .optional()
+    .isNumeric()
+    .withMessage("Priority must be a number"),
 
   validatorMiddleware,
 ];
