@@ -3,6 +3,8 @@ const sharp = require("sharp");
 
 const factory = require("./handlerFactory");
 const Shop = require("../models/shopModel");
+const SpecialCard = require("../models/SpecialCardModel");
+const Config = require("../models/configModel");
 const catchAsync = require("../utils/catchAsync");
 const ApiError = require("../utils/ApiError");
 const { uploadSingleImage } = require("../utils/uploadImage");
@@ -10,7 +12,32 @@ const { uploadSingleImage } = require("../utils/uploadImage");
 const shopPopulateOptions = [{ path: "category", select: "name icon" }];
 
 exports.getAllShops = factory.getAll(Shop, shopPopulateOptions, "-token");
-exports.getShop = factory.getOne(Shop, shopPopulateOptions, "-token");
+
+exports.getShop = catchAsync(async (req, res, next) => {
+  const shop = await Shop.findById(req.params.id)
+    .select("-token")
+    .populate(shopPopulateOptions);
+
+  if (!shop) return next(new ApiError("No shop found with that ID", 404));
+
+  const [readyCards, frontShapeImage, backShapeImage] = await Promise.all([
+    SpecialCard.find({ shop: shop._id })
+      .select("price priority")
+      .sort("priority"),
+    Config.findOne({ key: "SPECIAL_FRONT_SHAPE_PATH" }),
+    Config.findOne({ key: "SPECIAL_BACK_SHAPE_PATH" }),
+  ]);
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      shop,
+      frontShapeImagePath: frontShapeImage?.value,
+      backShapeImagePath: backShapeImage?.value,
+      readyCards,
+    },
+  });
+});
 
 exports.getAllShopTokens = factory.getAll(Shop, [], "name token");
 
