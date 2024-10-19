@@ -12,6 +12,7 @@ router.get(
   shopController.getAllShopTokens
 );
 router.get("/home", shopController.getHomeShops);
+router.get("/top", shopController.getTopShops);
 
 router.get("/", shopController.getAllShops);
 router.get("/:id", shopValidator.getShopValidator, shopController.getShop);

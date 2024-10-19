@@ -49,3 +49,32 @@ exports.resizeShopLogo = catchAsync(async (req, res, next) => {
 exports.createShop = factory.createOne(Shop);
 exports.updateShop = factory.updateOne(Shop);
 exports.deleteShop = factory.deleteOne(Shop);
+
+exports.getTopShops = catchAsync(async (req, res, next) => {
+  const shops = await Shop.aggregate([
+    {
+      $lookup: {
+        from: "cards",
+        localField: "_id",
+        foreignField: "shop",
+        as: "cards",
+      },
+    },
+    {
+      $project: {
+        name: 1,
+        logo: 1,
+        // cardsCount: { $size: "$cards" },
+      },
+    },
+    {
+      $sort: { cardsCount: -1 },
+    },
+  ]);
+
+  res.status(200).json({
+    status: "success",
+    results: shops.length,
+    data: shops,
+  });
+});
