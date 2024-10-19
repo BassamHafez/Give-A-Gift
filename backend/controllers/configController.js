@@ -2,7 +2,10 @@ const sharp = require("sharp");
 const Config = require("../models/configModel");
 const catchAsync = require("../utils/catchAsync");
 const ApiError = require("../utils/ApiError");
-const { uploadSingleImage } = require("../utils/uploadImage");
+const {
+  uploadSingleImage,
+  uploadMixOfImages,
+} = require("../utils/uploadImage");
 
 exports.getConfigs = catchAsync(async (req, res, next) => {
   const configs = await Config.find().select("key value -_id");
@@ -51,6 +54,40 @@ exports.updateBannerImage = catchAsync(async (req, res, next) => {
     status: "success",
     data: {
       bannerImagePath,
+    },
+  });
+});
+
+exports.uploadSecondaryBanners = uploadMixOfImages([
+  { name: "webSecondaryBanner", maxCount: 1 },
+  { name: "mobileSecondaryBanner", maxCount: 1 },
+]);
+
+exports.updateSecondaryBanners = catchAsync(async (req, res, next) => {
+  const webSecondaryBannerName = "web-secondary-banner.png";
+  const mobileSecondaryBannerName = "mobile-secondary-banner.png";
+  const webSecondaryBannerImagePath = `/designs/${webSecondaryBannerName}`;
+  const mobileSecondaryBannerImagePath = `/designs/${mobileSecondaryBannerName}`;
+
+  if (req.files?.webSecondaryBanner) {
+    await sharp(req.files.webSecondaryBanner[0].buffer)
+      .toFormat("png")
+      .png({ quality: 100 })
+      .toFile(`uploads/designs/${webSecondaryBannerName}`);
+  }
+
+  if (req.files?.mobileSecondaryBanner) {
+    await sharp(req.files.mobileSecondaryBanner[0].buffer)
+      .toFormat("png")
+      .png({ quality: 100 })
+      .toFile(`uploads/designs/${mobileSecondaryBannerName}`);
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      webSecondaryBannerImagePath,
+      mobileSecondaryBannerImagePath,
     },
   });
 });

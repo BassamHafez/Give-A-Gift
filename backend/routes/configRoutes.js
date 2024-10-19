@@ -14,5 +14,10 @@ router.put(
   configController.uploadBannerImage,
   configController.updateBannerImage
 );
+router.put(
+  "/secondary-banners",
+  configController.uploadSecondaryBanners,
+  configController.updateSecondaryBanners
+);
 
 module.exports = router;
