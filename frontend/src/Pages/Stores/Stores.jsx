@@ -9,7 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getShops } from "../../util/Http";
 import Placeholders from "../../Components/Ui/Placeholders";
 import LoadingOne from "../../Components/Ui/LoadingOne";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Stores = () => {
@@ -17,6 +17,7 @@ const Stores = () => {
   const [searchInput, setSearchInput] = useState("");
 
   const notifySuccess = (message) => toast.success(message);
+  const navigate=useNavigate();
 
   const { data: shops, isFetching } = useQuery({
     queryKey: ["shops"],
@@ -63,49 +64,23 @@ const Stores = () => {
                     className="d-flex justify-content-center align-items-center"
                     key={shop._id}
                   >
-                    {shop.isOnline ? (
-                      <Link
-                        target="_blank"
-                        to={`${shop.link}`}
-                        rel="noopener noreferrer"
-                      >
-                        <div className={styles.store_card}>
-                          <div className={styles.store_item}>
-                            <div className={styles.store_logo}>
-                              <img
-                                alt={shop.name}
-                                className="w-100"
-                                src={`${process.env.REACT_APP_Host}shops/${shop.logo}`}
-                              />
-                            </div>
-                            <div className="text-center">
-                              <h5 className=" fw-bold">{shop.name}</h5>
-                              <span className=" text-secondary">
-                                {shop.description}
-                              </span>
-                            </div>
-                          </div>
+                    <div onClick={()=>navigate(`/store/${shop._id}`)} className={styles.store_card}>
+                      <div className={styles.store_item}>
+                        <div className={styles.store_logo}>
+                          <img
+                            alt={shop.name}
+                            className="w-100"
+                            src={`${process.env.REACT_APP_Host}shops/${shop.logo}`}
+                          />
                         </div>
-                      </Link>
-                    ) : (
-                      <div className={styles.store_card}>
-                        <div className={styles.store_item}>
-                          <div className={styles.store_logo}>
-                            <img
-                              alt={shop.name}
-                              className="w-100"
-                              src={`${process.env.REACT_APP_Host}shops/${shop.logo}`}
-                            />
-                          </div>
-                          <div className="text-center">
-                            <h5 className=" fw-bold">{shop.name}</h5>
-                            <span className=" text-secondary">
-                              {shop.description}
-                            </span>
-                          </div>
+                        <div className="text-center">
+                          <h5 className=" fw-bold">{shop.name}</h5>
+                          <span className=" text-secondary">
+                            {shop.description}
+                          </span>
                         </div>
                       </div>
-                    )}
+                    </div>
                   </Col>
                 ))
               ) : (

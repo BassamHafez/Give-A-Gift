@@ -1,0 +1,11 @@
+.main_title_div{
+    display: flex;
+    align-items: center;
+}
+.logo{
+    width: 90px;
+}
+.main_title_div h2{
+    margin: 0;
+    margin-inline: 20px;
+}
