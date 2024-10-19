@@ -16,6 +16,10 @@ const couponSchema = new mongoose.Schema(
       type: Number,
       required: [true, "Coupon discount value required"],
     },
+    usedCount: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );

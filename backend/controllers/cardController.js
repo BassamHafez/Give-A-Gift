@@ -128,7 +128,9 @@ exports.applyCoupon = catchAsync(async (req, res, next) => {
     (totalPrice * coupon.discount) / 100
   ).toFixed(2);
 
-  await card.save();
+  coupon.usedCount = parseInt(coupon.usedCount) + 1;
+
+  await Promise.all([card.save(), coupon.save()]);
 
   res.status(200).json({
     status: "success",
