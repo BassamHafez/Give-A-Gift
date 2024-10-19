@@ -11,6 +11,7 @@ router.get(
   authController.restrictTo("admin"),
   shopController.getAllShopTokens
 );
+router.get("/home", shopController.getHomeShops);
 
 router.get("/", shopController.getAllShops);
 router.get("/:id", shopValidator.getShopValidator, shopController.getShop);

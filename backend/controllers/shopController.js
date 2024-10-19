@@ -14,6 +14,18 @@ exports.getShop = factory.getOne(Shop, shopPopulateOptions, "-token");
 
 exports.getAllShopTokens = factory.getAll(Shop, [], "name token");
 
+exports.getHomeShops = catchAsync(async (req, res, next) => {
+  const shops = await Shop.find({ showInHome: true })
+    .select("name logo link")
+    .sort("priority");
+
+  res.status(200).json({
+    status: "success",
+    results: shops.length,
+    data: shops,
+  });
+});
+
 exports.uploadShopLogo = uploadSingleImage("logo");
 
 exports.resizeShopLogo = catchAsync(async (req, res, next) => {
