@@ -53,6 +53,7 @@ import Designs from './Pages/Admin/AdminPages/Designs';
 import {ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Docs from './Pages/Admin/AdminPages/Docs';
+import StoreProfile from './Pages/Stores/StoreProfile';
 
 
 const router=createBrowserRouter([{
@@ -63,6 +64,7 @@ const router=createBrowserRouter([{
     {index:true,element:<Home/>},
     {path:"about",element:<About/>},
     {path:"stores",element:<Stores/>},
+    {path:"store/:storeId",element:<StoreProfile/>},
     {path:"login",element:<Login/>},
     {path:"forget-password", element: <ForgetPassword /> },
     {path:"register",element:<Register/>},

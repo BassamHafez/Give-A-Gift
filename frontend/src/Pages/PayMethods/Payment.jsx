@@ -39,6 +39,7 @@ const Payment = () => {
     staleTime: Infinity,
     enabled: !!token,
   });
+  
 
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
 

@@ -396,5 +396,9 @@
     "connectStores":"ربط المتاجر",
     "design":"التصميم",
     "fontType":"نوع الخط",
-    "fontSize":"حجم الخط"
+    "fontSize":"حجم الخط",
+    "priority":"الأولوية",
+    "priorityValidation":"الأولوية يجب أن تكون رقماً",
+    "category":"التصنيف",
+    "categoryReq":"التصنيف مطلوب"
 }

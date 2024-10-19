@@ -19,7 +19,7 @@ const AllProColors = ({ refetch, proColors }) => {
   const deleteColor = async (colorId) => {
     try {
       const response = await axios.delete(
-        `${process.env.REACT_APP_Base_API_URl}colors/${colorId}`,
+        `${process.env.REACT_APP_Base_API_URl}pro-colors/${colorId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

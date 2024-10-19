@@ -53,13 +53,16 @@
     top: 0;
     right: 0;
     transform: translate(50%,-50%);
-    color: var(--slate_blue);
+    color: var(--sub_color);
     opacity: 0;
     transition: all .4s;
     font-size: 1.25rem;
     cursor: pointer;
 }
 .color_square:hover .delete_icon{
+    opacity: 1;
+}
+.color_pro_square:hover .delete_icon{
     opacity: 1;
 }
 
@@ -169,6 +172,7 @@
 .shop_div:hover .delete_icon{
     opacity: 1;
 }
+
 .disable{
     opacity: .5 !important;
 }
@@ -182,7 +186,43 @@
 .online_store{
     color: #198754;
 }
-
+.shop_control{
+    display: flex;
+    justify-content: space-evenly;
+    padding: 10px;
+    border-radius: 30px;
+    background-color: white;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    min-width: 200px;
+    color: var(--sub_color);
+    transition: opacity .4s;
+    cursor: auto;
+    opacity: 0;
+}
+.shop_div:hover .shop_control{
+    opacity: 1;
+}
+.shop_control_icon{
+    transition: all .4s;
+    cursor: pointer;
+}
+.shop_control_icon:hover{
+    scale: 1.3;
+    color: var(--main_color);
+}
+.category_label{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.category_label img{
+    margin-inline: 10px;
+    width: 50px;
+}
 /* coupon */
 .modal_container{
     background-color: rgba(0, 0, 0, 0.258);

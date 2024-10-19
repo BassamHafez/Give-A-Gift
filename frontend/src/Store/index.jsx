@@ -3,6 +3,7 @@ import userInfoSlice from "./userInfo-slice";
 import profileSlice from "./profileInfo-slice";
 import cartSlice from "./cartCounter-slice";
 import configsSlice from "./configs-slice";
+import customCardSlice from "./customCardStore-slice";
 
 
 const store = configureStore({
@@ -10,7 +11,8 @@ const store = configureStore({
     userInfo: userInfoSlice.reducer,
     profileInfo:profileSlice.reducer,
     cartCounter:cartSlice.reducer,
-    configs:configsSlice.reducer
+    configs:configsSlice.reducer,
+    customCard:customCardSlice.reducer
   },
 });
 

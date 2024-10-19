@@ -404,5 +404,9 @@
     "connectStores":"Connect stores",
     "design":"Design",
     "fontType":"font type",
-    "fontSize":"font size"
+    "fontSize":"font size",
+    "priority":"Priority",
+    "priorityValidation":"Priority must be a number",
+    "category":"Category",
+    "categoryReq":"Category is Required"
 }   

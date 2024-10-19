@@ -20,6 +20,7 @@ import CustomCardShapes from "./CustomCardShapes";
 import CustomCardShops from "./CustomCardShops";
 import CustomeCardStage from "./CustomeCardStage";
 import { toast } from "react-toastify";
+import { customCardActions } from "../../Store/customCardStore-slice";
 
 const baseServerUrl = process.env.REACT_APP_Base_API_URl;
 
@@ -54,7 +55,9 @@ const CustomCards = () => {
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
-
+  const { isStoreSelected, storeId, storeLogo } = useSelector(
+    (state) => state.customCard
+  );
   const [colorShape] = useImage(cardProColor);
   const [logo] = useImage(logoImage);
   const [mainLogoImage] = useImage(mainLogo);
@@ -109,6 +112,12 @@ const CustomCards = () => {
   const notifyLoginError = () => toast.info(<Msg />);
 
   useEffect(() => {
+    if (isStoreSelected) {
+      setLogoImage(`${process.env.REACT_APP_Host}shops/${storeLogo}`);
+    }
+  }, [isStoreSelected, storeLogo]);
+
+  useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth < 500 ? window.innerWidth * 0.9 : 480;
       if (width !== cardWidth) {
@@ -126,6 +135,13 @@ const CustomCards = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  useEffect(() => {
+    return () => {
+      dispatch(customCardActions.setIsStoreSelected(false));
+      dispatch(customCardActions.setStoreId(""));
+    };
+  }, [dispatch]);
 
   const saveColorValues = (type, value, colorId) => {
     if (type === "pro") {
@@ -183,6 +199,7 @@ const CustomCards = () => {
       setCurrentStep(selectedIndex);
     }
   };
+
   const createCard = async () => {
     if (cardText === "") {
       notifyError(key("cardMessageError"));
@@ -201,10 +218,13 @@ const CustomCards = () => {
       notifyError(key("priceVali"));
       return;
     }
-    if (selectedShopId === "") {
-      notifyError(key("cardStoreError"));
-      return;
+    if (storeId === "") {
+      if (selectedShopId === "") {
+        notifyError(key("cardStoreError"));
+        return;
+      }
     }
+
     if (!(shapesArray.length > 0)) {
       notifyError(key("shapereq"));
       return;
@@ -244,7 +264,7 @@ const CustomCards = () => {
       isSpecial: false,
       price: priceValues,
       proColor: cardColorId,
-      shop: selectedShopId,
+      shop: isStoreSelected ? storeId : selectedShopId,
       shapes: shapes,
       text: textValues,
     };
@@ -254,7 +274,7 @@ const CustomCards = () => {
     } else {
       formData.color = cardColorId;
     }
-
+    console.log(formData);
     if (!isLogin) {
       notifyLoginError();
       localStorage.setItem("notReadyCard", JSON.stringify(formData));
@@ -365,9 +385,11 @@ const CustomCards = () => {
                     settingShowBack={settingShowBack}
                   />
                 </Carousel.Item>
-                <Carousel.Item className={`${styles.carousel_item}`}>
-                  <CustomCardShops saveShop={saveShop} />
-                </Carousel.Item>
+                {!isStoreSelected && (
+                  <Carousel.Item className={`${styles.carousel_item}`}>
+                    <CustomCardShops saveShop={saveShop} />
+                  </Carousel.Item>
+                )}
                 <Carousel.Item className={styles.carousel_item}>
                   <div className={styles.text_containers_parent}>
                     <div className={`${styles.text_container}`}>
@@ -406,12 +428,21 @@ const CustomCards = () => {
                         className={styles.fontSize_input}
                       />
                       <div className={styles.color_input_div}>
-                        <label className={`${textColor==="#000"?"":"d-none"}`} htmlFor="colorInput">{key("color")}</label>
+                        <label
+                          className={`${textColor === "#000" ? "" : "d-none"}`}
+                          htmlFor="colorInput"
+                        >
+                          {key("color")}
+                        </label>
                         <input
                           type="color"
                           value={textColor}
                           onChange={(e) => setTextColor(e.target.value)}
-                          className={textColor==="#000"?styles.color_input:styles.input_color_show}
+                          className={
+                            textColor === "#000"
+                              ? styles.color_input
+                              : styles.input_color_show
+                          }
                           id="colorInput"
                         />
                       </div>

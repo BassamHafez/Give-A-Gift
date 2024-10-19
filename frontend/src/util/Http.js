@@ -34,8 +34,36 @@ export const getShapes = async () => {
 
 export const getShops= async () => {
   try {
-     const response = await axios.get(`${baseServerUrl}shops`);
+     const response = await axios.get(`${baseServerUrl}shops?sort=priority`);
 
+    return response.data;
+  } catch (error) {
+    return error
+  }
+};
+
+
+export const getShopToken = async (token) => {
+  try {
+    const response = await axios.get(`${baseServerUrl}shops/tokens`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getCategories= async (token) => {
+  try {
+     const response = await axios.get(`${baseServerUrl}categories`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     return error

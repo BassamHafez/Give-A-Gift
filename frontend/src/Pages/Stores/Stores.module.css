@@ -7,11 +7,15 @@
     border-radius: 0.625rem;
     padding: 3.125rem 4.375rem;
 }
+.store_card{
+    cursor: pointer;
+}
 .store_logo{
     border-radius: 50%;
     width: 9.375rem;
     height: 9.375rem;
     margin-bottom: 0.625rem;
+    position: relative;
 }
 .store_logo img{
     border-radius: 50%;
@@ -42,17 +46,41 @@
 .filter{
     font-size: 1.125rem;
 }
-
-
-@media screen and (max-width:350px) {
-    .controllers{
-        flex-direction: column-reverse;
-    }
+_________________________________________store profile____________________________________________________
+.main_container{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.content{
+    margin: auto;
+    padding:50px;
+    background-color: white;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.266);
+    
+}
+.myStore_header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.profile_body{
+ background-color: #F9F9FB;   
+ margin-top: 10px;
+}
+.customGiftCard{
+    width: 480px;
+    aspect-ratio: 16/9;
 }
 
-@media screen and (max-width:282px) {
-    .store_logo{
-        width: 100%;
-        height: auto;
-    }
+.link_icon{
+    position: absolute;
+    right: -25px;
+    top: 30px;
+    background-color: var(--sub_color);
+    padding: 10px;
+    border-radius: 50%;
+    color: white;
+    transform: translate(-50%,-50%);
 }

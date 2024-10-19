@@ -22,7 +22,7 @@ body {
   --main_font:'ARAHAMAH1982', sans-serif;
   --main_color:#b62026;
   --white:rgb(238, 237, 237);
-  --sub_color:#2D3A58;
+  --sub_color:#222A40;
   --blue:#1a429d;
   --dark_white:rgb(129, 129, 129);
   --main_color_lighter:rgba(228, 181, 181, 0.3);
@@ -30,6 +30,7 @@ body {
   --slate_blue:#6A7E8C;
   --ivory_color:#f5f5d7;
   --dusty_Gold:#C2A14D;
+  --natural:#E4E4E4;
 }
 
 a{
