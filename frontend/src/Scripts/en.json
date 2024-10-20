@@ -419,10 +419,14 @@
     "orderRec":"Order is required",
     "ADs":"Ad",
     "adsImage":"Ad Image",
+    "slideImage":"Slide Image",
     "adLink":"Ad Link",
     "small":"Small size",
     "large":"Large size",
     "sizeRec":"size is required",
     "webSecBanner":"Sub banner (Web)",
-    "mobSecBanner":"Sub banner (Mob)"
+    "mobSecBanner":"Sub banner (Mob)",
+    "slide":"Slide",
+    "slider":"Slider"
+
 }   

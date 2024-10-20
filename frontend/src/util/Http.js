@@ -543,6 +543,36 @@ export const adsController = async ({ token, formData, type,adId }) => {
   }
 };
 
+export const slidesController = async ({ token, formData, type,slideId }) => {
+  try {
+    let response;
+    if (type === "get") {
+      response = await axios.get(`${baseServerUrl}slides`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } else if (type === "add") {
+      response = await axios.post(`${baseServerUrl}slides`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+    } else if (type === "update") {
+      response = await axios.patch(`${baseServerUrl}slides/${slideId}`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+    }
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
 
 
 // merchant
