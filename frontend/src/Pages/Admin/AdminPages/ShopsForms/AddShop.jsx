@@ -42,17 +42,18 @@ const getPhoneValidationSchema = (country, key) => {
     link: string().when("isOnline", {
       is: (isOnline) => isOnline === "true",
       then: (schema) =>
-        schema.url(key("invalidLink")).required(key("invalidLink")),
+        schema.url(key("invalidLink")).required(key("linkRequired")),
       otherwise: (schema) => schema.nullable(),
     }),
     priority: number().typeError(key("priorityValidation")),
-    category:string().required(key("categoryReq"))
+    category: string().required(key("categoryReq")),
   });
 };
 
 const AddShop = ({ refetch }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedCountry, setSelectedCountry] = useState("SA");
+  const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
 
   const { t: key } = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
@@ -61,13 +62,12 @@ const AddShop = ({ refetch }) => {
   const token = JSON.parse(localStorage.getItem("token"));
   const [categoriesOptions, setCategoriesOptions] = useState([]);
 
-  const { data:categories } = useQuery({
-    queryKey: ["categories",token],
-    queryFn:()=> getCategories(token),
-    enabled:!!token,
-    staleTime:Infinity
+  const { data: categories } = useQuery({
+    queryKey: ["categories", token],
+    queryFn: () => getCategories(token),
+    enabled: !!token,
+    staleTime: Infinity,
   });
-
 
   useEffect(() => {
     if (categories) {
@@ -85,25 +85,12 @@ const AddShop = ({ refetch }) => {
           value: category._id,
         };
       });
-      setCategoriesOptions(myCategories)
+      setCategoriesOptions(myCategories);
     }
   }, [categories]);
 
   const { mutate, isPending } = useMutation({
     mutationFn: controlShops,
-    onSuccess: (data) => {
-      console.log(data);
-      if (data?.status === "success") {
-        notifySuccess(key("opSuccess"));
-        refetch();
-      } else {
-        notifyError(key("wrong"));
-      }
-    },
-    onError: (error) => {
-      console.log(error);
-      notifyError(key("wrong"));
-    },
   });
 
   const initialValues = {
@@ -116,9 +103,10 @@ const AddShop = ({ refetch }) => {
     phone: "",
     priority: "",
     category: "",
+    showInHome: false,
   };
 
-  const onSubmit = (values) => {
+  const onSubmit = (values, { resetForm }) => {
     let phoneBeginning = "966";
     switch (selectedCountry) {
       case "SA":
@@ -140,7 +128,7 @@ const AddShop = ({ refetch }) => {
       default:
         break;
     }
-    console.log(values)
+    console.log(values);
     const formData = new FormData();
 
     if (selectedFile) {
@@ -149,8 +137,6 @@ const AddShop = ({ refetch }) => {
       notifyError(key("uploadPhoto"));
       return;
     }
-    formData.append("name", values.name);
-    formData.append("description", values.description);
 
     if (values.isOnline === "true") {
       formData.append("link", values.link);
@@ -161,12 +147,33 @@ const AddShop = ({ refetch }) => {
     if (values.priority !== "") {
       formData.append("priority", Number(values.priority));
     }
+
+    formData.append("showInHome", values.showInHome);
+    formData.append("name", values.name);
+    formData.append("description", values.description);
     formData.append("email", values.email);
     formData.append("phone", `${phoneBeginning}${values.phone}`);
-    formData.append("category",values.category)
+    formData.append("category", values.category);
+
     mutate({
       formData: formData,
       token: token,
+    },  
+    {
+      onSuccess: (data) => {
+        if (data?.status === "success") {
+          notifySuccess(key("opSuccess"));
+          refetch();
+          resetForm();
+          setSelectedFile(null);
+          setImagePreviewUrl(null);
+        } else {
+          notifyError(key("wrong"));
+        }
+      },
+      onError: (error) => {
+        notifyError(key("wrong"));
+      },
     });
   };
 
@@ -175,7 +182,11 @@ const AddShop = ({ refetch }) => {
   const handleFileChange = (e) => {
     const file = e.currentTarget.files[0];
     setSelectedFile(file);
-    notifySuccess(key("photoDownloaded"));
+    if (file) {
+      const previewUrl = URL.createObjectURL(file);
+      setImagePreviewUrl(previewUrl);
+      notifySuccess(key("photoDownloaded"));
+    }
   };
 
   return (
@@ -184,15 +195,23 @@ const AddShop = ({ refetch }) => {
       onSubmit={onSubmit}
       validationSchema={validationSchema}
     >
-      {({ values,setFieldValue }) => (
+      {({ values, setFieldValue }) => (
         <Form className={styles.general_info_form}>
           <div className={styles.photo_field}>
             <h4 className="fw-bold">
               {key("add")} {key("store")}
             </h4>
             <h5>{key("storeLogo")}</h5>
-            <label className={styles.photo_label} htmlFor="shape">
-              <FontAwesomeIcon className={styles.img_icon} icon={faImage} />
+            <label className={imagePreviewUrl?styles.photo_label_img:styles.photo_label} htmlFor="shape">
+              {imagePreviewUrl ? (
+                <img
+                  src={imagePreviewUrl}
+                  alt="Uploaded Preview"
+                  className={styles.image_preview}
+                />
+              ) : (
+                <FontAwesomeIcon className={styles.img_icon} icon={faImage} />
+              )}
             </label>
             <input
               type="file"
@@ -231,9 +250,6 @@ const AddShop = ({ refetch }) => {
             >
               <Select
                 className={styles.select_input}
-                classNamePrefix="Country"
-                isClearable={false}
-                isSearchable={true}
                 name="Country"
                 options={CountriesPhoneNumbers}
                 defaultValue={CountriesPhoneNumbers[1]}
@@ -256,9 +272,7 @@ const AddShop = ({ refetch }) => {
           </div>
 
           <div className={styles.field}>
-            <label htmlFor="category">
-              {key("category")}
-            </label>
+            <label htmlFor="category">{key("category")}</label>
 
             <Select
               classNamePrefix="category"
@@ -290,35 +304,43 @@ const AddShop = ({ refetch }) => {
             <ErrorMessage name="description" component={InputErrorMessage} />
           </div>
 
-          <div className={styles.field}>
-            <div className={styles.field}>
-              <div className="form-check">
-                <Field
-                  type="radio"
-                  className="form-check-input"
-                  name="isOnline"
-                  id="onlineStore"
-                  value="true"
-                  checked={values.isOnline === "true"}
-                />
-                <label className="form-check-label mx-2" htmlFor="onlineStore">
-                  {key("onlineStore")}
-                </label>
-              </div>
+          <div className={`${styles.field} ${styles.form_check_group}`}>
+            <div>
+              <Field
+                type="radio"
+                className=" d-none"
+                name="isOnline"
+                id="onlineStore"
+                value="true"
+                checked={values.isOnline === "true"}
+              />
+              <label
+                className={`${styles.form_check_label} ${
+                  values.isOnline === "true" && styles.active_input
+                }`}
+                htmlFor="onlineStore"
+              >
+                {key("onlineStore")}
+              </label>
+            </div>
 
-              <div className="form-check">
-                <Field
-                  type="radio"
-                  className="form-check-input"
-                  name="isOnline"
-                  id="offlineStore"
-                  value="false"
-                  checked={values.isOnline === "false"}
-                />
-                <label className="form-check-label mx-2" htmlFor="offlineStore">
-                  {key("physicalStore")}
-                </label>
-              </div>
+            <div className="mx-2">
+              <Field
+                type="radio"
+                className=" d-none"
+                name="isOnline"
+                id="offlineStore"
+                value="false"
+                checked={values.isOnline === "false"}
+              />
+              <label
+                className={`${styles.form_check_label} ${
+                  values.isOnline === "false" && styles.active_input
+                }`}
+                htmlFor="offlineStore"
+              >
+                {key("physicalStore")}
+              </label>
             </div>
           </div>
 
@@ -335,6 +357,20 @@ const AddShop = ({ refetch }) => {
               disabled={values.isOnline === "false"}
             />
             <ErrorMessage name="link" component={InputErrorMessage} />
+          </div>
+
+          <div className={styles.field}>
+            <div>
+              <Field
+                type="checkbox"
+                name="showInHome"
+                id="showInHome"
+                className="mx-2 form-check-input"
+                checked={values.showInHome}
+                onChange={() => setFieldValue("showInHome", !values.showInHome)}
+              />
+              <label htmlFor="showInHome">{key("showInHome")}</label>
+            </div>
           </div>
 
           <div className="d-flex justify-content-end align-items-center mt-3 px-2">

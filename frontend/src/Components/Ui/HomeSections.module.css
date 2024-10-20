@@ -26,7 +26,6 @@
 
 /* ------------------------------------------------- sec4 caption section----------------------- */
 .caption{
-    background-image: url(../../Images/caption.png);
     background-size: cover;
     background-position: 50% 50%;
     display: flex;

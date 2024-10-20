@@ -79,10 +79,12 @@ const AddCard = ({ refetch }) => {
     >
       {({ setFieldValue }) => (
         <Form>
-          <h4 className="fw-bold">{key("add")} {key("store")}</h4>
+          <h4 className="fw-bold">
+            {key("add")} {key("store")}
+          </h4>
           <Select
             className={`mb-3`}
-            classNamePrefix="FontFamily"
+            classNamePrefix="storeSelect"
             isClearable={false}
             isSearchable={true}
             name="shop"

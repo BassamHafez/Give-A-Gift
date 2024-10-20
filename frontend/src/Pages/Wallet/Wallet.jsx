@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  faClockRotateLeft,
   faMoneyBillTransfer,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -53,6 +54,21 @@ const Wallet = () => {
 
         <div>
           <Row className={`${styles.main_row} justify-content-center`}>
+            <Col
+              xs={6}
+              className="d-flex justify-content-center align-items-center"
+            >
+              <div
+                className={styles.list_item_prevOP}
+                onClick={() => setModalShow(true)}
+              >
+                <FontAwesomeIcon
+                  className={styles.list_item_icon}
+                  icon={faClockRotateLeft}
+                />
+                <span>{key("prevOP")}</span>
+              </div>
+            </Col>
             <Col
               xs={6}
               className="d-flex justify-content-center align-items-center"

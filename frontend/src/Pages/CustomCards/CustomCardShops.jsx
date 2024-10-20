@@ -13,7 +13,7 @@ const CustomCardShops = ({ saveShop }) => {
 
   const { data: shops } = useQuery({
     queryKey: ["shops", token],
-    queryFn: getShops,
+    queryFn: () => getShops({ type: "all"}),
     staleTime: Infinity,
   });
 

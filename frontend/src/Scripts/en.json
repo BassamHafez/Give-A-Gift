@@ -408,5 +408,21 @@
     "priority":"Priority",
     "priorityValidation":"Priority must be a number",
     "category":"Category",
-    "categoryReq":"Category is Required"
+    "categoryReq":"Category is Required",
+    "showInHome":"Show in home",
+    "allCoupons":"All Coupons",
+    "usedCount":"Used Count",
+    "expireDate":"Expire Date",
+    "expireTime":"Expire Time",
+    "prevOP":"History",
+    "Ads":"Advertisements",
+    "orderRec":"Order is required",
+    "ADs":"Ad",
+    "adsImage":"Ad Image",
+    "adLink":"Ad Link",
+    "small":"Small size",
+    "large":"Large size",
+    "sizeRec":"size is required",
+    "webSecBanner":"Sub banner (Web)",
+    "mobSecBanner":"Sub banner (Mob)"
 }   

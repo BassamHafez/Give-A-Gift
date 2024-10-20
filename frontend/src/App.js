@@ -54,6 +54,7 @@ import {ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Docs from './Pages/Admin/AdminPages/Docs';
 import StoreProfile from './Pages/Stores/StoreProfile';
+import Ads from './Pages/Admin/AdminPages/Ads';
 
 
 const router=createBrowserRouter([{
@@ -98,6 +99,7 @@ const router=createBrowserRouter([{
     {path:"admin-carts",element:<ProtectedRoute><AdminCarts/></ProtectedRoute>},
     {path:"admin-discounts",element:<ProtectedRoute><Discounts/></ProtectedRoute>},
     {path:"admin-designs",element:<ProtectedRoute><Designs/></ProtectedRoute>},
+    {path:"admin-ads",element:<ProtectedRoute><Ads/></ProtectedRoute>},
 
     //merchant
     {path:"merchant/:merchantId",element:<ProtectedRoute><MerchantProfile/></ProtectedRoute>},

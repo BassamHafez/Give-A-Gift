@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import styles from "../AdminPages.module.css";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faImage, faYinYang } from "@fortawesome/free-solid-svg-icons";
+import { faYinYang } from "@fortawesome/free-solid-svg-icons";
 import InputErrorMessage from "../../../../Components/Ui/InputErrorMessage";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { controlShops, getCategories } from "../../../../util/Http";
@@ -43,7 +43,7 @@ const getPhoneValidationSchema = (country, key) => {
     link: string().when("isOnline", {
       is: (isOnline) => isOnline === "true",
       then: (schema) =>
-        schema.url(key("invalidLink")).required(key("invalidLink")),
+        schema.url(key("invalidLink")).required(key("linkRequired")),
       otherwise: (schema) => schema.nullable(),
     }),
     priority: number().typeError(key("priorityValidation")),
@@ -55,6 +55,7 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedCountry, setSelectedCountry] = useState("SA");
   const [purePhoneNum, setPurePhoneNum] = useState("");
+  const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
 
   const { t: key } = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
@@ -97,6 +98,7 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
       if (data?.status === "success") {
         notifySuccess(key("opSuccess"));
         refetch();
+        onHide();
       } else {
         notifyError(key("wrong"));
       }
@@ -110,27 +112,26 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
   useEffect(() => {
     const getCountryFromPhoneNumber = () => {
       const countryCodes = {
-        "20": "EG",
-        "966": "SA",
-        "965": "KW",
-        "971": "UAE",
-        "1": "US",
+        20: "EG",
+        966: "SA",
+        965: "KW",
+        971: "UAE",
+        1: "US",
       };
-  
+
       for (let code in countryCodes) {
         if (shopData.phone.startsWith(code)) {
           setSelectedCountry(countryCodes[code]);
-          
+
           const purePhoneNum = shopData.phone.slice(code.length);
           setPurePhoneNum(purePhoneNum);
           break;
         }
       }
     };
-  
+
     getCountryFromPhoneNumber();
   }, [shopData]);
-  
 
   const initialValues = {
     shapeImage: "",
@@ -143,6 +144,7 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
     priority: shopData.priority || "",
     category: shopData.category?._id || "",
     country: selectedCountry || "",
+    showInHome: shopData.showInHome || false,
   };
 
   const onSubmit = (values) => {
@@ -172,10 +174,7 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
 
     if (selectedFile) {
       formData.append("logo", selectedFile);
-    } else {
-      notifyError(key("uploadPhoto"));
-      return;
-    }
+    } 
     formData.append("name", values.name);
     formData.append("description", values.description);
 
@@ -194,15 +193,21 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
     mutate({
       formData: formData,
       token: token,
+      type: "update",
+      shopId: shopData._id,
     });
   };
 
   const validationSchema = getPhoneValidationSchema(selectedCountry, key);
 
-  const handleFileChange = (e) => {
+  const handleUpdateFileChange = (e) => {
     const file = e.currentTarget.files[0];
     setSelectedFile(file);
-    notifySuccess(key("photoDownloaded"));
+    if (file) {
+      const previewUrl = URL.createObjectURL(file);
+      setImagePreviewUrl(previewUrl);
+      notifySuccess(key("photoDownloaded"));
+    }
   };
 
   return (
@@ -228,15 +233,27 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
                   {key("add")} {key("store")}
                 </h4>
                 <h5>{key("storeLogo")}</h5>
-                <label className={styles.photo_label} htmlFor="shape">
-                  <FontAwesomeIcon className={styles.img_icon} icon={faImage} />
+                <label className={styles.photo_label_img} htmlFor="updateShape">
+                  {imagePreviewUrl ? (
+                    <img
+                      src={imagePreviewUrl}
+                      alt="Uploaded Preview"
+                      className={styles.image_preview}
+                    />
+                  ) : (
+                    <img
+                      src={`${process.env.REACT_APP_Host}shops/${shopData.logo}`}
+                      alt="old_image_Preview"
+                      className={styles.image_preview}
+                    />
+                  )}
                 </label>
                 <input
                   type="file"
-                  id="shape"
+                  id="updateShape"
                   name="shapeImage"
                   accept="image/*"
-                  onChange={handleFileChange}
+                  onChange={handleUpdateFileChange}
                   className="d-none"
                 />
                 <ErrorMessage name="shapeImage" component={InputErrorMessage} />
@@ -251,15 +268,15 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
               </div>
 
               <div className={styles.field}>
-                <label htmlFor="storeEmail">
+                <label htmlFor="updatestoreEmail">
                   {key("add")} {key("email")}
                 </label>
-                <Field type="text" id="storeEmail" name="email" />
+                <Field type="text" id="updatestoreEmail" name="email" />
                 <ErrorMessage name="email" component={InputErrorMessage} />
               </div>
 
               <div className={styles.field}>
-                <label htmlFor="phoneNum">{key("whatsAppNum2")}</label>
+                <label htmlFor="updatephoneNum">{key("whatsAppNum2")}</label>
 
                 <div
                   className={`${styles.phone_num} ${
@@ -273,7 +290,9 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
                     isSearchable={true}
                     name="country"
                     options={CountriesPhoneNumbers}
-                    value={CountriesPhoneNumbers.find((val) => val.value === selectedCountry)}
+                    value={CountriesPhoneNumbers.find(
+                      (val) => val.value === selectedCountry
+                    )}
                     components={{
                       DropdownIndicator: () => null,
                       IndicatorSeparator: () => null,
@@ -293,7 +312,7 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
               </div>
 
               <div className={styles.field}>
-                <label htmlFor="category">{key("category")}</label>
+                <label htmlFor="updatecategory">{key("category")}</label>
 
                 <Select
                   classNamePrefix="category"
@@ -304,25 +323,27 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
                   onChange={(value) => {
                     setFieldValue("category", value.value);
                   }}
-                  value={categoriesOptions.find((val) => val.value === shopData.category?._id )}
+                  value={categoriesOptions.find(
+                    (val) => val.value === values.category
+                  )}
                 />
 
                 <ErrorMessage name="category" component={InputErrorMessage} />
               </div>
 
               <div className={styles.field}>
-                <label htmlFor="priority" className="mt-3">
+                <label htmlFor="updatepriority" className="mt-3">
                   {key("add")} {key("priority")}
                 </label>
-                <Field type="text" id="priority" name="priority" />
+                <Field type="text" id="updatepriority" name="priority" />
                 <ErrorMessage name="priority" component={InputErrorMessage} />
               </div>
 
               <div className={styles.field}>
-                <label htmlFor="description">
+                <label htmlFor="updatedescription">
                   {key("add")} {key("description")}
                 </label>
-                <Field type="text" id="description" name="description" />
+                <Field type="text" id="updatedescription" name="description" />
                 <ErrorMessage
                   name="description"
                   component={InputErrorMessage}
@@ -330,40 +351,38 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
               </div>
 
               <div className={styles.field}>
-                <div className={styles.field}>
-                  <div className="form-check">
-                    <Field
-                      type="radio"
-                      className="form-check-input"
-                      name="isOnline"
-                      id="onlineStore"
-                      value="true"
-                      checked={values.isOnline === "true"}
-                    />
-                    <label
-                      className="form-check-label mx-2"
-                      htmlFor="onlineStore"
-                    >
-                      {key("onlineStore")}
-                    </label>
-                  </div>
+                <div className="form-check">
+                  <Field
+                    type="radio"
+                    className="form-check-input"
+                    name="isOnline"
+                    id="updateonlineStore"
+                    value="true"
+                    checked={values.isOnline === "true"}
+                  />
+                  <label
+                    className="form-check-label mx-2"
+                    htmlFor="onlineStore"
+                  >
+                    {key("onlineStore")}
+                  </label>
+                </div>
 
-                  <div className="form-check">
-                    <Field
-                      type="radio"
-                      className="form-check-input"
-                      name="isOnline"
-                      id="offlineStore"
-                      value="false"
-                      checked={values.isOnline === "false"}
-                    />
-                    <label
-                      className="form-check-label mx-2"
-                      htmlFor="offlineStore"
-                    >
-                      {key("physicalStore")}
-                    </label>
-                  </div>
+                <div className="form-check">
+                  <Field
+                    type="radio"
+                    className="form-check-input"
+                    name="isOnline"
+                    id="updateofflineStore"
+                    value="false"
+                    checked={values.isOnline === "false"}
+                  />
+                  <label
+                    className="form-check-label mx-2"
+                    htmlFor="offlineStore"
+                  >
+                    {key("physicalStore")}
+                  </label>
                 </div>
               </div>
 
@@ -372,14 +391,30 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
                   values.isOnline === "false" && styles.disable
                 }`}
               >
-                <label htmlFor="link">{key("storeLink")}</label>
+                <label htmlFor="updatelink">{key("storeLink")}</label>
                 <Field
                   type="text"
-                  id="link"
+                  id="updatelink"
                   name="link"
                   disabled={values.isOnline === "false"}
                 />
                 <ErrorMessage name="link" component={InputErrorMessage} />
+              </div>
+
+              <div className={styles.field}>
+                <div>
+                  <Field
+                    type="checkbox"
+                    name="showInHome"
+                    id="updateshowInHome"
+                    className="mx-2 form-check-input"
+                    checked={values.showInHome}
+                    onChange={() =>
+                      setFieldValue("showInHome", !values.showInHome)
+                    }
+                  />
+                  <label htmlFor="showInHome">{key("showInHome")}</label>
+                </div>
               </div>
 
               <div className="d-flex justify-content-end align-items-center mt-3 px-2">
@@ -389,7 +424,7 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
                   </button>
                 ) : (
                   <button className={styles.save_btn} type="submit">
-                    {key("add")}
+                    {key("update")}
                   </button>
                 )}
               </div>

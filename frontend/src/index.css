@@ -107,6 +107,11 @@ ul li{
   pointer-events: none;
   opacity: 0.4;
 }
+.ellipsis {
+  overflow: hidden; 
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 .main_shadow{
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.315) !important;
   background-color: red !important;

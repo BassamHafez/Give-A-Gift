@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
-const SingleReadyCard = ({ card }) => {
+const SingleReadyCard = ({ card, isStoreProfile }) => {
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
@@ -124,13 +124,15 @@ const SingleReadyCard = ({ card }) => {
           <Card.Body>
             <div className="d-flex align-items-center position-relative p-3">
               <div className="d-flex align-items-center">
-                <div title={card.shop?.name} className={styles.store_logo}>
-                  <img
-                    src={`${process.env.REACT_APP_Host}shops/${card.shop?.logo}`}
-                    alt={card.shop?.name}
-                    className="w-100"
-                  />
-                </div>
+                {!isStoreProfile && (
+                  <div title={card.shop?.name} className={styles.store_logo}>
+                    <img
+                      src={`${process.env.REACT_APP_Host}shops/${card.shop?.logo}`}
+                      alt={card.shop?.name}
+                      className="w-100"
+                    />
+                  </div>
+                )}
                 <h5 className={`${styles.card_price} m-3`}>
                   {card.price} {key("sar")}
                 </h5>
@@ -143,7 +145,7 @@ const SingleReadyCard = ({ card }) => {
                   title="Buy card"
                   icon={faPlus}
                   className={styles.arrow_icon}
-                  onClick={() => checkLogin(card.shop._id, card.price)}
+                  onClick={() => checkLogin(isStoreProfile?card._id:card.shop._id, card.price)}
                 />
               </div>
             </div>

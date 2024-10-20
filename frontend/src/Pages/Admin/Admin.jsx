@@ -9,6 +9,7 @@ import {
   faImage,
   faMoneyBillTransfer,
   faPallet,
+  faRectangleAd,
   faShop,
   faStar,
   faStore,
@@ -257,6 +258,21 @@ const Admin = () => {
                     icon={faImage}
                   />
                   <span>{key("designs")}</span>
+                </div>
+              </Col>
+              <Col
+                xs={6}
+                className="d-flex justify-content-center align-items-center"
+              >
+                <div
+                  className={styles.list_item}
+                  onClick={() => navigate("/admin-ads")}
+                >
+                  <FontAwesomeIcon
+                    className={styles.list_item_icon}
+                    icon={faRectangleAd}
+                  />
+                  <span>{key("Ads")}</span>
                 </div>
               </Col>
               <Col

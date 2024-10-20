@@ -46,7 +46,7 @@
     object-fit: cover;
 }
 
-.list_item{
+.list_item,.list_item_prevOP{
     padding: 1.875rem;
     background-color: var(--sub_color);
     box-shadow: 0 0 0.1875rem black;
@@ -63,7 +63,19 @@
 .list_item span{
     font-size: 1.4375rem;
     font-weight: 500;
-    color:white
+    color:white;
+    text-align: center;
+}
+.list_item_prevOP{
+    background-color: white;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.348);   
+}
+.list_item_prevOP span{
+    font-size: 1.4375rem;
+    font-weight: 600;
+    color:var(--sub_color);
+    text-align: center;
+
 }
 .list_item_icon{
     color: var(--sub_color);
@@ -71,11 +83,14 @@
     margin-bottom: 0.625rem;
     transition: all .4s;
     color:var(--main_color)
-
 }
 
+.list_item_prevOP:hover .list_item_icon{
+    transform: rotate(360deg);
+}
 .list_item:hover .list_item_icon{
     color: white;
+
 }
 @media screen and (max-width:430px) {
     .list_item{

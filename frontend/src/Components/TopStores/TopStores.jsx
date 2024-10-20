@@ -5,13 +5,13 @@ import "swiper/css/pagination";
 import { Pagination, Autoplay, Navigation } from "swiper/modules";
 import styles from "./TopStores.module.css";
 import { useQuery } from "@tanstack/react-query";
-import { getShops } from "../../util/Http";
+import {getShops } from "../../util/Http";
 
 const TopStores = () => {
   
   const { data: shops } = useQuery({
-    queryKey: ["shops"],
-    queryFn: getShops,
+    queryKey: ["getHomeShops"],
+    queryFn:()=> getShops({type:"homeStores"}),
     staleTime:Infinity
   });
 

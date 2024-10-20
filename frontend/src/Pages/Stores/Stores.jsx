@@ -17,11 +17,11 @@ const Stores = () => {
   const [searchInput, setSearchInput] = useState("");
 
   const notifySuccess = (message) => toast.success(message);
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   const { data: shops, isFetching } = useQuery({
     queryKey: ["shops"],
-    queryFn: getShops,
+    queryFn: () => getShops({ type: "all"}),
     staleTime: Infinity,
   });
 
@@ -64,7 +64,10 @@ const Stores = () => {
                     className="d-flex justify-content-center align-items-center"
                     key={shop._id}
                   >
-                    <div onClick={()=>navigate(`/store/${shop._id}`)} className={styles.store_card}>
+                    <div
+                      onClick={() => navigate(`/store/${shop._id}`)}
+                      className={styles.store_card}
+                    >
                       <div className={styles.store_item}>
                         <div className={styles.store_logo}>
                           <img
@@ -75,7 +78,7 @@ const Stores = () => {
                         </div>
                         <div className="text-center">
                           <h5 className=" fw-bold">{shop.name}</h5>
-                          <span className=" text-secondary">
+                          <span className=" text-secondary ellipsis">
                             {shop.description}
                           </span>
                         </div>
