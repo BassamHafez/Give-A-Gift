@@ -1,7 +1,6 @@
 exports.createJoinUsEmail = (data) => {
   return {
-    email: "ammar.yassr.858@gmail.com",
-    // email: "Giveagift.sa@gmail.com",
+    email: "Giveagift.sa@gmail.com",
     subject: "طلب انضمام لشركاء (Give A Gift)",
     text: `
     Request to join Give A Gift platform has been submitted by ${data.name}.
