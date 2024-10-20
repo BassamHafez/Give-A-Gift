@@ -13,6 +13,7 @@ const discountCodeRoutes = require("../routes/discountCodeRoutes");
 const walletRoutes = require("../routes/walletRoutes");
 const orderRoutes = require("../routes/orderRoutes");
 const AdRoutes = require("../routes/adRoutes");
+const slideRoutes = require("../routes/slideRoutes");
 const paymentRoutes = require("../routes/paymentRoutes");
 const configRoutes = require("../routes/configRoutes");
 const transactionRoutes = require("../routes/transactionRoutes");
@@ -34,6 +35,7 @@ const mountRoutes = (app) => {
   app.use("/api/v1/wallets", walletRoutes);
   app.use("/api/v1/orders", orderRoutes);
   app.use("/api/v1/ads", AdRoutes);
+  app.use("/api/v1/slides", slideRoutes);
   app.use("/api/v1/payments", paymentRoutes);
   app.use("/api/v1/configs", configRoutes);
   app.use("/api/v1/transactions", transactionRoutes);

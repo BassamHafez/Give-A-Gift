@@ -11,6 +11,7 @@ const specialCardsPath = path.join(rootPath, "specialCards");
 const designsPath = path.join(rootPath, "designs");
 const categoriesPath = path.join(rootPath, "categories");
 const adsPath = path.join(rootPath, "ads");
+const slidesPath = path.join(rootPath, "slides");
 
 function ensureDirectories() {
   if (!fs.existsSync(rootPath)) {
@@ -56,6 +57,11 @@ function ensureDirectories() {
   if (!fs.existsSync(adsPath)) {
     fs.mkdirSync(adsPath);
     console.log("Created ads directory");
+  }
+
+  if (!fs.existsSync(slidesPath)) {
+    fs.mkdirSync(slidesPath);
+    console.log("Created slides directory");
   }
 }
 
