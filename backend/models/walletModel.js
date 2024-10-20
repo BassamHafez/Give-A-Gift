@@ -11,10 +11,19 @@ const walletSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    transfers: [
+      {
+        amount: Number,
+        receiverName: String,
+        receiverPhone: String,
+        createdAt: {
+          type: Date,
+          default: Date.now(),
+        },
+      },
+    ],
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 const Wallet = mongoose.model("Wallet", walletSchema);

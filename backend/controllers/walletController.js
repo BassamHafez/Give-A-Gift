@@ -49,7 +49,9 @@ exports.transfer = catchAsync(async (req, res, next) => {
 
   const receiver = await User.findOne({
     phone: receiverPhone,
-  });
+  })
+    .select("id name phone")
+    .lean();
 
   if (!receiver) {
     return next(new ApiError("No user found with that phone number", 404));
@@ -57,7 +59,7 @@ exports.transfer = catchAsync(async (req, res, next) => {
 
   const [senderWallet, receiverWallet] = await Promise.all([
     Wallet.findOne({ user: req.user.id }),
-    Wallet.findOne({ user: receiver.id }),
+    Wallet.findOne({ user: receiver._id }),
   ]);
 
   if (!senderWallet || !receiverWallet) {
@@ -68,22 +70,28 @@ exports.transfer = catchAsync(async (req, res, next) => {
     return next(new ApiError("Insufficient balance", 400));
   }
 
-  await Wallet.bulkWrite([
-    {
-      updateOne: {
-        filter: { user: req.user.id },
-        update: { $inc: { balance: -amount } },
-      },
-    },
-    {
-      updateOne: {
-        filter: { user: receiver.id },
-        update: { $inc: { balance: amount } },
-      },
-    },
-  ]);
+  const transferData = {
+    amount,
+    receiverName: receiver.name,
+    receiverPhone,
+  };
 
-  const updatedSenderWallet = await Wallet.findOne({ user: req.user.id });
+  const [updatedSenderWallet, updatedReceiverWallet] = await Promise.all([
+    Wallet.findOneAndUpdate(
+      { user: req.user.id },
+      {
+        $push: {
+          transfers: { $each: [transferData] },
+        },
+        $inc: { balance: -amount },
+      },
+      { new: true }
+    ),
+    Wallet.findOneAndUpdate(
+      { user: receiver._id },
+      { $inc: { balance: amount } }
+    ),
+  ]);
 
   res.status(200).json({
     status: "success",
