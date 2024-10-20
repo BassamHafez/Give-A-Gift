@@ -19,7 +19,10 @@ import ConfirmationModal from "../../../../Components/Ui/ConfirmationModal";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import SearchField from "../../../../Components/Ui/SearchField";
+import MainButton from "../../../../Components/Ui/MainButton";
 import { toast } from "react-toastify";
+import html2pdf from "html2pdf.js";
+import OrderPdfContent from "../../../../Components/OrderPdfContent/OrderPdfContent";
 
 const OrdersDataView = ({ isUser }) => {
   const notifySuccess = (message) => toast.success(message);
@@ -105,6 +108,11 @@ const OrdersDataView = ({ isUser }) => {
       );
     }) || [];
 
+  const generatePDF = () => {
+    const element = document.getElementById("content");
+    html2pdf(element);
+  };
+
   return (
     <>
       <Row className={styles.order_col}>
@@ -136,179 +144,20 @@ const OrdersDataView = ({ isUser }) => {
                   md={6}
                   lg={4}
                 >
+                  <div className="d-none">
+                    <div id="content">
+                      <OrderPdfContent order={order} isUser={isUser} />
+                    </div>
+                  </div>
+
                   <div
                     className={`${styles.order_item} ${
                       isArLang && styles.order_item_ar
                     }`}
                   >
-                    <h4 className={styles.main_title}>{key("orderData")}</h4>
-                    <ul>
-                      <li>
-                        <FontAwesomeIcon
-                          className={
-                            isArLang
-                              ? styles.arrow_icon_ar
-                              : styles.arrow_icon_en
-                          }
-                          icon={isArLang ? faCaretLeft : faCaretRight}
-                        />
-                        {key("price")}: {order.value}
-                      </li>
-                      <li>
-                        <FontAwesomeIcon
-                          className={
-                            isArLang
-                              ? styles.arrow_icon_ar
-                              : styles.arrow_icon_en
-                          }
-                          icon={isArLang ? faCaretLeft : faCaretRight}
-                        />
-                        {key("shapePrice")}: {order.shape_price}
-                      </li>
-                      <li>
-                        <FontAwesomeIcon
-                          className={
-                            isArLang
-                              ? styles.arrow_icon_ar
-                              : styles.arrow_icon_en
-                          }
-                          icon={isArLang ? faCaretLeft : faCaretRight}
-                        />
-                        {key("colorPrice")}: {order.color_price}
-                      </li>
-                      <li>
-                        <FontAwesomeIcon
-                          className={
-                            isArLang
-                              ? styles.arrow_icon_ar
-                              : styles.arrow_icon_en
-                          }
-                          icon={isArLang ? faCaretLeft : faCaretRight}
-                        />
-                        {key("celebrateIcon")} {key("price")}:{" "}
-                        {order.celebrate_icon_price}
-                      </li>
-                      <li>
-                        <FontAwesomeIcon
-                          className={
-                            isArLang
-                              ? styles.arrow_icon_ar
-                              : styles.arrow_icon_en
-                          }
-                          icon={isArLang ? faCaretLeft : faCaretRight}
-                        />
-                        {key("celebrateLink")} {key("price")}:{" "}
-                        {order.celebrate_qr_link_price}
-                      </li>
-                      <li>
-                        <FontAwesomeIcon
-                          className={
-                            isArLang
-                              ? styles.arrow_icon_ar
-                              : styles.arrow_icon_en
-                          }
-                          icon={isArLang ? faCaretLeft : faCaretRight}
-                        />
-                        {key("Vatvalue")}: {order.VAT}
-                      </li>
-                      <li>
-                        <FontAwesomeIcon
-                          className={
-                            isArLang
-                              ? styles.arrow_icon_ar
-                              : styles.arrow_icon_en
-                          }
-                          icon={isArLang ? faCaretLeft : faCaretRight}
-                        />
-                        {key("totalPrice")}: {order.total_paid}
-                      </li>
-                      <li>
-                        <FontAwesomeIcon
-                          className={
-                            isArLang
-                              ? styles.arrow_icon_ar
-                              : styles.arrow_icon_en
-                          }
-                          icon={isArLang ? faCaretLeft : faCaretRight}
-                        />
-                        {key("store")}: {order.shop}
-                      </li>
-                    </ul>
-                    <hr />
-                    <h4>{key("customerRec")}</h4>
-                    <ul>
-                      <li>
-                        <FontAwesomeIcon
-                          className={
-                            isArLang
-                              ? styles.arrow_icon_ar
-                              : styles.arrow_icon_en
-                          }
-                          icon={isArLang ? faCaretLeft : faCaretRight}
-                        />
-                        {key("customer")}: {order.customer_name}
-                      </li>
-                      <li>
-                        <FontAwesomeIcon
-                          className={
-                            isArLang
-                              ? styles.arrow_icon_ar
-                              : styles.arrow_icon_en
-                          }
-                          icon={isArLang ? faCaretLeft : faCaretRight}
-                        />
-                        {key("email")}: {order.customer_email}
-                      </li>
-                      <li>
-                        <FontAwesomeIcon
-                          className={
-                            isArLang
-                              ? styles.arrow_icon_ar
-                              : styles.arrow_icon_en
-                          }
-                          icon={isArLang ? faCaretLeft : faCaretRight}
-                        />
-                        {key("phone")}: {order.customer_phone}
-                      </li>
-
-                      <li>
-                        <FontAwesomeIcon
-                          className={
-                            isArLang
-                              ? styles.arrow_icon_ar
-                              : styles.arrow_icon_en
-                          }
-                          icon={isArLang ? faCaretLeft : faCaretRight}
-                        />
-                        {key("recipient")}: {order.recipient_name}
-                      </li>
-                      <li>
-                        <FontAwesomeIcon
-                          className={
-                            isArLang
-                              ? styles.arrow_icon_ar
-                              : styles.arrow_icon_en
-                          }
-                          icon={isArLang ? faCaretLeft : faCaretRight}
-                        />
-                        {key("recipientWhatsapp")}: {order.recipient_whatsapp}
-                      </li>
-                    </ul>
-                    <hr />
-                    <h4>{key("idAndDate")}</h4>
-                    <ul>
-                      <li>
-                        <FontAwesomeIcon
-                          className={
-                            isArLang
-                              ? styles.arrow_icon_ar
-                              : styles.arrow_icon_en
-                          }
-                          icon={isArLang ? faCaretLeft : faCaretRight}
-                        />
-                        {key("orderNumber")}: {`${order.order_number}`}
-                      </li>
-                      {!isUser && (
+                    <div>
+                      <h4 className={styles.main_title}>{key("orderData")}</h4>
+                      <ul>
                         <li>
                           <FontAwesomeIcon
                             className={
@@ -318,43 +167,215 @@ const OrdersDataView = ({ isUser }) => {
                             }
                             icon={isArLang ? faCaretLeft : faCaretRight}
                           />
-                          {key("cardId")}: {order.card_id}
+                          {key("price")}: {order.value}
                         </li>
-                      )}
-                      <li>
-                        <FontAwesomeIcon
-                          className={
-                            isArLang
-                              ? styles.arrow_icon_ar
-                              : styles.arrow_icon_en
-                          }
-                          icon={isArLang ? faCaretLeft : faCaretRight}
-                        />
-                        {key("date")}:{" "}
-                        {formatDateTime(order.order_date).formattedDate}
-                      </li>
-                      <li>
-                        <FontAwesomeIcon
-                          className={
-                            isArLang
-                              ? styles.arrow_icon_ar
-                              : styles.arrow_icon_en
-                          }
-                          icon={isArLang ? faCaretLeft : faCaretRight}
-                        />
-                        {key("time")}:{" "}
-                        {formatDateTime(order.order_date).formattedTime}
-                      </li>
-                    </ul>
+                        <li>
+                          <FontAwesomeIcon
+                            className={
+                              isArLang
+                                ? styles.arrow_icon_ar
+                                : styles.arrow_icon_en
+                            }
+                            icon={isArLang ? faCaretLeft : faCaretRight}
+                          />
+                          {key("shapePrice")}: {order.shape_price}
+                        </li>
+                        <li>
+                          <FontAwesomeIcon
+                            className={
+                              isArLang
+                                ? styles.arrow_icon_ar
+                                : styles.arrow_icon_en
+                            }
+                            icon={isArLang ? faCaretLeft : faCaretRight}
+                          />
+                          {key("colorPrice")}: {order.color_price}
+                        </li>
+                        <li>
+                          <FontAwesomeIcon
+                            className={
+                              isArLang
+                                ? styles.arrow_icon_ar
+                                : styles.arrow_icon_en
+                            }
+                            icon={isArLang ? faCaretLeft : faCaretRight}
+                          />
+                          {key("celebrateIcon")} {key("price")}:{" "}
+                          {order.celebrate_icon_price}
+                        </li>
+                        <li>
+                          <FontAwesomeIcon
+                            className={
+                              isArLang
+                                ? styles.arrow_icon_ar
+                                : styles.arrow_icon_en
+                            }
+                            icon={isArLang ? faCaretLeft : faCaretRight}
+                          />
+                          {key("celebrateLink")} {key("price")}:{" "}
+                          {order.celebrate_qr_link_price}
+                        </li>
+                        <li>
+                          <FontAwesomeIcon
+                            className={
+                              isArLang
+                                ? styles.arrow_icon_ar
+                                : styles.arrow_icon_en
+                            }
+                            icon={isArLang ? faCaretLeft : faCaretRight}
+                          />
+                          {key("Vatvalue")}: {order.VAT}
+                        </li>
+                        <li>
+                          <FontAwesomeIcon
+                            className={
+                              isArLang
+                                ? styles.arrow_icon_ar
+                                : styles.arrow_icon_en
+                            }
+                            icon={isArLang ? faCaretLeft : faCaretRight}
+                          />
+                          {key("totalPrice")}: {order.total_paid}
+                        </li>
+                        <li>
+                          <FontAwesomeIcon
+                            className={
+                              isArLang
+                                ? styles.arrow_icon_ar
+                                : styles.arrow_icon_en
+                            }
+                            icon={isArLang ? faCaretLeft : faCaretRight}
+                          />
+                          {key("store")}: {order.shop}
+                        </li>
+                      </ul>
+                      <hr />
+                      <h4>{key("customerRec")}</h4>
+                      <ul>
+                        <li>
+                          <FontAwesomeIcon
+                            className={
+                              isArLang
+                                ? styles.arrow_icon_ar
+                                : styles.arrow_icon_en
+                            }
+                            icon={isArLang ? faCaretLeft : faCaretRight}
+                          />
+                          {key("customer")}: {order.customer_name}
+                        </li>
+                        <li>
+                          <FontAwesomeIcon
+                            className={
+                              isArLang
+                                ? styles.arrow_icon_ar
+                                : styles.arrow_icon_en
+                            }
+                            icon={isArLang ? faCaretLeft : faCaretRight}
+                          />
+                          {key("email")}: {order.customer_email}
+                        </li>
+                        <li>
+                          <FontAwesomeIcon
+                            className={
+                              isArLang
+                                ? styles.arrow_icon_ar
+                                : styles.arrow_icon_en
+                            }
+                            icon={isArLang ? faCaretLeft : faCaretRight}
+                          />
+                          {key("phone")}: {order.customer_phone}
+                        </li>
+
+                        <li>
+                          <FontAwesomeIcon
+                            className={
+                              isArLang
+                                ? styles.arrow_icon_ar
+                                : styles.arrow_icon_en
+                            }
+                            icon={isArLang ? faCaretLeft : faCaretRight}
+                          />
+                          {key("recipient")}: {order.recipient_name}
+                        </li>
+                        <li>
+                          <FontAwesomeIcon
+                            className={
+                              isArLang
+                                ? styles.arrow_icon_ar
+                                : styles.arrow_icon_en
+                            }
+                            icon={isArLang ? faCaretLeft : faCaretRight}
+                          />
+                          {key("recipientWhatsapp")}: {order.recipient_whatsapp}
+                        </li>
+                      </ul>
+                      <hr />
+                      <h4>{key("idAndDate")}</h4>
+                      <ul>
+                        <li>
+                          <FontAwesomeIcon
+                            className={
+                              isArLang
+                                ? styles.arrow_icon_ar
+                                : styles.arrow_icon_en
+                            }
+                            icon={isArLang ? faCaretLeft : faCaretRight}
+                          />
+                          {key("orderNumber")}: {`${order.order_number}`}
+                        </li>
+                        {!isUser && (
+                          <li>
+                            <FontAwesomeIcon
+                              className={
+                                isArLang
+                                  ? styles.arrow_icon_ar
+                                  : styles.arrow_icon_en
+                              }
+                              icon={isArLang ? faCaretLeft : faCaretRight}
+                            />
+                            {key("cardId")}: {order.card_id}
+                          </li>
+                        )}
+                        <li>
+                          <FontAwesomeIcon
+                            className={
+                              isArLang
+                                ? styles.arrow_icon_ar
+                                : styles.arrow_icon_en
+                            }
+                            icon={isArLang ? faCaretLeft : faCaretRight}
+                          />
+                          {key("date")}:{" "}
+                          {formatDateTime(order.order_date).formattedDate}
+                        </li>
+                        <li>
+                          <FontAwesomeIcon
+                            className={
+                              isArLang
+                                ? styles.arrow_icon_ar
+                                : styles.arrow_icon_en
+                            }
+                            icon={isArLang ? faCaretLeft : faCaretRight}
+                          />
+                          {key("time")}:{" "}
+                          {formatDateTime(order.order_date).formattedTime}
+                        </li>
+                      </ul>
+                    </div>
+
                     <div
-                      className={`d-flex justify-content-end align-items-center mt-3`}
+                      className={`d-flex justify-content-between align-items-center mt-3`}
                     >
+                      <MainButton
+                        onClick={generatePDF}
+                        type="white"
+                        text={`${key("viewOrder")}`}
+                      />
                       {isUser ? (
-                        <button
+                        <MainButton
                           onClick={() => {
                             navigate(`/view-card/${order.card_id}`);
                           }}
-                          className="btn btn-danger p-2"
                         >
                           {key("viewCard")}{" "}
                           <FontAwesomeIcon
@@ -362,11 +383,11 @@ const OrdersDataView = ({ isUser }) => {
                             className="mx-1"
                             icon={faEye}
                           />
-                        </button>
+                        </MainButton>
                       ) : (
                         <button
                           onClick={() => cancelOrder(order._id)}
-                          className="btn btn-secondary"
+                          className="btn btn-secondary p-2"
                         >
                           {key("cancelOrder")}
                         </button>

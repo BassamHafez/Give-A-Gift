@@ -428,5 +428,6 @@
     "mobSecBanner":"Sub banner (Mob)",
     "slide":"Slide",
     "slider":"Slider",
-    "process":"Process"
+    "process":"Process",
+    "viewOrder":"view order"
 }   
