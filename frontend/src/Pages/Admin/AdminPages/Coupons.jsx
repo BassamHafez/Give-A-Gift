@@ -65,6 +65,13 @@ const Coupons = () => {
     }
   };
 
+  const formatDateTime = (isoString) => {
+    const date = new Date(isoString);
+    const formattedDate = date.toLocaleDateString();
+    const formattedTime = date.toLocaleTimeString();
+    return { formattedDate, formattedTime };
+  };
+
   return (
     <>
       <div className={styles.main_body}>
@@ -73,7 +80,7 @@ const Coupons = () => {
         </div>
       </div>
       <hr />
-      <h4 className="fw-bold mx-3">All Coupons</h4>
+      <h4 className="fw-bold mx-3">{key("allCoupons")}</h4>
       <Row className="justify-content-center">
         {coupons ? (
           coupons?.data?.map((cop) => (
@@ -84,15 +91,16 @@ const Coupons = () => {
             >
               <div className={styles.cop_div}>
                 <div className={styles.cop_content}>
-                  <ul>
+                  <h2 className="text-center fw-bold" style={{fontFamily:"'Times New Roman', Times, serif"}}> {cop.name} ({cop.discount}%)</h2>
+                  <ul className="mt-4">
                     <li>
-                      {key("name")}: {cop.name}
+                      {key("usedCount")}: {cop.usedCount}
                     </li>
                     <li>
-                      {key("discount")}: {cop.discount}
+                      {key("expireDate")}: {formatDateTime(cop.expire).formattedDate}
                     </li>
                     <li>
-                      {key("expire")}: {cop.expire}
+                      {key("expireTime")}:{formatDateTime(cop.expire).formattedTime}
                     </li>
                   </ul>
                 </div>

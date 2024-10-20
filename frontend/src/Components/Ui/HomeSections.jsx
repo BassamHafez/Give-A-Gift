@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 const HomeSections = () => {
   const { t: key } = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
+  const subBanner=`${process.env.REACT_APP_Host}designs/web-secondary-banner.png`;
 
   return (
     <>
@@ -25,6 +26,7 @@ const HomeSections = () => {
                   <img src={cardsImage} alt="cardsImage" />
                 </div>
             </Col>
+
             <Col
              lg={{ span: 5, offset: 1 }}
               className="d-flex justify-content-center align-items-center"
@@ -39,7 +41,7 @@ const HomeSections = () => {
       </section>
 
       <section className="py-5 my-5">
-        <div className={styles.caption}>
+        <div className={styles.caption} style={{backgroundImage:`url(${subBanner})`}}>
           <div
             className={`${styles.caption_text} text-center px-5`}
           >

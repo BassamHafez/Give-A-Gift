@@ -32,13 +32,19 @@ export const getShapes = async () => {
   }
 };
 
-export const getShops= async () => {
+export const getShops = async ({ type, storeId }) => {
+  let response;
   try {
-     const response = await axios.get(`${baseServerUrl}shops?sort=priority`);
-
+    if (type === "single") {
+      response = await axios.get(`${baseServerUrl}shops/${storeId}`);
+    } else if (type === "homeStores") {
+      response = await axios.get(`${baseServerUrl}shops/home`);
+    } else {
+      response = await axios.get(`${baseServerUrl}shops?sort=priority`);
+    }
     return response.data;
   } catch (error) {
-    return error
+    return error;
   }
 };
 
@@ -299,14 +305,25 @@ export const controlShapes=async ({token,formData}) => {
   }
 };
 
-export const controlShops=async ({token,formData}) => {
+export const controlShops=async ({token,formData,type,shopId}) => {
   try {
-    const response = await axios.post(`${baseServerUrl}shops`, formData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    let response;
+    if(type==="update"){
+      response = await axios.patch(`${baseServerUrl}shops/${shopId}`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+    }else{
+      response = await axios.post(`${baseServerUrl}shops`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+    }
+    
     return response.data;
   } catch (error) {
     return error
@@ -481,9 +498,9 @@ export const addProColor = async ({ token, formData }) => {
   }
 };
 
-export const updateBanner = async ({ token, formData }) => {
+export const updateBanner = async ({ token, formData,type }) => {
   try {
-    const response = await axios.put(`${baseServerUrl}configs/banner`, formData, {
+    const response = await axios.put(`${baseServerUrl}configs/${type}`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'multipart/form-data',
@@ -495,6 +512,69 @@ export const updateBanner = async ({ token, formData }) => {
     return error;
   }
 };
+
+export const adsController = async ({ token, formData, type,adId }) => {
+  try {
+    let response;
+    if (type === "get") {
+      response = await axios.get(`${baseServerUrl}ads`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } else if (type === "add") {
+      response = await axios.post(`${baseServerUrl}ads`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+    } else if (type === "update") {
+      response = await axios.patch(`${baseServerUrl}ads/${adId}`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+    }
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const slidesController = async ({ token, formData, type,slideId }) => {
+  try {
+    let response;
+    if (type === "get") {
+      response = await axios.get(`${baseServerUrl}slides`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } else if (type === "add") {
+      response = await axios.post(`${baseServerUrl}slides`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+    } else if (type === "update") {
+      response = await axios.patch(`${baseServerUrl}slides/${slideId}`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+    }
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+
+
 // merchant
 
 export const getDiscounts = async ({token }) => {
