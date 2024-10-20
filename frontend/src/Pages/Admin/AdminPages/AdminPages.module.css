@@ -430,6 +430,10 @@
 }
 
 /* statitics */
+.statics_body{
+    min-height: 100vh;
+    position: relative;
+}
 .chart_div{
     width: 100%;
     height: 600px;

@@ -14,24 +14,13 @@ const AddProColor = ({ refetch }) => {
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
   const [selectedFile, setSelectedFile] = useState(null);
-
+  const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
 
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
 
   const { mutate, isPending } = useMutation({
     mutationFn: addProColor,
-    onSuccess: (data) => {
-      if (data?.status === "success") {
-        notifySuccess(key("opSuccess"));
-        refetch();
-      } else {
-        notifyError(key("wrong"));
-      }
-    },
-    onError: (error) => {
-      notifyError(key("wrong"));
-    },
   });
 
   const initialValues = {
@@ -39,8 +28,7 @@ const AddProColor = ({ refetch }) => {
     price: "",
   };
 
-  const onSubmit = (values) => {
-
+  const onSubmit = (values, { resetForm }) => {
     const formData = new FormData();
 
     if (selectedFile) {
@@ -50,10 +38,28 @@ const AddProColor = ({ refetch }) => {
       return;
     }
     formData.append("price", values.price);
-    mutate({
-      formData: formData,
-      token: token,
-    });
+    mutate(
+      {
+        formData: formData,
+        token: token,
+      },
+      {
+        onSuccess: (data) => {
+          if (data?.status === "success") {
+            notifySuccess(key("opSuccess"));
+            refetch();
+            resetForm();
+            setSelectedFile(null);
+            setImagePreviewUrl(null);
+          } else {
+            notifyError(key("wrong"));
+          }
+        },
+        onError: (error) => {
+          notifyError(key("wrong"));
+        },
+      }
+    );
   };
 
   const validationSchema = object({
@@ -72,7 +78,11 @@ const AddProColor = ({ refetch }) => {
   const handleFileChange = (e) => {
     const file = e.currentTarget.files[0];
     setSelectedFile(file);
-    notifySuccess(key("photoDownloaded"));
+    if (file) {
+      const previewUrl = URL.createObjectURL(file);
+      setImagePreviewUrl(previewUrl);
+      notifySuccess(key("photoDownloaded"));
+    }
   };
 
   return (
@@ -85,8 +95,21 @@ const AddProColor = ({ refetch }) => {
         <Form className={styles.general_info_form}>
           <h5 className="fw-bold text-secondary">{key("addProColor")}</h5>
           <div className={styles.photo_field}>
-            <label className={styles.photo_label} htmlFor="img">
-              <FontAwesomeIcon className={styles.img_icon} icon={faImage} />
+            <label
+              className={
+                imagePreviewUrl ? styles.photo_label_img : styles.photo_label
+              }
+              htmlFor="img"
+            >
+              {imagePreviewUrl ? (
+                <img
+                  src={imagePreviewUrl}
+                  alt="Uploaded Preview"
+                  className={styles.image_preview}
+                />
+              ) : (
+                <FontAwesomeIcon className={styles.img_icon} icon={faImage} />
+              )}
             </label>
             <input
               type="file"
@@ -119,7 +142,6 @@ const AddProColor = ({ refetch }) => {
           </div>
         </Form>
       </Formik>
-
     </>
   );
 };
