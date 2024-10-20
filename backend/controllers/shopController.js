@@ -8,6 +8,8 @@ const Config = require("../models/configModel");
 const catchAsync = require("../utils/catchAsync");
 const ApiError = require("../utils/ApiError");
 const { uploadSingleImage } = require("../utils/uploadImage");
+const { createJoinUsEmail } = require("../utils/shopUtils");
+const sendEmail = require("../utils/sendEmail");
 
 const shopPopulateOptions = [{ path: "category", select: "name icon" }];
 
@@ -103,5 +105,17 @@ exports.getTopShops = catchAsync(async (req, res, next) => {
     status: "success",
     results: shops.length,
     data: shops,
+  });
+});
+
+exports.joinUs = catchAsync(async (req, res, next) => {
+  // const { name, email, phone, description, link } = req.body;
+  const joinUsEmail = createJoinUsEmail(req.body);
+
+  await sendEmail(joinUsEmail);
+
+  res.status(200).json({
+    status: "success",
+    message: "Your request has been sent successfully",
   });
 });

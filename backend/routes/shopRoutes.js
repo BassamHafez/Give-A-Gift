@@ -13,6 +13,7 @@ router.get(
 );
 router.get("/home", shopController.getHomeShops);
 router.get("/top", shopController.getTopShops);
+router.post("/join-us", shopValidator.joinUsValidator, shopController.joinUs);
 
 router.get("/", shopController.getAllShops);
 router.get("/:id", shopValidator.getShopValidator, shopController.getShop);

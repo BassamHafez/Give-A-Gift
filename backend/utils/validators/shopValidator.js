@@ -150,3 +150,43 @@ exports.deleteShopValidator = [
 
   validatorMiddleware,
 ];
+
+exports.joinUsValidator = [
+  check("name")
+    .notEmpty()
+    .withMessage("Shop name is required")
+    .isString()
+    .withMessage("Shop name must be a string"),
+
+  check("description")
+    .notEmpty()
+    .withMessage("Shop description is required")
+    .isString()
+    .withMessage("Shop description must be a string"),
+
+  check("link")
+    .notEmpty()
+    .withMessage("Shop link is required")
+    .isURL({
+      allow_underscores: true,
+      allow_trailing_dot: true,
+      allow_numeric_tld: true,
+      allow_wildcard: true,
+      allow_protocol_relative_urls: true,
+    })
+    .withMessage("Shop link must be a valid URL"),
+
+  check("phone")
+    .notEmpty()
+    .withMessage("Shop phone is required")
+    .isMobilePhone()
+    .withMessage("Shop phone must be a valid phone number"),
+
+  check("email")
+    .notEmpty()
+    .withMessage("Shop email is required")
+    .isEmail()
+    .withMessage("Shop email must be a valid email address"),
+
+  validatorMiddleware,
+];
