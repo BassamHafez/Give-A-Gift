@@ -263,6 +263,20 @@ export const getAllOrders= async ({token}) => {
   }
 };
 
+export const joinPartner = async ({ token, formData }) => {
+  try {
+    const response = await axios.post(`${baseServerUrl}shops/join-us`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
 
 // admin pages
 

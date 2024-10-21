@@ -56,6 +56,7 @@ import Docs from './Pages/Admin/AdminPages/Docs';
 import StoreProfile from './Pages/Stores/StoreProfile';
 import Ads from './Pages/Admin/AdminPages/Ads';
 import Slides from './Pages/Admin/AdminPages/Slides';
+import JoinUs from './Pages/JoinUs/JoinUs';
 
 
 const router=createBrowserRouter([{
@@ -72,6 +73,7 @@ const router=createBrowserRouter([{
     {path:"register",element:<Register/>},
     {path:"special-cards",element:<SpecialCards/>},
     {path:"custom-cards",element:<CustomCards/>},
+    {path:"joinUs",element:<JoinUs/>},
     {path:"docs",element:<Docs/>},
     {path:"view-card/:cardId",element:<ProtectedRoute><ViewCard/></ProtectedRoute>},
     {path:"profile/:userId",element:<ProtectedRoute><Profile/></ProtectedRoute>},
@@ -133,14 +135,16 @@ function App() {
       if (control.language === 'ar') {
         document.documentElement.setAttribute('dir', 'rtl');
         document.documentElement.setAttribute('lang', 'ar');
+        document.documentElement.style.setProperty('--main_font', '"Cairo", sans-serif');
 
       } else {
         document.documentElement.setAttribute('dir', 'ltr');
         document.documentElement.setAttribute('lang', 'en');
+        document.documentElement.style.setProperty('--main_font','"ARAHAMAH1982", sans-serif')
 
       }
     };
-    
+    // '"ARAHAMAH1982", sans-serif'
     updateFontFamily();
 
     control.on('languageChanged', updateFontFamily);

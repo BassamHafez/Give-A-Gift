@@ -429,5 +429,13 @@
     "slide":"Slide",
     "slider":"Slider",
     "process":"Process",
-    "viewOrder":"view order"
+    "downloadPdf":"View Invoice",
+    "showMore":"show more",
+    "showLess":"show less",
+    "joinUsTitle":"A partnership to grow together",
+    "join":"Apply Now",
+    "becomePartner":"Become a partner",
+    "sendFaild":"Faild to send data please try again",
+    "send":"Send",
+    "link":"Link"
 }   

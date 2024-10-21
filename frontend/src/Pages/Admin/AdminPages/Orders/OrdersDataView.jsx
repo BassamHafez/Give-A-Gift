@@ -9,10 +9,10 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCaretLeft,
-  faCaretRight,
+  faCaretDown,
+  faCaretUp,
+  faDollar,
   faDownload,
-  faEye,
 } from "@fortawesome/free-solid-svg-icons";
 import * as XLSX from "xlsx";
 import ConfirmationModal from "../../../../Components/Ui/ConfirmationModal";
@@ -29,6 +29,7 @@ const OrdersDataView = ({ isUser }) => {
   const notifyError = (message) => toast.error(message);
   const [modalShow, setModalShow] = useState(false);
   const [searchInput, setSearchInput] = useState("");
+  const [expandedOrderId, setExpandedOrderId] = useState(null);
 
   const token = JSON.parse(localStorage.getItem("token"));
   const { t: key } = useTranslation();
@@ -113,6 +114,10 @@ const OrdersDataView = ({ isUser }) => {
     html2pdf(element);
   };
 
+  const toggleShowMore = (orderId) => {
+    setExpandedOrderId(expandedOrderId === orderId ? null : orderId);
+  };
+
   return (
     <>
       <Row className={styles.order_col}>
@@ -140,7 +145,7 @@ const OrdersDataView = ({ isUser }) => {
               {filteredDisc?.map((order, index) => (
                 <Col
                   className={styles.order_col}
-                  key={`${order.order_id}_${index}`}
+                  key={`${order._id}_${index}`}
                   md={6}
                   lg={4}
                 >
@@ -165,9 +170,9 @@ const OrdersDataView = ({ isUser }) => {
                                 ? styles.arrow_icon_ar
                                 : styles.arrow_icon_en
                             }
-                            icon={isArLang ? faCaretLeft : faCaretRight}
+                            icon={faDollar}
                           />
-                          {key("price")}: {order.value}
+                          {key("price")}: {order.value} {key("sar")}
                         </li>
                         <li>
                           <FontAwesomeIcon
@@ -176,9 +181,9 @@ const OrdersDataView = ({ isUser }) => {
                                 ? styles.arrow_icon_ar
                                 : styles.arrow_icon_en
                             }
-                            icon={isArLang ? faCaretLeft : faCaretRight}
+                            icon={faDollar}
                           />
-                          {key("shapePrice")}: {order.shape_price}
+                          {key("shapePrice")}: {order.shape_price} {key("sar")}
                         </li>
                         <li>
                           <FontAwesomeIcon
@@ -187,9 +192,9 @@ const OrdersDataView = ({ isUser }) => {
                                 ? styles.arrow_icon_ar
                                 : styles.arrow_icon_en
                             }
-                            icon={isArLang ? faCaretLeft : faCaretRight}
+                            icon={faDollar}
                           />
-                          {key("colorPrice")}: {order.color_price}
+                          {key("colorPrice")}: {order.color_price} {key("sar")}
                         </li>
                         <li>
                           <FontAwesomeIcon
@@ -198,10 +203,10 @@ const OrdersDataView = ({ isUser }) => {
                                 ? styles.arrow_icon_ar
                                 : styles.arrow_icon_en
                             }
-                            icon={isArLang ? faCaretLeft : faCaretRight}
+                            icon={faDollar}
                           />
                           {key("celebrateIcon")} {key("price")}:{" "}
-                          {order.celebrate_icon_price}
+                          {order.celebrate_icon_price} {key("sar")}
                         </li>
                         <li>
                           <FontAwesomeIcon
@@ -210,10 +215,10 @@ const OrdersDataView = ({ isUser }) => {
                                 ? styles.arrow_icon_ar
                                 : styles.arrow_icon_en
                             }
-                            icon={isArLang ? faCaretLeft : faCaretRight}
+                            icon={faDollar}
                           />
                           {key("celebrateLink")} {key("price")}:{" "}
-                          {order.celebrate_qr_link_price}
+                          {order.celebrate_qr_link_price} {key("sar")}
                         </li>
                         <li>
                           <FontAwesomeIcon
@@ -222,7 +227,7 @@ const OrdersDataView = ({ isUser }) => {
                                 ? styles.arrow_icon_ar
                                 : styles.arrow_icon_en
                             }
-                            icon={isArLang ? faCaretLeft : faCaretRight}
+                            icon={faDollar}
                           />
                           {key("Vatvalue")}: {order.VAT}
                         </li>
@@ -233,9 +238,9 @@ const OrdersDataView = ({ isUser }) => {
                                 ? styles.arrow_icon_ar
                                 : styles.arrow_icon_en
                             }
-                            icon={isArLang ? faCaretLeft : faCaretRight}
+                            icon={faDollar}
                           />
-                          {key("totalPrice")}: {order.total_paid}
+                          {key("totalPrice")}: {order.total_paid} {key("sar")}
                         </li>
                         <li>
                           <FontAwesomeIcon
@@ -244,123 +249,148 @@ const OrdersDataView = ({ isUser }) => {
                                 ? styles.arrow_icon_ar
                                 : styles.arrow_icon_en
                             }
-                            icon={isArLang ? faCaretLeft : faCaretRight}
+                            icon={faDollar}
                           />
                           {key("store")}: {order.shop}
                         </li>
                       </ul>
-                      <hr />
-                      <h4>{key("customerRec")}</h4>
-                      <ul>
-                        <li>
-                          <FontAwesomeIcon
-                            className={
-                              isArLang
-                                ? styles.arrow_icon_ar
-                                : styles.arrow_icon_en
-                            }
-                            icon={isArLang ? faCaretLeft : faCaretRight}
-                          />
-                          {key("customer")}: {order.customer_name}
-                        </li>
-                        <li>
-                          <FontAwesomeIcon
-                            className={
-                              isArLang
-                                ? styles.arrow_icon_ar
-                                : styles.arrow_icon_en
-                            }
-                            icon={isArLang ? faCaretLeft : faCaretRight}
-                          />
-                          {key("email")}: {order.customer_email}
-                        </li>
-                        <li>
-                          <FontAwesomeIcon
-                            className={
-                              isArLang
-                                ? styles.arrow_icon_ar
-                                : styles.arrow_icon_en
-                            }
-                            icon={isArLang ? faCaretLeft : faCaretRight}
-                          />
-                          {key("phone")}: {order.customer_phone}
-                        </li>
+                      <div className="text-end">
+                        <p
+                          onClick={() => toggleShowMore(order._id)}
+                          className={styles.show_more}
+                        >
+                          {expandedOrderId === order._id
+                            ? key("showLess")
+                            : key("showMore")}
 
-                        <li>
-                          <FontAwesomeIcon
-                            className={
-                              isArLang
-                                ? styles.arrow_icon_ar
-                                : styles.arrow_icon_en
-                            }
-                            icon={isArLang ? faCaretLeft : faCaretRight}
-                          />
-                          {key("recipient")}: {order.recipient_name}
-                        </li>
-                        <li>
-                          <FontAwesomeIcon
-                            className={
-                              isArLang
-                                ? styles.arrow_icon_ar
-                                : styles.arrow_icon_en
-                            }
-                            icon={isArLang ? faCaretLeft : faCaretRight}
-                          />
-                          {key("recipientWhatsapp")}: {order.recipient_whatsapp}
-                        </li>
-                      </ul>
+                          {expandedOrderId === order._id ? (
+                            <FontAwesomeIcon className="mx-1" icon={faCaretUp} />
+                          ) : (
+                            <FontAwesomeIcon className="mx-1" icon={faCaretDown} />
+                          )}
+                        </p>
+                      </div>
+                      {expandedOrderId === order._id && (
+                        <div>
+                          <h4 className={styles.main_title}>
+                            {key("customerRec")}
+                          </h4>
+                          <ul>
+                            <li>
+                              <FontAwesomeIcon
+                                className={
+                                  isArLang
+                                    ? styles.arrow_icon_ar
+                                    : styles.arrow_icon_en
+                                }
+                                icon={faDollar}
+                              />
+                              {key("customer")}: {order.customer_name}
+                            </li>
+                            <li>
+                              <FontAwesomeIcon
+                                className={
+                                  isArLang
+                                    ? styles.arrow_icon_ar
+                                    : styles.arrow_icon_en
+                                }
+                                icon={faDollar}
+                              />
+                              {key("email")}: {order.customer_email}
+                            </li>
+                            <li>
+                              <FontAwesomeIcon
+                                className={
+                                  isArLang
+                                    ? styles.arrow_icon_ar
+                                    : styles.arrow_icon_en
+                                }
+                                icon={faDollar}
+                              />
+                              {key("phone")}: {order.customer_phone}
+                            </li>
+
+                            <li>
+                              <FontAwesomeIcon
+                                className={
+                                  isArLang
+                                    ? styles.arrow_icon_ar
+                                    : styles.arrow_icon_en
+                                }
+                                icon={faDollar}
+                              />
+                              {key("recipient")}: {order.recipient_name}
+                            </li>
+                            <li>
+                              <FontAwesomeIcon
+                                className={
+                                  isArLang
+                                    ? styles.arrow_icon_ar
+                                    : styles.arrow_icon_en
+                                }
+                                icon={faDollar}
+                              />
+                              {key("recipientWhatsapp")}:{" "}
+                              {order.recipient_whatsapp}
+                            </li>
+                          </ul>
+                          <hr />
+                          <h4 className={styles.main_title}>
+                            {key("idAndDate")}
+                          </h4>
+                          <ul>
+                            <li>
+                              <FontAwesomeIcon
+                                className={
+                                  isArLang
+                                    ? styles.arrow_icon_ar
+                                    : styles.arrow_icon_en
+                                }
+                                icon={faDollar}
+                              />
+                              {key("orderNumber")}: {`${order.order_number}`}
+                            </li>
+                            {!isUser && (
+                              <li>
+                                <FontAwesomeIcon
+                                  className={
+                                    isArLang
+                                      ? styles.arrow_icon_ar
+                                      : styles.arrow_icon_en
+                                  }
+                                  icon={faDollar}
+                                />
+                                {key("cardId")}: {order.card_id}
+                              </li>
+                            )}
+                            <li>
+                              <FontAwesomeIcon
+                                className={
+                                  isArLang
+                                    ? styles.arrow_icon_ar
+                                    : styles.arrow_icon_en
+                                }
+                                icon={faDollar}
+                              />
+                              {key("date")}:{" "}
+                              {formatDateTime(order.order_date).formattedDate}
+                            </li>
+                            <li>
+                              <FontAwesomeIcon
+                                className={
+                                  isArLang
+                                    ? styles.arrow_icon_ar
+                                    : styles.arrow_icon_en
+                                }
+                                icon={faDollar}
+                              />
+                              {key("time")}:{" "}
+                              {formatDateTime(order.order_date).formattedTime}
+                            </li>
+                          </ul>
+                        </div>
+                      )}{" "}
                       <hr />
-                      <h4>{key("idAndDate")}</h4>
-                      <ul>
-                        <li>
-                          <FontAwesomeIcon
-                            className={
-                              isArLang
-                                ? styles.arrow_icon_ar
-                                : styles.arrow_icon_en
-                            }
-                            icon={isArLang ? faCaretLeft : faCaretRight}
-                          />
-                          {key("orderNumber")}: {`${order.order_number}`}
-                        </li>
-                        {!isUser && (
-                          <li>
-                            <FontAwesomeIcon
-                              className={
-                                isArLang
-                                  ? styles.arrow_icon_ar
-                                  : styles.arrow_icon_en
-                              }
-                              icon={isArLang ? faCaretLeft : faCaretRight}
-                            />
-                            {key("cardId")}: {order.card_id}
-                          </li>
-                        )}
-                        <li>
-                          <FontAwesomeIcon
-                            className={
-                              isArLang
-                                ? styles.arrow_icon_ar
-                                : styles.arrow_icon_en
-                            }
-                            icon={isArLang ? faCaretLeft : faCaretRight}
-                          />
-                          {key("date")}:{" "}
-                          {formatDateTime(order.order_date).formattedDate}
-                        </li>
-                        <li>
-                          <FontAwesomeIcon
-                            className={
-                              isArLang
-                                ? styles.arrow_icon_ar
-                                : styles.arrow_icon_en
-                            }
-                            icon={isArLang ? faCaretLeft : faCaretRight}
-                          />
-                          {key("time")}:{" "}
-                          {formatDateTime(order.order_date).formattedTime}
-                        </li>
-                      </ul>
                     </div>
 
                     <div
@@ -369,28 +399,24 @@ const OrdersDataView = ({ isUser }) => {
                       <MainButton
                         onClick={generatePDF}
                         type="white"
-                        text={`${key("viewOrder")}`}
+                        text={`${key("downloadPdf")}`}
                       />
                       {isUser ? (
                         <MainButton
+                          type="blue"
                           onClick={() => {
                             navigate(`/view-card/${order.card_id}`);
                           }}
                         >
-                          {key("viewCard")}{" "}
-                          <FontAwesomeIcon
-                            title={key("viewCard")}
-                            className="mx-1"
-                            icon={faEye}
-                          />
+                          {key("viewCard")}
                         </MainButton>
                       ) : (
-                        <button
+                        <MainButton
+                          type="blue"
                           onClick={() => cancelOrder(order._id)}
-                          className="btn btn-secondary p-2"
                         >
                           {key("cancelOrder")}
-                        </button>
+                        </MainButton>
                       )}
                     </div>
                   </div>

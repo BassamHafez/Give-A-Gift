@@ -1,6 +1,6 @@
 .footer{
     padding: 1.25rem;
-    background-color: #B62026;
+    background-color: var(--deep_main_color);
 }
 
 .footer_links{
