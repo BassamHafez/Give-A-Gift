@@ -22,12 +22,6 @@ exports.createAdValidator = [
     .isNumeric()
     .withMessage("Order must be a number"),
 
-  check("size")
-    .notEmpty()
-    .withMessage("Size is required")
-    .isIn(["small", "large"])
-    .withMessage("Size must be either 'small' or 'large'"),
-
   validatorMiddleware,
 ];
 
@@ -52,11 +46,6 @@ exports.updateAdValidator = [
     .withMessage("Link must be a valid URL"),
 
   check("order").optional().isNumeric().withMessage("Order must be a number"),
-
-  check("size")
-    .optional()
-    .isIn(["small", "large"])
-    .withMessage("Size must be either 'small' or 'large'"),
 
   validatorMiddleware,
 ];
