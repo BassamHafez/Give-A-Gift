@@ -18,16 +18,18 @@ exports.getAllShops = factory.getAll(Shop, shopPopulateOptions, "-token");
 exports.getShop = catchAsync(async (req, res, next) => {
   const shop = await Shop.findById(req.params.id)
     .select("-token")
-    .populate(shopPopulateOptions);
+    .populate(shopPopulateOptions)
+    .lean();
 
   if (!shop) return next(new ApiError("No shop found with that ID", 404));
 
   const [readyCards, frontShapeImage, backShapeImage] = await Promise.all([
     SpecialCard.find({ shop: shop._id })
       .select("price priority")
-      .sort("priority"),
-    Config.findOne({ key: "SPECIAL_FRONT_SHAPE_PATH" }),
-    Config.findOne({ key: "SPECIAL_BACK_SHAPE_PATH" }),
+      .sort("priority")
+      .lean(),
+    Config.findOne({ key: "SPECIAL_FRONT_SHAPE_PATH" }).lean(),
+    Config.findOne({ key: "SPECIAL_BACK_SHAPE_PATH" }).lean(),
   ]);
 
   res.status(200).json({
@@ -46,7 +48,8 @@ exports.getAllShopTokens = factory.getAll(Shop, [], "name token");
 exports.getHomeShops = catchAsync(async (req, res, next) => {
   const shops = await Shop.find({ showInHome: true })
     .select("name logo link")
-    .sort("priority");
+    .sort("priority")
+    .lean();
 
   res.status(200).json({
     status: "success",

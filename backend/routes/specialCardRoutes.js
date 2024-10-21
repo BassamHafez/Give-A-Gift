@@ -6,6 +6,7 @@ const specialCardController = require("../controllers/specialCardController");
 const specialCardValidator = require("../utils/validators/specialCardValidator");
 
 router.get("/", specialCardController.getAllCards);
+router.get("/latest", specialCardController.getLatestCards);
 
 router.use(authController.protect, authController.restrictTo("admin"));
 

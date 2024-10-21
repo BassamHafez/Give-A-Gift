@@ -47,7 +47,7 @@ exports.getOne = (Model, popOptions = [], selectedFields = "") =>
   catchAsync(async (req, res, next) => {
     let query = Model.findById(req.params.id, selectedFields);
 
-    const doc = await query.populate(popOptions);
+    const doc = await query.populate(popOptions).lean();
 
     if (!doc) {
       return next(new ApiError("No document found with that ID", 404));
@@ -72,7 +72,7 @@ exports.getAll = (Model, popOptions = [], selectedFields = "") =>
       .limitFields()
       .paginate();
 
-    const doc = await features.query.populate(popOptions);
+    const doc = await features.query.populate(popOptions).lean();
 
     // SEND RESPONSE
     res.status(200).json({
