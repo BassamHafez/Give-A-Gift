@@ -11,6 +11,13 @@ router.get(
   authController.restrictTo("admin"),
   shopController.getAllShopTokens
 );
+router.post(
+  "/messages",
+  authController.protect,
+  authController.restrictTo("admin"),
+  shopValidator.sendShopsMessagesValidator,
+  shopController.sendShopsMessages
+);
 router.get("/home", shopController.getHomeShops);
 router.get("/top", shopController.getTopShops);
 router.post("/join-us", shopValidator.joinUsValidator, shopController.joinUs);

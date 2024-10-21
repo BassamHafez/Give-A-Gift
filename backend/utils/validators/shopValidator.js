@@ -190,3 +190,29 @@ exports.joinUsValidator = [
 
   validatorMiddleware,
 ];
+
+exports.sendShopsMessagesValidator = [
+  check("message")
+    .notEmpty()
+    .withMessage("Message is required")
+    .isString()
+    .withMessage("Message must be a string"),
+
+  check("type")
+    .notEmpty()
+    .withMessage("Type is required")
+    .isIn(["whatsapp", "email"])
+    .withMessage("Type must be either 'whatsapp' or 'email'"),
+
+  check("shopsIds")
+    .notEmpty()
+    .withMessage("Shops IDs are required")
+    .isArray({ min: 1 })
+    .withMessage("Shops IDs must be an array with at least one ID"),
+
+  check("shopsIds.*")
+    .isMongoId()
+    .withMessage("Shops IDs must be valid MongoDB IDs"),
+
+  validatorMiddleware,
+];

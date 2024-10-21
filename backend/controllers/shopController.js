@@ -10,6 +10,7 @@ const ApiError = require("../utils/ApiError");
 const { uploadSingleImage } = require("../utils/uploadImage");
 const { createJoinUsEmail } = require("../utils/shopUtils");
 const sendEmail = require("../utils/sendEmail");
+const { sendWhatsappText } = require("../utils/sendWhatsappMsg");
 
 const shopPopulateOptions = [{ path: "category", select: "name icon" }];
 
@@ -120,5 +121,37 @@ exports.joinUs = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: "success",
     message: "Your request has been sent successfully",
+  });
+});
+
+exports.sendShopsMessages = catchAsync(async (req, res, next) => {
+  const { message, type, shopsIds } = req.body;
+
+  const shops = await Shop.find({ _id: { $in: shopsIds } })
+    .select("phone email")
+    .lean();
+
+  if (!shops.length)
+    return next(new ApiError("No shops found with that IDs", 404));
+
+  if (type === "whatsapp") {
+    shops.forEach((shop) => {
+      sendWhatsappText(shop.phone, message);
+    });
+  } else if (type === "email") {
+    shops.forEach((shop) => {
+      sendEmail({
+        email: shop.email,
+        subject: "Give A Gift Website",
+        text: message,
+      });
+    });
+  } else {
+    return next(new ApiError("Invalid message type", 400));
+  }
+
+  res.status(200).json({
+    status: "success",
+    message: "Messages have been sent successfully",
   });
 });
