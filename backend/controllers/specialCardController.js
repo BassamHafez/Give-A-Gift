@@ -29,6 +29,27 @@ exports.getAllCards = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getLatestCards = catchAsync(async (req, res, next) => {
+  const [cards, frontShapeImagePath, backShapeImagePath] = await Promise.all([
+    SpecialCard.find()
+      .populate({ path: "shop", select: "name logo" })
+      .sort("-createdAt")
+      .lean(),
+    Config.findOne({ key: "SPECIAL_FRONT_SHAPE_PATH" }),
+    Config.findOne({ key: "SPECIAL_BACK_SHAPE_PATH" }),
+  ]);
+
+  res.status(200).json({
+    status: "success",
+    results: cards.length,
+    data: {
+      frontShapeImagePath: frontShapeImagePath?.value,
+      backShapeImagePath: backShapeImagePath?.value,
+      cards,
+    },
+  });
+});
+
 exports.uploadSpecialCardImages = uploadMixOfImages([
   { name: "frontShapeImage", maxCount: 1 },
   { name: "backShapeImage", maxCount: 1 },
