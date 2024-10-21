@@ -1,7 +1,7 @@
 
 /* ____________________________btn one______________________________________ */
 
-.MainButton,.MainButton_white{
+.MainButton,.MainButton_white,.MainButton_blue{
     padding: 0.5rem 0.5625rem;
     border-radius: 0.3125rem;
     color: rgb(238, 238, 238);
@@ -20,7 +20,11 @@
     background-color: white;
     color: black;
 }
-.MainButton_layer{
+.MainButton_blue{
+    background-color: var(--sub_color);
+    color: white;
+}
+.MainButton_layer,.MainButton_blue .MainButton_layer{
     background-color: white;
     width: 1.25rem;
     height:150%;
@@ -35,13 +39,14 @@
 .MainButton_white .MainButton_layer{
     background-color: var(--main_color_lighter);
 }
-.MainButton:hover .MainButton_layer,.MainButton_white:hover .MainButton_layer{
+
+.MainButton:hover .MainButton_layer,.MainButton_white:hover .MainButton_layer,.MainButton_blue:hover .MainButton_layer{
     animation-name: buttonMovement;
     animation-duration: .3s;
     animation-direction: alternate;
 }
 
-.MainButton:hover,.MainButton_white:hover{
+.MainButton:hover,.MainButton_white:hover,.MainButton_blue:hover{
     transform: scale(1.1);
 }
 

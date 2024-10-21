@@ -59,6 +59,19 @@
 .order_item ul{
     padding: 0;
 }
+.show_more{
+    color: var(--sub_color);
+    font-weight: 900;
+    cursor: pointer;
+    transition: all .4s;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.show_more:hover{
+    transform: translateY(-2px);
+    color: var(--sub_color_light);
+}
 
 @media screen and (max-width:269px) {
     .order_item{

@@ -1,10 +1,30 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');   */
 
 @font-face {
   font-family: 'ARAHAMAH1982';
   src: url('./fonts/Ara Hamah 1982.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+}
+
+
+:root{
+  --main_font:'ARAHAMAH1982', sans-serif;
+  --main_color:#b62026;
+  --deep_main_color:#650E14;
+  --white:rgb(238, 237, 237);
+  --sub_color:#222A40;
+  --sub_color_light:#41547B;
+  --blue:#1a429d;
+  --dark_white:rgb(129, 129, 129);
+  --main_color_lighter:rgba(228, 181, 181, 0.3);
+  --main_bg_color:#FEF7EF;
+  --slate_blue:#6A7E8C;
+  --ivory_color:#f5f5d7;
+  --dusty_Gold:#C2A14D;
+  --natural:#DCDDDD;
 }
 
 *{
@@ -15,23 +35,10 @@
 body {
   overflow-x: hidden;
   background-color: var(--main_bg_color);
-  font-family:'ARAHAMAH1982', sans-serif !important;
+  font-family:var(--main_font) !important;
 }
+/* font-family: "Cairo", sans-serif; */
 
-:root{
-  --main_font:'ARAHAMAH1982', sans-serif;
-  --main_color:#b62026;
-  --white:rgb(238, 237, 237);
-  --sub_color:#222A40;
-  --blue:#1a429d;
-  --dark_white:rgb(129, 129, 129);
-  --main_color_lighter:rgba(228, 181, 181, 0.3);
-  --main_bg_color:#FEF7EF;
-  --slate_blue:#6A7E8C;
-  --ivory_color:#f5f5d7;
-  --dusty_Gold:#C2A14D;
-  --natural:#E4E4E4;
-}
 
 a{
   text-decoration: none !important;

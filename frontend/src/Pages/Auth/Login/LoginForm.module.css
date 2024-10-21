@@ -19,19 +19,17 @@
 
 .login_btn{
     width: 80%;
-    background-color: var(--main_color);
+    background-color: var(--sub_color);
     color: white;
     font-weight: 600;
     padding: 0.625rem 0.9375rem;
     border-radius: 0.9375rem;
     margin: 0.9375rem 0 0.625rem 0;
     border: 1px solid transparent;
-    transition: all .3s;
+    transition: background-color .3s;
 }
 .login_btn:hover{
-    color: var(--main_color);
-    border: 1px solid var(--main_color);
-    background-color: transparent;
+    background-color: var(--sub_color_light);
 }
 .form_options{
     display: flex;

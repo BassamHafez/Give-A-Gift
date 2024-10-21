@@ -40,7 +40,7 @@ const HomeSections = () => {
         </Container>
       </section>
 
-      <section className="py-5 my-5">
+      <section className="py-5 mt-5">
         <div className={styles.caption} style={{backgroundImage:`url(${subBanner})`}}>
           <div
             className={`${styles.caption_text} text-center px-5`}

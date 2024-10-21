@@ -37,10 +37,14 @@ const OrderPdfContent = ({ order, isUser }) => {
           <li>
             <span>{key("price")}</span> {order.value} {key("sar")}
           </li>
-          <li>
-            <span>{key("shapePrice")}</span> {order.shapes_price} {key("sar")}
-          </li>
-
+          {order.shapes_price
+            ? order.shapes_price > 0 && (
+                <li>
+                  <span>{key("shapePrice")}</span> {order.shapes_price}{" "}
+                  {key("sar")}
+                </li>
+              )
+            : ""}
           {order.color_price
             ? Number(order.color_price) > 0 && (
                 <li>

@@ -30,6 +30,7 @@ const Home = () => {
       navigate(`/merchant/${profileData?._id}`);
     }
   }, [role, navigate, profileData]);
+  
   useEffect(() => {
     if (!isLogin) {
       dispatch(profileActions.setProfileInfo(null));

@@ -51,7 +51,7 @@ const getPhoneValidationSchema = (country, key) => {
         const selectedDateTime = new Date(value);
         return selectedDateTime > new Date();
       }),
-    celebrationLink: string().url("Please enter a valid URL").nullable(),
+    celebrationLink: string().url(key("invalidLink")).nullable(),
   });
 };
 

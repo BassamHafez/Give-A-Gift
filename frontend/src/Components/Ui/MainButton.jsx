@@ -3,7 +3,7 @@ import styles from "./MainButton.module.css";
 
 const MainButton = ({ text, onClick, type ,children}) => {
   const classes =
-    type === "white" ? styles.MainButton_white : styles.MainButton;
+    type === "white" ? styles.MainButton_white :type==="blue"?styles.MainButton_blue:styles.MainButton;
 
   return (
     <button onClick={onClick} className={classes}>

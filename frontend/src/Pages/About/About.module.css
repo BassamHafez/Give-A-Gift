@@ -1,0 +1,20 @@
+.joiu_us_container{
+    background-color: var(--sub_color);
+    color: white;
+    padding: 1.25rem;
+    height: 65vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.joiu_us{
+    text-align: center;
+    width: 43.75rem;
+}
+
+.joiu_us h1{
+    font-weight: 600;
+    font-size: 5rem;
+    text-align: center;
+}
