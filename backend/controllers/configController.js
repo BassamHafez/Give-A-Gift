@@ -8,7 +8,7 @@ const {
 } = require("../utils/uploadImage");
 
 exports.getConfigs = catchAsync(async (req, res, next) => {
-  const configs = await Config.find().select("key value -_id");
+  const configs = await Config.find().select("key value -_id").lean();
 
   res.status(200).json({
     status: "success",
