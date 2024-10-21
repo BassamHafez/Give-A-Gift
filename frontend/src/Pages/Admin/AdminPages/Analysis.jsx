@@ -56,7 +56,7 @@ const Analysis = () => {
     window.scrollTo(0, 0);
   }, []);
   return (
-    <div>
+    <div className={styles.statics_body}>
       {data ? (
         <>
           <section className={styles.static_section}>

@@ -26,6 +26,8 @@ const Shapes = () => {
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
   const [selectedFile, setSelectedFile] = useState(null);
+  const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
+
   const role = useSelector((state) => state.userInfo.role);
   const profileData = useSelector((state) => state.profileInfo.data);
   const navigate = useNavigate();
@@ -37,6 +39,7 @@ const Shapes = () => {
       navigate(`/merchant/${profileData?._id}`);
     }
   }, [role, navigate, profileData]);
+  
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
 
@@ -48,27 +51,18 @@ const Shapes = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: controlShapes,
-    onSuccess: (data) => {
-      if (data?.status === "success") {
-        notifySuccess(key("opSuccess"));
-        refetch();
-      } else {
-        notifyError(key("wrong"));
-      }
-    },
-    onError: (error) => {
-      notifyError(key("wrong"));
-    },
   });
 
   const initialValues = {
     shapeImage: "",
     price: "",
   };
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  const onSubmit = (values) => {
+
+  const onSubmit = (values, { resetForm }) => {
     const formData = new FormData();
 
     if (selectedFile) {
@@ -77,11 +71,33 @@ const Shapes = () => {
       notifyError(key("uploadPhoto"));
       return;
     }
-    formData.append("price", values.price);
-    mutate({
-      formData: formData,
-      token: token,
-    });
+    if (values.price) {
+      formData.append("price", values.price);
+    } else {
+      formData.append("price", 0);
+    }
+    mutate(
+      {
+        formData: formData,
+        token: token,
+      },
+      {
+        onSuccess: (data) => {
+          if (data?.status === "success") {
+            notifySuccess(key("opSuccess"));
+            refetch();
+            resetForm();
+            setSelectedFile(null);
+            setImagePreviewUrl(null);
+          } else {
+            notifyError(key("wrong"));
+          }
+        },
+        onError: (error) => {
+          notifyError(key("wrong"));
+        },
+      }
+    );
   };
 
   const validationSchema = object({
@@ -94,7 +110,7 @@ const Shapes = () => {
           ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
           : true;
       }),
-    price: number().required(key("priceRec")).min(1, key("priceVali")),
+    price: number().min(0, key("priceVali")),
   });
 
   const deleteShape = async (shapeID) => {
@@ -120,7 +136,11 @@ const Shapes = () => {
   const handleFileChange = (e) => {
     const file = e.currentTarget.files[0];
     setSelectedFile(file);
-    notifySuccess(key("photoDownloaded"));
+    if (file) {
+      const previewUrl = URL.createObjectURL(file);
+      setImagePreviewUrl(previewUrl);
+      notifySuccess(key("photoDownloaded"));
+    }
   };
 
   return (
@@ -147,11 +167,26 @@ const Shapes = () => {
                   <h4 className="fw-bold">
                     {key("add")} {key("shape")}
                   </h4>
-                  <label className={styles.photo_label} htmlFor="shape">
-                    <FontAwesomeIcon
-                      className={styles.img_icon}
-                      icon={faImage}
-                    />
+                  <label
+                    className={
+                      imagePreviewUrl
+                        ? styles.photo_label_img
+                        : styles.photo_label
+                    }
+                    htmlFor="shape"
+                  >
+                    {imagePreviewUrl ? (
+                      <img
+                        src={imagePreviewUrl}
+                        alt="Uploaded Preview"
+                        className={styles.image_preview}
+                      />
+                    ) : (
+                      <FontAwesomeIcon
+                        className={styles.img_icon}
+                        icon={faImage}
+                      />
+                    )}
                   </label>
                   <input
                     type="file"

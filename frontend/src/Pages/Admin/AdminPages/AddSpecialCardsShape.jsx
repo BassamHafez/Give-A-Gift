@@ -4,7 +4,7 @@ import { addSpecialColorsShape } from "../../../util/Http";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorMessage, Form, Formik } from "formik";
 import { mixed, object } from "yup";
-import { faImage, faYinYang } from "@fortawesome/free-solid-svg-icons";
+import {faYinYang } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
@@ -17,6 +17,8 @@ const AddSpecialCardsShape = () => {
   const token = JSON.parse(localStorage.getItem("token"));
   const [selectedFrontShape, setSelectedFrontShape] = useState(null);
   const [selectedBackShape, setSelectedBackShape] = useState(null);
+  const [frontImagePreviewUrl, setFrontImagePreviewUrl] = useState(null);
+  const [backImagePreviewUrl, setBackImagePreviewUrl] = useState(null);
 
   const role = useSelector((state) => state.userInfo.role);
   const profileData = useSelector((state) => state.profileInfo.data);
@@ -86,12 +88,20 @@ const AddSpecialCardsShape = () => {
   const handleFrontChange = (e) => {
     const file = e.currentTarget.files[0];
     setSelectedFrontShape(file);
-    notifySuccess(key("photoDownloaded"));
+    if (file) {
+      const previewUrl = URL.createObjectURL(file);
+      setFrontImagePreviewUrl(previewUrl);
+      notifySuccess(key("photoDownloaded"));
+    }
   };
   const handleBackChange = (e) => {
     const file = e.currentTarget.files[0];
     setSelectedBackShape(file);
-    notifySuccess(key("photoDownloaded"));
+    if (file) {
+      const previewUrl = URL.createObjectURL(file);
+      setBackImagePreviewUrl(previewUrl);
+      notifySuccess(key("photoDownloaded"));
+    }
   };
 
   return (
@@ -104,8 +114,15 @@ const AddSpecialCardsShape = () => {
         <Form className={styles.general_info_form}>
           <div className={styles.photo_field}>
             <h4 className="fw-bold">{key("frontShape")}</h4>
-            <label className={styles.photo_label} htmlFor="frontShapeImage">
-              <FontAwesomeIcon className={styles.img_icon} icon={faImage} />
+            <label className={styles.banner_img_label} htmlFor="frontShapeImage">
+              {frontImagePreviewUrl ? (
+                <img src={frontImagePreviewUrl} alt="prev_front_shape" />
+              ) : (
+                <img
+                src={`${process.env.REACT_APP_Host}specialCards/front-shape.webp`}
+                  alt="current_front_shape"
+                />
+              )}
             </label>
             <input
               type="file"
@@ -123,8 +140,15 @@ const AddSpecialCardsShape = () => {
           <br />
           <div className={styles.photo_field}>
             <h4 className="fw-bold">{key("backShape")}</h4>
-            <label className={styles.photo_label} htmlFor="backShapeImage">
-              <FontAwesomeIcon className={styles.img_icon} icon={faImage} />
+            <label className={styles.banner_img_label} htmlFor="backShapeImage">
+              {backImagePreviewUrl ? (
+                <img src={backImagePreviewUrl} alt="prev_back_shape" />
+              ) : (
+                <img
+                src={`${process.env.REACT_APP_Host}specialCards/back-shape.webp`}
+                  alt="current_back_shape"
+                />
+              )}
             </label>
             <input
               type="file"
