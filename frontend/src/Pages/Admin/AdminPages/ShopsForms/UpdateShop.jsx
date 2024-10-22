@@ -362,7 +362,7 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
                   />
                   <label
                     className="form-check-label mx-2"
-                    htmlFor="onlineStore"
+                    htmlFor="updateonlineStore"
                   >
                     {key("onlineStore")}
                   </label>
@@ -379,7 +379,7 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
                   />
                   <label
                     className="form-check-label mx-2"
-                    htmlFor="offlineStore"
+                    htmlFor="updateofflineStore"
                   >
                     {key("physicalStore")}
                   </label>

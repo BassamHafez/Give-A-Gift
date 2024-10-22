@@ -437,5 +437,9 @@
     "becomePartner":"Become a partner",
     "sendFaild":"Faild to send data please try again",
     "send":"Send",
-    "link":"Link"
+    "link":"Link",
+    "sendMessage":"send message",
+    "whatsapp":"Whatsapp",
+    "messageRec":"message is required",
+    "typeRec":"type is required"
 }   

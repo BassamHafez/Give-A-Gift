@@ -26,7 +26,6 @@ const AddAd = ({ refetch }) => {
     image: "",
     link: "",
     order: "",
-    size: "small",
   };
 
   const onSubmit = (values, { resetForm }) => {
@@ -39,7 +38,6 @@ const AddAd = ({ refetch }) => {
     }
     formData.append("link", values.link);
     formData.append("order", values.order);
-    formData.append("size", values.size);
     mutate(
       {
         formData: formData,
@@ -84,7 +82,6 @@ const AddAd = ({ refetch }) => {
         schema.url(key("invalidLink")).required(key("linkRequired")),
       otherwise: (schema) => schema.nullable(),
     }),
-    size: string().required("sizeRec"),
   });
 
   const handleFileChange = (e) => {
@@ -140,46 +137,6 @@ const AddAd = ({ refetch }) => {
             </label>
             <Field type="text" id="link" name="link" />
             <ErrorMessage name="link" component={InputErrorMessage} />
-          </div>
-
-          <div className={`${styles.field} ${styles.form_check_group}`}>
-            <div>
-              <Field
-                type="radio"
-                className=" d-none"
-                name="size"
-                id="smallSize"
-                value="small"
-                checked={values.size === "small"}
-              />
-              <label
-                className={`${styles.form_check_label} ${
-                  values.size === "small" && styles.active_input
-                }`}
-                htmlFor="smallSize"
-              >
-                {key("small")}
-              </label>
-            </div>
-
-            <div className="mx-2">
-              <Field
-                type="radio"
-                className="d-none"
-                name="size"
-                id="largeSize"
-                value="large"
-                checked={values.size === "large"}
-              />
-              <label
-                className={`${styles.form_check_label} ${
-                  values.size === "large" && styles.active_input
-                }`}
-                htmlFor="largeSize"
-              >
-                {key("large")}
-              </label>
-            </div>
           </div>
 
           <div className={`${styles.field}`}>
