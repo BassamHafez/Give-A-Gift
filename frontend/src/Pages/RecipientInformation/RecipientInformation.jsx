@@ -409,12 +409,12 @@ const RecipientInformation = () => {
 
                     <Select
                       classNamePrefix="celebrateIcon"
-                      isClearable={false}
+                      isClearable={true}
                       isSearchable={true}
                       name="celebrateIcon"
                       options={celebrateIcon}
                       onChange={(value) => {
-                        setFieldValue("celebrateIcon", value.value);
+                        value!==null&&setFieldValue("celebrateIcon", value.value);
                       }}
                     />
 

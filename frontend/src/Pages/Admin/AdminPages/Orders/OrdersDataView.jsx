@@ -23,6 +23,7 @@ import MainButton from "../../../../Components/Ui/MainButton";
 import { toast } from "react-toastify";
 import html2pdf from "html2pdf.js";
 import OrderPdfContent from "../../../../Components/OrderPdfContent/OrderPdfContent";
+import Container from "react-bootstrap/esm/Container";
 
 const OrdersDataView = ({ isUser }) => {
   const notifySuccess = (message) => toast.success(message);
@@ -109,8 +110,8 @@ const OrdersDataView = ({ isUser }) => {
       );
     }) || [];
 
-  const generatePDF = () => {
-    const element = document.getElementById("content");
+  const generatePDF = (orderId) => {
+    const element = document.getElementById(`${orderId}`);
     html2pdf(element);
   };
 
@@ -150,9 +151,12 @@ const OrdersDataView = ({ isUser }) => {
                   lg={4}
                 >
                   <div className="d-none">
-                    <div id="content">
+                    <Container
+                      id={`${order._id}`}
+                      className="d-flex justify-content-center align-items-center flex-column my-4"
+                    >
                       <OrderPdfContent order={order} isUser={isUser} />
-                    </div>
+                    </Container>
                   </div>
 
                   <div
@@ -483,7 +487,7 @@ const OrdersDataView = ({ isUser }) => {
                     >
                       <div className="my-2">
                         <MainButton
-                          onClick={generatePDF}
+                          onClick={() => generatePDF(order._id)}
                           type="white"
                           text={`${key("downloadPdf")}`}
                         />

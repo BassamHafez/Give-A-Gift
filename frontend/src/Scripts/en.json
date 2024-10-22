@@ -441,5 +441,6 @@
     "sendMessage":"send message",
     "whatsapp":"Whatsapp",
     "messageRec":"message is required",
-    "typeRec":"type is required"
+    "typeRec":"type is required",
+    "categories":"categories"
 }   
