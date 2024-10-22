@@ -339,7 +339,7 @@ const RecipientInformation = () => {
                         className={styles.select_input}
                         classNamePrefix="Country"
                         isClearable={false}
-                        isSearchable={true}
+                        isSearchable={false}
                         name="Country"
                         options={CountriesPhoneNumbers}
                         defaultValue={CountriesPhoneNumbers[1]}

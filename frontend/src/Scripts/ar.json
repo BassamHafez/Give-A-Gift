@@ -435,5 +435,10 @@
     "whatsapp":"واتساب",
     "messageRec":"الرسالة مطلوبة",
     "typeRec":"النوع مطلوب",
-    "categories":"الأصناف"
+    "categories":"الأصناف",
+    "storeCategories":"التصنيفات",
+    "allStoreCategories":"جميع الأصناف",
+    "noData":"لم نحصل علي أي بيانات",
+    "orderFatora":"رقم الفاتورة",
+    "taxNum":"الرقم الضريبي"
 }

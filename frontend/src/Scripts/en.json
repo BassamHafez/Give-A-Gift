@@ -442,5 +442,10 @@
     "whatsapp":"Whatsapp",
     "messageRec":"message is required",
     "typeRec":"type is required",
-    "categories":"categories"
+    "categories":"categories",
+    "storeCategories":"categories",
+    "allStoreCategories":"All Categories",
+    "noData":"No Data Found",
+    "orderFatora":"Order Number",
+    "taxNum":"Tax Number"
 }   

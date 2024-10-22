@@ -46,6 +46,33 @@
 .filter{
     font-size: 1.125rem;
 }
+
+.category_label{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.category_label img{
+    margin-inline: 10px;
+    width: 50px;
+}
+.cat_icon{
+    font-size:40px;
+    margin-inline: 10px;
+    color: var(--main_color);
+}
+.noData{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.noData img{
+    width: 300px;
+}
+.select_category_field{
+    width: 400px;
+}
 _________________________________________store profile____________________________________________________
 .main_container{
     min-height: 100vh;
@@ -83,4 +110,10 @@ _________________________________________store profile__________________________
     border-radius: 50%;
     color: white;
     transform: translate(-50%,-50%);
+}
+
+@media screen and (max-width:350px) {
+    .noData img{
+        width: 200px;
+    }
 }

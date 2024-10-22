@@ -19,14 +19,15 @@ const OrderPdfContent = ({ order }) => {
   return (
     <>
       <div className={`${styles.header_details} ${styles.min_width_fixed}`}>
-        <p className="m-0 fw-bold">
-          {key("orderNumber")} ({`${order.order_number}`})
+        <p className="m-0 fw-bold text-secondary">
+          {key("orderFatora")} ({`${order.order_number}`})
         </p>
-        <div>
-          <h1 className="text-center fw-bold mx-2">أهدي هدية</h1>
-        </div>
 
-        <h4 className="text-center fw-normal">سجل الرياض</h4>
+        <h3 className="text-center my-3">
+          شركة أعط الهدية للتجارة والتسويق
+        </h3>
+
+        <h4 className="text-center text-secondary">الرياض</h4>
       </div>
 
       <div className={styles.min_width_fixed}>
@@ -41,13 +42,16 @@ const OrderPdfContent = ({ order }) => {
           <p>
             {key("store")}: {order.shop}
           </p>
+          <p>
+            {key("taxNum")}: 12345678910
+          </p>
         </div>
         <ul className={styles.order_ul}>
           <li className={styles.item_header}>
             <span>{key("categories")}</span> {key("price")}
           </li>
           <li>
-            <span>{key("price")}</span> {order.value} {key("sar")}
+            <span>{key("cardPrice")}</span> {order.value} {key("sar")}
           </li>
           {order.shapes_price
             ? order.shapes_price > 0 && (

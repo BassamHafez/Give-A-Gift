@@ -71,11 +71,16 @@ export const getShopToken = async (token) => {
 
 export const getCategories= async (token) => {
   try {
-     const response = await axios.get(`${baseServerUrl}categories`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    let response;
+    if(token){
+       response = await axios.get(`${baseServerUrl}categories`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    }else{
+       response = await axios.get(`${baseServerUrl}categories`);
+    }
     return response.data;
   } catch (error) {
     return error

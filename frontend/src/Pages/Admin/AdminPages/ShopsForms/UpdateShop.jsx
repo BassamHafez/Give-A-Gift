@@ -287,7 +287,7 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
                     className={styles.select_input}
                     classNamePrefix="country"
                     isClearable={false}
-                    isSearchable={true}
+                    isSearchable={false}
                     name="country"
                     options={CountriesPhoneNumbers}
                     value={CountriesPhoneNumbers.find(
