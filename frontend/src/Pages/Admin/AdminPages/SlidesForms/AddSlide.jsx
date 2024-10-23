@@ -94,7 +94,7 @@ const AddSlide = ({ refetch }) => {
     >
       <Form className={styles.general_info_form}>
         <div className={styles.photo_field}>
-          <h4 className="fw-bold">{key("slideImage")}</h4>
+          <h4>{key("slideImage")}</h4>
           <label
             className={
               imagePreviewUrl ? styles.photo_label_img : styles.photo_label
@@ -122,8 +122,8 @@ const AddSlide = ({ refetch }) => {
           <ErrorMessage name="image" component={InputErrorMessage} />
         </div>
 
-        <div className={`${styles.field}`}>
-          <label className="fw-bold text-secondary" htmlFor="order">
+        <div className={`${styles.field} mt-5`}>
+          <label className="text-secondary" htmlFor="order">
             {key("priority")}
           </label>
           <Field type="number" id="order" name="order" />

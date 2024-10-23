@@ -17,6 +17,7 @@ import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import NoDataPage from "../../../Components/Ui/NoDataPage";
 
 const Transactions = () => {
   const { t: key } = useTranslation();
@@ -74,18 +75,18 @@ const Transactions = () => {
   return (
     <div className={styles.main_body}>
       <div>
-        <h2>
+        <h4>
           <span className="text-secondary">
             {key("totalSuccessfulInvoiceValue")}:
           </span>{" "}
           {totalSuccessTransactions
             ? totalSuccessTransactions.data?.totalValue
             : 0}
-        </h2>
+        </h4>
       </div>
       <hr />
       <div>
-        <h4 className="fw-bold text-secondary">{key("allTransactions")}</h4>
+        <h5 className="text-secondary">{key("allTransactions")}</h5>
 
         <div
           className={`${styles.controllers} d-flex justify-content-between my-5`}
@@ -155,59 +156,7 @@ const Transactions = () => {
               </Col>
             ))
           ) : (
-            allTransactions?.data?.map((trans) => (
-              <Col
-                key={trans._id}
-                sm={6}
-                lg={4}
-                className="d-flex justify-content-center align-items-center"
-              >
-                <div className={`${styles.user_div}`}>
-                  <div className={styles.user_header_info}>
-                    <h5>{trans.CustomerName}</h5>
-                    <span className="mini_word">{trans.CustomerEmail}</span>
-                  </div>
-
-                  <ul className="p-0 mt-4">
-                    <li className={styles.details_list}>
-                      <FontAwesomeIcon
-                        className={styles.details_list_icon}
-                        icon={faChartSimple}
-                      />{" "}
-                      {key("state")}: {trans.TransactionStatus}
-                    </li>
-                    <li className={styles.details_list}>
-                      <FontAwesomeIcon
-                        className={styles.details_list_icon}
-                        icon={faCoins}
-                      />{" "}
-                      {key("transValue")}: {trans.InvoiceValue}
-                    </li>
-                    <li className={styles.details_list}>
-                      <FontAwesomeIcon
-                        className={styles.details_list_icon}
-                        icon={faCreditCard}
-                      />{" "}
-                      {key("PaymentMethod")}: {trans.PaymentMethod}
-                    </li>
-                    <li className={styles.details_list}>
-                      <FontAwesomeIcon
-                        className={styles.details_list_icon}
-                        icon={faCreditCard}
-                      />{" "}
-                      {key("UserDefinedField")}: {trans.UserDefinedField}
-                    </li>
-                    <li className={styles.details_list}>
-                      <FontAwesomeIcon
-                        className={styles.details_list_icon}
-                        icon={faHashtag}
-                      />{" "}
-                      {key("paymentId")}: {trans.PaymentId}
-                    </li>
-                  </ul>
-                </div>
-              </Col>
-            ))
+           <NoDataPage/>
           )
         ) : (
           <LoadingOne />

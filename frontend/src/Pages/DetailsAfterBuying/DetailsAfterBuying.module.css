@@ -44,6 +44,8 @@
 .details_list li{
     font-size: 17px;
     margin: 5px 0;
+    display: flex;
+    justify-content: space-between;
 }
 .wallet_balance h2{
     text-align: center;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "../AdminPages.module.css";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faImage, faYinYang } from "@fortawesome/free-solid-svg-icons";
+import { faCaretDown, faImage, faYinYang } from "@fortawesome/free-solid-svg-icons";
 import InputErrorMessage from "../../../../Components/Ui/InputErrorMessage";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { controlShops, getCategories } from "../../../../util/Http";
@@ -79,7 +79,7 @@ const AddShop = ({ refetch }) => {
                 src={`${process.env.REACT_APP_Host}categories/${category.icon}`}
                 alt={`${category.name}`}
               />
-              <h4>{category.name}</h4>
+              <span>{isArLang ? category.name : category.enName}</span>
             </div>
           ),
           value: category._id,
@@ -87,7 +87,7 @@ const AddShop = ({ refetch }) => {
       });
       setCategoriesOptions(myCategories);
     }
-  }, [categories]);
+  }, [categories, isArLang]);
 
   const { mutate, isPending } = useMutation({
     mutationFn: controlShops,
@@ -155,26 +155,28 @@ const AddShop = ({ refetch }) => {
     formData.append("phone", `${phoneBeginning}${values.phone}`);
     formData.append("category", values.category);
 
-    mutate({
-      formData: formData,
-      token: token,
-    },  
-    {
-      onSuccess: (data) => {
-        if (data?.status === "success") {
-          notifySuccess(key("opSuccess"));
-          refetch();
-          resetForm();
-          setSelectedFile(null);
-          setImagePreviewUrl(null);
-        } else {
+    mutate(
+      {
+        formData: formData,
+        token: token,
+      },
+      {
+        onSuccess: (data) => {
+          if (data?.status === "success") {
+            notifySuccess(key("opSuccess"));
+            refetch();
+            resetForm();
+            setSelectedFile(null);
+            setImagePreviewUrl(null);
+          } else {
+            notifyError(key("wrong"));
+          }
+        },
+        onError: (error) => {
           notifyError(key("wrong"));
-        }
-      },
-      onError: (error) => {
-        notifyError(key("wrong"));
-      },
-    });
+        },
+      }
+    );
   };
 
   const validationSchema = getPhoneValidationSchema(selectedCountry, key);
@@ -197,12 +199,17 @@ const AddShop = ({ refetch }) => {
     >
       {({ values, setFieldValue }) => (
         <Form className={styles.general_info_form}>
+          <h4 className="fw-bold">
+            {key("add")} {key("store")} <FontAwesomeIcon className="text-danger" icon={faCaretDown}/>
+          </h4>
           <div className={styles.photo_field}>
-            <h4 className="fw-bold">
-              {key("add")} {key("store")}
-            </h4>
             <h5>{key("storeLogo")}</h5>
-            <label className={imagePreviewUrl?styles.photo_label_img:styles.photo_label} htmlFor="shape">
+            <label
+              className={
+                imagePreviewUrl ? styles.photo_label_img : styles.photo_label
+              }
+              htmlFor="shape"
+            >
               {imagePreviewUrl ? (
                 <img
                   src={imagePreviewUrl}
@@ -277,7 +284,7 @@ const AddShop = ({ refetch }) => {
             <Select
               classNamePrefix="category"
               isClearable={false}
-              isSearchable={true}
+              isSearchable={false}
               name="category"
               options={categoriesOptions}
               onChange={(value) => {

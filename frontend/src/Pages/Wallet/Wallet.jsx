@@ -61,7 +61,7 @@ const Wallet = () => {
         <div>
           <Row className={`${styles.main_row} justify-content-center`}>
             <Col
-              xs={6}
+              sm={6}
               className="d-flex justify-content-center align-items-center"
             >
               <div
@@ -76,7 +76,7 @@ const Wallet = () => {
               </div>
             </Col>
             <Col
-              xs={6}
+              sm={6}
               className="d-flex justify-content-center align-items-center"
             >
               <div
@@ -105,25 +105,25 @@ const Wallet = () => {
                 className={`${styles.sub_ul} ${!isArLang && styles.sub_ul_en}`}
               >
                 <li>
-                  <span>{key("amount")}:</span>{" "}
+                  <span>{key("amount")}</span>{" "}
                   <span>
                     {process.amount} {key("sar")}
                   </span>
                 </li>
                 <li>
-                  <span>{key("name")}:</span>
+                  <span>{key("name")}</span>
                   <span> {process.receiverName}</span>
                 </li>
                 <li>
-                  <span>{key("phone")}:</span>{" "}
+                  <span>{key("phone")}</span>{" "}
                   <span>{process.receiverPhone}</span>
                 </li>
                 <li>
-                  <span>{key("date")}:</span>{" "}
+                  <span>{key("date")}</span>{" "}
                   <span>{formatDateTime(process.createdAt).formattedDate}</span>
                 </li>
                 <li>
-                  <span>{key("time")}:</span>{" "}
+                  <span>{key("time")}</span>{" "}
                   <span>{formatDateTime(process.createdAt).formattedTime}</span>
                 </li>
               </ul>

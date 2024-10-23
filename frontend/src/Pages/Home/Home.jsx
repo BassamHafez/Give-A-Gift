@@ -76,8 +76,8 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="text-center mt-4">
-                  <h3>{key("giftCards")}</h3>
-                  <p>{key("giftCardsCaption")}</p>
+                  <h3 className="fw-normal">{key("giftCards")}</h3>
+                  <p className="text-secondary">{key("giftCardsCaption")}</p>
                 </div>
               </div>
             </Col>
@@ -104,8 +104,8 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="text-center mt-4">
-                  <h3>{key("customCards")}</h3>
-                  <p>{key("customCardsCaption")}</p>
+                  <h3 className="fw-normal">{key("customCards")}</h3>
+                  <p className="text-secondary">{key("customCardsCaption")}</p>
                 </div>
               </div>
             </Col>

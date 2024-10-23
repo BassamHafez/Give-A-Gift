@@ -113,7 +113,7 @@ const AddSpecialCardsShape = () => {
       >
         <Form className={styles.general_info_form}>
           <div className={styles.photo_field}>
-            <h4 className="fw-bold">{key("frontShape")}</h4>
+            <h4>{key("frontShape")}</h4>
             <label
               className={styles.banner_img_label}
               htmlFor="frontShapeImage"
@@ -142,7 +142,7 @@ const AddSpecialCardsShape = () => {
           </div>
           <br />
           <div className={styles.photo_field}>
-            <h4 className="fw-bold">{key("backShape")}</h4>
+            <h4>{key("backShape")}</h4>
             <label className={styles.banner_img_label} htmlFor="backShapeImage">
               {backImagePreviewUrl ? (
                 <img src={backImagePreviewUrl} alt="prev_back_shape" />

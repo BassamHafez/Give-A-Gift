@@ -24,7 +24,7 @@ export const signFormsHandler = async ({ type, formData, method }) => {
 };
 export const getShapes = async () => {
   try {
-     const response = await axios.get(`${baseServerUrl}shapes`);
+     const response = await axios.get(`${baseServerUrl}shapes?sort=priority`);
 
     return response.data;
   } catch (error) {
@@ -597,6 +597,38 @@ export const slidesController = async ({ token, formData, type,slideId }) => {
     return error;
   }
 };
+
+export const categoriesController = async ({ token, formData, type,catId }) => {
+  try {
+    let response;
+    if (type === "get") {
+      response = await axios.get(`${baseServerUrl}categories`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } else if (type === "add") {
+      response = await axios.post(`${baseServerUrl}categories`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+    } else if (type === "update") {
+      response = await axios.patch(`${baseServerUrl}categories/${catId}`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+    }
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+
 
 
 

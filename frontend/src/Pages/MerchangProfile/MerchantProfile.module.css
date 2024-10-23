@@ -13,24 +13,9 @@
     align-items: center;
     justify-content: center;
 }
-.plus_icon{
-    color: green;
-    margin-inline: 0.625rem;
-}
-.integer{
-    font-size: 6.25rem;
-    font-family: 'Times New Roman', Times, serif !important;
-}
-.decimal{
-    font-size: 40px;
-    font-family: 'Times New Roman', Times, serif !important;
 
-}
-.sar{
-    font-size: 1.875rem;
-}
 .name{
-    font-size: 3.4375rem;
+    font-size: 40px;
     text-align: center;
 }
 .profile_img{
@@ -61,8 +46,7 @@
 }
 
 .list_item span{
-    font-size: 1.4375rem;
-    font-weight: 500;
+    font-size: 1.3125rem;
     color:white
 }
 .list_item_icon{
@@ -106,18 +90,6 @@
     min-height: 90vh;
     padding: 2.5rem;
 }
-.noData{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-.noData_img{
-    width: 18.75rem;
-}
-.noData_img img{
-    width: 100%;
-}
 .disc_content{
     padding: 1.875rem;
     box-shadow: 0 0 0.1875rem rgba(0, 0, 0, 0.263);
@@ -151,8 +123,5 @@
     .main_row{
         flex-direction: column !important;
         align-items: center;
-    }
-    .noData_img{
-        width: 100%;
     }
 }

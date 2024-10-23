@@ -10,7 +10,6 @@
 .header{
     border-bottom: 0.0625rem solid #2b2b2b2f;
 }
-
 .close_icon{
     font-size: 20px;
     font-weight: 600;
@@ -42,11 +41,14 @@
 
 .contact_list a,.lang{
     color:  black;
-    font-weight: 700;
+    font-weight: 500;
     transition: all .4s;
 }   
 .contact_list_item:hover{
     transform: translateX(0.625rem);
+}
+.lang{
+    font-family: "Cairo" !important;
 }
 .lang:hover{
     color: var(--main_color);

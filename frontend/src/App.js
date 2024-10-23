@@ -57,6 +57,8 @@ import StoreProfile from './Pages/Stores/StoreProfile';
 import Ads from './Pages/Admin/AdminPages/Ads';
 import Slides from './Pages/Admin/AdminPages/Slides';
 import JoinUs from './Pages/JoinUs/JoinUs';
+import Policy from './Pages/Policy/Policy';
+import Categories from './Pages/Admin/AdminPages/Categories';
 
 
 const router=createBrowserRouter([{
@@ -82,6 +84,7 @@ const router=createBrowserRouter([{
     {path:"payment/:type/:cardId/:price",element:<ProtectedRoute><Payment/></ProtectedRoute>},
     {path:"account-setting",element:<ProtectedRoute><AccountManageMent/></ProtectedRoute>},
     {path:"help",element:<ProtectedRoute><Help/></ProtectedRoute>},
+    {path:"our-policy",element:<ProtectedRoute><Policy/></ProtectedRoute>},
     {path:"details-after-buying/:cardPrice",element:<ProtectedRoute><DetailsAfterBuying/></ProtectedRoute>},
     {path:"user-orders",element:<ProtectedRoute><ProfileOrders/></ProtectedRoute>},
 
@@ -104,6 +107,7 @@ const router=createBrowserRouter([{
     {path:"admin-designs",element:<ProtectedRoute><Designs/></ProtectedRoute>},
     {path:"admin-ads",element:<ProtectedRoute><Ads/></ProtectedRoute>},
     {path:"admin-slides",element:<ProtectedRoute><Slides/></ProtectedRoute>},
+    {path:"admin-categories",element:<ProtectedRoute><Categories/></ProtectedRoute>},
 
     //merchant
     {path:"merchant/:merchantId",element:<ProtectedRoute><MerchantProfile/></ProtectedRoute>},
@@ -140,7 +144,7 @@ function App() {
       } else {
         document.documentElement.setAttribute('dir', 'ltr');
         document.documentElement.setAttribute('lang', 'en');
-        document.documentElement.style.setProperty('--main_font','"ARAHAMAH1982", sans-serif')
+        document.documentElement.style.setProperty('--main_font','"Roboto", sans-serif')
 
       }
     };

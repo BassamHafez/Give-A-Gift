@@ -8,6 +8,7 @@ import {
   faGifts,
   faImage,
   faImages,
+  faLayerGroup,
   faMoneyBillTransfer,
   faPallet,
   faRectangleAd,
@@ -289,6 +290,21 @@ const Admin = () => {
                     icon={faImages}
                   />
                   <span>{key("slider")}</span>
+                </div>
+              </Col>
+              <Col
+                xs={6}
+                className="d-flex justify-content-center align-items-center"
+              >
+                <div
+                  className={styles.list_item}
+                  onClick={() => navigate("/admin-categories")}
+                >
+                  <FontAwesomeIcon
+                    className={styles.list_item_icon}
+                    icon={faLayerGroup}
+                  />
+                  <span>{key("categories")}</span>
                 </div>
               </Col>
               <Col

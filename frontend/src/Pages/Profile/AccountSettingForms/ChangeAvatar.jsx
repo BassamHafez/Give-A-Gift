@@ -5,21 +5,23 @@ import { ErrorMessage, Form, Formik } from "formik";
 import { mixed, object } from "yup";
 import InputErrorMessage from "../../../Components/Ui/InputErrorMessage";
 import styles from "./Forms.module.css";
-import { faCheck, faImage, faYinYang } from "@fortawesome/free-solid-svg-icons";
+import {faYinYang } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
 import fetchProfileData from "../../../Store/profileInfo-actions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 const ChangeAvatar = () => {
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
   const [selectedFile, setSelectedFile] = useState(null);
+  const [imgUrl, setImgUrl] = useState(null);
+  const profileData = useSelector((state) => state.profileInfo.data);
 
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
 
   const { mutate, isPending } = useMutation({
     mutationFn: updateMe,
@@ -75,7 +77,11 @@ const ChangeAvatar = () => {
   const handleFileChange = (e) => {
     const file = e.currentTarget.files[0];
     setSelectedFile(file);
-    notifySuccess(key("photoDownloaded"))
+    if (file) {
+      const avatarUrl = URL.createObjectURL(file);
+      setImgUrl(avatarUrl);
+      notifySuccess(key("photoDownloaded"));
+    }
   };
 
   return (
@@ -86,11 +92,12 @@ const ChangeAvatar = () => {
         validationSchema={validationSchema}
       >
         <Form className={styles.general_info_form}>
-
-          <h5 className="mb-4 fw-bold">{key("photo")} {selectedFile&&<FontAwesomeIcon className="text-success" icon={faCheck}/>}</h5>
+          <h5 className="mb-4">
+            {key("photo")}
+          </h5>
           <div className={styles.photo_field}>
-            <label className={styles.photo_label} htmlFor="photo">
-              <FontAwesomeIcon className={styles.img_icon} icon={faImage} />
+            <label className={styles.avatar_label} htmlFor="photo">
+              {imgUrl?<img src={imgUrl} alt="selected_img"/>:<img src={`${process.env.REACT_APP_Host}users/${profileData?.photo}`} alt="current_img"/>}
             </label>
             <input
               type="file"

@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "./AdminPages.module.css";
-import {slidesController } from "../../../util/Http";
+import { slidesController } from "../../../util/Http";
 import { useQuery } from "@tanstack/react-query";
-import {
-  faTrash,
-  faWrench,
-} from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faWrench } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
 import Row from "react-bootstrap/esm/Row";
@@ -14,12 +11,12 @@ import LoadingOne from "../../../Components/Ui/LoadingOne";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AddSlide from "./SlidesForms/AddSlide";
 import UpdateSlide from "./SlidesForms/UpdateSlide";
+import NoDataPage from "../../../Components/Ui/NoDataPage";
 
 const Slides = () => {
-
   const [updateModalShow, setUpdateModalShow] = useState(false);
   const [selectedSlideData, setSelectedSlideData] = useState({});
   const { t: key } = useTranslation();
@@ -90,35 +87,39 @@ const Slides = () => {
         <hr />
         <Row className="justify-content-center">
           {slides ? (
-            slides.data?.map((slide) => (
-              <Col
-                key={slide._id}
-                sm={4}
-                className="d-flex flex-column justify-content-center align-items-center"
-              >
-                <div className={`${styles.slider_div}`}>
-                  <div className={styles.shop_control}>
-                    <FontAwesomeIcon
-                      className={styles.shop_control_icon}
-                      icon={faWrench}
-                      onClick={() => openUpdateSlideModal(slide)}
-                      title={`${key("update")}`}
-                    />
+            slides.data.length > 0 ? (
+              slides.data?.map((slide) => (
+                <Col
+                  key={slide._id}
+                  sm={4}
+                  className="d-flex flex-column justify-content-center align-items-center"
+                >
+                  <div className={`${styles.slider_div}`}>
+                    <div className={styles.shop_control}>
+                      <FontAwesomeIcon
+                        className={styles.shop_control_icon}
+                        icon={faWrench}
+                        onClick={() => openUpdateSlideModal(slide)}
+                        title={`${key("update")}`}
+                      />
 
-                    <FontAwesomeIcon
-                      className={styles.shop_control_icon}
-                      icon={faTrash}
-                      onClick={() => deleteSlide(slide._id)}
-                      title={`${key("delete")}`}
+                      <FontAwesomeIcon
+                        className={styles.shop_control_icon}
+                        icon={faTrash}
+                        onClick={() => deleteSlide(slide._id)}
+                        title={`${key("delete")}`}
+                      />
+                    </div>
+                    <img
+                      src={`${process.env.REACT_APP_Host}slides/${slide.image}`}
+                      alt="slide_img"
                     />
                   </div>
-                  <img
-                    src={`${process.env.REACT_APP_Host}slides/${slide.image}`}
-                    alt="slide_img"
-                  />
-                </div>
-              </Col>
-            ))
+                </Col>
+              ))
+            ) : (
+              <NoDataPage />
+            )
           ) : (
             <LoadingOne />
           )}

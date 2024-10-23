@@ -43,7 +43,7 @@ const CustomCards = () => {
     x: cardWidth / 2 - (cardWidth / 2) * 0.8,
     y: cardHeight / 2,
   });
-  const [textFontFamily, setTextFontFamily] = useState("ARAHAMAH1982");
+  const [textFontFamily, setTextFontFamily] = useState("Roboto");
   const [textFont, setTextFont] = useState(40);
   const [currentStep, setCurrentStep] = useState(0);
   const [isProColor, setIsProColor] = useState(false);
@@ -376,21 +376,21 @@ const CustomCards = () => {
                 className={styles.carousel_body}
                 touch={false}
               >
-                <Carousel.Item className={styles.carousel_item}>
+                <Carousel.Item>
                   <CustomCardColors saveColorValues={saveColorValues} />
                 </Carousel.Item>
-                <Carousel.Item className={`${styles.carousel_item}`}>
+                <Carousel.Item>
                   <CustomCardShapes
                     addShape={addShape}
                     settingShowBack={settingShowBack}
                   />
                 </Carousel.Item>
                 {!isStoreSelected && (
-                  <Carousel.Item className={`${styles.carousel_item}`}>
+                  <Carousel.Item>
                     <CustomCardShops saveShop={saveShop} />
                   </Carousel.Item>
                 )}
-                <Carousel.Item className={styles.carousel_item}>
+                <Carousel.Item>
                   <div className={styles.text_containers_parent}>
                     <div className={`${styles.text_container}`}>
                       <div

@@ -1,52 +1,54 @@
 import React, { useState } from "react";
-import {faYinYang } from "@fortawesome/free-solid-svg-icons";
+import styles from "../AdminPages.module.css";
 import { ErrorMessage, Field, Form, Formik } from "formik";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {faYinYang } from "@fortawesome/free-solid-svg-icons";
 import InputErrorMessage from "../../../../Components/Ui/InputErrorMessage";
 import { useMutation } from "@tanstack/react-query";
-import { mixed, number, object } from "yup";
-import { slidesController } from "../../../../util/Http";
+import { categoriesController } from "../../../../util/Http";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
-import styles from "../AdminPages.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { mixed, object, string } from "yup";
 import Modal from "react-bootstrap/Modal";
 
-const UpdateSlide = ({ refetch, slideData, show, onHide }) => {
+const UpdateCategory = ({ show, onHide, refetch, categoryData }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
+
+  const { t: key } = useTranslation();
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
-  const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
 
   const { mutate, isPending } = useMutation({
-    mutationFn: slidesController,
+    mutationFn: categoriesController,
   });
 
   const initialValues = {
-    image: "",
-    order: slideData.order || "",
+    icon: "",
+    name: categoryData.name || "",
+    enName: categoryData.enName || "",
   };
 
   const onSubmit = (values, { resetForm }) => {
     const formData = new FormData();
+
     if (selectedFile) {
-      formData.append("image", selectedFile);
-    } else {
-      notifyError(key("uploadPhoto"));
-      return;
+      formData.append("icon", selectedFile);
     }
-    formData.append("order", values.order);
+    
+    formData.append("enName", values.enName);
+    formData.append("name", values.name);
+
     mutate(
       {
         formData: formData,
         token: token,
         type: "update",
-        slideId:slideData._id
+        catId:categoryData._id
       },
       {
         onSuccess: (data) => {
-          console.log(data);
           if (data?.status === "success") {
             notifySuccess(key("opSuccess"));
             refetch();
@@ -59,7 +61,6 @@ const UpdateSlide = ({ refetch, slideData, show, onHide }) => {
           }
         },
         onError: (error) => {
-          console.log(error);
           notifyError(key("wrong"));
         },
       }
@@ -67,7 +68,9 @@ const UpdateSlide = ({ refetch, slideData, show, onHide }) => {
   };
 
   const validationSchema = object({
-    image: mixed()
+    name: string().required(key("nameValidation3")),
+    enName: string().required(key("nameValidation3")),
+    icon: mixed()
       .test("fileSize", `${key("photoValidationSize")}`, (value) => {
         return value ? value.size <= 3000000 : true;
       })
@@ -76,10 +79,9 @@ const UpdateSlide = ({ refetch, slideData, show, onHide }) => {
           ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
           : true;
       }),
-    order: number().required(key("orderRec")),
   });
 
-  const handleUpdateFile = (e) => {
+  const handleUpdateFileChange = (e) => {
     const file = e.currentTarget.files[0];
     setSelectedFile(file);
     if (file) {
@@ -107,11 +109,8 @@ const UpdateSlide = ({ refetch, slideData, show, onHide }) => {
         >
           <Form className={styles.general_info_form}>
             <div className={styles.photo_field}>
-              <h4>{key("slideImage")}</h4>
-              <label
-                className={styles.photo_label_img}
-                htmlFor="updateSlideImage"
-              >
+              <h5>{key("icon")}</h5>
+              <label className={styles.photo_label_img} htmlFor="updateIcon">
                 {imagePreviewUrl ? (
                   <img
                     src={imagePreviewUrl}
@@ -120,7 +119,7 @@ const UpdateSlide = ({ refetch, slideData, show, onHide }) => {
                   />
                 ) : (
                   <img
-                    src={`${process.env.REACT_APP_Host}slides/${slideData.image}`}
+                    src={`${process.env.REACT_APP_Host}categories/${categoryData.icon}`}
                     alt="old_image_Preview"
                     className={styles.image_preview}
                   />
@@ -128,21 +127,27 @@ const UpdateSlide = ({ refetch, slideData, show, onHide }) => {
               </label>
               <input
                 type="file"
-                id="updateSlideImage"
-                name="image"
+                id="updateIcon"
+                name="icon"
                 accept="image/*"
-                onChange={handleUpdateFile}
+                onChange={handleUpdateFileChange}
                 className="d-none"
               />
-              <ErrorMessage name="image" component={InputErrorMessage} />
+              <ErrorMessage name="icon" component={InputErrorMessage} />
             </div>
 
-            <div className={`${styles.field} mt-5`}>
-              <label className="text-secondary" htmlFor="updateOrder">
-                {key("priority")}
+            <div className={styles.field}>
+              <label htmlFor="updateArName" className="mt-3">
+                {key("arName")}
               </label>
-              <Field type="number" id="updateOrder" name="order" />
-              <ErrorMessage name="order" component={InputErrorMessage} />
+              <Field type="text" id="updateArName" name="name" />
+              <ErrorMessage name="name" component={InputErrorMessage} />
+            </div>
+
+            <div className={styles.field}>
+              <label htmlFor="enName">{key("enName")}</label>
+              <Field type="text" id="updateEnName" name="enName" />
+              <ErrorMessage name="updateEnName" component={InputErrorMessage} />
             </div>
 
             <div className="d-flex justify-content-end align-items-center mt-3 px-2">
@@ -163,4 +168,4 @@ const UpdateSlide = ({ refetch, slideData, show, onHide }) => {
   );
 };
 
-export default UpdateSlide;
+export default UpdateCategory;

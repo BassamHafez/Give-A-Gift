@@ -15,9 +15,8 @@
  }
  .nav_list li a,.lang_item{
      color: var(--white) !important;
-     font-weight: 700;
+     font-weight: 500;
      font-size: 1.25rem;
-     line-height: 1.75rem;
      transition: all .3s;
      position: relative;
      cursor: pointer;
@@ -155,7 +154,9 @@
  .smallBrand{
     display: none;
  }
-
+.lang_item{
+    font-family: "Cairo" !important;
+}
  @media screen and (max-width:1150px) {
      
      .list{

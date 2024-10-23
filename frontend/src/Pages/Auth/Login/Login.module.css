@@ -24,8 +24,8 @@
     overflow: hidden;
 }
 .user_login_form h3{
-    font-size: 60px;
-}
+    font-size: 2.5rem;
+}   
 
 
 @media screen and (max-width:1065px) {

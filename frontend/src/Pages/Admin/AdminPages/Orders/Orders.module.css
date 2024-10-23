@@ -2,19 +2,6 @@
     min-height: 90vh;
     padding: 20px;
 }
-.noData{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: auto;
-}
-.noData_img{
-    width: 300px;
-}
-.noData_img img{
-    width: 100%;
-}
 
 .order_item{
     padding: 1.875rem;

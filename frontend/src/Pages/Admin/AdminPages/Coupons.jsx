@@ -71,7 +71,7 @@ const Coupons = () => {
     const formattedTime = date.toLocaleTimeString();
     return { formattedDate, formattedTime };
   };
-
+console.log(coupons)
   return (
     <>
       <div className={styles.main_body}>

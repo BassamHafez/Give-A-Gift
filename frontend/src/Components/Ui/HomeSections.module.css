@@ -1,9 +1,9 @@
-/* ------------------------------------------------- sec3 quality section----------------------- */
+/* ------------------------------------------------- sec2 quality section----------------------- */
 
 .sec2_quality_img{
     width: 600px;
     height: 300px;
-    border-radius: 5px;
+    border-radius: 5px; 
 }
 .sec2_quality_img img{
     width: 100%;
@@ -11,17 +11,18 @@
     object-fit: cover;
     border-radius: 0.3125rem;
 }
+
+/* ------------------------------------------------- sec3 quality section----------------------- */
+
 .sec3_caption h2{
     margin-bottom: 48px;
     font-size:3rem;
 }
 .sec3_caption p{
-    font-size:1.5rem;
-    margin: 0;
-    padding: 0;
-    font-weight: 500;
+    font-size:1.25rem;
     line-height: 1.2;
-    color: black;
+    color: rgba(0, 0, 0, 0.832);
+    font-weight: 400;
 }
 
 /* ------------------------------------------------- sec4 caption section----------------------- */
@@ -40,16 +41,7 @@
     margin-bottom: 3.125rem;
     text-align: center;
 }
-.caption h2{
-    font-weight: 900;
-    font-size:2.5rem;
-    margin-bottom: 1.875rem;
-}
-.caption p{
-    font-size:1.25rem;
-    font-weight: 700;
-    margin-bottom: 1.875rem;
-}
+
 .caption_text{
     color: white;
     background-color: #494361e7;
@@ -61,8 +53,7 @@
     font-size: 4.5rem;
     font-weight: 400;
     text-transform: capitalize;
-    margin-bottom:0.3125rem;
-    letter-spacing: 0;
+    margin-bottom:10px;
 }
 .caption_text p{
     font-size: 1.875rem;

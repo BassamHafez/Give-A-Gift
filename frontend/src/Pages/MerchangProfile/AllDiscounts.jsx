@@ -7,7 +7,6 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import MainButton from "../../Components/Ui/MainButton";
 import LoadingOne from "../../Components/Ui/LoadingOne";
-import noData from "../../Images/noData.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCalendar,
@@ -16,6 +15,7 @@ import {
   faHandHoldingDollar,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
+import NoDataPage from "../../Components/Ui/NoDataPage";
 
 const AllDiscounts = () => {
   const [usedData, setUsedData] = useState(false);
@@ -153,12 +153,7 @@ const AllDiscounts = () => {
                 )}{" "}
               </>
             ) : (
-              <div className={styles.noData}>
-                <div className={styles.noData_img}>
-                  <img src={noData} alt="noData" />
-                </div>
-                <span>{key("noDisc")}</span>
-              </div>
+              <NoDataPage text={`${key("noDisc")}`}/>
             )
           ) : (
             <LoadingOne />

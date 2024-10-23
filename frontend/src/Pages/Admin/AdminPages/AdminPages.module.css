@@ -11,13 +11,15 @@
     position: relative;
 }
 .field label{
-    font-weight: 700;
+    font-weight: 400;
+    color: var(--dark_white);
     margin-bottom: 5px;
     font-size: 1.25rem;
 }
 
 .field input{
-    box-shadow: 0 0 0.1875rem rgba(0, 0, 0, 0.196);  
+    box-shadow: 0 0 0.1875rem rgba(0, 0, 0, 0.196);
+    padding:10px;  
 }
 .save_btn{
     background-color: var(--main_color);
@@ -239,7 +241,7 @@
 .form_check_label{
     padding: 5px 10px;
     background-color: white;
-    color: black;
+    color: black !important;
     border-radius: 10px;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.266);
     cursor: pointer;
@@ -251,7 +253,7 @@
 }
 .active_input{
     background-color: var(--sub_color);
-    color: white;
+    color: white !important;
 }
 .form_check_group{
    flex-direction: row;
@@ -280,8 +282,6 @@
 
 .cop_content ul li{
     margin: 0.3125rem 0;
-    font-size: 1.125rem;
-    font-weight: 600;
 }
 
 /* configs */
@@ -472,23 +472,6 @@
     cursor: pointer;
     margin-inline: 10px;
 }
-
-
-/* Cart */
-.noData{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: auto;
-}
-.noData_img{
-    width: 300px;
-}
-.noData_img img{
-    width: 100%;
-}
-
 
 /* discount */
 .container_body{

@@ -9,13 +9,12 @@
     left: 110%;
     top: -15px;
     transform: translateX(-50%);
-    font-family: 'Times New Roman', Times, serif;
+    font-family: 'Times New Roman', Times, serif !important;
 }
 
 .cart_icon{
     font-size:1.5625rem;
     color: white !important;
-    font-weight: 700;
     cursor: pointer;
     transition: all .3s;
 }

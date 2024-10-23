@@ -119,9 +119,9 @@ const AllCards = () => {
             </div>
           </div>
           <div>
-            <h5>
+            <span className="mini_word">
               {key("results")} ({filteredCards?.length})
-            </h5>
+            </span>
           </div>
         </div>
         <Row>

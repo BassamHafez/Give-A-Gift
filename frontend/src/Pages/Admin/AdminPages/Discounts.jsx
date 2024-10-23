@@ -6,13 +6,13 @@ import { useTranslation } from "react-i18next";
 import Row from "react-bootstrap/Row";
 import MainButton from "../../../Components/Ui/MainButton";
 import LoadingOne from "../../../Components/Ui/LoadingOne";
-import noData from "../../../Images/noData.jpg";
 import Table from "react-bootstrap/Table";
 import axios from "axios";
 import SearchField from "../../../Components/Ui/SearchField";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import NoDataPage from "../../../Components/Ui/NoDataPage";
 
 const Discounts = () => {
   const [usedData, setUsedData] = useState(false);
@@ -243,12 +243,7 @@ const Discounts = () => {
               )}
             </>
           ) : (
-            <div className={styles.noData}>
-              <div className={styles.noData_img}>
-                <img src={noData} alt="noData" />
-              </div>
-              <span>{key("noDisc")}</span>
-            </div>
+            <NoDataPage text={`${key("noDisc")}`}/>
           )
         ) : (
           <LoadingOne />

@@ -12,7 +12,9 @@ import LoadingOne from "../../Components/Ui/LoadingOne";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Select from "react-select";
-import noData from "../../Images/noData.jpg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import NoDataPage from "../../Components/Ui/NoDataPage";
 
 const Stores = () => {
   const [searchInput, setSearchInput] = useState("");
@@ -20,6 +22,7 @@ const Stores = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [filteredShops, setFilteredShops] = useState([]);
   const { t: key } = useTranslation();
+  let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const notifySuccess = (message) => toast.success(message);
   const navigate = useNavigate();
 
@@ -45,7 +48,7 @@ const Stores = () => {
                 src={`${process.env.REACT_APP_Host}categories/${category.icon}`}
                 alt={`${category.name}`}
               />
-              <h4>{category.name}</h4>
+              <span>{isArLang ? category.name : category.enName}</span>
             </div>
           ),
           value: category._id,
@@ -53,7 +56,7 @@ const Stores = () => {
       });
       setCategoriesOptions(myCategories);
     }
-  }, [categories, key]);
+  }, [categories, key, isArLang]);
 
   const handleSearch = (e, searchTerm) => {
     e.preventDefault();
@@ -100,7 +103,10 @@ const Stores = () => {
           </div>
         </div>
         <div className={`${styles.select_category_field} my-5`}>
-          <label className="fw-bold fs-4">{key("storeCategories")}</label>
+          <label className="fs-5">
+            {key("storeCategories")}{" "}
+            <FontAwesomeIcon className="mx-1 text-danger" icon={faCaretDown} />
+          </label>
           <Select
             isClearable={true}
             isSearchable={false}
@@ -137,19 +143,16 @@ const Stores = () => {
                         </div>
                         <div className="text-center">
                           <h5 className=" fw-bold">{shop.name}</h5>
-                          <span className=" text-secondary ellipsis">
-                            {shop.description} {shop.category.name}
-                          </span>
+                          <p className={styles.store_desc}>
+                            {shop.description}
+                          </p>
                         </div>
                       </div>
                     </div>
                   </Col>
                 ))
               ) : (
-                <div className={styles.noData}>
-                  <img src={noData} alt="noData" />
-                  <span>{key("noData")}</span>
-                </div>
+                <NoDataPage text={`${key("noData")}`}/>
               )
             ) : (
               <LoadingOne />

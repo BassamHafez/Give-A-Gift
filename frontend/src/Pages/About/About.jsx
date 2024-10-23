@@ -17,7 +17,9 @@ const About = () => {
             {key("becomePartner")}
           </span>
           <h1>{key("joinUsTitle")}</h1>
-          <MainButton onClick={()=>navigate(`/joinUs`)} text={key("join")} />
+          <div className="mt-4">
+           <MainButton onClick={()=>navigate(`/joinUs`)} text={key("join")} />
+          </div>
         </div>
       </div>
       <section className={styles.top_stores}>

@@ -33,10 +33,10 @@ const Colors = () => {
   return (
     <>
       <div className={styles.main_body}>
-        <div className={`${styles.configs_body} mb-2`}>
+        <div className={`${styles.configs_body} mb-4`}>
           <AddColor refetch={refetch} />
         </div>
-        <div className={`${styles.configs_body} mb-2`}>
+        <div className={`${styles.configs_body} mb-4`}>
           <AddProColor refetch={refetch} />
         </div>
         <hr />

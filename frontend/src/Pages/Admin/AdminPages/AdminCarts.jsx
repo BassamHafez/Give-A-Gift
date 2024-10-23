@@ -4,13 +4,13 @@ import Table from "react-bootstrap/Table";
 import { useQuery } from "@tanstack/react-query";
 import { getMyCards } from "../../../util/Http";
 import LoadingOne from "../../../Components/Ui/LoadingOne";
-import noData from "../../../Images/noData.jpg";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import SearchField from "../../../Components/Ui/SearchField";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import NoDataPage from "../../../Components/Ui/NoDataPage";
 
 const AdminCarts = () => {
   const [selectedIds, setSelectedIds] = useState([]);
@@ -271,12 +271,7 @@ const AdminCarts = () => {
             </tbody>
           </Table>
         ) : (
-          <div className={styles.noData}>
-            <div className={styles.noData_img}>
-              <img src={noData} alt="noData" />
-            </div>
-            <span>{key("noCarts")}</span>
-          </div>
+          <NoDataPage text={`${key("noCarts")}`}/>
         )
       ) : (
         <LoadingOne />

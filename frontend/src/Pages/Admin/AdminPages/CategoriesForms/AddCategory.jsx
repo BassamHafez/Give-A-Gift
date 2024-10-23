@@ -1,49 +1,57 @@
-import { useMutation } from "@tanstack/react-query";
-import React, { useState } from "react";
-import { addProColor } from "../../../../util/Http";
-import { useTranslation } from "react-i18next";
-import { mixed, number, object } from "yup";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import React, {useState } from "react";
 import styles from "../AdminPages.module.css";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faImage, faYinYang } from "@fortawesome/free-solid-svg-icons";
+import {
+  faImage,
+  faYinYang,
+} from "@fortawesome/free-solid-svg-icons";
 import InputErrorMessage from "../../../../Components/Ui/InputErrorMessage";
+import { useMutation } from "@tanstack/react-query";
+import {
+  categoriesController,
+} from "../../../../util/Http";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
+import { mixed,object, string } from "yup";
 
-const AddProColor = ({ refetch }) => {
-  const { t: key } = useTranslation();
-  const token = JSON.parse(localStorage.getItem("token"));
+const AddCategory = ({refetch}) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
 
+  const { t: key } = useTranslation();
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
+  const token = JSON.parse(localStorage.getItem("token"));
 
   const { mutate, isPending } = useMutation({
-    mutationFn: addProColor,
+    mutationFn: categoriesController,
   });
 
   const initialValues = {
-    img: "",
-    price: "",
-    priority: "",
+    icon: "",
+    name: "",
+    enName: "",
   };
 
   const onSubmit = (values, { resetForm }) => {
     const formData = new FormData();
 
     if (selectedFile) {
-      formData.append("image", selectedFile);
+      formData.append("icon", selectedFile);
     } else {
       notifyError(key("uploadPhoto"));
       return;
     }
-    formData.append("price", values.price);
-    formData.append("priority", values.priority);
+
+    formData.append("enName", values.enName);
+    formData.append("name", values.name);
+
     mutate(
       {
         formData: formData,
         token: token,
+        type:"add"
       },
       {
         onSuccess: (data) => {
@@ -64,20 +72,18 @@ const AddProColor = ({ refetch }) => {
     );
   };
 
-  const validationSchema = object({
-    img: mixed()
-      .test("fileSize", `${key("photoValidationSize")}`, (value) => {
-        return value ? value.size <= 3000000 : true;
-      })
-      .test("fileType", `${key("photoValidationType")}`, (value) => {
-        return value
-          ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
-          : true;
-      }),
-    price: number().required(key("priceRec")).min(1, key("priceVali")),
-    priority: number()
-      .typeError(key("priorityValidation"))
-      .required(key("priReq")),
+  const validationSchema =object({
+    name: string().required(key("nameValidation3")),
+    enName: string().required(key("nameValidation3")),
+    icon: mixed()
+    .test("fileSize", `${key("photoValidationSize")}`, (value) => {
+      return value ? value.size <= 3000000 : true;
+    })
+    .test("fileType", `${key("photoValidationType")}`, (value) => {
+      return value
+        ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+        : true;
+    }),
   });
 
   const handleFileChange = (e) => {
@@ -91,20 +97,19 @@ const AddProColor = ({ refetch }) => {
   };
 
   return (
-    <>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={onSubmit}
-        validationSchema={validationSchema}
-      >
+    <Formik
+      initialValues={initialValues}
+      onSubmit={onSubmit}
+      validationSchema={validationSchema}
+    >
         <Form className={styles.general_info_form}>
-          <h5 className="fw-bold text-secondary">{key("addProColor")}</h5>
           <div className={styles.photo_field}>
+            <h5>{key("icon")}</h5>
             <label
               className={
                 imagePreviewUrl ? styles.photo_label_img : styles.photo_label
               }
-              htmlFor="img"
+              htmlFor="icon"
             >
               {imagePreviewUrl ? (
                 <img
@@ -118,28 +123,29 @@ const AddProColor = ({ refetch }) => {
             </label>
             <input
               type="file"
-              id="img"
-              name="img"
+              id="icon"
+              name="icon"
               accept="image/*"
               onChange={handleFileChange}
               className="d-none"
             />
-            <ErrorMessage name="img" component={InputErrorMessage} />
-          </div>
-          <div className={`${styles.field} mt-4`}>
-            <label className="text-secondary" htmlFor="price">
-              {key("price")}
-            </label>
-            <Field type="number" id="price" name="price" />
-            <ErrorMessage name="price" component={InputErrorMessage} />
+            <ErrorMessage name="icon" component={InputErrorMessage} />
           </div>
 
-          <div className={`${styles.field} my-4`}>
-            <label className="text-secondary" htmlFor="priority">
-              {key("priority")}
+          <div className={styles.field}>
+            <label htmlFor="name" className="mt-3">
+              {key("arName")}
             </label>
-            <Field type="number" id="priority" name="priority" />
-            <ErrorMessage name="priority" component={InputErrorMessage} />
+            <Field type="text" id="name" name="name" />
+            <ErrorMessage name="name" component={InputErrorMessage} />
+          </div>
+
+          <div className={styles.field}>
+            <label htmlFor="enName">
+              {key("enName")}
+            </label>
+            <Field type="text" id="enName" name="enName" />
+            <ErrorMessage name="enName" component={InputErrorMessage} />
           </div>
 
           <div className="d-flex justify-content-end align-items-center mt-3 px-2">
@@ -154,9 +160,8 @@ const AddProColor = ({ refetch }) => {
             )}
           </div>
         </Form>
-      </Formik>
-    </>
+    </Formik>
   );
 };
 
-export default AddProColor;
+export default AddCategory;

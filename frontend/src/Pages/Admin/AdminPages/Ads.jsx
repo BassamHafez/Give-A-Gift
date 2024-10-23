@@ -18,9 +18,9 @@ import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import AddAd from "./ADSForms/AddAd";
 import UpdateAd from "./ADSForms/UpdateAd";
+import NoDataPage from "../../../Components/Ui/NoDataPage";
 
 const Ads = () => {
-
   const [updateModalShow, setUpdateModalShow] = useState(false);
   const [selectedAdData, setSelectedAdData] = useState({});
   const { t: key } = useTranslation();
@@ -92,47 +92,51 @@ const Ads = () => {
         <h4 className="fw-bold">{key("Ads")}</h4>
         <Row className="justify-content-center">
           {ads ? (
-            ads.data?.map((ad) => (
-              <Col
-                key={ad._id}
-                sm={4}
-                className="d-flex flex-column justify-content-center align-items-center"
-              >
-                <div className={styles.shop_div}>
-                  <div className={styles.shop_control}>
-                    <Link
-                      to={`${ad.link}`}
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
+            ads.data > 0 ? (
+              ads.data?.map((ad) => (
+                <Col
+                  key={ad._id}
+                  sm={4}
+                  className="d-flex flex-column justify-content-center align-items-center"
+                >
+                  <div className={styles.shop_div}>
+                    <div className={styles.shop_control}>
+                      <Link
+                        to={`${ad.link}`}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        <FontAwesomeIcon
+                          className={styles.shop_control_icon}
+                          icon={faArrowUpRightFromSquare}
+                          title={`${key("adLink")}`}
+                        />
+                      </Link>
+
                       <FontAwesomeIcon
                         className={styles.shop_control_icon}
-                        icon={faArrowUpRightFromSquare}
-                        title={`${key("adLink")}`}
+                        icon={faWrench}
+                        onClick={() => openUpdateShopModal(ad)}
+                        title={`${key("update")}`}
                       />
-                    </Link>
 
-                    <FontAwesomeIcon
-                      className={styles.shop_control_icon}
-                      icon={faWrench}
-                      onClick={() => openUpdateShopModal(ad)}
-                      title={`${key("update")}`}
-                    />
-
-                    <FontAwesomeIcon
-                      className={styles.shop_control_icon}
-                      icon={faTrash}
-                      onClick={() => deleteAd(ad._id)}
-                      title={`${key("delete")}`}
+                      <FontAwesomeIcon
+                        className={styles.shop_control_icon}
+                        icon={faTrash}
+                        onClick={() => deleteAd(ad._id)}
+                        title={`${key("delete")}`}
+                      />
+                    </div>
+                    <img
+                      src={`${process.env.REACT_APP_Host}ads/${ad.image}`}
+                      alt="ad"
                     />
                   </div>
-                  <img
-                    src={`${process.env.REACT_APP_Host}ads/${ad.image}`}
-                    alt="ad"
-                  />
-                </div>
-              </Col>
-            ))
+                </Col>
+              ))
+            ) : (
+              <NoDataPage />
+            )
           ) : (
             <LoadingOne />
           )}
