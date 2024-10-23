@@ -11,6 +11,10 @@ const shapeSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
+    priority: {
+      type: Number,
+      default: 99999,
+    },
   },
   {
     timestamps: true,
