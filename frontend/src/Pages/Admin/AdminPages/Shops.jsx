@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styles from "./AdminPages.module.css";
-import {getShops, getShopToken } from "../../../util/Http";
-import {useQuery } from "@tanstack/react-query";
+import { getShops, getShopToken } from "../../../util/Http";
+import { useQuery } from "@tanstack/react-query";
 import {
+  faArrowPointer,
   faCircle,
   faCopy,
   faTrash,
@@ -19,12 +20,16 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import UpdateShop from "./ShopsForms/UpdateShop";
 import AddShop from "./ShopsForms/AddShop";
+import MainButton from "../../../Components/Ui/MainButton";
+import StoresMessage from "./ShopsForms/StoresMessage";
 
 const Shops = () => {
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
   const [updateModalShow, setUpdateModalShow] = useState(false);
+  const [showMessageModal, setShowMessageModal] = useState(false);
   const [selectedShopData, setSelectedShopData] = useState({});
+  const [selectedIds, setSelectedIds] = useState([]);
 
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
@@ -52,12 +57,9 @@ const Shops = () => {
     enabled: !!token,
   });
 
-
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
 
   const deleteShop = async (shopID) => {
     try {
@@ -78,8 +80,6 @@ const Shops = () => {
       notifyError(key("wrong"));
     }
   };
-
-
 
   const handleTokenCopy = (shopId) => {
     let myTargetStoreToken;
@@ -104,11 +104,21 @@ const Shops = () => {
     setUpdateModalShow(true);
   };
 
+  const handleCheckboxChange = (id) => {
+    setSelectedIds((prevSelected) => {
+      if (prevSelected.includes(id)) {
+        return prevSelected.filter((selectedId) => selectedId !== id);
+      } else {
+        return [...prevSelected, id];
+      }
+    });
+  };
+
   return (
     <>
       <div className={styles.main_body}>
         <div className={styles.configs_body}>
-          <AddShop refetch={refetch}/>
+          <AddShop refetch={refetch} />
         </div>
 
         <hr />
@@ -125,6 +135,15 @@ const Shops = () => {
             </span>
           </div>
         </div>
+        <div className="my-4 text-end">
+          {selectedIds.length > 0 && (
+            <MainButton
+              onClick={() => setShowMessageModal(true)}
+              type="blue"
+              text={key("sendMessage")}
+            />
+          )}
+        </div>
         <Row className="justify-content-center">
           {shops ? (
             shops.data?.map((shop) => (
@@ -133,7 +152,11 @@ const Shops = () => {
                 sm={4}
                 className="d-flex flex-column justify-content-center align-items-center"
               >
-                <div className={styles.shop_div}>
+                <div
+                  className={`${styles.shop_div} ${
+                    selectedIds.includes(shop._id) ? styles.checked_store : ""
+                  }`}
+                >
                   <div className={styles.shop_control}>
                     <FontAwesomeIcon
                       className={styles.shop_control_icon}
@@ -153,6 +176,12 @@ const Shops = () => {
                       icon={faTrash}
                       onClick={() => deleteShop(shop._id)}
                       title={`${key("delete")}`}
+                    />
+                    <FontAwesomeIcon
+                      className={styles.shop_control_icon}
+                      icon={faArrowPointer}
+                      onClick={() => handleCheckboxChange(shop._id)}
+                      title={`${key("select")}`}
                     />
                   </div>
 
@@ -182,6 +211,13 @@ const Shops = () => {
           onHide={() => setUpdateModalShow(false)}
           shopData={selectedShopData}
           refetch={refetch}
+        />
+      )}
+      {showMessageModal && (
+        <StoresMessage
+          show={showMessageModal}
+          onHide={() => setShowMessageModal(false)}
+          storeIds={selectedIds}
         />
       )}
     </>

@@ -339,7 +339,7 @@ const RecipientInformation = () => {
                         className={styles.select_input}
                         classNamePrefix="Country"
                         isClearable={false}
-                        isSearchable={true}
+                        isSearchable={false}
                         name="Country"
                         options={CountriesPhoneNumbers}
                         defaultValue={CountriesPhoneNumbers[1]}
@@ -409,12 +409,12 @@ const RecipientInformation = () => {
 
                     <Select
                       classNamePrefix="celebrateIcon"
-                      isClearable={false}
+                      isClearable={true}
                       isSearchable={true}
                       name="celebrateIcon"
                       options={celebrateIcon}
                       onChange={(value) => {
-                        setFieldValue("celebrateIcon", value.value);
+                        value!==null&&setFieldValue("celebrateIcon", value.value);
                       }}
                     />
 

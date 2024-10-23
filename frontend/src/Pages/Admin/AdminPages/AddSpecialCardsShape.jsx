@@ -4,7 +4,7 @@ import { addSpecialColorsShape } from "../../../util/Http";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorMessage, Form, Formik } from "formik";
 import { mixed, object } from "yup";
-import {faYinYang } from "@fortawesome/free-solid-svg-icons";
+import { faYinYang } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
@@ -114,12 +114,15 @@ const AddSpecialCardsShape = () => {
         <Form className={styles.general_info_form}>
           <div className={styles.photo_field}>
             <h4 className="fw-bold">{key("frontShape")}</h4>
-            <label className={styles.banner_img_label} htmlFor="frontShapeImage">
+            <label
+              className={styles.banner_img_label}
+              htmlFor="frontShapeImage"
+            >
               {frontImagePreviewUrl ? (
                 <img src={frontImagePreviewUrl} alt="prev_front_shape" />
               ) : (
                 <img
-                src={`${process.env.REACT_APP_Host}specialCards/front-shape.webp`}
+                  src={`${process.env.REACT_APP_Host}specialCards/front-shape.webp`}
                   alt="current_front_shape"
                 />
               )}
@@ -145,7 +148,7 @@ const AddSpecialCardsShape = () => {
                 <img src={backImagePreviewUrl} alt="prev_back_shape" />
               ) : (
                 <img
-                src={`${process.env.REACT_APP_Host}specialCards/back-shape.webp`}
+                  src={`${process.env.REACT_APP_Host}specialCards/back-shape.webp`}
                   alt="current_back_shape"
                 />
               )}

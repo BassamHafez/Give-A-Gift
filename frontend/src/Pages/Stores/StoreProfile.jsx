@@ -21,9 +21,8 @@ const StoreProfile = () => {
   const navigate = useNavigate();
   const { t: key } = useTranslation();
 
-
-  const { data: shop,isFetching } = useQuery({
-    queryKey: ["getSingleshops",storeId],
+  const { data: shop, isFetching } = useQuery({
+    queryKey: ["getSingleshops", storeId],
     queryFn: () => getShops({ type: "single", storeId }),
     staleTime: Infinity,
   });
@@ -63,12 +62,14 @@ const StoreProfile = () => {
 
             <div className="text-center">
               <h1 className="fw-bold">{shop?.data?.shop?.name}</h1>
-              <h5 className="text-secondary">{shop?.data?.shop?.description}</h5>
+              <h5 className="text-secondary">
+                {shop?.data?.shop?.description}
+              </h5>
             </div>
           </div>
           <div className={styles.profile_body}>
             <div className="py-5 d-flex justify-content-center">
-              <MainTitle title={key("createCardPageTitle")}/>
+              <MainTitle title={key("createCardPageTitle")} />
             </div>
             <div
               onClick={goToCustomCards}
@@ -82,22 +83,26 @@ const StoreProfile = () => {
               />
             </div>
 
-            <div>
-              <div className="py-5 d-flex justify-content-center">
-                <MainTitle title={key("buyCardNavTitle")} />
+            {shop?.data?.readyCards?.length > 0 ? (
+              <div>
+                <div className="py-5 d-flex justify-content-center">
+                  <MainTitle title={key("buyCardNavTitle")} />
+                </div>
+                <Row>
+                  {isFetching ? (
+                    <Placeholders />
+                  ) : (
+                    <>
+                      {shop.data?.readyCards.map((card) => (
+                        <SingleReadyCard isStoreProfile={true} card={card} />
+                      ))}
+                    </>
+                  )}
+                </Row>
               </div>
-              <Row>
-                {isFetching ? (
-                  <Placeholders />
-                ) : (
-                  <>
-                    {shop.data?.readyCards.map((card) => (
-                      <SingleReadyCard isStoreProfile={true} card={card} />
-                    ))}
-                  </>
-                )}
-              </Row>
-            </div>
+            ) : (
+              ""
+            )}
           </div>
         </div>
       ) : (

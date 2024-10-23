@@ -1,10 +1,9 @@
 import React from "react";
 import qr from "../../Images/qr.png";
-import logo from "../../Images/logo.png";
 import styles from "./OrderPdfContent.module.css";
 import { useTranslation } from "react-i18next";
 
-const OrderPdfContent = ({ order, isUser }) => {
+const OrderPdfContent = ({ order }) => {
   const { t: key } = useTranslation();
 
   const formatDateTime = (dateTimeString) => {
@@ -16,26 +15,43 @@ const OrderPdfContent = ({ order, isUser }) => {
     });
     return { formattedDate, formattedTime };
   };
-  console.log(order);
+
   return (
-    <div>
-      <div className={styles.header_imgs}>
-        <div className={styles.qr_code_img}>
-          <img className="w-100" src={qr} alt="qrCode" />
-        </div>
-        <div>
-          <div className={styles.logo}>
-            <img className="w-100" src={logo} alt="logo" />
-          </div>
-          <h2 className="text-center fw-bold">Give A Gift</h2>
-        </div>
+    <>
+      <div className={`${styles.header_details} ${styles.min_width_fixed}`}>
+        <p className="m-0 fw-bold text-secondary">
+          {key("orderFatora")} ({`${order.order_number}`})
+        </p>
+
+        <h3 className="text-center my-3">
+          شركة أعط الهدية للتجارة والتسويق
+        </h3>
+
+        <h4 className="text-center text-secondary">الرياض</h4>
       </div>
 
-      <div>
-        <h4 className={styles.main_title}>{key("orderData")}</h4>
+      <div className={styles.min_width_fixed}>
+        <div className="my-4 w-75 m-auto">
+          <p>
+            {key("date")}: {formatDateTime(order.order_date).formattedDate}
+          </p>
+
+          <p>
+            {key("time")}: {formatDateTime(order.order_date).formattedTime}
+          </p>
+          <p>
+            {key("store")}: {order.shop}
+          </p>
+          <p>
+            {key("taxNum")}: 12345678910
+          </p>
+        </div>
         <ul className={styles.order_ul}>
+          <li className={styles.item_header}>
+            <span>{key("categories")}</span> {key("price")}
+          </li>
           <li>
-            <span>{key("price")}</span> {order.value} {key("sar")}
+            <span>{key("cardPrice")}</span> {order.value} {key("sar")}
           </li>
           {order.shapes_price
             ? order.shapes_price > 0 && (
@@ -78,62 +94,27 @@ const OrderPdfContent = ({ order, isUser }) => {
             <span>{key("Vatvalue")}</span>
             {order.VAT}
           </li>
-          <li>
-            <span>{key("totalPrice")}</span>
-            {order.total_paid} {key("sar")}
-          </li>
-          <li>
-            <span>{key("store")}</span>
-            {order.shop}
-          </li>
 
-          <li>
-            <span>{key("customer")}</span>
-            {order.customer_name}
-          </li>
-          <li>
-            <span>{key("email")}</span>
-            {order.customer_email}
-          </li>
-          <li>
-            <span>{key("phone")}</span>
-            {order.customer_phone}
-          </li>
-
-          <li>
-            <span>{key("recipient")}</span>
-            {order.recipient_name}
-          </li>
-          <li>
-            <span>{key("recipientWhatsapp")}</span>
-            {order.recipient_whatsapp}
-          </li>
-
-          <li>
-            <span>{key("orderNumber")}</span>
-            {`${order.order_number}`}
-          </li>
-          {!isUser && (
+          {order.price_after_discount
+            ? order.price_after_discount > 0 && (
+                <li>
+                  <span>{key("afterDisc")}</span>
+                  {order.price_after_discount} {key("sar")}
+                </li>
+              )
+            : ""}
+          {!order.price_after_discount && (
             <li>
-              <span>{key("cardId")}</span>
-              {order.card_id}
+              <span>{key("totalPrice")}</span>
+              {order.total_paid} {key("sar")}
             </li>
           )}
-          <li>
-            <span>{key("date")}</span>
-            {formatDateTime(order.order_date).formattedDate}
-          </li>
-          <li>
-            <span>{key("time")}</span>
-            {formatDateTime(order.order_date).formattedTime}
-          </li>
         </ul>
-        <div className="text-center my-2">
-          <h4>Thank you for choosing Give A Gift</h4>
-          <span>شكراً لاختياركم موقعنا </span>
+        <div className={styles.qr_code_img}>
+          <img className="w-100" src={qr} alt="qrCode" />
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

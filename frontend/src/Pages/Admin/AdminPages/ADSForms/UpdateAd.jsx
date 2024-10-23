@@ -27,20 +27,15 @@ const UpdateAd = ({ refetch, show, onHide, adData }) => {
     image: "",
     link: adData.link || "",
     order: adData.order || "",
-    size: adData.size || "small",
   };
 
   const onSubmit = (values, { resetForm }) => {
     const formData = new FormData();
     if (selectedFile) {
       formData.append("image", selectedFile);
-    } else {
-      notifyError(key("uploadPhoto"));
-      return;
     }
     formData.append("link", values.link);
     formData.append("order", values.order);
-    formData.append("size", values.size);
     mutate(
       {
         formData: formData,
@@ -87,7 +82,6 @@ const UpdateAd = ({ refetch, show, onHide, adData }) => {
         schema.url(key("invalidLink")).required(key("linkRequired")),
       otherwise: (schema) => schema.nullable(),
     }),
-    size: string().required("sizeRec"),
   });
 
   const handleUpdateFileChange = (e) => {
@@ -152,46 +146,6 @@ const UpdateAd = ({ refetch, show, onHide, adData }) => {
                 </label>
                 <Field type="text" id="updatelink" name="link" />
                 <ErrorMessage name="link" component={InputErrorMessage} />
-              </div>
-
-              <div className={`${styles.field} ${styles.form_check_group}`}>
-                <div>
-                  <Field
-                    type="radio"
-                    className=" d-none"
-                    name="size"
-                    id="updatesmallSize"
-                    value="small"
-                    checked={values.size === "small"}
-                  />
-                  <label
-                    className={`${styles.form_check_label} ${
-                      values.size === "small" && styles.active_input
-                    }`}
-                    htmlFor="updatesmallSize"
-                  >
-                    {key("small")}
-                  </label>
-                </div>
-
-                <div className="mx-2">
-                  <Field
-                    type="radio"
-                    className="d-none"
-                    name="size"
-                    id="updatelargeSize"
-                    value="large"
-                    checked={values.size === "large"}
-                  />
-                  <label
-                    className={`${styles.form_check_label} ${
-                      values.size === "large" && styles.active_input
-                    }`}
-                    htmlFor="updatelargeSize"
-                  >
-                    {key("large")}
-                  </label>
-                </div>
               </div>
 
               <div className={`${styles.field}`}>

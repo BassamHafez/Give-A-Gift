@@ -32,13 +32,19 @@ export const getShapes = async () => {
   }
 };
 
-export const getShops = async ({ type, storeId }) => {
+export const getShops = async ({ type, storeId,token ,formData}) => {
   let response;
   try {
     if (type === "single") {
       response = await axios.get(`${baseServerUrl}shops/${storeId}`);
     } else if (type === "homeStores") {
       response = await axios.get(`${baseServerUrl}shops/home`);
+    }else if(type==="message"){
+      response = await axios.post(`${baseServerUrl}shops/messages`,formData,{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
     } else {
       response = await axios.get(`${baseServerUrl}shops?sort=priority`);
     }
@@ -65,11 +71,16 @@ export const getShopToken = async (token) => {
 
 export const getCategories= async (token) => {
   try {
-     const response = await axios.get(`${baseServerUrl}categories`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    let response;
+    if(token){
+       response = await axios.get(`${baseServerUrl}categories`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    }else{
+       response = await axios.get(`${baseServerUrl}categories`);
+    }
     return response.data;
   } catch (error) {
     return error

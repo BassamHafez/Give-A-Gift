@@ -163,7 +163,7 @@ const RegisterForm = ({ notifySuccess, notifyError }) => {
                   className={styles.select_input}
                   classNamePrefix="Country"
                   isClearable={false}
-                  isSearchable={true}
+                  isSearchable={false}
                   placeholder={key("whatsAppNum2")}
                   name="Country"
                   options={CountriesPhoneNumbers}

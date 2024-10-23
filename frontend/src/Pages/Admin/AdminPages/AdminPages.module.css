@@ -178,7 +178,9 @@
     object-fit: cover;
     border-radius:4px;
 }
-
+.checked_store{
+    border: 2px solid var(--blue);
+}
 .shop_div:hover .delete_icon{
     opacity: 1;
 }
@@ -253,6 +255,9 @@
 }
 .form_check_group{
    flex-direction: row;
+}
+.textArea{
+    height: 200px;
 }
 /* coupon */
 .modal_container{
