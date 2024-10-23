@@ -11,6 +11,10 @@ const proColorSchema = new mongoose.Schema(
       min: 0,
       required: true,
     },
+    priority: {
+      type: Number,
+      default: 99999,
+    },
   },
   {
     timestamps: true,

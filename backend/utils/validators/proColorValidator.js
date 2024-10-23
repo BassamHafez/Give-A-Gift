@@ -12,6 +12,11 @@ exports.createColorValidator = [
     .isFloat({ min: 0 })
     .withMessage("Price must be a positive number"),
 
+  check("priority")
+    .optional()
+    .isNumeric()
+    .withMessage("Priority must be a number"),
+
   validatorMiddleware,
 ];
 

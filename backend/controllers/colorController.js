@@ -6,7 +6,7 @@ const catchAsync = require("../utils/catchAsync");
 exports.getAllColors = catchAsync(async (req, res, next) => {
   const [colors, proColors] = await Promise.all([
     Color.find().lean(),
-    ProColor.find().lean(),
+    ProColor.find().sort("priority").lean(),
   ]);
 
   res.status(200).json({
