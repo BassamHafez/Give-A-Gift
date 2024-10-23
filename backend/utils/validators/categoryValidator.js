@@ -8,6 +8,12 @@ exports.createCategoryValidator = [
     .isString()
     .withMessage("Category name must be a string"),
 
+  check("enName")
+    .notEmpty()
+    .withMessage("enName (Category name in English) is required")
+    .isString()
+    .withMessage("enName (Category name in English) must be a string"),
+
   check("icon").notEmpty().withMessage("Category icon is required"),
 
   validatorMiddleware,
@@ -24,6 +30,11 @@ exports.updateCategoryValidator = [
     .optional()
     .isString()
     .withMessage("Category name must be a string"),
+
+  check("enName")
+    .optional()
+    .isString()
+    .withMessage("enName (Category name in English) must be a string"),
 
   check("icon").optional(),
 
