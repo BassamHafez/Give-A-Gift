@@ -653,9 +653,10 @@ color: var(--main_color);
     border-radius:4px;
     position: relative;
 }
-.slider_div:hover .shop_control{
+.slider_div:hover .shop_control,.color_pro_square:hover .shop_control,.shape_div:hover .shop_control{
     opacity: 1;
 }
+
 
 @media screen and (max-width:1130px) {
     .register_form div{

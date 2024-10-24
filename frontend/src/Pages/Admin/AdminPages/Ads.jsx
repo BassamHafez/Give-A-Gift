@@ -92,7 +92,7 @@ const Ads = () => {
         <h4 className="fw-bold">{key("Ads")}</h4>
         <Row className="justify-content-center">
           {ads ? (
-            ads.data > 0 ? (
+            ads?.data?.length > 0 ? (
               ads.data?.map((ad) => (
                 <Col
                   key={ad._id}

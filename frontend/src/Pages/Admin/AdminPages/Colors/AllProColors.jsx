@@ -1,18 +1,21 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
 import { useTranslation } from "react-i18next";
 import styles from "../AdminPages.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCrown, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faCrown, faTrash, faWrench } from "@fortawesome/free-solid-svg-icons";
 import LoadingOne from "../../../../Components/Ui/LoadingOne";
 import { toast } from "react-toastify";
+import UpdateProColor from "./UpdateProColor";
 
 const AllProColors = ({ refetch, proColors }) => {
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
   const { t: key } = useTranslation();
+  const [showUpdateColorModal, setShowUpdateColorModal] = useState(false);
+  const [selectedColorData, setSelectedColorData] = useState({});
 
   const token = JSON.parse(localStorage.getItem("token"));
 
@@ -35,6 +38,11 @@ const AllProColors = ({ refetch, proColors }) => {
     }
   };
 
+  const openUpdateProColorModal = (color) => {
+    setSelectedColorData(color);
+    setShowUpdateColorModal(true);
+  };
+
   return (
     <>
       <h4>{key("allProColors")}</h4>
@@ -49,11 +57,21 @@ const AllProColors = ({ refetch, proColors }) => {
               title={`${color.price} ${key("sar")}`}
             >
               <div className={styles.color_pro_square}>
-                <FontAwesomeIcon
-                  className={styles.delete_icon}
-                  icon={faTrash}
-                  onClick={() => deleteColor(color._id)}
-                />
+                <div className={styles.shop_control}>
+                  <FontAwesomeIcon
+                    className={styles.shop_control_icon}
+                    icon={faWrench}
+                    onClick={() => openUpdateProColorModal(color)}
+                    title={`${key("update")}`}
+                  />
+
+                  <FontAwesomeIcon
+                    className={styles.shop_control_icon}
+                    icon={faTrash}
+                    onClick={() => deleteColor(color._id)}
+                    title={`${key("delete")}`}
+                  />
+                </div>
                 <FontAwesomeIcon icon={faCrown} className={styles.crown} />
                 <img
                   src={`${process.env.REACT_APP_Host}colors/${color.image}`}
@@ -66,6 +84,15 @@ const AllProColors = ({ refetch, proColors }) => {
           <LoadingOne />
         )}
       </Row>
+
+      {showUpdateColorModal && (
+        <UpdateProColor
+          show={showUpdateColorModal}
+          onHide={() => setShowUpdateColorModal(false)}
+          proColorData={selectedColorData}
+          refetch={refetch}
+        />
+      )}
     </>
   );
 };

@@ -330,6 +330,19 @@ export const controlShapes=async ({token,formData}) => {
   }
 };
 
+export const controlUpdateShapes=async ({token,formData,shapeId}) => {
+  try {
+    const response = await axios.patch(`${baseServerUrl}shapes/${shapeId}`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return error
+  }
+};
+
 export const controlShops=async ({token,formData,type,shopId}) => {
   try {
     let response;
@@ -514,6 +527,20 @@ export const addProColor = async ({ token, formData }) => {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const updateProColor = async ({ proColorId,token, formData }) => {
+  try {
+    const response = await axios.patch(`${baseServerUrl}pro-colors/${proColorId}`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
     });
 
