@@ -85,6 +85,7 @@ const UpdateSlide = ({ refetch, slideData, show, onHide }) => {
       setImagePreviewUrl(previewUrl);
       notifySuccess(key("photoDownloaded"));
     }
+    e.target.value = null;
   };
 
   return (

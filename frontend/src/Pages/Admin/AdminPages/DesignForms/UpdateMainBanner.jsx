@@ -74,6 +74,7 @@ const UpdateMainBanner = () => {
       setSelectedImgUrl(imgUrl);
       notifySuccess(key("photoDownloaded"));
     }
+    e.target.value = null;
   };
 
   return (

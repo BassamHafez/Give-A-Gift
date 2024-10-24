@@ -88,9 +88,9 @@ const Shapes = () => {
           if (data?.status === "success") {
             notifySuccess(key("opSuccess"));
             refetch();
-            resetForm();
             setSelectedFile(null);
             setImagePreviewUrl(null);
+            resetForm();
           } else {
             notifyError(key("wrong"));
           }
@@ -144,6 +144,7 @@ const Shapes = () => {
       setImagePreviewUrl(previewUrl);
       notifySuccess(key("photoDownloaded"));
     }
+    e.target.value = null;
   };
 
   return (

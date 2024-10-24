@@ -82,6 +82,7 @@ const ChangeAvatar = () => {
       setImgUrl(avatarUrl);
       notifySuccess(key("photoDownloaded"));
     }
+    e.target.value = null;
   };
 
   return (

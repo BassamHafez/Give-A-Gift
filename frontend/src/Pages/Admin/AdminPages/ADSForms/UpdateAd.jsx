@@ -90,6 +90,7 @@ const UpdateAd = ({ refetch, show, onHide, adData }) => {
       setImagePreviewUrl(previewUrl);
       notifySuccess(key("photoDownloaded"));
     }
+    e.target.value = null;
   };
 
   return (

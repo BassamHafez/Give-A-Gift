@@ -92,6 +92,7 @@ const UpdateSecondaryBanner = () => {
       setSelectedWebImgUrl(imgUrl);
       notifySuccess(key("photoDownloaded"));
     }
+    e.target.value = null;
   };
 
   const handleMobileFileChange = (e) => {
@@ -102,6 +103,7 @@ const UpdateSecondaryBanner = () => {
       setSelectedMobileImgUrl(imgUrl);
       notifySuccess(key("photoDownloaded"));
     }
+    e.target.value = null;
   };
 
   return (

@@ -188,6 +188,7 @@ const AddShop = ({ refetch }) => {
       setImagePreviewUrl(previewUrl);
       notifySuccess(key("photoDownloaded"));
     }
+    e.target.value = null;
   };
 
   return (

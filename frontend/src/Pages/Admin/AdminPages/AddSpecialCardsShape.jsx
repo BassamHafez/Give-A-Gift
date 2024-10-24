@@ -93,6 +93,7 @@ const AddSpecialCardsShape = () => {
       setFrontImagePreviewUrl(previewUrl);
       notifySuccess(key("photoDownloaded"));
     }
+    e.target.value = null;
   };
   const handleBackChange = (e) => {
     const file = e.currentTarget.files[0];
@@ -102,6 +103,7 @@ const AddSpecialCardsShape = () => {
       setBackImagePreviewUrl(previewUrl);
       notifySuccess(key("photoDownloaded"));
     }
+    e.target.value = null;
   };
 
   return (
