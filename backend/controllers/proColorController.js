@@ -29,3 +29,5 @@ exports.resizeColorImage = catchAsync(async (req, res, next) => {
 exports.createColor = factory.createOne(ProColor);
 
 exports.deleteColor = factory.deleteOne(ProColor);
+
+exports.updateColor = factory.updateOne(ProColor);

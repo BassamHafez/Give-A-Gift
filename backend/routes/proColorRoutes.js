@@ -15,10 +15,9 @@ router.post(
   colorController.createColor
 );
 
-router.delete(
-  "/:id",
-  colorValidator.deleteColorValidator,
-  colorController.deleteColor
-);
+router
+  .route("/:id")
+  .delete(colorValidator.deleteColorValidator, colorController.deleteColor)
+  .patch(colorValidator.updateColorValidator, colorController.updateColor);
 
 module.exports = router;
