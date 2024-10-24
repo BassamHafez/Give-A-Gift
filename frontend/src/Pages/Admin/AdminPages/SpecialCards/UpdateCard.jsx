@@ -97,12 +97,11 @@ const UpdateCard = ({ show, onHide, cardId, refetch, shopId }) => {
           >
             {({ setFieldValue }) => (
               <Form>
-                <h4 className="fw-bold">
-                  {key("add")} {key("store")}
-                </h4>
+                <h5 className="text-secondary text-start">
+                  {key("store")}
+                </h5>
                 <Select
                   className={`mb-3`}
-                  classNamePrefix="FontFamily"
                   isClearable={false}
                   isSearchable={true}
                   name="shop"
@@ -115,7 +114,7 @@ const UpdateCard = ({ show, onHide, cardId, refetch, shopId }) => {
                   }}
                 />
                 <div className={styles.field}>
-                  <label className="text-center mt-3" htmlFor="price">{key("price")}</label>
+                  <label className="text-start mt-3" htmlFor="price">{key("price")}</label>
                   <Field type="text" id="price" name="price" />
                   <ErrorMessage name="price" component={InputErrorMessage} />
                 </div>

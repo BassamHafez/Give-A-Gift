@@ -14,7 +14,27 @@
 }
 
 .joiu_us h1{
-    font-weight: 600;
+    font-weight: 500;
     font-size: 5rem;
     text-align: center;
+    margin-top: 5px;
+}
+
+@media screen and (max-width:600px) {
+.joiu_us h1{
+    font-size: 4.0625rem;
+}
+
+}
+@media screen and (max-width:480px) {
+.joiu_us h1{
+    font-size: 3.125rem;
+}
+
+}
+@media screen and (max-width:353px) {
+.joiu_us h1{
+    font-size: 2.1875rem;
+}
+
 }

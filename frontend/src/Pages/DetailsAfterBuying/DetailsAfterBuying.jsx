@@ -73,13 +73,13 @@ const DetailsAfterBuying = ({
 
             <ul className={styles.details_list}>
               <li>
-                <span className="fw-bold text-secondary">
+                <span className="text-secondary">
                   {key("cardPrice")}:{" "}
                 </span>{" "}
                 {cardDetails?.price?.value.toFixed(2)}
               </li>
               <li>
-                <span className="fw-bold text-secondary">
+                <span className="text-secondary">
                   {key("totalPrice")}:{" "}
                 </span>{" "}
                 {cardDetails.priceAfterDiscount
@@ -89,7 +89,7 @@ const DetailsAfterBuying = ({
                   : totalPrice.toFixed(2)}
               </li>
               <li>
-                <span className="fw-bold text-secondary">{key("store")}: </span>{" "}
+                <span className="text-secondary">{key("store")}: </span>{" "}
                 {cardDetails.shop?.name} (
                 {cardDetails.shop.isOnline
                   ? key("onlineStore")
@@ -97,23 +97,23 @@ const DetailsAfterBuying = ({
                 )
               </li>
               <li>
-                <span className="fw-bold text-secondary">
+                <span className="text-secondary">
                   {key("recName")}:{" "}
                 </span>{" "}
                 {cardDetails?.recipient?.name}
               </li>
               <li>
-                <span className="fw-bold text-secondary">
+                <span className="text-secondary">
                   {key("recipientWhatsapp")}:{" "}
                 </span>{" "}
                 {cardDetails?.recipient?.whatsappNumber}
               </li>
               <li>
-                <span className="fw-bold text-secondary">{key("date")}: </span>{" "}
+                <span className="text-secondary">{key("date")}: </span>{" "}
                 {receiveAtFormatted.formattedDate}
               </li>
               <li>
-                <span className="fw-bold text-secondary">{key("time")}: </span>{" "}
+                <span className="text-secondary">{key("time")}: </span>{" "}
                 {receiveAtFormatted.formattedTime}
               </li>
             </ul>

@@ -133,7 +133,7 @@ const SingleReadyCard = ({ card, isStoreProfile }) => {
                     />
                   </div>
                 )}
-                <h5 className={`${styles.card_price} m-3`}>
+                <h5 className={`${!isArLang?styles.card_price_en:styles.card_price} m-3`}>
                   {card.price} {key("sar")}
                 </h5>
               </div>

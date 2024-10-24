@@ -62,7 +62,7 @@ const AddColor = ({refetch}) => {
         >
           <Form className={styles.general_info_form}>
             <div className={styles.field}>
-              <label className='fw-bold text-secondary' htmlFor="color">
+              <label className='text-secondary' htmlFor="color">
                 {key("add")} {key("color")}
               </label>
               <Field type="text" id="color" name="hex" />

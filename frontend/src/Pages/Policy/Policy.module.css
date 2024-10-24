@@ -1,0 +1,40 @@
+.policy_body{
+    min-height: 78.5vh;
+    text-align: center;
+    padding: 3.125rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.policy_content{
+    padding: 3.125rem;
+    background-color: var(--natural);
+    border-radius: 1.25rem;
+    text-align: center;
+    box-shadow: 0 0.0625rem 0.25rem rgba(0, 0, 0, 0.644);
+}
+.policy_body h2{
+    font-size: 2.1875rem;
+    font-weight: 400;
+}
+.policy_body p{
+    font-size: 1.375rem;
+    margin-top: 1.25rem;
+    line-height: 2;
+    font-weight: 400;
+}
+
+@media screen and (max-width:506px) {
+    .policy_content{
+        padding: 3.125rem 0.625rem;
+    }
+    .policy_body{
+        padding: 10px;
+    }
+}
+@media screen and (max-width:450px) {
+
+    .policy_body p{
+        font-size:1.125rem;
+    }
+}

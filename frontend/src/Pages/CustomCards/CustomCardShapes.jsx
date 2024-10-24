@@ -65,7 +65,7 @@ const CustomCardShapes = ({ addShape, settingShowBack }) => {
                 )}
                 <img
                   src={`${process.env.REACT_APP_Host}shapes/${shape.image}`}
-                  alt={`${shape}_${shape._id}`}
+                  alt={`${shape._id}`}
                   className="w-100"
                 />
               </div>

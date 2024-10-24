@@ -215,7 +215,7 @@ const Merchant = () => {
                 </div>
 
                 <div className="d-flex flex-column mb-5 position-relative">
-                  <label className="fw-bold" htmlFor="merchantShop">
+                  <label className="text-secondary" htmlFor="merchantShop">
                     {key("merchant")} {key("store")}
                   </label>
                   <Select

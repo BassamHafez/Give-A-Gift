@@ -6,11 +6,12 @@
     width: 4.6875rem;
     height: 4.6875rem;
     border-radius: 50%;
-    border: 1px solid black;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.582);
 }
 .store_logo img{
     border-radius: 50%;
     height: 100%;
+    object-fit: cover;
 }
 .card_body{
     min-width:23.75rem;
@@ -25,28 +26,6 @@
 }
 .card_img_div img{
     object-fit: cover;
-}
-.filter_box{
-    border: 1px solid transparent;
-    border-radius: 0.1875rem;
-    padding: 0.3125rem 0.5rem;
-    cursor: pointer;
-    background-color: var(--main_color);
-    color: var(--white);
-    font-weight: 600;
-    transition: all .4s;
-}
-.filter_box:hover svg{
-    cursor: pointer;
-    transition: all .4s;
-}
-.filter_box:hover{
-   background-color: white;
-   color: var(--main_color);
-   border: 1px solid var(--main_color);
-}
-.filter{
-    font-size: 1.125rem;
 }
 .card_img_div{
     border-radius: 0.9375rem;
@@ -76,48 +55,25 @@
     opacity: 1;
 }
 
-.controllers_icon{
-    position: absolute;
-    top:-0.5rem;
-    right:-0.625rem;
-    display: flex;
-}
-.controllers_icon_ar{
-    position: absolute;
-    top:-0.625rem;
-    left:-0.9375rem;
-    display: flex;
-}
-
 .card_price{
-    font-family:'Times New Roman', Times, serif;
-    color: black;
-    font-weight: 500;
+    font-weight: 400;
 }
-.controllers{
-    border-bottom: 0.0625rem solid rgba(0, 0, 0, 0.221);
-    padding-bottom: 0.625rem;
-    margin-inline: 0.625rem;
+.card_price_en{
+    font-weight: 400;
+    font-family: 'Times New Roman', Times, serif;
 }
 .arrow_icon{
-    background-color: grey;
+    background-color: var(--dark_white);
     color: white;
     padding: 3px 4px;
     border-radius: 50%;
-    border: 1px solid grey;
+    border: 1px solid var(--dark_white);
     cursor: pointer;
 }
 .arrow_icon:hover{
     box-shadow:  0 0 3px 3px rgba(128, 128, 128, 0.233);
 }
-@media screen and (max-width:480px) {
-    .controllers{
-        flex-direction: column-reverse;
-    }
-    .search_field{
-        margin-bottom: 10px;
-    }
-}
+
 @media screen and (max-width:450px) {
     .card_body{
         min-width:100%;    

@@ -60,7 +60,7 @@ const Analysis = () => {
       {data ? (
         <>
           <section className={styles.static_section}>
-            <h4 className="fw-bold text-secondary">
+            <h4 className="text-secondary">
               {key("importantNumbers")}
             </h4>
             <Row className={`${styles.section_row} py-3`}>
@@ -110,7 +110,7 @@ const Analysis = () => {
           <h4
             className={`${
               isArLang ? "text-end" : "text-start"
-            } fw-bold text-secondary mx-3 my-5`}
+            } text-secondary mx-3 my-5`}
           >
             {key("topthreeShops")}{" "}
             <FontAwesomeIcon
@@ -132,7 +132,7 @@ const Analysis = () => {
           <h4
             className={`${
               isArLang ? "text-end" : "text-start"
-            } fw-bold text-secondary mx-3 my-5`}
+            } text-secondary mx-3 my-5`}
           >
             {key("topthreeShapes")}
             <FontAwesomeIcon

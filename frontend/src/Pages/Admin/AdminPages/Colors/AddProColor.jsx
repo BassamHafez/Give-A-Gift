@@ -26,6 +26,7 @@ const AddProColor = ({ refetch }) => {
   const initialValues = {
     img: "",
     price: "",
+    priority: "",
   };
 
   const onSubmit = (values, { resetForm }) => {
@@ -38,6 +39,7 @@ const AddProColor = ({ refetch }) => {
       return;
     }
     formData.append("price", values.price);
+    formData.append("priority", values.priority);
     mutate(
       {
         formData: formData,
@@ -73,6 +75,9 @@ const AddProColor = ({ refetch }) => {
           : true;
       }),
     price: number().required(key("priceRec")).min(1, key("priceVali")),
+    priority: number()
+      .typeError(key("priorityValidation"))
+      .required(key("priReq")),
   });
 
   const handleFileChange = (e) => {
@@ -83,6 +88,7 @@ const AddProColor = ({ refetch }) => {
       setImagePreviewUrl(previewUrl);
       notifySuccess(key("photoDownloaded"));
     }
+    e.target.value = null;
   };
 
   return (
@@ -122,11 +128,19 @@ const AddProColor = ({ refetch }) => {
             <ErrorMessage name="img" component={InputErrorMessage} />
           </div>
           <div className={`${styles.field} mt-4`}>
-            <label className="fw-bold text-secondary" htmlFor="price">
+            <label className="text-secondary" htmlFor="price">
               {key("price")}
             </label>
             <Field type="number" id="price" name="price" />
             <ErrorMessage name="price" component={InputErrorMessage} />
+          </div>
+
+          <div className={`${styles.field} my-4`}>
+            <label className="text-secondary" htmlFor="priority">
+              {key("priority")}
+            </label>
+            <Field type="number" id="priority" name="priority" />
+            <ErrorMessage name="priority" component={InputErrorMessage} />
           </div>
 
           <div className="d-flex justify-content-end align-items-center mt-3 px-2">

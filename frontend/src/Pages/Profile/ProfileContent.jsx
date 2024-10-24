@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  faBook,
   faCashRegister,
   faCircleInfo,
   faDoorOpen,
@@ -32,7 +33,7 @@ const ProfileContent = () => {
               />
             )}
           </div>
-          <h1 className={styles.name}>{profileData?.name}</h1>
+          <h2 className={styles.name}>{profileData?.name}</h2>
         </div>
 
         <div>
@@ -80,6 +81,21 @@ const ProfileContent = () => {
                   icon={faCircleInfo}
                 />
                 <span>{key("help")}</span>
+              </div>
+            </Col>
+            <Col
+              xs={6}
+              className="d-flex justify-content-center align-items-center"
+            >
+              <div
+                className={styles.list_item}
+                onClick={() => navigate("/our-policy")}
+              >
+                <FontAwesomeIcon
+                  className={styles.list_item_icon}
+                  icon={faBook}
+                />
+                <span>{key("policy")}</span>
               </div>
             </Col>
             <Col

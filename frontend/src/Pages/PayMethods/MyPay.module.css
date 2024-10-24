@@ -20,7 +20,8 @@
     position: relative;
 }
 .field label{
-    font-weight: 700;
+    font-weight: 400;
+    color: var(--dark_white);
     margin-bottom: 5px;
 }
 

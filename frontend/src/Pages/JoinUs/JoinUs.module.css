@@ -10,10 +10,10 @@
     position: relative;
 }
 .field label{
-    font-weight: 700;
+    font-weight: 400;
+    color: var(--dark_white);
     margin-bottom: 0.3125rem;
     font-size: 20px;
-    color: var(--dark_white);
 }
 .field input{
     box-shadow: 0 0 1px rgba(0, 0, 0, 0.196);  

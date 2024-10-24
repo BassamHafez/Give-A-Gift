@@ -46,7 +46,6 @@ const UpdateSlide = ({ refetch, slideData, show, onHide }) => {
       },
       {
         onSuccess: (data) => {
-          console.log(data);
           if (data?.status === "success") {
             notifySuccess(key("opSuccess"));
             refetch();
@@ -59,7 +58,6 @@ const UpdateSlide = ({ refetch, slideData, show, onHide }) => {
           }
         },
         onError: (error) => {
-          console.log(error);
           notifyError(key("wrong"));
         },
       }
@@ -87,6 +85,7 @@ const UpdateSlide = ({ refetch, slideData, show, onHide }) => {
       setImagePreviewUrl(previewUrl);
       notifySuccess(key("photoDownloaded"));
     }
+    e.target.value = null;
   };
 
   return (
@@ -107,7 +106,7 @@ const UpdateSlide = ({ refetch, slideData, show, onHide }) => {
         >
           <Form className={styles.general_info_form}>
             <div className={styles.photo_field}>
-              <h4 className="fw-bold">{key("slideImage")}</h4>
+              <h4>{key("slideImage")}</h4>
               <label
                 className={styles.photo_label_img}
                 htmlFor="updateSlideImage"
@@ -137,8 +136,8 @@ const UpdateSlide = ({ refetch, slideData, show, onHide }) => {
               <ErrorMessage name="image" component={InputErrorMessage} />
             </div>
 
-            <div className={`${styles.field}`}>
-              <label className="fw-bold text-secondary" htmlFor="updateOrder">
+            <div className={`${styles.field} mt-5`}>
+              <label className="text-secondary" htmlFor="updateOrder">
                 {key("priority")}
               </label>
               <Field type="number" id="updateOrder" name="order" />

@@ -23,9 +23,9 @@ const OrderPdfContent = ({ order }) => {
           {key("orderFatora")} ({`${order.order_number}`})
         </p>
 
-        <h3 className="text-center my-3">
+        <h4 className="text-center my-3">
           شركة أعط الهدية للتجارة والتسويق
-        </h3>
+        </h4>
 
         <h4 className="text-center text-secondary">الرياض</h4>
       </div>

@@ -60,7 +60,6 @@ const JoinUs = () => {
   };
 
   const onSubmit = (values,{resetForm}) => {
-    console.log(values)
     let phoneBeginning = "966";
     switch (selectedCountry) {
       case "SA":
@@ -97,7 +96,6 @@ const JoinUs = () => {
       },
       {
         onSuccess: (data) => {
-            console.log(data)
           if (data?.status === "success") {
             notifySuccess(key("sentSucc"));
             resetForm()
@@ -106,7 +104,6 @@ const JoinUs = () => {
           }
         },
         onError: (error) => {
-          console.log(error);
           notifyError(key("sendFaild"));
         },
       }

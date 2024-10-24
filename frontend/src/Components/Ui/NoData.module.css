@@ -1,0 +1,16 @@
+.noData{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+.noData_img{
+    width: 300px;
+}
+
+@media screen and (max-width:310px) {
+    .noData_img{
+        width: 99%;
+    }
+}

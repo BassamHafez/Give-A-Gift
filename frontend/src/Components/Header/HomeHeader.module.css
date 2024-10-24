@@ -25,13 +25,15 @@
     font-size: 72px !important;
     text-transform: capitalize;
     color: #F9FAFB;
-    font-weight: 300;
+    font-weight: 400;
+    margin-bottom: 30px;
+    letter-spacing: -1px;
 }
 .caption{
     font-size: 1.875rem !important;
     text-transform: capitalize;
     color: white;
-    font-weight: 400;
+    font-weight: 300;
 }
 .layer{
     background-color: black;

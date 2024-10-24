@@ -82,7 +82,6 @@ const ConfirmationModal = ({
           setPriceAfterDisc("");
         }
       } catch (error) {
-
         if (error.response?.data?.message === "Coupon is invalid or expired") {
           notifyError(key("invalidCoupon"));
         } else if (error?.response?.data?.message === "Card is already paid") {
@@ -214,57 +213,73 @@ const ConfirmationModal = ({
               {isChargeList ? (
                 <>
                   <li>
-                    <FontAwesomeIcon
-                      className={styles.list_icon}
-                      icon={faMoneyBill}
-                    />
-                    {key("cardPrice")}: {Number(cardPrice).toFixed(2)}{" "}
-                    {key("sar")}{" "}
+                    <span>
+                      <FontAwesomeIcon
+                        className={styles.list_icon}
+                        icon={faMoneyBill}
+                      />
+                      {key("cardPrice")}
+                    </span>
+                    {Number(cardPrice).toFixed(2)} {key("sar")}{" "}
                   </li>
                   {ProPrice && (
                     <li>
-                      <FontAwesomeIcon
-                        className={styles.list_icon}
-                        icon={faPalette}
-                      />
-                      {key("colorPrice")}: {ProPrice} {key("sar")}
+                      <span>
+                        <FontAwesomeIcon
+                          className={styles.list_icon}
+                          icon={faPalette}
+                        />
+                        {key("colorPrice")}
+                      </span>
+                      {ProPrice} {key("sar")}
                     </li>
                   )}
                   {isCelebrateIcon && (
                     <li>
-                      <FontAwesomeIcon
-                        className={styles.list_icon}
-                        icon={faGift}
-                      />
-                      {key("celebrateIcon")}: {celebrateIconPrice} {key("sar")}
+                      <span>
+                        <FontAwesomeIcon
+                          className={styles.list_icon}
+                          icon={faGift}
+                        />
+                        {key("celebrateIcon")}
+                      </span>{" "}
+                      {celebrateIconPrice} {key("sar")}
                     </li>
                   )}
                   {isCelebrateQR && (
                     <li>
-                      <FontAwesomeIcon
-                        className={styles.list_icon}
-                        icon={faQrcode}
-                      />
-                      {key("celebrateLink")}: {celebrateLinkPrice} {key("sar")}
+                      <span>
+                        <FontAwesomeIcon
+                          className={styles.list_icon}
+                          icon={faQrcode}
+                        />
+                        {key("celebrateLink")}
+                      </span>{" "}
+                      {celebrateLinkPrice} {key("sar")}
                     </li>
                   )}
 
                   {(shapePrice ? Number(shapePrice) : 0) > 0 && (
                     <li>
-                      <FontAwesomeIcon
-                        className={styles.list_icon}
-                        icon={faCoins}
-                      />
-                      {key("shapePrice")}: {shapePrice} {key("sar")}
+                      <span>
+                        <FontAwesomeIcon
+                          className={styles.list_icon}
+                          icon={faCoins}
+                        />
+                        {key("shapePrice")}
+                      </span>{" "}
+                      {shapePrice} {key("sar")}
                     </li>
                   )}
 
                   <li>
-                    <FontAwesomeIcon
-                      className={styles.list_icon}
-                      icon={faPercent}
-                    />
-                    {key("Vatvalue")}:{" "}
+                    <span>
+                      <FontAwesomeIcon
+                        className={styles.list_icon}
+                        icon={faPercent}
+                      />
+                      {key("Vatvalue")}
+                    </span>
                     {priceAfterDisc !== ""
                       ? Number(priceAfterDisc).toFixed(2)
                       : ((Number(VAT) / 100) * Number(totalPurePrice)).toFixed(
@@ -274,20 +289,24 @@ const ConfirmationModal = ({
                   </li>
                   {paymentWay === "wallet" && (
                     <li>
+                      <span>
+                        <FontAwesomeIcon
+                          className={styles.list_icon}
+                          icon={faFileInvoiceDollar}
+                        />
+                        {key("wallet")}
+                      </span>{" "}
+                      {-Number(balance).toFixed(2)} {key("sar")}
+                    </li>
+                  )}
+                  <li>
+                    <span>
                       <FontAwesomeIcon
                         className={styles.list_icon}
                         icon={faFileInvoiceDollar}
                       />
-                      {key("wallet")}: {-Number(balance).toFixed(2)}{" "}
-                      {key("sar")}
-                    </li>
-                  )}
-                  <li>
-                    <FontAwesomeIcon
-                      className={styles.list_icon}
-                      icon={faFileInvoiceDollar}
-                    />
-                    {key("totalPrice")}:{" "}
+                      {key("totalPrice")}
+                    </span>
                     {(Number(totalPrice) - Number(balance)).toFixed(2)}{" "}
                     {key("sar")}
                   </li>
@@ -295,54 +314,71 @@ const ConfirmationModal = ({
               ) : (
                 <>
                   <li>
-                    <FontAwesomeIcon
-                      className={styles.list_icon}
-                      icon={faMoneyBill}
-                    />
-                    {key("cardPrice")}: {cardPrice.toFixed(2)} {key("sar")}
+                    <span>
+                      <FontAwesomeIcon
+                        className={styles.list_icon}
+                        icon={faMoneyBill}
+                      />
+                      {key("cardPrice")}
+                    </span>{" "}
+                    {cardPrice.toFixed(2)} {key("sar")}
                   </li>
                   {ProPrice && (
                     <li>
-                      <FontAwesomeIcon
-                        className={styles.list_icon}
-                        icon={faPalette}
-                      />
-                      {key("colorPrice")}: {ProPrice} {key("sar")}
+                      <span>
+                        <FontAwesomeIcon
+                          className={styles.list_icon}
+                          icon={faPalette}
+                        />
+                        {key("colorPrice")}
+                      </span>{" "}
+                      {ProPrice} {key("sar")}
                     </li>
                   )}
                   {(shapePrice ? Number(shapePrice) : 0) > 0 && (
                     <li>
-                      <FontAwesomeIcon
-                        className={styles.list_icon}
-                        icon={faCoins}
-                      />
-                      {key("shapePrice")}: {shapePrice} {key("sar")}
+                      <span>
+                        <FontAwesomeIcon
+                          className={styles.list_icon}
+                          icon={faCoins}
+                        />
+                        {key("shapePrice")}
+                      </span>{" "}
+                      {shapePrice} {key("sar")}
                     </li>
                   )}
                   {isCelebrateIcon && (
                     <li>
-                      <FontAwesomeIcon
-                        className={styles.list_icon}
-                        icon={faGift}
-                      />
-                      {key("celebrateIcon")}: {celebrateIconPrice} {key("sar")}
+                      <span>
+                        <FontAwesomeIcon
+                          className={styles.list_icon}
+                          icon={faGift}
+                        />
+                        {key("celebrateIcon")}
+                      </span>
+                      {celebrateIconPrice} {key("sar")}
                     </li>
                   )}
                   {isCelebrateQR && (
                     <li>
-                      <FontAwesomeIcon
-                        className={styles.list_icon}
-                        icon={faQrcode}
-                      />
-                      {key("celebrateLink")}: {celebrateLinkPrice} {key("sar")}
+                      <span>
+                        <FontAwesomeIcon
+                          className={styles.list_icon}
+                          icon={faQrcode}
+                        />
+                        {key("celebrateLink")}
+                      </span>{" "}
+                      {celebrateLinkPrice} {key("sar")}
                     </li>
                   )}
                   <li>
-                    <FontAwesomeIcon
-                      className={styles.list_icon}
-                      icon={faPercent}
-                    />
-                    {key("Vatvalue")}:{" "}
+                    <span>
+                      <FontAwesomeIcon
+                        className={styles.list_icon}
+                        icon={faPercent}
+                      />
+                      {key("Vatvalue")}
+                    </span>
                     {priceAfterDisc !== ""
                       ? Number(priceAfterDisc).toFixed(2)
                       : ((Number(VAT) / 100) * Number(totalPurePrice)).toFixed(
@@ -352,21 +388,25 @@ const ConfirmationModal = ({
                   </li>
                   {paymentWay === "wallet" && (
                     <li>
-                      <FontAwesomeIcon
-                        className={styles.list_icon}
-                        icon={faPercent}
-                      />
-                      {key("wallet")}: {-Number(totalPrice).toFixed(2)}{" "}
-                      {key("sar")}
+                      <span>
+                        <FontAwesomeIcon
+                          className={styles.list_icon}
+                          icon={faPercent}
+                        />
+                        {key("wallet")}
+                      </span>
+                      {-Number(totalPrice).toFixed(2)} {key("sar")}
                     </li>
                   )}
 
                   <li>
-                    <FontAwesomeIcon
-                      className={styles.list_icon}
-                      icon={faFileInvoiceDollar}
-                    />
-                    {key("totalPrice")}:{" "}
+                    <span>
+                      <FontAwesomeIcon
+                        className={styles.list_icon}
+                        icon={faFileInvoiceDollar}
+                      />
+                      {key("totalPrice")}
+                    </span>
                     {paymentWay === "wallet"
                       ? 0
                       : Number(totalPrice).toFixed(2) + " " + key("sar")}{" "}
@@ -375,7 +415,7 @@ const ConfirmationModal = ({
               )}
               {choosePaymentWay && (
                 <li className="flex-column align-items-start my-4">
-                  <h4>{key("choosePay")}</h4>
+                  <h5 className="mb-3">{key("choosePay")}</h5>
                   <div className="form-check">
                     <input
                       className="form-check-input"

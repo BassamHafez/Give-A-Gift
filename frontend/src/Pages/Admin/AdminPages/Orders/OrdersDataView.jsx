@@ -4,7 +4,6 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import LoadingOne from "../../../../Components/Ui/LoadingOne";
 import { useTranslation } from "react-i18next";
 import styles from "./Orders.module.css";
-import noData from "../../../../Images/noData.jpg";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -24,6 +23,7 @@ import { toast } from "react-toastify";
 import html2pdf from "html2pdf.js";
 import OrderPdfContent from "../../../../Components/OrderPdfContent/OrderPdfContent";
 import Container from "react-bootstrap/esm/Container";
+import NoDataPage from "../../../../Components/Ui/NoDataPage";
 
 const OrdersDataView = ({ isUser }) => {
   const notifySuccess = (message) => toast.success(message);
@@ -518,12 +518,7 @@ const OrdersDataView = ({ isUser }) => {
               ))}
             </>
           ) : (
-            <div className={styles.noData}>
-              <div className={styles.noData_img}>
-                <img src={noData} alt="noData" />
-              </div>
-              <span>{key("noOrders")}</span>
-            </div>
+           <NoDataPage text={`${key("noOrders")}`}/>
           )
         ) : (
           <LoadingOne />

@@ -56,6 +56,7 @@ const Shapes = () => {
   const initialValues = {
     shapeImage: "",
     price: "",
+    priority: "",
   };
 
   useEffect(() => {
@@ -76,6 +77,7 @@ const Shapes = () => {
     } else {
       formData.append("price", 0);
     }
+    formData.append("priority",values.priority)
     mutate(
       {
         formData: formData,
@@ -86,9 +88,9 @@ const Shapes = () => {
           if (data?.status === "success") {
             notifySuccess(key("opSuccess"));
             refetch();
-            resetForm();
             setSelectedFile(null);
             setImagePreviewUrl(null);
+            resetForm();
           } else {
             notifyError(key("wrong"));
           }
@@ -111,6 +113,7 @@ const Shapes = () => {
           : true;
       }),
     price: number().min(0, key("priceVali")),
+    priority:number().typeError(key("priorityValidation")).required(key("priReq"))
   });
 
   const deleteShape = async (shapeID) => {
@@ -141,6 +144,7 @@ const Shapes = () => {
       setImagePreviewUrl(previewUrl);
       notifySuccess(key("photoDownloaded"));
     }
+    e.target.value = null;
   };
 
   return (
@@ -148,14 +152,14 @@ const Shapes = () => {
       <div className={styles.main_body}>
         <div className={styles.configs_body}>
           <div className="my-5">
-            <h4 className="fw-bold text-secondary">
+            <h4 className="text-secondary">
               {key("changeReadyCards")}
             </h4>
             <AddSpecialCardsShape />
           </div>
           <div>
-            <h4 className="fw-bold text-secondary">
-              {key("add")} {key("customCards")}
+            <h4 className="text-secondary">
+              {key("customCards")}
             </h4>
             <Formik
               initialValues={initialValues}
@@ -164,8 +168,8 @@ const Shapes = () => {
             >
               <Form className={styles.general_info_form}>
                 <div className={styles.photo_field}>
-                  <h4 className="fw-bold">
-                    {key("add")} {key("shape")}
+                  <h4>
+                   {key("shape")}
                   </h4>
                   <label
                     className={
@@ -201,13 +205,23 @@ const Shapes = () => {
                     component={InputErrorMessage}
                   />
                 </div>
+
                 <div className={`${styles.field} my-4`}>
-                  <label className="fw-bold text-secondary" htmlFor="price">
-                    {key("add")} {key("price")}
+                  <label className="text-secondary" htmlFor="price">
+                    {key("price")}
                   </label>
                   <Field type="number" id="price" name="price" />
                   <ErrorMessage name="price" component={InputErrorMessage} />
                 </div>
+
+                <div className={`${styles.field} my-4`}>
+                  <label className="text-secondary" htmlFor="priority">
+                    {key("priority")}
+                  </label>
+                  <Field type="number" id="priority" name="priority" />
+                  <ErrorMessage name="priority" component={InputErrorMessage} />
+                </div>
+
                 <div className="d-flex justify-content-end align-items-center mt-3 px-2">
                   {isPending ? (
                     <button type="submit" className={styles.save_btn}>

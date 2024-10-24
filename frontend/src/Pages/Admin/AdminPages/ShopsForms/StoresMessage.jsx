@@ -13,7 +13,6 @@ import { object, string } from "yup";
 
 
 const StoresMessage = ({ show, onHide, storeIds }) => {
-console.log(storeIds)
     const { t: key } = useTranslation();
     const notifySuccess = (message) => toast.success(message);
     const notifyError = (message) => toast.error(message);
@@ -30,7 +29,6 @@ console.log(storeIds)
     };
   
     const onSubmit = (values, { resetForm }) => {
-      console.log(values)
       mutate(
         {
           formData: values,
@@ -39,7 +37,6 @@ console.log(storeIds)
         },
         {
           onSuccess: (data) => {
-            console.log(data);
             if (data?.status === "success") {
               notifySuccess(key("opSuccess"));
               resetForm();
@@ -49,7 +46,6 @@ console.log(storeIds)
             }
           },
           onError: (error) => {
-            console.log(error);
             notifyError(key("wrong"));
           },
         }

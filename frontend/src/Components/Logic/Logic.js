@@ -6,8 +6,8 @@ import usa from "../../Images/countries/usa.png";
 import uae from "../../Images/countries/uae.png";
 
 export const FontsFamilies = [
-    { label: "ARAHAMAH1982", value: "ARAHAMAH1982" },
     { label: "Cairo", value: '"Cairo", sans-serif' },
+    { label: "Roboto", value: '"Roboto", sans-serif' },
     { label: "Arial, Helvetica", value: "Arial, Helvetica" },
     { label: "'Times New Roman', Times, serif", value: "'Times New Roman', Times, serif" },
     { label: "Consolas, 'Courier New'", value: "Consolas, 'Courier New'" },
@@ -24,6 +24,7 @@ export const FontsFamilies = [
     { label: "Noto Sans", value: "Noto Sans" },
   ];
   
+    // { label: "ARAHAMAH1982", value: "ARAHAMAH1982" },
 
   export const CountriesPhoneNumbers=[
     {value:"EG",label:<div className="d-flex align-items-center" style={{cursor:"pointer"}}><div className={styles.flag_div}><img src={EG} alt="EG"/></div> <span>+20</span></div>},

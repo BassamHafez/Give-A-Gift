@@ -6,6 +6,13 @@
     box-shadow: 0 0 0.1875rem rgba(0, 0, 0, 0.208);
     border-radius: 0.625rem;
     padding: 3.125rem 4.375rem;
+    max-width: 300px;
+    overflow: hidden;
+    transition: all .4s;
+}
+.store_item:hover{
+    transform: translateY(-10px);
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.622)
 }
 .store_card{
     cursor: pointer;
@@ -24,6 +31,22 @@
     object-fit: cover;
 }
 
+.store_desc {
+    max-width:270px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    color: var(--dark_white);
+  }
+  
+  /* .store_desc:hover {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+} */
+
 .filter_box{
     border: 1px solid transparent;
     border-radius: 0.1875rem;
@@ -31,7 +54,6 @@
     cursor: pointer;
     background-color: var(--main_color);
     color: var(--white);
-    font-weight: 600;
     transition: all .4s;
 }
 .filter_box:hover svg{
@@ -54,25 +76,13 @@
 }
 .category_label img{
     margin-inline: 10px;
-    width: 50px;
-}
-.cat_icon{
-    font-size:40px;
-    margin-inline: 10px;
-    color: var(--main_color);
-}
-.noData{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-.noData img{
-    width: 300px;
+    width: 40px;
 }
 .select_category_field{
     width: 400px;
 }
+
+
 _________________________________________store profile____________________________________________________
 .main_container{
     min-height: 100vh;
@@ -113,7 +123,9 @@ _________________________________________store profile__________________________
 }
 
 @media screen and (max-width:350px) {
-    .noData img{
-        width: 200px;
+    .store_item{
+      padding: 20px 30px;
     }
 }
+
+

@@ -1,16 +1,16 @@
 .store_card{
     margin: 1.25rem 0;
 }
-
 .store_logo{
     width: 4.6875rem;
     height: 4.6875rem;
     border-radius: 50%;
-    border: 1px solid black;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.582);
 }
 .store_logo img{
     border-radius: 50%;
     height: 100%;
+    object-fit: cover;
 }
 .card_body{
     min-width:23.75rem;
