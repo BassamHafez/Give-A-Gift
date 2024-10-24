@@ -31,3 +31,5 @@ exports.resizeShapeImage = catchAsync(async (req, res, next) => {
 exports.createShape = factory.createOne(Shape);
 
 exports.deleteShape = factory.deleteOne(Shape);
+
+exports.updateShape = factory.updateOne(Shape);

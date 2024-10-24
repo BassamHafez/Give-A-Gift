@@ -17,10 +17,9 @@ router.post(
   shapeController.createShape
 );
 
-router.delete(
-  "/:id",
-  shapeValidator.deleteShapeValidator,
-  shapeController.deleteShape
-);
+router
+  .route("/:id")
+  .delete(shapeValidator.deleteShapeValidator, shapeController.deleteShape)
+  .patch(shapeValidator.updateShapeValidator, shapeController.updateShape);
 
 module.exports = router;
