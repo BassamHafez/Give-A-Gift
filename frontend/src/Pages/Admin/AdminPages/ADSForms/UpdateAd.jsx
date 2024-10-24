@@ -22,7 +22,7 @@ const UpdateAd = ({ refetch, show, onHide, adData }) => {
   const { mutate, isPending } = useMutation({
     mutationFn: adsController,
   });
-  console.log(adData);
+
   const initialValues = {
     image: "",
     link: adData.link || "",
@@ -45,7 +45,6 @@ const UpdateAd = ({ refetch, show, onHide, adData }) => {
       },
       {
         onSuccess: (data) => {
-          console.log(data);
           if (data?.status === "success") {
             notifySuccess(key("opSuccess"));
             refetch();
@@ -58,7 +57,6 @@ const UpdateAd = ({ refetch, show, onHide, adData }) => {
           }
         },
         onError: (error) => {
-          console.log(error);
           notifyError(key("wrong"));
         },
       }

@@ -128,7 +128,6 @@ const AddShop = ({ refetch }) => {
       default:
         break;
     }
-    console.log(values);
     const formData = new FormData();
 
     if (selectedFile) {

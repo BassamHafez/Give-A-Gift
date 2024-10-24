@@ -5,6 +5,7 @@ import styles from "./About.module.css";
 import MainButton from "../../Components/Ui/MainButton";
 import TopStores from "../../Components/TopStores/TopStores";
 import { useNavigate } from "react-router-dom";
+import AboutFooter from "../../Components/Footer/AboutFooter";
 
 const About = () => {
   const { t: key } = useTranslation();
@@ -26,6 +27,7 @@ const About = () => {
         <TopStores />
       </section>
       <HomeSections />
+      <AboutFooter/>
     </>
   );
 };

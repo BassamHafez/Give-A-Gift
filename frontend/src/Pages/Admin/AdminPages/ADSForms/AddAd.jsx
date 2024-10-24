@@ -46,7 +46,6 @@ const AddAd = ({ refetch }) => {
       },
       {
         onSuccess: (data) => {
-          console.log(data);
           if (data?.status === "success") {
             notifySuccess(key("opSuccess"));
             refetch();
@@ -58,7 +57,6 @@ const AddAd = ({ refetch }) => {
           }
         },
         onError: (error) => {
-          console.log(error);
           notifyError(key("wrong"));
         },
       }

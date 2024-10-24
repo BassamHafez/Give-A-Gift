@@ -77,6 +77,7 @@ const router=createBrowserRouter([{
     {path:"custom-cards",element:<CustomCards/>},
     {path:"joinUs",element:<JoinUs/>},
     {path:"docs",element:<Docs/>},
+    {path:"our-policy",element:<Policy/>},
     {path:"view-card/:cardId",element:<ProtectedRoute><ViewCard/></ProtectedRoute>},
     {path:"profile/:userId",element:<ProtectedRoute><Profile/></ProtectedRoute>},
     {path:"wallet/:userId",element:<ProtectedRoute><Wallet/></ProtectedRoute>},
@@ -84,7 +85,6 @@ const router=createBrowserRouter([{
     {path:"payment/:type/:cardId/:price",element:<ProtectedRoute><Payment/></ProtectedRoute>},
     {path:"account-setting",element:<ProtectedRoute><AccountManageMent/></ProtectedRoute>},
     {path:"help",element:<ProtectedRoute><Help/></ProtectedRoute>},
-    {path:"our-policy",element:<ProtectedRoute><Policy/></ProtectedRoute>},
     {path:"details-after-buying/:cardPrice",element:<ProtectedRoute><DetailsAfterBuying/></ProtectedRoute>},
     {path:"user-orders",element:<ProtectedRoute><ProfileOrders/></ProtectedRoute>},
 

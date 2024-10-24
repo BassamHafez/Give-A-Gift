@@ -274,7 +274,6 @@ const CustomCards = () => {
     } else {
       formData.color = cardColorId;
     }
-    console.log(formData);
     if (!isLogin) {
       notifyLoginError();
       localStorage.setItem("notReadyCard", JSON.stringify(formData));

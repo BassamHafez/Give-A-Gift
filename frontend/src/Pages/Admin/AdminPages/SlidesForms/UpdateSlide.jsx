@@ -46,7 +46,6 @@ const UpdateSlide = ({ refetch, slideData, show, onHide }) => {
       },
       {
         onSuccess: (data) => {
-          console.log(data);
           if (data?.status === "success") {
             notifySuccess(key("opSuccess"));
             refetch();
@@ -59,7 +58,6 @@ const UpdateSlide = ({ refetch, slideData, show, onHide }) => {
           }
         },
         onError: (error) => {
-          console.log(error);
           notifyError(key("wrong"));
         },
       }

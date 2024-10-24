@@ -94,7 +94,6 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
   const { mutate, isPending } = useMutation({
     mutationFn: controlShops,
     onSuccess: (data) => {
-      console.log(data);
       if (data?.status === "success") {
         notifySuccess(key("opSuccess"));
         refetch();
@@ -104,7 +103,6 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
       }
     },
     onError: (error) => {
-      console.log(error);
       notifyError(key("wrong"));
     },
   });
@@ -169,7 +167,6 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
       default:
         break;
     }
-    console.log(values);
     const formData = new FormData();
 
     if (selectedFile) {
