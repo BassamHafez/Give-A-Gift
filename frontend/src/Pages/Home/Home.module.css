@@ -87,4 +87,7 @@
         width: 95vw;
         padding-inline:0;
     }
+    .sec1_title{
+        font-size: 25px;
+    }
 }

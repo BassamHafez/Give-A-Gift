@@ -12,14 +12,14 @@ import InputErrorMessage from "../../../../Components/Ui/InputErrorMessage";
 import Select from "react-select";
 import { toast } from "react-toastify";
 
-const UpdateCard = ({ show, onHide, cardId, refetch, shopId }) => {
+const UpdateCard = ({ show, onHide, refetch,cardData }) => {
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
   const [myShops, setMyShops] = useState([]);
   const [initialShop, setInitialShop] = useState(null);
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
-
+console.log(cardData)
   const { data: shops } = useQuery({
     queryKey: ["shops", token],
     queryFn: getShops,
@@ -34,10 +34,10 @@ const UpdateCard = ({ show, onHide, cardId, refetch, shopId }) => {
       }));
       setMyShops(shopArr);
 
-      const selectedShop = shopArr.find((shop) => shop.value === shopId);
+      const selectedShop = shopArr.find((shop) => shop.value === cardData.shop?._id);
       setInitialShop(selectedShop || null);
     }
-  }, [shops, shopId]);
+  }, [shops, cardData.shop?._id]);
 
   const { mutate, isPending } = useMutation({
     mutationFn: controlSpecialCards,
@@ -58,8 +58,9 @@ const UpdateCard = ({ show, onHide, cardId, refetch, shopId }) => {
   });
 
   const initialValues = {
-    shop: shopId || "",
-    price: "",
+    shop: cardData.shop?._id || "",
+    price:cardData.price|| "",
+    priority:cardData.priority||""
   };
 
   const onSubmit = (values) => {
@@ -67,7 +68,7 @@ const UpdateCard = ({ show, onHide, cardId, refetch, shopId }) => {
       formData: values,
       token: token,
       method: "update",
-      cardId: cardId,
+      cardId: cardData._id,
     });
   };
 
@@ -76,6 +77,9 @@ const UpdateCard = ({ show, onHide, cardId, refetch, shopId }) => {
     price: number()
       .required(`${key("priceRec")}`)
       .min(1, key("priceVali")),
+      priority: number()
+      .typeError(key("priorityValidation"))
+      .required(key("priReq")),
   });
 
   return (
@@ -97,26 +101,45 @@ const UpdateCard = ({ show, onHide, cardId, refetch, shopId }) => {
           >
             {({ setFieldValue }) => (
               <Form>
-                <h5 className="text-secondary text-start">
-                  {key("store")}
-                </h5>
-                <Select
-                  className={`mb-3`}
-                  isClearable={false}
-                  isSearchable={true}
-                  name="shop"
-                  placeholder={key("store")}
-                  options={myShops ? myShops : []}
-                  value={initialShop}
-                  onChange={(value) => {
-                    setFieldValue("shop", value.value);
-                    setInitialShop(value);
-                  }}
-                />
                 <div className={styles.field}>
-                  <label className="text-start mt-3" htmlFor="price">{key("price")}</label>
-                  <Field type="text" id="price" name="price" />
+                  <label
+                    htmlFor="updateShop"
+                  >
+                    {key("store")}
+                  </label>
+                  <Select
+                    id="updateShop"
+                    isClearable={false}
+                    isSearchable={true}
+                    name="shop"
+                    options={myShops ? myShops : []}
+                    value={initialShop}
+                    onChange={(value) => {
+                      setFieldValue("shop", value.value);
+                      setInitialShop(value);
+                    }}
+                  />
+                </div>
+
+                <div className={styles.field}>
+                  <label htmlFor="price">
+                    {key("price")}
+                  </label>
+                  <Field type="text" id="price" name="price" className="p-2" />
                   <ErrorMessage name="price" component={InputErrorMessage} />
+                </div>
+
+                <div className={styles.field}>
+                  <label className="text-secondary" htmlFor="priority">
+                    {key("priority")}
+                  </label>
+                  <Field
+                    type="number"
+                    id="priority"
+                    name="priority"
+                    className="p-2"
+                  />
+                  <ErrorMessage name="priority" component={InputErrorMessage} />
                 </div>
 
                 <div className="d-flex justify-content-end align-items-center mt-3 px-2">

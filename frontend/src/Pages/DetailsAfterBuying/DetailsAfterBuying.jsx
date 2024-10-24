@@ -71,7 +71,7 @@ const DetailsAfterBuying = ({
             </div>
             <hr />
 
-            <ul className={styles.details_list}>
+            <ul className={`${styles.details_list} ${!isArLang?styles.details_list_en:""}`}>
               <li>
                 <span className="text-secondary">
                   {key("cardPrice")}:{" "}

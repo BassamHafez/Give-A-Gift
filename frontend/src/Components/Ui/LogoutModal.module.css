@@ -67,7 +67,9 @@
     display: flex;
     justify-content: space-between;
 }
-
+.details_list_en li{
+    font-family: 'Times New Roman', Times, serif !important;
+}
 .coupon_form{
     margin-inline: 0.625rem;
     display: flex;

@@ -239,7 +239,7 @@ const Cart = ({ onClose, show }) => {
                         </h4>
                         <div className={styles.item_content}>
                           <ul className="p-0">
-                            <li className={styles.sub_list_item}>
+                            <li className={`${styles.sub_list_item} ${isArLang?"":styles.sub_list_item_en}`}>
                               <FontAwesomeIcon
                                 className={
                                   isArLang
@@ -251,7 +251,7 @@ const Cart = ({ onClose, show }) => {
                               <span className="fw-bold">{key("store")}: </span>
                               {card.shop?.name}
                             </li>
-                            <li className={styles.sub_list_item}>
+                            <li className={`${styles.sub_list_item} ${isArLang?"":styles.sub_list_item_en}`}>
                               <FontAwesomeIcon
                                 className={
                                   isArLang
@@ -263,7 +263,7 @@ const Cart = ({ onClose, show }) => {
                               <span className="fw-bold">{key("price")}: </span>
                               {card.price?.value} {key("sar")}
                             </li>
-                            <li className={styles.sub_list_item}>
+                            <li className={`${styles.sub_list_item} ${isArLang?"":styles.sub_list_item_en}`}>
                               {card.isDelivered ? (
                                 <span>
                                   <FontAwesomeIcon

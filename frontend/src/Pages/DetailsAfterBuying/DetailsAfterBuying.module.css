@@ -47,6 +47,9 @@
     display: flex;
     justify-content: space-between;
 }
+.details_list_en li{
+    font-family: 'Times New Roman', Times, serif !important;
+}
 .wallet_balance h2{
     text-align: center;
     font-size: 40px;

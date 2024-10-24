@@ -187,12 +187,15 @@ const CustomCards = () => {
     setSelectedShopId(shopId);
   };
 
-  const stepLabels = [
-    key("color"),
-    key("design"),
-    key("storesPageTitle"),
-    key("message"),
-  ];
+  let stepLabels = [];
+  !isStoreSelected
+    ? (stepLabels = [
+        key("color"),
+        key("design"),
+        key("storesPageTitle"),
+        key("message"),
+      ])
+    : (stepLabels = [key("color"), key("design"), key("message")]);
 
   const handleSelect = (selectedIndex) => {
     if (currentStep !== selectedIndex) {

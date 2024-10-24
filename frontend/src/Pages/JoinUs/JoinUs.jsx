@@ -29,7 +29,7 @@ const getPhoneValidationSchema = (country, key) => {
     phone: string()
       .matches(phoneRegex[country], key("invalidPhoneNumber"))
       .required(key("phoneNumberRequired")),
-    link: string().url(key("invalidLink")).nullable(),
+    link: string().url(key("invalidLink")).required("linkRequired"),
     description: string().required(key("descReq")),
     email: string()
       .email(`${key("emailValidation1")}`)
@@ -59,7 +59,7 @@ const JoinUs = () => {
     email: "",
   };
 
-  const onSubmit = (values,{resetForm}) => {
+  const onSubmit = (values, { resetForm }) => {
     let phoneBeginning = "966";
     switch (selectedCountry) {
       case "SA":
@@ -98,7 +98,7 @@ const JoinUs = () => {
         onSuccess: (data) => {
           if (data?.status === "success") {
             notifySuccess(key("sentSucc"));
-            resetForm()
+            resetForm();
           } else {
             notifyError(key("sendFaild"));
           }

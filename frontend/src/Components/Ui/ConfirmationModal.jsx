@@ -209,7 +209,7 @@ const ConfirmationModal = ({
           balance !== undefined &&
           cardPrice !== null &&
           cardPrice !== undefined && (
-            <ul className={styles.details_list}>
+            <ul className={`${styles.details_list} ${!isArLang?styles.details_list_en:""}`}>
               {isChargeList ? (
                 <>
                   <li>
@@ -281,7 +281,10 @@ const ConfirmationModal = ({
                       {key("Vatvalue")}
                     </span>
                     {priceAfterDisc !== ""
-                      ? Number(priceAfterDisc).toFixed(2)
+                      ? (
+                          Number(priceAfterDisc) -
+                          Number(priceAfterDisc) / (1 + Number(VAT) / 100)
+                        ).toFixed(2)
                       : ((Number(VAT) / 100) * Number(totalPurePrice)).toFixed(
                           2
                         )}{" "}
@@ -380,7 +383,10 @@ const ConfirmationModal = ({
                       {key("Vatvalue")}
                     </span>
                     {priceAfterDisc !== ""
-                      ? Number(priceAfterDisc).toFixed(2)
+                      ? (
+                          Number(priceAfterDisc) -
+                          Number(priceAfterDisc) / (1 + Number(VAT) / 100)
+                        ).toFixed(2)
                       : ((Number(VAT) / 100) * Number(totalPurePrice)).toFixed(
                           2
                         )}{" "}
@@ -459,11 +465,14 @@ const ConfirmationModal = ({
                 </li>
               )}
               <li>
-                <FontAwesomeIcon
-                  className={styles.list_icon}
-                  icon={faReceipt}
-                />{" "}
-                {key("applyCoupon")}
+                <span>
+                  {" "}
+                  <FontAwesomeIcon
+                    className={styles.list_icon}
+                    icon={faReceipt}
+                  />{" "}
+                  {key("applyCoupon")}
+                </span>
               </li>
               <form onSubmit={applyCoupon} className={styles.coupon_form}>
                 <input className="form-control" type="text" name="coupon" />{" "}

@@ -25,8 +25,7 @@ const AllCards = () => {
   const [filteredCards, setFilteredCards] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [modalShow, setModalShow] = useState(false);
-  const [cardId, setCardId] = useState("");
-  const [shopId, setShopId] = useState("");
+  const [cardData, setCardData] = useState("");
   const [showFilterModal, setShowFilterModal] = useState(false);
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const token = JSON.parse(localStorage.getItem("token"));
@@ -190,8 +189,7 @@ const AllCards = () => {
                               <MainButton
                                 text={key("update")}
                                 onClick={() => {
-                                  setCardId(card._id);
-                                  setShopId(card.shop?._id);
+                                  setCardData(card);
                                   setModalShow(true);
                                 }}
                               />
@@ -221,9 +219,8 @@ const AllCards = () => {
         <UpdateCard
           show={modalShow}
           onHide={() => setModalShow(false)}
-          cardId={cardId}
           refetch={refetch}
-          shopId={shopId}
+          cardData={cardData}
         />
       )}
     </>

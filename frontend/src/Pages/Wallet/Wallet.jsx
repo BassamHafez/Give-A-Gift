@@ -100,7 +100,7 @@ const Wallet = () => {
         >
           {data?.data?.transfers.map((process, index) => (
             <li className={styles.prev_process}>
-              <h4 className={styles.counter_title}>{key("process")} ({index++})</h4>
+              <h4 className={styles.counter_title}>{key("process")} ({index+1})</h4>
               <ul
                 className={`${styles.sub_ul} ${!isArLang && styles.sub_ul_en}`}
               >

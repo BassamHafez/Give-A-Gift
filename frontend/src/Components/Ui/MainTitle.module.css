@@ -9,3 +9,11 @@
     margin: 0;
     margin-inline: 20px;
 }
+
+@media screen and (max-width:400px) {
+    .logo{width: 50px;}
+}
+
+@media screen and (max-width:300px) {
+    .logo{display: none;} 
+}

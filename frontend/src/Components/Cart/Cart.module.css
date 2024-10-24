@@ -36,6 +36,8 @@
 }
 .sub_list_item{
     margin: 0.5rem 0;
+}
+.sub_list_item_en{
     font-family: 'Times New Roman', Times, serif;
 }
 .sub_list_icon{
