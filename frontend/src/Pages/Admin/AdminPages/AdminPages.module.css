@@ -2,6 +2,7 @@
     position: relative;
     padding:2.5rem;
     min-height: 88vh;
+    overflow-x: hidden;
 }
 .field{
     display: flex;
@@ -581,6 +582,7 @@
 .discount_body{
     min-height: 90vh;
     padding: 2.5rem;
+    overflow-x: hidden;
 }
 .disc_content{
     padding: 1.875rem;
@@ -658,6 +660,15 @@ color: var(--main_color);
 }
 
 
+
+/* main */
+.show_small_screens{
+    display: none;
+   }
+   .blue_border{
+    border: 2px solid var(--sub_color_light);
+   }
+
 @media screen and (max-width:1130px) {
     .register_form div{
        margin-inline:0 !important;
@@ -699,6 +710,12 @@ color: var(--main_color);
     }
     .phone_input{
         width: 65%;
+    }
+    .hidden_mobile{
+    display: none;
+    }
+    .show_small_screens{
+        display: block;
     }
 }
 @media screen and (max-width:470px) {

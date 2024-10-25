@@ -23,7 +23,7 @@
   box-sizing: border-box;
 }
 body {
-  overflow-x: hidden;
+  overflow-x: hidden !important;
   background-color: var(--main_bg_color);
   font-family:var(--main_font) !important;
 }

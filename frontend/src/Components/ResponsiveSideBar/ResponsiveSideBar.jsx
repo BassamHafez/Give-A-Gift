@@ -12,6 +12,7 @@ import {
   faDoorOpen,
   faXmark,
   faUser,
+  faWallet,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import logo from "../../Images/logo.png";
@@ -72,6 +73,24 @@ const ResponsiveSideBar = ({ onClose, show }) => {
                 </li>
               )}
             </Link>
+            {isLogin && (
+              <Link
+                onClick={onClose}
+                className={styles.wallet_icon_hidden}
+                to={`wallet/${profileData?._id}`}
+                end="true"
+              >
+                {isLogin && (
+                  <li className={styles.contact_list_item}>
+                    {key("wallet")}{" "}
+                    <FontAwesomeIcon
+                      className={styles.list_icons}
+                      icon={faWallet}
+                    />
+                  </li>
+                )}
+              </Link>
+            )}
             <Link onClick={onClose} to={"about"} end="true">
               <li className={styles.contact_list_item}>
                 {key("aboutPageTitle")}{" "}

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { getAdminDiscount } from "../../../util/Http";
 import styles from "./AdminPages.module.css";
 import { useTranslation } from "react-i18next";
-import Row from "react-bootstrap/Row";
 import MainButton from "../../../Components/Ui/MainButton";
 import LoadingOne from "../../../Components/Ui/LoadingOne";
 import Table from "react-bootstrap/Table";
@@ -13,6 +12,8 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import NoDataPage from "../../../Components/Ui/NoDataPage";
+import Row from "react-bootstrap/esm/Row";
+import Col from "react-bootstrap/esm/Col";
 
 const Discounts = () => {
   const [usedData, setUsedData] = useState(false);
@@ -97,7 +98,6 @@ const Discounts = () => {
     e.preventDefault();
     if (searchTerm !== "" && searchTerm !== searchInput) {
       setSearchInput(searchTerm);
-      notifySuccess(key("searchFilterApplied"));
     }
   };
 
@@ -140,115 +140,168 @@ const Discounts = () => {
 
   return (
     <div className={styles.discount_body}>
-      <Row>
-        {data ? (
-          data.data?.length > 0 ? (
-            <>
-              <div className="d-flex flex-wrap justify-content-between align-items-venter mb-3">
-                <h4 className="fw-bolder">
-                  {key("allDisount")} ({usedData ? key("used") : key("notUsed")}
-                  )
-                </h4>
-                <div className="d-flex flex-wrap align-items-center">
-                  <div className="m-2">
-                    <MainButton
-                      onClick={() => setUsedData(true)}
-                      text={`${key("used")} (${usedCount})`}
-                    />
-                  </div>
-                  <div className="m-2">
-                    <MainButton
-                      onClick={() => setUsedData(false)}
-                      type="white"
-                      text={`${key("notUsed")} (${unusedCount})`}
-                    />
-                  </div>
+      {data ? (
+        data.data?.length > 0 ? (
+          <>
+            <div className="d-flex flex-wrap justify-content-between align-items-venter mb-3">
+              <h4 className="fw-bolder">
+                {key("allDisount")} ({usedData ? key("used") : key("notUsed")})
+              </h4>
+              <div className="d-flex flex-wrap align-items-center">
+                <div className="m-2">
+                  <MainButton
+                    onClick={() => setUsedData(true)}
+                    text={`${key("used")} (${usedCount})`}
+                  />
+                </div>
+                <div className="m-2">
+                  <MainButton
+                    onClick={() => setUsedData(false)}
+                    type="white"
+                    text={`${key("notUsed")} (${unusedCount})`}
+                  />
                 </div>
               </div>
-              <hr />
-              <div className="d-flex flex-wrap justify-content-end my-4">
-                <button
-                  onClick={() => setSearchInput("")}
-                  className="btn btn-outline-danger"
+            </div>
+            <hr />
+            <div className="d-flex flex-wrap justify-content-end my-4">
+              <button
+                onClick={() => setSearchInput("")}
+                className="btn btn-outline-danger my-2"
+              >
+                {key("default")}
+              </button>
+              <SearchField
+                className="my-2"
+                onSearch={handleSearch}
+                text={key("search")}
+              />
+            </div>
+
+            {!usedData && (
+              <div className="text-end my-1 mb-4">
+                <MainButton
+                  type="blue"
+                  onClick={sendSelectedId}
+                  className="btn btn-primary"
                 >
-                  {key("default")}
-                </button>
-                <SearchField onSearch={handleSearch} text={key("search")} />
+                  {selectedIds.length > 0
+                    ? key("sendReminder")
+                    : key("sendReminderAll")}
+                </MainButton>
               </div>
-              <Table striped bordered hover>
-                <thead>
-                  <tr className="text-center">
-                    {!usedData && <th>{key("select")}</th>}
-                    <th>{key("orderNumber")}</th>
-                    <th>{key("name")}</th>
-                    <th>{key("myPhone")}</th>
-                    <th>{key("store")}</th>
-                    <th>{key("isUsed")}</th>
-                    {!usedData && <th>{key("cancelCode")}</th>}
-                  </tr>
-                </thead>
-                <tbody className={styles.cart_tbody}>
-                  {filteredDisc?.map(
-                    (disc) =>
-                      (usedData ? disc.isUsed : !disc.isUsed) && (
-                        <tr
-                          key={disc.id}
-                          onClick={() =>
-                            handleCheckboxChange(disc.id, disc.isUsed)
-                          }
-                        >
-                          {!disc.isUsed && (
-                            <td className="text-center">
-                              <input
-                                type="checkbox"
-                                checked={selectedIds.includes(disc.id)}
-                                onChange={() =>
-                                  handleCheckboxChange(disc.id, disc.isUsed)
-                                }
-                              />
-                            </td>
-                          )}
-                          <td className="text-center">{`${
-                            disc.order_number ? disc.order_number : "-"
-                          }`}</td>
-                          <td className="text-center">{disc.user_name}</td>
-                          <td className="text-center">{disc.user_phone}</td>
-                          <td className="text-center">{disc.shop_name}</td>
+            )}
+
+            <Table striped bordered hover className={styles.hidden_mobile}>
+              <thead>
+                <tr className="text-center">
+                  {!usedData && <th>{key("select")}</th>}
+                  <th>{key("orderNumber")}</th>
+                  <th>{key("name")}</th>
+                  <th>{key("myPhone")}</th>
+                  <th>{key("store")}</th>
+                  {!usedData && <th>{key("cancelCode")}</th>}
+                </tr>
+              </thead>
+              <tbody className={styles.cart_tbody}>
+                {filteredDisc?.map(
+                  (disc) =>
+                    (usedData ? disc.isUsed : !disc.isUsed) && (
+                      <tr
+                        key={disc.id}
+                        onClick={() =>
+                          handleCheckboxChange(disc.id, disc.isUsed)
+                        }
+                      >
+                        {!disc.isUsed && (
                           <td className="text-center">
-                            {disc.isUsed ? key("yes") : key("no")}
+                            <input
+                              type="checkbox"
+                              checked={selectedIds.includes(disc.id)}
+                              onChange={() =>
+                                handleCheckboxChange(disc.id, disc.isUsed)
+                              }
+                            />
                           </td>
-                          {!disc.isUsed && (
-                            <td className="text-center">
-                              <button
+                        )}
+                        <td className="text-center">{`${
+                          disc.order_number ? disc.order_number : "-"
+                        }`}</td>
+                        <td className={`text-center`}>{disc.user_name}</td>
+                        <td className={`text-center`}>{disc.user_phone}</td>
+                        <td className="text-center">{disc.shop_name}</td>
+                        {!disc.isUsed && (
+                          <td className="text-center">
+                            <button
+                              onClick={() => cancelDisc(disc.id)}
+                              className="text-danger fw-bold w-100"
+                            >
+                              {key("cancelCode")}
+                            </button>
+                          </td>
+                        )}
+                      </tr>
+                    )
+                )}
+              </tbody>
+            </Table>
+
+            <div className={styles.show_small_screens}>
+              <Row>
+                {filteredDisc.map(
+                  (disc) =>
+                    (usedData ? disc.isUsed : !disc.isUsed) && (
+                      <Col
+                        xs={12}
+                        key={disc.id}
+                        onClick={() =>
+                          handleCheckboxChange(disc.id, disc.isUsed)
+                        }
+                      >
+                        <div
+                          className={`${styles.user_div} ${
+                            selectedIds.includes(disc.id)
+                              ? styles.blue_border
+                              : ""
+                          }`}
+                          style={{ cursor: "pointer" }}
+                        >
+                          <ul className="p-0 mt-4">
+                            <li className={styles.details_list}>
+                              {key("orderNumber")}:{" "}
+                              {disc.order_number ? disc.order_number : "-"}
+                            </li>
+                            <li className={styles.details_list}>
+                              {key("name")}: {disc.user_name}
+                            </li>
+                            <li className={styles.details_list}>
+                              {key("myPhone")}: {disc.user_phone}
+                            </li>
+                            <li className={styles.details_list}>
+                              {key("store")}: {disc.shop_name}
+                            </li>
+                          </ul>
+                          {disc.isUsed === false && (
+                            <div className="text-end d-flex justify-content-end flex-wrap align-items-center">
+                              <MainButton
                                 onClick={() => cancelDisc(disc.id)}
-                                className="text-danger fw-bold w-100"
-                              >
-                                {key("cancelCode")}
-                              </button>
-                            </td>
+                                text={key("cancelCode")}
+                              />
+                            </div>
                           )}
-                        </tr>
-                      )
-                  )}
-                </tbody>
-              </Table>
-              {!usedData && (
-                <div className="text-end">
-                  <button onClick={sendSelectedId} className="btn btn-primary">
-                    {selectedIds.length > 0
-                      ? key("sendReminder")
-                      : key("sendReminderAll")}
-                  </button>
-                </div>
-              )}
-            </>
-          ) : (
-            <NoDataPage text={`${key("noDisc")}`}/>
-          )
+                        </div>
+                      </Col>
+                    )
+                )}
+              </Row>
+            </div>
+          </>
         ) : (
-          <LoadingOne />
-        )}
-      </Row>
+          <NoDataPage text={`${key("noDisc")}`} />
+        )
+      ) : (
+        <LoadingOne />
+      )}
     </div>
   );
 };

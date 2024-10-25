@@ -56,7 +56,7 @@
 .contact_list a:hover .contact_list_item{
    color: var(--main_color);
 }
-.hidden_small{
+.hidden_small,.wallet_icon_hidden{
     display: none;
 }
 
@@ -67,6 +67,11 @@
 }
 @media screen and (max-width:450px) {
    .hidden_small{
+    display: block;
+   }
+}
+@media screen and (max-width:355px) {
+   .wallet_icon_hidden{
     display: block;
    }
 }

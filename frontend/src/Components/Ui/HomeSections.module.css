@@ -1,5 +1,7 @@
 /* ------------------------------------------------- sec2 quality section----------------------- */
-
+.section_title{
+    overflow-x: hidden;
+}
 .sec2_quality_img{
     width: 600px;
     height: 300px;
@@ -88,8 +90,6 @@
         width: 95vw;
         padding-inline:0;
     }
-}
-@media screen and (max-width:410px){
     .caption_text h2{
         font-size: 3.125rem;
     }

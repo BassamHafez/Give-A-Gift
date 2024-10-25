@@ -75,7 +75,6 @@ const Discount = () => {
             <div className="text-center">
               <MainButton
                 onClick={getDiscountValue}
-                // onClick={() => setIsDiscValue(!isDiscValue)}
                 className="mb-3"
                 text={key("reveal")}
               />

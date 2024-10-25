@@ -11,6 +11,8 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import NoDataPage from "../../../Components/Ui/NoDataPage";
+import Row from "react-bootstrap/esm/Row";
+import Col from "react-bootstrap/esm/Col";
 
 const AdminCarts = () => {
   const [selectedIds, setSelectedIds] = useState([]);
@@ -131,7 +133,6 @@ const AdminCarts = () => {
     e.preventDefault();
     if (searchTerm !== "" && searchTerm !== searchInput) {
       setSearchInput(searchTerm);
-      notifySuccess(key("searchFilterApplied"));
     }
   };
 
@@ -173,105 +174,171 @@ const AdminCarts = () => {
       </div>
       {data ? (
         data.data?.length > 0 ? (
-          <Table striped bordered hover>
-            <thead>
-              <tr className="text-center">
-                <th>{key("select")}</th>
-                <th>{key("name")}</th>
-                <th>{key("myPhone")}</th>
-                <th>{key("store")}</th>
-                <th>{key("price")}</th>
-                <th>{key("afterDiscount")}</th>
-                <th>{key("date")}</th>
-                <th>{key("time")}</th>
-              </tr>
-            </thead>
-            <tbody className={styles.cart_tbody}>
-              {filteredCarts.length > 0
-                ? filteredCarts.map(
-                    (cart) =>
-                      !cart.isPaid && (
-                        <tr
-                          key={cart._id}
-                          onClick={() => handleCheckboxChange(cart._id)}
+          <>
+            <Table striped bordered hover className={styles.hidden_mobile}>
+              <thead>
+                <tr className="text-center">
+                  <th>{key("select")}</th>
+                  <th>{key("name")}</th>
+                  <th>{key("myPhone")}</th>
+                  <th>{key("store")}</th>
+                  <th>{key("price")}</th>
+                  <th>{key("afterDiscount")}</th>
+                  <th>{key("date")}</th>
+                  <th>{key("time")}</th>
+                </tr>
+              </thead>
+              <tbody className={styles.cart_tbody}>
+                {filteredCarts.length > 0
+                  ? filteredCarts.map(
+                      (cart) =>
+                        !cart.isPaid && (
+                          <tr
+                            key={cart._id}
+                            onClick={() => handleCheckboxChange(cart._id)}
+                          >
+                            <td className="text-center">
+                              <input
+                                type="checkbox"
+                                checked={selectedIds.includes(cart._id)}
+                                onChange={() => handleCheckboxChange(cart._id)}
+                              />
+                            </td>
+                            <td className="text-center">{cart.user?.name}</td>
+                            <td className="text-center">{cart.user?.phone}</td>
+                            <td className="text-center">{cart.shop?.name}</td>
+                            <td className="text-center">
+                              {calculateTotalPrice(
+                                cart.price.value,
+                                cart.proColorPrice?.price,
+                                cart.shapes,
+                                cart.celebrateIcon,
+                                cart.celebrateQR
+                              )}{" "}
+                              {key("sar")}
+                            </td>
+                            <td className="text-center">
+                              {cart.priceAfterDiscount
+                                ? `${cart.priceAfterDiscount} ${key("sar")}`
+                                : "-"}
+                            </td>
+                            <td className="text-center">
+                              {formatDateTime(cart.createdAt).formattedDate}
+                            </td>
+                            <td className="text-center">
+                              {formatDateTime(cart.createdAt).formattedTime}
+                            </td>
+                          </tr>
+                        )
+                    )
+                  : data?.data?.map(
+                      (cart) =>
+                        !cart.isPaid && (
+                          <tr
+                            key={cart._id}
+                            onClick={() => handleCheckboxChange(cart._id)}
+                          >
+                            <td className="text-center">
+                              <input
+                                type="checkbox"
+                                checked={selectedIds.includes(cart._id)}
+                                onChange={() => handleCheckboxChange(cart._id)}
+                              />
+                            </td>
+                            <td className="text-center">{cart._id}</td>
+                            <td className="text-center">
+                              {calculateTotalPrice(
+                                cart.price.value,
+                                cart.proColorPrice?.price,
+                                cart.shapes,
+                                cart.celebrateIcon,
+                                cart.celebrateQR
+                              )}{" "}
+                              {key("sar")}
+                            </td>
+                            <td className="text-center">
+                              {cart.priceAfterDiscount
+                                ? `${cart.priceAfterDiscount} ${key("sar")}`
+                                : "-"}
+                            </td>
+                            <td className="text-center">
+                              {formatDateTime(cart.createdAt).formattedDate}
+                            </td>
+                            <td className="text-center">
+                              {formatDateTime(cart.createdAt).formattedTime}
+                            </td>
+                          </tr>
+                        )
+                    )}
+              </tbody>
+            </Table>
+
+            <div className={styles.show_small_screens}>
+              <Row>
+                {filteredCarts.map(
+                  (cart) =>
+                    !cart.isPaid && (
+                      <Col
+                        xs={12}
+                        key={cart.id}
+                        onClick={() => handleCheckboxChange(cart._id)}
+                      >
+                        <div
+                          className={`${styles.user_div} ${
+                            selectedIds.includes(cart._id)
+                              ? styles.blue_border
+                              : ""
+                          }`}
+                          style={{ cursor: "pointer" }}
                         >
-                          <td className="text-center">
-                            <input
-                              type="checkbox"
-                              checked={selectedIds.includes(cart._id)}
-                              onChange={() => handleCheckboxChange(cart._id)}
-                            />
-                          </td>
-                          <td className="text-center">{cart.user?.name}</td>
-                          <td className="text-center">{cart.user?.phone}</td>
-                          <td className="text-center">{cart.shop?.name}</td>
-                          <td className="text-center">
-                            {calculateTotalPrice(
-                              cart.price.value,
-                              cart.proColorPrice?.price,
-                              cart.shapes,
-                              cart.celebrateIcon,
-                              cart.celebrateQR
-                            )}{" "}
-                            {key("sar")}
-                          </td>
-                          <td className="text-center">
-                            {cart.priceAfterDiscount
-                              ? `${cart.priceAfterDiscount} ${key("sar")}`
-                              : "-"}
-                          </td>
-                          <td className="text-center">
-                            {formatDateTime(cart.createdAt).formattedDate}
-                          </td>
-                          <td className="text-center">
-                            {formatDateTime(cart.createdAt).formattedTime}
-                          </td>
-                        </tr>
-                      )
-                  )
-                : data?.data?.map(
-                    (cart) =>
-                      !cart.isPaid && (
-                        <tr
-                          key={cart._id}
-                          onClick={() => handleCheckboxChange(cart._id)}
-                        >
-                          <td className="text-center">
-                            <input
-                              type="checkbox"
-                              checked={selectedIds.includes(cart._id)}
-                              onChange={() => handleCheckboxChange(cart._id)}
-                            />
-                          </td>
-                          <td className="text-center">{cart._id}</td>
-                          <td className="text-center">
-                            {calculateTotalPrice(
-                              cart.price.value,
-                              cart.proColorPrice?.price,
-                              cart.shapes,
-                              cart.celebrateIcon,
-                              cart.celebrateQR
-                            )}{" "}
-                            {key("sar")}
-                          </td>
-                          <td className="text-center">
-                            {cart.priceAfterDiscount
-                              ? `${cart.priceAfterDiscount} ${key("sar")}`
-                              : "-"}
-                          </td>
-                          <td className="text-center">
-                            {formatDateTime(cart.createdAt).formattedDate}
-                          </td>
-                          <td className="text-center">
-                            {formatDateTime(cart.createdAt).formattedTime}
-                          </td>
-                        </tr>
-                      )
-                  )}
-            </tbody>
-          </Table>
+                          <ul className="p-0 mt-4">
+                            <li className={styles.details_list}>
+                              {key("name")}: {cart.user?.name}
+                            </li>
+                            <li className={styles.details_list}>
+                              {key("myPhone")}: {cart.user?.phone}
+                            </li>
+                            <li className={styles.details_list}>
+                              {key("store")}: {cart.shop?.name}
+                            </li>
+                            <li className={styles.details_list}>
+                              {key("store")}: {cart.shop_name}
+                            </li>
+                            <li className={styles.details_list}>
+                              {key("price")}:{" "}
+                              {calculateTotalPrice(
+                                cart.price.value,
+                                cart.proColorPrice?.price,
+                                cart.shapes,
+                                cart.celebrateIcon,
+                                cart.celebrateQR
+                              )}{" "}
+                              {key("sar")}
+                            </li>
+                            <li className={styles.details_list}>
+                              {key("afterDiscount")}:{" "}
+                              {cart.priceAfterDiscount
+                                ? `${cart.priceAfterDiscount} ${key("sar")}`
+                                : "-"}
+                            </li>
+                            <li className={styles.details_list}>
+                              {key("date")}:{" "}
+                              {formatDateTime(cart.createdAt).formattedDate}
+                            </li>
+                            <li className={styles.details_list}>
+                              {key("time")}:{" "}
+                              {formatDateTime(cart.createdAt).formattedTime}
+                            </li>
+                          </ul>
+                        </div>
+                      </Col>
+                    )
+                )}
+              </Row>
+            </div>
+          </>
         ) : (
-          <NoDataPage text={`${key("noCarts")}`}/>
+          <NoDataPage text={`${key("noCarts")}`} />
         )
       ) : (
         <LoadingOne />

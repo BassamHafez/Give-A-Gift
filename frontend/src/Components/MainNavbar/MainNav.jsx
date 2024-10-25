@@ -172,7 +172,7 @@ const MainNav = () => {
                 </div>
                 {isLogin && (
                   <div
-                    className="position-relative mx-2"
+                    className={`${styles.wallet_icon} position-relative mx-2`}
                     onClick={() => navigate(`/wallet/${profileData._id}`)}
                   >
                     <FontAwesomeIcon

@@ -1,6 +1,6 @@
 .main_body{
     width: 70%;
-    margin: 50px auto;
+    margin: 3.125rem auto;
 }
 .field{
     display: flex;
@@ -68,7 +68,6 @@
 @media screen and (max-width:680px) {
     .main_body{
         width: 95%;
-        margin: auto;
     }
 
 }

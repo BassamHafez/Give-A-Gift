@@ -39,7 +39,7 @@ const ProfileContent = () => {
         <div>
           <Row className={`${styles.main_row} justify-content-center`}>
             <Col
-              xs={6}
+              sm={6}
               className="d-flex justify-content-center align-items-center"
             >
               <div
@@ -54,7 +54,7 @@ const ProfileContent = () => {
               </div>
             </Col>
             <Col
-              xs={6}
+              sm={6}
               className="d-flex justify-content-center align-items-center"
             >
               <div
@@ -69,7 +69,7 @@ const ProfileContent = () => {
               </div>
             </Col>
             <Col
-              xs={6}
+              sm={6}
               className="d-flex justify-content-center align-items-center"
             >
               <div
@@ -84,7 +84,7 @@ const ProfileContent = () => {
               </div>
             </Col>
             <Col
-              xs={6}
+              sm={6}
               className="d-flex justify-content-center align-items-center"
             >
               <div
@@ -99,7 +99,7 @@ const ProfileContent = () => {
               </div>
             </Col>
             <Col
-              xs={6}
+              sm={6}
               className="d-flex justify-content-center align-items-center"
             >
               <div

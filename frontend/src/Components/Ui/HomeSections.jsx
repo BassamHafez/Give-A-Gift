@@ -13,7 +13,7 @@ const HomeSections = () => {
 
   return (
     <>
-      <section className="my-5 py-5">
+      <section className={`my-5 py-5 ${styles.section_title}`}>
         <Container>
           <Row className={`${isArLang&&"flex-row-reverse"} mt-5`}>
             <Col
