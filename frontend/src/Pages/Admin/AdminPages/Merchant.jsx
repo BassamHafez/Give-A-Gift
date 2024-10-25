@@ -67,8 +67,8 @@ const Merchant = () => {
       navigate(`/merchant/${profileData?._id}`);
     }
   }, [role, navigate, profileData]);
-  const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
+  const notifySuccess = (message) => toast.success(message);
 
   const { data: shops, refetch } = useQuery({
     queryKey: ["shops", token],
@@ -99,34 +99,6 @@ const Merchant = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: controlUsers,
-    onSuccess: (data) => {
-      if (data?.status === "success") {
-        setIsEmailError(false);
-        refetch();
-        notifySuccess(key("opSuccess"));
-      } else if (data.response?.data?.message === "Shop already in use") {
-        notifyError(key("shopeUsed"));
-      } else if (data.response.data.message.split(" ")[0] === "Duplicate") {
-        notifyError(key("duplicate"));
-      } else {
-        notifyError(key("wrong"));
-      }
-    },
-    onError: (error) => {
-      if (error.status === 500) {
-        if (
-          error.data.message ===
-          "connection <monitor> to 15.185.166.107:27017 timed out"
-        ) {
-          setIsEmailError(false);
-          notifyError(key("timeout"));
-        } else {
-          setIsEmailError(true);
-        }
-      } else {
-        notifyError(key("wrong"));
-      }
-    },
   });
 
   const initialValues = {
@@ -138,7 +110,7 @@ const Merchant = () => {
     merchantShop: "",
   };
 
-  const onSubmit = (values) => {
+  const onSubmit = (values, { resetForm }) => {
     let phoneBeginning = "966";
     switch (selectedCountry) {
       case "SA":
@@ -168,11 +140,44 @@ const Merchant = () => {
       phone: `${phoneBeginning}${values.phone}`,
       merchantShop: values.merchantShop,
     };
-    mutate({
-      formData: updatedValues,
-      token: token,
-      type: "merchant",
-    });
+    mutate(
+      {
+        formData: updatedValues,
+        token: token,
+        type: "merchant",
+      },
+      {
+        onSuccess: (data) => {
+          if (data?.status === "success") {
+            setIsEmailError(false);
+            refetch();
+            notifySuccess(key("opSuccess"));
+            resetForm();
+          } else if (data.response?.data?.message === "Shop already in use") {
+            notifyError(key("shopeUsed"));
+          } else if (data.response.data.message.split(" ")[0] === "Duplicate") {
+            notifyError(key("duplicate"));
+          } else {
+            notifyError(key("wrong"));
+          }
+        },
+        onError: (error) => {
+          if (error.status === 500) {
+            if (
+              error.data.message ===
+              "connection <monitor> to 15.185.166.107:27017 timed out"
+            ) {
+              setIsEmailError(false);
+              notifyError(key("timeout"));
+            } else {
+              setIsEmailError(true);
+            }
+          } else {
+            notifyError(key("wrong"));
+          }
+        },
+      }
+    );
   };
 
   const validationSchema = getPhoneValidationSchema(selectedCountry, key);

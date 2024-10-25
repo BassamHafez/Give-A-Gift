@@ -21,6 +21,7 @@ import CustomCardShops from "./CustomCardShops";
 import CustomeCardStage from "./CustomeCardStage";
 import { toast } from "react-toastify";
 import { customCardActions } from "../../Store/customCardStore-slice";
+import { alertActions } from "../../Store/cardsPhoneAlert-slice";
 
 const baseServerUrl = process.env.REACT_APP_Base_API_URl;
 
@@ -141,6 +142,11 @@ const CustomCards = () => {
       dispatch(customCardActions.setIsStoreSelected(false));
       dispatch(customCardActions.setStoreId(""));
     };
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(alertActions.setShowAlert(true));
+    return () => dispatch(alertActions.setShowAlert(false));
   }, [dispatch]);
 
   const saveColorValues = (type, value, colorId) => {

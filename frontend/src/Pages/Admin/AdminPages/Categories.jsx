@@ -22,7 +22,6 @@ const Categories = () => {
   const [selectedCategory, setSelectedCategory] = useState({});
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
 
-  const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
   const role = useSelector((state) => state.userInfo.role);
   const profileData = useSelector((state) => state.profileInfo.data);
@@ -56,7 +55,6 @@ const Categories = () => {
         }
       );
       if (response.status === 204) {
-        notifySuccess(key("opSuccess"));
         refetch();
       } else {
         notifyError(key("wrong"));

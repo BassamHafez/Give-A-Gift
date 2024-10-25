@@ -33,7 +33,6 @@ const Slides = () => {
     }
   }, [role, navigate, profileData]);
 
-  const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
 
   const { data: slides, refetch } = useQuery({
@@ -52,7 +51,6 @@ const Slides = () => {
         }
       );
       if (response.status === 204) {
-        notifySuccess(key("opSuccess"));
         refetch();
       } else {
         notifyError(key("wrong"));

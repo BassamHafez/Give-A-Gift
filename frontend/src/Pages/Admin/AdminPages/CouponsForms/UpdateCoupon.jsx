@@ -18,14 +18,12 @@ const UpdateCoupon = ({ show, onHide, copId, refetch, expire, name, discount }) 
   const token = JSON.parse(localStorage.getItem("token"));
   const [dateTime, setDateTime] = useState(null);
 
-  const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
 
   const { mutate, isPending } = useMutation({
     mutationFn: controlCoupons,
     onSuccess: (data) => {
       if (data?.status === "success") {
-        notifySuccess(key("opSuccess"));
         refetch();
         onHide();
       } else if (data?.response?.data?.error?.code === 11000) {

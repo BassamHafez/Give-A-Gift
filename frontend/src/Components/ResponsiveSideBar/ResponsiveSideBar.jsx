@@ -50,6 +50,12 @@ const ResponsiveSideBar = ({ onClose, show }) => {
         </Offcanvas.Header>
         <Offcanvas.Body>
           <ul className={styles.contact_list}>
+            <Link onClick={onClose} to={"/"} end="true">
+              <li className={styles.contact_list_item}>
+                {key("homePageTitle")}{" "}
+                <FontAwesomeIcon icon={faHome} className={styles.list_icons} />
+              </li>
+            </Link>
             <Link
               onClick={onClose}
               className={styles.hidden_small}
@@ -65,12 +71,6 @@ const ResponsiveSideBar = ({ onClose, show }) => {
                   />
                 </li>
               )}
-            </Link>
-            <Link onClick={onClose} to={"/"} end="true">
-              <li className={styles.contact_list_item}>
-                {key("homePageTitle")}{" "}
-                <FontAwesomeIcon icon={faHome} className={styles.list_icons} />
-              </li>
             </Link>
             <Link onClick={onClose} to={"about"} end="true">
               <li className={styles.contact_list_item}>

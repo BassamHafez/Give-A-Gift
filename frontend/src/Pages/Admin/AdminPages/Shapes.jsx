@@ -38,7 +38,6 @@ const Shapes = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
 
   const { data: shapes, refetch } = useQuery({
@@ -56,7 +55,6 @@ const Shapes = () => {
         }
       );
       if (response.status === 204) {
-        notifySuccess(key("opSuccess"));
         refetch();
       } else {
         notifyError(key("wrong"));

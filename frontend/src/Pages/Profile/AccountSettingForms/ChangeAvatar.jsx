@@ -19,7 +19,6 @@ const ChangeAvatar = () => {
   const [imgUrl, setImgUrl] = useState(null);
   const profileData = useSelector((state) => state.profileInfo.data);
 
-  const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
   const dispatch = useDispatch();
 
@@ -27,7 +26,6 @@ const ChangeAvatar = () => {
     mutationFn: updateMe,
     onSuccess: (data) => {
       if (data?.status === "success") {
-        notifySuccess(key("photoChanged"));
         dispatch(fetchProfileData(token));
       } else if (
         data.response.data.message ===
@@ -80,7 +78,6 @@ const ChangeAvatar = () => {
     if (file) {
       const avatarUrl = URL.createObjectURL(file);
       setImgUrl(avatarUrl);
-      notifySuccess(key("photoDownloaded"));
     }
     e.target.value = null;
   };

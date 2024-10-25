@@ -14,14 +14,12 @@ const AddBalanceAll = ({ refetch }) => {
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
 
-  const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
 
   const { mutate, isPending } = useMutation({
     mutationFn: controlWallets,
     onSuccess: (data) => {
       if (data?.data?.status === "success") {
-        notifySuccess(key("opSuccess"));
         refetch();
       } else {
         notifyError(key("wrong"));

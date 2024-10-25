@@ -71,7 +71,6 @@ const RecipientInformation = () => {
   const [isCelebrateIcon, setIsCelebrationIcon] = useState(false);
   const [isCelebrateQR, setIsCelebrateQR] = useState(false);
   const [totalShapesPrice, setTotalShapesPrice] = useState(0);
-  const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
   const token = JSON.parse(localStorage.getItem("token"));
   const { cardId } = useParams();
@@ -165,7 +164,6 @@ const RecipientInformation = () => {
 
           setTotalShapesPrice(totalPrice);
         }
-        notifySuccess(key("saveRec"));
         setDisableBtn(true);
         confirmMethod("pay");
       } else if (
@@ -261,7 +259,6 @@ const RecipientInformation = () => {
       );
 
       if (response.status === 200 || response.status === 201) {
-        notifySuccess(key("cardPurchased"));
         setCardDetails(response.data?.data?.card);
         setWalletDetails(response.data?.data?.wallet);
         setModalShow(false);
@@ -378,7 +375,7 @@ const RecipientInformation = () => {
                       }}
                       format="YYYY/MM/DD HH:mm"
                       plugins={[<TimePicker position="top" />]}
-                      placeholder="YYYY/MM/DD HH:mm"
+                      placeholder={key("now")}
                       className={styles.date_picker}
                     />
                     <ErrorMessage

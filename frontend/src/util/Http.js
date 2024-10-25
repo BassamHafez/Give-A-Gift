@@ -54,7 +54,6 @@ export const getShops = async ({ type, storeId,token ,formData}) => {
   }
 };
 
-
 export const getShopToken = async (token) => {
   try {
     const response = await axios.get(`${baseServerUrl}shops/tokens`, {

@@ -13,7 +13,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const AddSlide = ({ refetch }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
-  const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
@@ -45,7 +44,6 @@ const AddSlide = ({ refetch }) => {
       {
         onSuccess: (data) => {
           if (data?.status === "success") {
-            notifySuccess(key("opSuccess"));
             refetch();
             resetForm();
             setSelectedFile(null);
@@ -80,7 +78,6 @@ const AddSlide = ({ refetch }) => {
     if (file) {
       const previewUrl = URL.createObjectURL(file);
       setImagePreviewUrl(previewUrl);
-      notifySuccess(key("photoDownloaded"));
     }
     e.target.value = null;
   };

@@ -19,7 +19,6 @@ const Discount = () => {
   const navigate = useNavigate();
 
   const token = JSON.parse(localStorage.getItem("token"));
-  const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
 
   const role = useSelector((state) => state.userInfo.role);
@@ -43,7 +42,6 @@ const Discount = () => {
       );
       const res = response.data;
       if (res.status === "success") {
-        notifySuccess(key("opSuccess"));
         setIsDiscValue(true);
         setDiscountValue(res.data?.value);
         setRecipientName(res.data?.recipient);

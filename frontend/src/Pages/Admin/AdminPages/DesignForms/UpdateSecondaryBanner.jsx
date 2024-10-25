@@ -101,7 +101,6 @@ const UpdateSecondaryBanner = () => {
     if (file) {
       const imgUrl = URL.createObjectURL(file);
       setSelectedMobileImgUrl(imgUrl);
-      notifySuccess(key("photoDownloaded"));
     }
     e.target.value = null;
   };

@@ -76,7 +76,6 @@ const Users = () => {
       navigate(`/merchant/${profileData?._id}`);
     }
   }, [role, navigate, profileData]);
-  const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
 
   const { data: users, refetch } = useQuery({
@@ -91,7 +90,6 @@ const Users = () => {
     onSuccess: (data) => {
       if (data?.status === "success") {
         setIsEmailError(false);
-        notifySuccess(key("opSuccess"));
         refetch();
       } else {
         notifyError(key("wrong"));
@@ -169,7 +167,6 @@ const Users = () => {
         }
       );
       if (response.status === 204) {
-        notifySuccess(key("opSuccess"));
         refetch();
       } else {
         notifyError(key("wrong"));
@@ -184,7 +181,6 @@ const Users = () => {
     e.preventDefault();
     if (searchTerm !== "" && searchTerm !== searchInput) {
       setSearchInput(searchTerm);
-      notifySuccess(key("searchFilterApplied"));
     }
   };
 

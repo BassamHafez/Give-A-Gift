@@ -49,8 +49,6 @@ const Transfer = ({ show, onHide, notifySuccess, notifyError, balance,refetch })
     mutationFn: transferMoney,
     onSuccess: (response) => {
         if (response.status === "success") {
-          notifySuccess(key("succTransfer"));
-
           queryClient.invalidateQueries(["walletBalance", token]);
           refetch()
           onHide()

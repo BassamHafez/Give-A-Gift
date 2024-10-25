@@ -130,8 +130,7 @@ function App() {
   const dispatch=useDispatch();
   const token = useSelector((state) => state.userInfo.token);
   const role = useSelector((state) => state.userInfo.role);
-
-
+  let isArLang = localStorage.getItem("i18nextLng") === "ar";
 
 
   useEffect(() => {
@@ -205,6 +204,7 @@ function App() {
         draggable
         pauseOnHover={false}
         pauseOnFocusLoss={false}
+        className={isArLang?"ar_toast":""}
       />
       <RouterProvider router={router}/>
     </QueryClientProvider>

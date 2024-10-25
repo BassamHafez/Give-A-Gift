@@ -11,7 +11,6 @@ import { toast } from "react-toastify";
 import UpdateProColor from "./UpdateProColor";
 
 const AllProColors = ({ refetch, proColors }) => {
-  const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
   const { t: key } = useTranslation();
   const [showUpdateColorModal, setShowUpdateColorModal] = useState(false);
@@ -28,7 +27,6 @@ const AllProColors = ({ refetch, proColors }) => {
         }
       );
       if (response.status === 204) {
-        notifySuccess(key("opSuccess"));
         refetch();
       } else {
         notifyError(key("wrong"));

@@ -14,7 +14,6 @@ import SearchField from "../../../Components/Ui/SearchField";
 import { useTranslation } from "react-i18next";
 import { controlTransactions } from "../../../util/Http";
 import { useQuery } from "@tanstack/react-query";
-import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import NoDataPage from "../../../Components/Ui/NoDataPage";
@@ -24,7 +23,6 @@ const Transactions = () => {
   const token = JSON.parse(localStorage.getItem("token"));
   const [searchInput, setSearchInput] = useState("");
 
-  const notifySuccess = (message) => toast.success(message);
   const role = useSelector((state) => state.userInfo.role);
   const profileData = useSelector((state) => state.profileInfo.data);
   const navigate = useNavigate();
@@ -56,7 +54,6 @@ const Transactions = () => {
     e.preventDefault();
     if (searchTerm !== "" && searchTerm !== searchInput) {
       setSearchInput(searchTerm);
-      notifySuccess(key("searchFilterApplied"));
     }
   };
   let filterTransactions;

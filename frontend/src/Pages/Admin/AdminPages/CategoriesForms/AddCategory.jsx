@@ -20,7 +20,6 @@ const AddCategory = ({refetch}) => {
   const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
 
   const { t: key } = useTranslation();
-  const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
   const token = JSON.parse(localStorage.getItem("token"));
 
@@ -56,7 +55,6 @@ const AddCategory = ({refetch}) => {
       {
         onSuccess: (data) => {
           if (data?.status === "success") {
-            notifySuccess(key("opSuccess"));
             refetch();
             resetForm();
             setSelectedFile(null);
@@ -92,7 +90,6 @@ const AddCategory = ({refetch}) => {
     if (file) {
       const previewUrl = URL.createObjectURL(file);
       setImagePreviewUrl(previewUrl);
-      notifySuccess(key("photoDownloaded"));
     }
     e.target.value = null;
   };

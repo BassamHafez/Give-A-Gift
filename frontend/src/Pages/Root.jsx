@@ -3,19 +3,23 @@ import MainNav from "../Components/MainNavbar/MainNav";
 import Footer from "../Components/Footer/Footer";
 import { Outlet } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import VerifyPhoneNumberModal from "../Components/Ui/VerifyPhoneNumberModal";
 import { useTranslation } from "react-i18next";
+import { alertActions } from "../Store/cardsPhoneAlert-slice";
 
 const Root = () => {
   const profileData = useSelector((state) => state.profileInfo.data);
   const [modalShow, setModalShow] = useState();
   const [storeLink, setStoreLink] = useState("");
-  const { t: key } = useTranslation();
   const isLogin = useSelector((state) => state.userInfo.isLogin);
+  const dispatch = useDispatch();
 
   const mainColor = useSelector((state) => state.configs.mainColor);
+  const showAlert = useSelector((state) => state.alert.showAlert);
+  const lastAlertTime = useSelector((state) => state.alert.lastAlertTime);
   const subColor = useSelector((state) => state.configs.subColor);
+  const [t, i18next] = useTranslation();
 
   useEffect(() => {
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
@@ -29,15 +33,11 @@ const Root = () => {
     }
   }, []);
 
-  const Msg2 = ({ closeToast, toastProps }) => (
+  const Msg2 = ({ closeToast }) => (
     <span>
-      {key("downloadapp")}
+      {t("downloadapp")}
       <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          marginTop: "10px",
-        }}
+        style={{ display: "flex", flexDirection: "column", marginTop: "10px" }}
       >
         <div style={{ display: "flex", gap: "10px" }}>
           <button
@@ -51,7 +51,7 @@ const Root = () => {
               marginRight: "auto",
             }}
           >
-            {key("later")}
+            {t("later")}
           </button>
 
           <button
@@ -70,7 +70,7 @@ const Root = () => {
               color: "#FFF",
             }}
           >
-            {key("download")}
+            {t("download")}
           </button>
         </div>
       </div>
@@ -78,16 +78,39 @@ const Root = () => {
   );
 
   useEffect(() => {
-    if (storeLink && !sessionStorage.getItem("appDownloadToastShown")) {
+    const showDownloadToast = () => {
       toast.info(<Msg2 />, { autoClose: false });
       sessionStorage.setItem("appDownloadToastShown", "true");
+    };
+    if (storeLink && !sessionStorage.getItem("appDownloadToastShown")) {
+      showDownloadToast();
     }
-  }, [storeLink]);
+
+    const handleLanguageChange = (lng) => {
+      const previousLang = sessionStorage.getItem("prevLang");
+
+      if (
+        lng === "ar" &&
+        previousLang !== "ar" &&
+        !sessionStorage.getItem("languageToastShown")
+      ) {
+        showDownloadToast();
+        sessionStorage.setItem("languageToastShown", "true");
+      }
+
+      sessionStorage.setItem("prevLang", lng);
+    };
+    handleLanguageChange(i18next.language);
+    i18next.on("languageChanged", handleLanguageChange);
+    return () => {
+      i18next.off("languageChanged", handleLanguageChange);
+    };
+  }, [storeLink, t, i18next]);
 
   useEffect(() => {
-    const Msg = ({ closeToast, toastProps }) => (
+    const Msg = ({ closeToast }) => (
       <span>
-        {key("verifyMsg")}
+        {t("verifyMsg")}
         <div
           style={{
             display: "flex",
@@ -106,7 +129,7 @@ const Root = () => {
                 marginRight: "auto",
               }}
             >
-              {key("later")}
+              {t("later")}
             </button>
 
             <button
@@ -124,7 +147,7 @@ const Root = () => {
                 color: "#FFF",
               }}
             >
-              {key("verify")}
+              {t("verify")}
             </button>
           </div>
         </div>
@@ -137,20 +160,28 @@ const Root = () => {
       return;
     }
 
-    if (profileData.phoneVerified === false) {
-      notifyError();
-    } else {
-      return;
-    }
+    if (profileData.phoneVerified === false && showAlert) {
+      const now = Date.now();
 
-    const intervalId = setInterval(() => {
-      if (profileData?.phoneVerified === false) {
+      if (!lastAlertTime || now - lastAlertTime >= 30 * 60 * 1000) {
         notifyError();
+        dispatch(alertActions.setLastAlertTime(now));
+      }
+    }
+    const intervalId = setInterval(() => {
+      const now = Date.now();
+
+      if (
+        profileData?.phoneVerified === false &&
+        (!lastAlertTime || now - lastAlertTime >= 30 * 60 * 1000)
+      ) {
+        notifyError();
+        dispatch(alertActions.setLastAlertTime(now));
       }
     }, 30 * 60 * 1000);
 
     return () => clearInterval(intervalId);
-  }, [profileData, isLogin, key]);
+  }, [profileData, isLogin, t, showAlert, lastAlertTime, dispatch]);
 
   if (mainColor) {
     document.documentElement.style.setProperty("--main_color", mainColor);

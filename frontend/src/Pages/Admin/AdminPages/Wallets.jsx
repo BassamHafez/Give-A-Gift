@@ -17,7 +17,6 @@ import { useQuery } from "@tanstack/react-query";
 import AddBalanceAll from "./WalletsForms/AddBalanceAll";
 import AddBalance from "./WalletsForms/AddBalance";
 import RemoveBalanceAll from "./WalletsForms/RemoveBalanceAll";
-import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -28,7 +27,6 @@ const Wallets = () => {
   const [showModal, setModalShow] = useState(false);
   const [walletId, setWalletId] = useState(false);
 
-  const notifySuccess = (message) => toast.success(message);
   const role = useSelector((state) => state.userInfo.role);
   const profileData = useSelector((state) => state.profileInfo.data);
   const navigate = useNavigate();
@@ -52,7 +50,6 @@ const Wallets = () => {
     e.preventDefault();
     if (searchTerm !== "" && searchTerm !== searchInput) {
       setSearchInput(searchTerm);
-      notifySuccess(key("searchFilterApplied"));
     }
   };
 

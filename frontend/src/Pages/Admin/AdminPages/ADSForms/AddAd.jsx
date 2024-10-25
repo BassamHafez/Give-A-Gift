@@ -13,7 +13,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const AddAd = ({ refetch }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
-  const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
@@ -47,7 +46,6 @@ const AddAd = ({ refetch }) => {
       {
         onSuccess: (data) => {
           if (data?.status === "success") {
-            notifySuccess(key("opSuccess"));
             refetch();
             resetForm();
             setSelectedFile(null);
@@ -88,7 +86,6 @@ const AddAd = ({ refetch }) => {
     if (file) {
       const previewUrl = URL.createObjectURL(file);
       setImagePreviewUrl(previewUrl);
-      notifySuccess(key("photoDownloaded"));
     }
     e.target.value = null;
   };

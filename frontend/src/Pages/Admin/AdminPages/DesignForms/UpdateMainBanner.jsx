@@ -72,7 +72,6 @@ const UpdateMainBanner = () => {
     if (file) {
       const imgUrl = URL.createObjectURL(file);
       setSelectedImgUrl(imgUrl);
-      notifySuccess(key("photoDownloaded"));
     }
     e.target.value = null;
   };

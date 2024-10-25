@@ -16,7 +16,6 @@ const UpdateCategory = ({ show, onHide, refetch, categoryData }) => {
   const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
 
   const { t: key } = useTranslation();
-  const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
   const token = JSON.parse(localStorage.getItem("token"));
 
@@ -50,7 +49,6 @@ const UpdateCategory = ({ show, onHide, refetch, categoryData }) => {
       {
         onSuccess: (data) => {
           if (data?.status === "success") {
-            notifySuccess(key("opSuccess"));
             refetch();
             resetForm();
             setSelectedFile(null);
@@ -87,7 +85,6 @@ const UpdateCategory = ({ show, onHide, refetch, categoryData }) => {
     if (file) {
       const previewUrl = URL.createObjectURL(file);
       setImagePreviewUrl(previewUrl);
-      notifySuccess(key("photoDownloaded"));
     }
     e.target.value = null;
   };

@@ -15,7 +15,6 @@ const AddCard = ({ refetch }) => {
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
   const [myShops, setMyShops] = useState([]);
-  const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
 
   const { data: shops } = useQuery({
@@ -38,7 +37,6 @@ const AddCard = ({ refetch }) => {
     mutationFn: controlSpecialCards,
     onSuccess: (data) => {
       if (data?.status === "success") {
-        notifySuccess(key("opSuccess"));
         refetch();
       } else if (data?.response?.data?.error?.code === 11000) {
         notifyError(key("dupName"));

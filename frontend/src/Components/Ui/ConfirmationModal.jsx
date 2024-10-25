@@ -42,7 +42,6 @@ const ConfirmationModal = ({
   const token = JSON.parse(localStorage.getItem("token"));
   const navigate = useNavigate();
 
-  const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
 
   const [priceAfterDisc, setPriceAfterDisc] = useState("");
@@ -75,7 +74,6 @@ const ConfirmationModal = ({
         );
         const res = response.data;
         if (res?.status === "success") {
-          notifySuccess(key("couponSuccess"));
           setPriceAfterDisc(res.data?.priceAfterDiscount);
         } else {
           notifyError(key("couponFaild"));

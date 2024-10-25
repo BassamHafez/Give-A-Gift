@@ -16,14 +16,12 @@ const AddColor = ({refetch}) => {
     const { t: key } = useTranslation();
     const token = JSON.parse(localStorage.getItem("token"));
     
-    const notifySuccess = (message) => toast.success(message);
     const notifyError = (message) => toast.error(message);
 
     const { mutate, isPending } = useMutation({
         mutationFn: controlColors,
         onSuccess: (data) => {
           if (data?.status === "success") {
-            notifySuccess(key("opSuccess"));
             refetch()
           } else {
             notifyError(key("wrong"));

@@ -14,7 +14,6 @@ import Modal from "react-bootstrap/Modal";
 const UpdateSlide = ({ refetch, slideData, show, onHide }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
-  const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
@@ -47,7 +46,6 @@ const UpdateSlide = ({ refetch, slideData, show, onHide }) => {
       {
         onSuccess: (data) => {
           if (data?.status === "success") {
-            notifySuccess(key("opSuccess"));
             refetch();
             resetForm();
             setSelectedFile(null);
@@ -83,7 +81,6 @@ const UpdateSlide = ({ refetch, slideData, show, onHide }) => {
     if (file) {
       const previewUrl = URL.createObjectURL(file);
       setImagePreviewUrl(previewUrl);
-      notifySuccess(key("photoDownloaded"));
     }
     e.target.value = null;
   };

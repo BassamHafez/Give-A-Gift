@@ -14,8 +14,6 @@ import Modal from "react-bootstrap/Modal";
 const UpdateProColor = ({ refetch, show, onHide, proColorData }) => {
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
-console.log(proColorData)
-  const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
 
   const { mutate, isPending } = useMutation({
@@ -28,7 +26,6 @@ console.log(proColorData)
   };
 
   const onSubmit = (values, { resetForm }) => {
-    console.log(values)
     mutate(
       {
         formData: values,
@@ -37,9 +34,7 @@ console.log(proColorData)
       },
       {
         onSuccess: (data) => {
-          console.log(data);
           if (data?.status === "success") {
-            notifySuccess(key("opSuccess"));
             refetch();
             resetForm();
             onHide();
@@ -48,7 +43,6 @@ console.log(proColorData)
           }
         },
         onError: (error) => {
-          console.log(error);
           notifyError(key("wrong"));
         },
       }

@@ -14,7 +14,6 @@ import { object, string } from "yup";
 
 const StoresMessage = ({ show, onHide, storeIds }) => {
     const { t: key } = useTranslation();
-    const notifySuccess = (message) => toast.success(message);
     const notifyError = (message) => toast.error(message);
     const token = JSON.parse(localStorage.getItem("token"));
   
@@ -38,7 +37,6 @@ const StoresMessage = ({ show, onHide, storeIds }) => {
         {
           onSuccess: (data) => {
             if (data?.status === "success") {
-              notifySuccess(key("opSuccess"));
               resetForm();
               onHide();
             } else {

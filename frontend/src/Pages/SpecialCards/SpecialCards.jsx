@@ -11,6 +11,8 @@ import MainButton from "../../Components/Ui/MainButton";
 import FilterModal from "../../Components/Ui/FilterModal";
 import SingleReadyCard from "../../Components/Ui/SingleReadyCard";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { alertActions } from "../../Store/cardsPhoneAlert-slice";
 
 
 
@@ -22,7 +24,7 @@ const SpecialCards = () => {
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
   const token = JSON.parse(localStorage.getItem("token"));
-
+  const dispatch=useDispatch();
 
   const { data, isFetching } = useQuery({
     queryKey: ["special-cards", token],
@@ -35,6 +37,11 @@ const SpecialCards = () => {
       setFilteredCards(data.data?.cards);
     }
   }, [data]);
+
+  useEffect(() => {
+    dispatch(alertActions.setShowAlert(true));
+    return () => dispatch(alertActions.setShowAlert(false));
+  }, [dispatch]);
 
   const searchStores = ({ selectedNames }) => {
     if (selectedNames.length > 0) {
@@ -50,9 +57,6 @@ const SpecialCards = () => {
       }
     } else {
       setFilteredCards(data?.data?.cards);
-    }
-    if (searchInput) {
-      notifySuccess(key("searchFilterApplied"));
     }
   };
 

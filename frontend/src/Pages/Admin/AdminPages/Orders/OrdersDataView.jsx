@@ -26,7 +26,6 @@ import Container from "react-bootstrap/esm/Container";
 import NoDataPage from "../../../../Components/Ui/NoDataPage";
 
 const OrdersDataView = ({ isUser }) => {
-  const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
   const [modalShow, setModalShow] = useState(false);
   const [searchInput, setSearchInput] = useState("");
@@ -73,7 +72,6 @@ const OrdersDataView = ({ isUser }) => {
         );
         if (response.status === 204) {
           queryClient.invalidateQueries(["walletBalance", token]);
-          notifySuccess(key("orderDeleted"));
           refetch();
         } else {
           notifyError(key("wrong"));
@@ -90,7 +88,6 @@ const OrdersDataView = ({ isUser }) => {
     e.preventDefault();
     if (searchTerm !== "" && searchTerm !== searchInput) {
       setSearchInput(searchTerm);
-      notifySuccess(key("searchFilterApplied"));
     }
   };
 

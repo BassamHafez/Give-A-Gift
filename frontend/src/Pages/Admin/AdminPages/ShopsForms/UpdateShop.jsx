@@ -59,7 +59,6 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
 
   const { t: key } = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
-  const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
   const token = JSON.parse(localStorage.getItem("token"));
   const [categoriesOptions, setCategoriesOptions] = useState([]);
@@ -95,7 +94,6 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
     mutationFn: controlShops,
     onSuccess: (data) => {
       if (data?.status === "success") {
-        notifySuccess(key("opSuccess"));
         refetch();
         onHide();
       } else {
@@ -203,7 +201,6 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
     if (file) {
       const previewUrl = URL.createObjectURL(file);
       setImagePreviewUrl(previewUrl);
-      notifySuccess(key("photoDownloaded"));
     }
     e.target.value = null;
   };

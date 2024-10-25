@@ -30,7 +30,6 @@ const LoginForm = ({ notifySuccess, notifyError }) => {
   const queryClient = useQueryClient();
 
   const saveNotReadyCard = async (token) => {
-    
     let formData = JSON.parse(localStorage.getItem("notReadyCard"));
     try {
       const response = await axios.post(
@@ -73,7 +72,6 @@ const LoginForm = ({ notifySuccess, notifyError }) => {
 
         dispatch(saveTokenState(res.token));
         if (res.data?.user?.role === "user") {
-          notifySuccess();
           dispatch(userActions.setRole("user"));
           dispatch(saveRoleState("user"));
           if (localStorage.getItem("isNotReadyCard") === "true") {

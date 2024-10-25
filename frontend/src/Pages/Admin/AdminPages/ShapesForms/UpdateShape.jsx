@@ -12,7 +12,6 @@ import InputErrorMessage from "../../../../Components/Ui/InputErrorMessage";
 import Modal from "react-bootstrap/Modal";
 
 const UpdateShape = ({ refetch, show, onHide, shapeData }) => {
-  const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
   const token = JSON.parse(localStorage.getItem("token"));
   const { t: key } = useTranslation();
@@ -47,7 +46,6 @@ const UpdateShape = ({ refetch, show, onHide, shapeData }) => {
       {
         onSuccess: (data) => {
           if (data?.status === "success") {
-            notifySuccess(key("opSuccess"));
             refetch();
             resetForm();
             onHide();

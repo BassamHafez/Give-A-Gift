@@ -10,7 +10,6 @@ import { getCategories, getShops } from "../../util/Http";
 import Placeholders from "../../Components/Ui/Placeholders";
 import LoadingOne from "../../Components/Ui/LoadingOne";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
@@ -23,7 +22,6 @@ const Stores = () => {
   const [filteredShops, setFilteredShops] = useState([]);
   const { t: key } = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
-  const notifySuccess = (message) => toast.success(message);
   const navigate = useNavigate();
 
   const { data: shops, isFetching } = useQuery({
@@ -62,7 +60,6 @@ const Stores = () => {
     e.preventDefault();
     if (searchTerm !== "" && searchTerm !== searchInput) {
       setSearchInput(searchTerm);
-      notifySuccess(key("searchFilterApplied"));
     }
   };
 
@@ -152,7 +149,7 @@ const Stores = () => {
                   </Col>
                 ))
               ) : (
-                <NoDataPage text={`${key("noData")}`}/>
+                <NoDataPage text={`${key("noData")}`} />
               )
             ) : (
               <LoadingOne />

@@ -28,7 +28,6 @@ const Configs = () => {
       navigate(`/merchant/${profileData?._id}`);
     }
   }, [role, navigate, profileData]);
-  const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
 
   const mainColor = useSelector((state) => state.configs.mainColor);
@@ -54,7 +53,6 @@ const Configs = () => {
     mutationFn: getConfig,
     onSuccess: (data) => {
       if (data?.status === "success") {
-        notifySuccess(key("opSuccess"));
         dispatch(fetchConfigs(token));
       } else {
         notifyError(key("wrong"));

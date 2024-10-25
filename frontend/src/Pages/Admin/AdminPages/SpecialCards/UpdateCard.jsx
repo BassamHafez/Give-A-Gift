@@ -17,9 +17,8 @@ const UpdateCard = ({ show, onHide, refetch,cardData }) => {
   const token = JSON.parse(localStorage.getItem("token"));
   const [myShops, setMyShops] = useState([]);
   const [initialShop, setInitialShop] = useState(null);
-  const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
-console.log(cardData)
+
   const { data: shops } = useQuery({
     queryKey: ["shops", token],
     queryFn: getShops,
@@ -43,7 +42,6 @@ console.log(cardData)
     mutationFn: controlSpecialCards,
     onSuccess: (data) => {
       if (data?.status === "success") {
-        notifySuccess(key("opSuccess"));
         refetch();
         onHide();
       } else if (data?.response?.data?.error?.code === 11000) {

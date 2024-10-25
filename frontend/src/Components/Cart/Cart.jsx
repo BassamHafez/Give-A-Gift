@@ -67,6 +67,7 @@ const Cart = ({ onClose, show }) => {
     select: (data) => data.data?.balance,
     staleTime: Infinity,
   });
+
   const deleteCard = async () => {
     setModalShow(false);
     if (cardId && token) {
@@ -80,7 +81,6 @@ const Cart = ({ onClose, show }) => {
 
         if (response.status === 204) {
           dispatch(cartActions.removeItem());
-          notifySuccess(key("cardDeleted"));
           refetch();
         } else {
           notifyError(key("wrong"));

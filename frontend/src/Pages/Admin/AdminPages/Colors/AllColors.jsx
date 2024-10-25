@@ -10,7 +10,6 @@ import LoadingOne from "../../../../Components/Ui/LoadingOne";
 import { toast } from "react-toastify";
 
 const AllColors = ({ refetch,Colors }) => {
-  const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
@@ -24,7 +23,6 @@ const AllColors = ({ refetch,Colors }) => {
         }
       );
       if (response.status === 204) {
-        notifySuccess(key("opSuccess"));
         refetch();
       } else {
         notifyError(key("wrong"));
