@@ -32,6 +32,7 @@ const shopSchema = new mongoose.Schema(
       type: Number,
       default: 99999,
     },
+    priorityInTopShops: Number,
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",

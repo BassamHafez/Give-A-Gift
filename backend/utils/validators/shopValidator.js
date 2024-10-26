@@ -49,6 +49,11 @@ exports.createShopValidator = [
     .isNumeric()
     .withMessage("Priority must be a number"),
 
+  check("priorityInTopShops")
+    .optional()
+    .isNumeric()
+    .withMessage("Priority in top shops must be a number"),
+
   check("category")
     .notEmpty()
     .withMessage("Shop category is required")
@@ -112,6 +117,11 @@ exports.updateShopValidator = [
     .optional()
     .isNumeric()
     .withMessage("Priority must be a number"),
+
+  check("priorityInTopShops")
+    .optional()
+    .isNumeric()
+    .withMessage("Priority in top shops must be a number"),
 
   check("category")
     .optional()

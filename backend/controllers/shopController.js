@@ -97,7 +97,8 @@ exports.getTopShops = catchAsync(async (req, res, next) => {
       $project: {
         name: 1,
         logo: 1,
-        // cardsCount: { $size: "$cards" },
+        cardsCount: { $size: "$cards" },
+        priorityInTopShops: 1,
       },
     },
     {
@@ -105,10 +106,19 @@ exports.getTopShops = catchAsync(async (req, res, next) => {
     },
   ]);
 
+  const sortedShops = [
+    ...shops
+      .filter((shop) => shop.priorityInTopShops > 0)
+      .sort((a, b) => b.priorityInTopShops - a.priorityInTopShops),
+    ...shops.filter(
+      (shop) => !shop.priorityInTopShops || shop.priorityInTopShops <= 0
+    ),
+  ];
+
   res.status(200).json({
     status: "success",
     results: shops.length,
-    data: shops,
+    data: sortedShops,
   });
 });
 
