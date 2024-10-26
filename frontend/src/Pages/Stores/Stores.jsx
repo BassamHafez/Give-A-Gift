@@ -89,7 +89,7 @@ const Stores = () => {
       <Container className="my-5 page_height">
         <h2 className="text-center my-3 mb-5">{key("storesTitle")}</h2>
         <div
-          className={`${styles.controllers} d-flex justify-content-between my-5`}
+          className={`${styles.controllers} d-flex justify-content-between align-items-center my-5 flex-wrap`}
         >
           <div onClick={clearFilters} className={styles.filter_box}>
             <span className={styles.filter}>{key("default")}</span>

@@ -131,14 +131,14 @@ const OrdersDataView = ({ isUser }) => {
                   icon={faDownload}
                 />
               </h4>
-              <div className="d-flex flex-wrap justify-content-end my-4">
+              <div className="d-flex flex-wrap justify-content-between align-items-center my-4">
                 <button
                   onClick={() => setSearchInput("")}
-                  className="btn btn-outline-danger"
+                  className="btn btn-outline-danger my-2"
                 >
                   {key("default")}
                 </button>
-                <SearchField onSearch={handleSearch} text={key("search")} />
+                <SearchField className="my-2" onSearch={handleSearch} text={key("search")} />
               </div>
               {filteredDisc?.map((order, index) => (
                 <Col
