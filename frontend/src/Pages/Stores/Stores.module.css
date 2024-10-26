@@ -124,10 +124,14 @@ _________________________________________store profile__________________________
     .customGiftCard{
         width: 98%;
     }
+    .select_category_field{
+        width: 98%;
+    }
 }
 @media screen and (max-width:350px) {
     .store_item{
       padding: 20px 30px;
+      max-width: 200px;
     }
 }
 

@@ -1,6 +1,7 @@
 .main_nav{
     transition: all .5s;
-    padding: 10px 0;
+    padding-top: 15px;
+    padding-bottom: 15px;
  }
  .new_nav{
      background-color: rgba(223, 221, 221, 0.703);

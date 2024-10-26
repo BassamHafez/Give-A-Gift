@@ -59,6 +59,7 @@ import Slides from './Pages/Admin/AdminPages/Slides';
 import JoinUs from './Pages/JoinUs/JoinUs';
 import Policy from './Pages/Policy/Policy';
 import Categories from './Pages/Admin/AdminPages/Categories';
+import AppDesigns from './Pages/Admin/AdminPages/AppDesigns';
 
 
 const router=createBrowserRouter([{
@@ -105,6 +106,7 @@ const router=createBrowserRouter([{
     {path:"admin-carts",element:<ProtectedRoute><AdminCarts/></ProtectedRoute>},
     {path:"admin-discounts",element:<ProtectedRoute><Discounts/></ProtectedRoute>},
     {path:"admin-designs",element:<ProtectedRoute><Designs/></ProtectedRoute>},
+    {path:"admin-app-designs",element:<ProtectedRoute><AppDesigns/></ProtectedRoute>},
     {path:"admin-ads",element:<ProtectedRoute><Ads/></ProtectedRoute>},
     {path:"admin-slides",element:<ProtectedRoute><Slides/></ProtectedRoute>},
     {path:"admin-categories",element:<ProtectedRoute><Categories/></ProtectedRoute>},

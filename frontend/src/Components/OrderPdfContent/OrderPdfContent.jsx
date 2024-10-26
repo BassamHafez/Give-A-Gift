@@ -43,7 +43,7 @@ const OrderPdfContent = ({ order }) => {
             {key("store")}: {order.shop}
           </p>
           <p>
-            {key("taxNum")}: 12345678910
+            {key("taxNum")}:
           </p>
         </div>
         <ul className={styles.order_ul}>

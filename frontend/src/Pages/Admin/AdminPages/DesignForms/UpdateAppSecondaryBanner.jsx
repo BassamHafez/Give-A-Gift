@@ -10,11 +10,11 @@ import InputErrorMessage from "../../../../Components/Ui/InputErrorMessage";
 import { updateBanner } from "../../../../util/Http";
 import styles from "../AdminPages.module.css";
 
-const UpdateSecondaryBanner = () => {
+const UpdateAppSecondaryBanner = () => {
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
-  const [webBannerFile, setWebBannerFile] = useState(null);
-  const [selectedWebImgUrl, setSelectedWebImgUrl] = useState(null);
+  const [mobileBannerFile, setMobileBannerFile] = useState(null);
+  const [selectedMobileImgUrl, setSelectedMobileImgUrl] = useState(null);
 
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
@@ -34,17 +34,17 @@ const UpdateSecondaryBanner = () => {
   });
 
   const initialValues = {
-    webSecondaryBanner: "",
+    mobileSecondaryBanner: "",
   };
 
   const onSubmit = () => {
     const formData = new FormData();
 
-    if (webBannerFile) {
-      formData.append("webSecondaryBanner", webBannerFile);
+    if (mobileBannerFile) {
+      formData.append("mobileSecondaryBanner", mobileBannerFile);
     }else{
-      notifyError(key("uploadPhoto"));
-      return;
+        notifyError(key("uploadPhoto"));
+        return;
     }
 
     mutate({
@@ -55,7 +55,7 @@ const UpdateSecondaryBanner = () => {
   };
 
   const validationSchema = object({
-    webSecondaryBanner: mixed()
+    mobileSecondaryBanner: mixed()
       .test("fileSize", `${key("photoValidationSize")}`, (value) => {
         return value ? value.size <= 3000000 : true;
       })
@@ -66,13 +66,12 @@ const UpdateSecondaryBanner = () => {
       }),
   });
 
-  const handleWebFileChange = (e) => {
+  const handleMobileFileChange = (e) => {
     const file = e.currentTarget.files[0];
-    setWebBannerFile(file);
+    setMobileBannerFile(file);
     if (file) {
       const imgUrl = URL.createObjectURL(file);
-      setSelectedWebImgUrl(imgUrl);
-      notifySuccess(key("photoDownloaded"));
+      setSelectedMobileImgUrl(imgUrl);
     }
     e.target.value = null;
   };
@@ -85,36 +84,36 @@ const UpdateSecondaryBanner = () => {
     >
       <Form className={styles.general_info_form}>
         <div className={styles.photo_field}>
-          <div className="mb-5">
+          <div>
             <h5 className="text-center fw-bold">
-              {key("webSecBanner")}{" "}
-              {webBannerFile && (
+              {key("mobSecBanner")}{" "}
+              {mobileBannerFile && (
                 <FontAwesomeIcon className="text-success" icon={faCheck} />
               )}
             </h5>
             <label
-              className={styles.web_sub_banner_label}
-              htmlFor="webSecondaryBanner"
+              className={styles.banner_img_label}
+              htmlFor="mobileSecondaryBanner"
             >
-              {selectedWebImgUrl ? (
-                <img src={selectedWebImgUrl} alt="prev_banner" />
+              {selectedMobileImgUrl ? (
+                <img src={selectedMobileImgUrl} alt="prev_banner" />
               ) : (
                 <img
-                  src={`${process.env.REACT_APP_Host}designs/web-secondary-banner.png`}
+                  src={`${process.env.REACT_APP_Host}designs/mobile-secondary-banner.png`}
                   alt="current_web_banner"
                 />
               )}
             </label>
             <input
               type="file"
-              id="webSecondaryBanner"
-              name="webSecondaryBanner"
+              id="mobileSecondaryBanner"
+              name="mobileSecondaryBanner"
               accept="image/*"
-              onChange={handleWebFileChange}
+              onChange={handleMobileFileChange}
               className="d-none"
             />
             <ErrorMessage
-              name="webSecondaryBanner"
+              name="mobileSecondaryBanner"
               component={InputErrorMessage}
             />
           </div>
@@ -136,4 +135,4 @@ const UpdateSecondaryBanner = () => {
   );
 };
 
-export default UpdateSecondaryBanner;
+export default UpdateAppSecondaryBanner;
