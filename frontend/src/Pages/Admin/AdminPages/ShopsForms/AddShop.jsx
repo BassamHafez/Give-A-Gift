@@ -296,7 +296,7 @@ const AddShop = ({ refetch }) => {
             <label htmlFor="priority" className="mt-3">
               {key("add")} {key("priority")}
             </label>
-            <Field type="text" id="priority" name="priority" />
+            <Field type="number" id="priority" name="priority" />
             <ErrorMessage name="priority" component={InputErrorMessage} />
           </div>
 

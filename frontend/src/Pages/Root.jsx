@@ -90,6 +90,7 @@ const Root = () => {
       const previousLang = sessionStorage.getItem("prevLang");
 
       if (
+        storeLink &&
         lng === "ar" &&
         previousLang !== "ar" &&
         !sessionStorage.getItem("languageToastShown")

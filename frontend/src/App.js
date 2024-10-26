@@ -60,6 +60,7 @@ import JoinUs from './Pages/JoinUs/JoinUs';
 import Policy from './Pages/Policy/Policy';
 import Categories from './Pages/Admin/AdminPages/Categories';
 import AppDesigns from './Pages/Admin/AdminPages/AppDesigns';
+import TopShops from './Pages/Admin/AdminPages/TopShops';
 
 
 const router=createBrowserRouter([{
@@ -110,6 +111,7 @@ const router=createBrowserRouter([{
     {path:"admin-ads",element:<ProtectedRoute><Ads/></ProtectedRoute>},
     {path:"admin-slides",element:<ProtectedRoute><Slides/></ProtectedRoute>},
     {path:"admin-categories",element:<ProtectedRoute><Categories/></ProtectedRoute>},
+    {path:"admin-top-stores",element:<ProtectedRoute><TopShops/></ProtectedRoute>},
 
     //merchant
     {path:"merchant/:merchantId",element:<ProtectedRoute><MerchantProfile/></ProtectedRoute>},

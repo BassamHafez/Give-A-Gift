@@ -45,6 +45,8 @@ export const getShops = async ({ type, storeId,token ,formData}) => {
           Authorization: `Bearer ${token}`,
         },
       });
+    }else if(type==="top"){
+      response = await axios.get(`${baseServerUrl}shops/top`);
     } else {
       response = await axios.get(`${baseServerUrl}shops?sort=priority`);
     }

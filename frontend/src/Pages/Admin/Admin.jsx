@@ -28,7 +28,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import LogoutModal from "../../Components/Ui/LogoutModal";
 import { useSelector } from "react-redux";
-import { faOpencart } from "@fortawesome/free-brands-svg-icons";
+import { faOpencart, faShopify } from "@fortawesome/free-brands-svg-icons";
 import MainButton from "../../Components/Ui/MainButton";
 
 const Admin = () => {
@@ -369,6 +369,21 @@ const Admin = () => {
                         icon={faImage}
                       />
                       <span>{key("designs")}</span>
+                    </div>
+                  </Col>
+                  <Col
+                    xs={6}
+                    className="d-flex justify-content-center align-items-center"
+                  >
+                    <div
+                      className={styles.list_item}
+                      onClick={() => navigate("/admin-top-stores")}
+                    >
+                      <FontAwesomeIcon
+                        className={styles.list_item_icon}
+                        icon={faShopify}
+                      />
+                      <span>{key("topShopPri")}</span>
                     </div>
                   </Col>
                 </>
