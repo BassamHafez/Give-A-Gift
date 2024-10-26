@@ -69,6 +69,7 @@ const Transactions = () => {
       )
     : [];
 
+  
   return (
     <div className={styles.main_body}>
       <div>
@@ -86,7 +87,7 @@ const Transactions = () => {
         <h5 className="text-secondary">{key("allTransactions")}</h5>
 
         <div
-          className={`${styles.controllers} d-flex justify-content-between my-5`}
+          className={`${styles.controllers} d-flex justify-content-between align-items-center my-5`}
         >
           <div onClick={() => setSearchInput("")} className={styles.filter_box}>
             <span className={styles.filter}>{key("default")}</span>
@@ -153,7 +154,7 @@ const Transactions = () => {
               </Col>
             ))
           ) : (
-           <NoDataPage/>
+            <NoDataPage />
           )
         ) : (
           <LoadingOne />
