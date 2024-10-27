@@ -7,6 +7,8 @@ const User = require("../models/userModel");
 const Shop = require("../models/shopModel");
 const catchAsync = require("../utils/catchAsync");
 const ApiError = require("../utils/ApiError");
+const { createAddMerchantEmail } = require("../utils/userUtils");
+const sendEmail = require("../utils/sendEmail");
 const factory = require("./handlerFactory");
 
 const filterObj = (obj, ...allowedFields) => {
@@ -66,6 +68,19 @@ exports.addMerchant = catchAsync(async (req, res, next) => {
     role: "merchant",
     merchantShop: req.body.merchantShop,
   });
+
+  console.log("new merchant added: ", newUser.name);
+
+  const emailData = {
+    name: newUser.name,
+    email: newUser.email,
+    password: req.body.password,
+    phone: newUser.phone,
+  };
+
+  sendEmail(createAddMerchantEmail(emailData));
+
+  console.log("email sent to merchant");
 
   res.status(201).json({
     status: "success",
