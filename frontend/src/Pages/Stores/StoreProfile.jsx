@@ -14,6 +14,7 @@ import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
 import { customCardActions } from "../../Store/customCardStore-slice";
 import { useTranslation } from "react-i18next";
+import Container from "react-bootstrap/esm/Container";
 
 const StoreProfile = () => {
   const { storeId } = useParams();
@@ -68,7 +69,7 @@ const StoreProfile = () => {
             </div>
           </div>
           <div className={styles.profile_body}>
-            <div className="py-5 d-flex justify-content-center">
+            <div className="py-5 d-flex justify-content-center align-items-center">
               <MainTitle title={key("createCardPageTitle")} />
             </div>
             <div
@@ -76,11 +77,9 @@ const StoreProfile = () => {
               className=" mb-5 d-flex justify-content-center"
               style={{ cursor: "pointer" }}
             >
-              <img
-                className={styles.customGiftCard}
-                src={customGiftCard}
-                alt={key("createCardPageTitle")}
-              />
+              <div className={styles.customGiftCard}>
+                <img src={customGiftCard} alt={key("createCardPageTitle")} />
+              </div>
             </div>
 
             {shop?.data?.readyCards?.length > 0 ? (
@@ -88,17 +87,40 @@ const StoreProfile = () => {
                 <div className="py-5 d-flex justify-content-center">
                   <MainTitle title={key("buyCardNavTitle")} />
                 </div>
-                <Row>
-                  {isFetching ? (
-                    <Placeholders />
-                  ) : (
+                <Container fluid>
+                  <Row className="justify-content-center">
                     <>
-                      {shop.data?.readyCards.map((card) => (
-                        <SingleReadyCard isStoreProfile={true} card={card} />
-                      ))}
+                    {isFetching ? (
+                      <Placeholders />
+                    ) : (
+                      <>
+                        {shop.data?.readyCards.map((card) => (
+                          <SingleReadyCard size={true} isStoreProfile={true} card={card} />
+                        ))}
+                      </>
+                    )}
+                    {isFetching ? (
+                      <Placeholders />
+                    ) : (
+                      <>
+                        {shop.data?.readyCards.map((card) => (
+                          <SingleReadyCard size={true} isStoreProfile={true} card={card} />
+                        ))}
+                      </>
+                    )}
+                    {isFetching ? (
+                      <Placeholders />
+                    ) : (
+                      <>
+                        {shop.data?.readyCards.map((card) => (
+                          <SingleReadyCard size={true} isStoreProfile={true} card={card} />
+                        ))}
+                      </>
+                    )}
                     </>
-                  )}
-                </Row>
+
+                  </Row>
+                </Container>
               </div>
             ) : (
               ""

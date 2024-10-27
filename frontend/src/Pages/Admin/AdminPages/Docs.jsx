@@ -6,23 +6,26 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
 const Docs = () => {
+
+  let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const { t: key } = useTranslation();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   return (
-    <div className={styles.docs_body}>
+    <div className={`${styles.docs_body} ${!isArLang?styles.new_font:""}`}>
       <div>
         <div className="text-center">
-          <h1 className="m-0">{key("connectStores")}</h1>
-          <FontAwesomeIcon icon={faCaretDown} className="text-danger fs-4" />
+          <h2 className="m-0">{key("connectStores")}</h2>
+          <FontAwesomeIcon icon={faCaretDown} className="text-danger fs-5" />
         </div>
-        <p className="fs-4">
+        <p className="fs-5">
           {key("contactDocs")}{" "}
           <Link
             target="_blank"
-            to={`https://wa.me/966557299119`}
+            to={`https://wa.me/966530281151`}
             rel="noopener noreferrer"
             className="text-primary"
           >
@@ -31,13 +34,13 @@ const Docs = () => {
         </p>
       </div>
       <div className="my-4">
-        <h4 className="fw-bold">{key("reqApi")}</h4>
+        <h5>{key("reqApi")}</h5>
         <div className={styles.request_api} dir="ltr">
           <span>POST https://api.giveagift.com.sa/api/v1/discount-codes</span>
         </div>
       </div>
       <div className="my-4">
-        <h4 className="fw-bold">{key("reqBody")}</h4>
+        <h5>{key("reqBody")}</h5>
         <div className={styles.request_body} dir="ltr">
           <ul>
             <li>{`{`}</li>
@@ -52,7 +55,7 @@ const Docs = () => {
         </div>
       </div>
       <div className="my-4">
-        <h4 className="fw-bold">{key("exRes")}</h4>
+        <h5>{key("exRes")}</h5>
         <h5 className="text-success fw-bold ms-3" dir="ltr">Code 200</h5>
         <div className={styles.request_body} dir="ltr">
           <ul>

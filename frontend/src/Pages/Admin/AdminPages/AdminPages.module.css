@@ -603,11 +603,12 @@
     color: var(--slate_blue);
 }
 
-
 /* docs */
 .docs_body{
     min-height: 85vh;
     padding: 1.25rem;
+}
+.new_font{
     font-family: 'Times New Roman', Times, serif !important;
 }
 .request_api{

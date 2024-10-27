@@ -64,9 +64,6 @@ const AboutFooter = () => {
                 <Link to={"/our-policy"} className={styles.footer_link}>
                   {key("returnPolicy")}
                 </Link>
-                <Link to={"/docs"} className={styles.footer_link}>
-                  {key("docs")}
-                </Link>
                 <Link to={"/joinUs"} className={styles.footer_link}>
                   {key("joinUs")}
                 </Link>
