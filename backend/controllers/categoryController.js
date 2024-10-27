@@ -15,12 +15,12 @@ exports.resizeCategoryIcon = catchAsync(async (req, res, next) => {
   if (!req.file && req.method === "PATCH") return next();
   if (!req.file) return next(new ApiError("Please upload an icon", 400));
 
-  const filename = `category-${uuidv4()}-${Date.now()}.png`;
+  const filename = `category-${uuidv4()}-${Date.now()}.svg`;
 
   await sharp(req.file.buffer)
     // .resize(100, 100)
-    .toFormat("png")
-    .png({ quality: 98 })
+    .toFormat("svg")
+    .png({ quality: 100 })
     .toFile(`uploads/categories/${filename}`);
 
   req.body.icon = filename;
