@@ -20,7 +20,7 @@ exports.resizeCategoryIcon = catchAsync(async (req, res, next) => {
   await sharp(req.file.buffer)
     // .resize(100, 100)
     .toFormat("png")
-    .png({ quality: 98 })
+    .png({ quality: 100 })
     .toFile(`uploads/categories/${filename}`);
 
   req.body.icon = filename;
