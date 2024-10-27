@@ -90,35 +90,20 @@ const StoreProfile = () => {
                 <Container fluid>
                   <Row className="justify-content-center">
                     <>
-                    {isFetching ? (
-                      <Placeholders />
-                    ) : (
-                      <>
-                        {shop.data?.readyCards.map((card) => (
-                          <SingleReadyCard size={true} isStoreProfile={true} card={card} />
-                        ))}
-                      </>
-                    )}
-                    {isFetching ? (
-                      <Placeholders />
-                    ) : (
-                      <>
-                        {shop.data?.readyCards.map((card) => (
-                          <SingleReadyCard size={true} isStoreProfile={true} card={card} />
-                        ))}
-                      </>
-                    )}
-                    {isFetching ? (
-                      <Placeholders />
-                    ) : (
-                      <>
-                        {shop.data?.readyCards.map((card) => (
-                          <SingleReadyCard size={true} isStoreProfile={true} card={card} />
-                        ))}
-                      </>
-                    )}
+                      {isFetching ? (
+                        <Placeholders />
+                      ) : (
+                        <>
+                          {shop.data?.readyCards.map((card) => (
+                            <SingleReadyCard
+                              size={true}
+                              isStoreProfile={true}
+                              card={card}
+                            />
+                          ))}
+                        </>
+                      )}
                     </>
-
                   </Row>
                 </Container>
               </div>
