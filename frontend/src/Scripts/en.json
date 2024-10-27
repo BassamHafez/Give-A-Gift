@@ -465,5 +465,7 @@
     "merchantTitle":"Merchant",
     "app":"Application",
     "web":"Web",
-    "topShopPri":"Top Stores"
+    "topShopPri":"Top Stores",
+    "cardLogo":"Custom Card Logo",
+    "uploadCardLogoPhoto":"Card logo is required"
 }   

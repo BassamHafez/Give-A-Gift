@@ -10,7 +10,7 @@ const KonvaCard = ({ canvaCard, isSpecial }) => {
   const [cardWidth, setCardWidth] = useState(480);
   const [cardHeight, setCardHeight] = useState(270);
   const [loadedImages, setLoadedImages] = useState([]);
-
+console.log(canvaCard)
   useEffect(() => {
     const loadImages = async () => {
       if (!canvaCard?.shapes || !Array.isArray(canvaCard.shapes)) {
@@ -53,7 +53,7 @@ const KonvaCard = ({ canvaCard, isSpecial }) => {
 
   const [logoImage] = useImage(
     canvaCard?.shop?.logo
-      ? `${process.env.REACT_APP_Host}shops/${canvaCard.shop.logo}`
+      ? `${process.env.REACT_APP_Host}shops/${canvaCard.shop.cardLogo?canvaCard.shop.cardLogo:canvaCard.shop.logo}`
       : null
   );
 

@@ -52,8 +52,10 @@ const getPhoneValidationSchema = (country, key) => {
 
 const AddShop = ({ refetch }) => {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedCardLogoFile, setSelectedCardLogoFile] = useState(null);
   const [selectedCountry, setSelectedCountry] = useState("SA");
   const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
+  const [cardLogoImagePreviewUrl, setCardLogoImagePreviewUrl] = useState(null);
 
   const { t: key } = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
@@ -94,6 +96,7 @@ const AddShop = ({ refetch }) => {
 
   const initialValues = {
     shapeImage: "",
+    cardLogo: "",
     description: "",
     name: "",
     link: "",
@@ -135,6 +138,12 @@ const AddShop = ({ refetch }) => {
       notifyError(key("uploadPhoto"));
       return;
     }
+    if (selectedCardLogoFile) {
+      formData.append("cardLogo", selectedCardLogoFile);
+    } else {
+      notifyError(key("uploadCardLogoPhoto"));
+      return;
+    }
 
     if (values.isOnline === "true") {
       formData.append("link", values.link);
@@ -165,6 +174,8 @@ const AddShop = ({ refetch }) => {
             resetForm();
             setSelectedFile(null);
             setImagePreviewUrl(null);
+            setCardLogoImagePreviewUrl(null);
+            setSelectedCardLogoFile(null);
           } else {
             notifyError(key("wrong"));
           }
@@ -187,6 +198,15 @@ const AddShop = ({ refetch }) => {
     }
     e.target.value = null;
   };
+  const handleCardLogoFileChange = (e) => {
+    const file = e.currentTarget.files[0];
+    setSelectedCardLogoFile(file);
+    if (file) {
+      const previewUrl = URL.createObjectURL(file);
+      setCardLogoImagePreviewUrl(previewUrl);
+    }
+    e.target.value = null;
+  };
 
   return (
     <Formik
@@ -196,7 +216,7 @@ const AddShop = ({ refetch }) => {
     >
       {({ values, setFieldValue }) => (
         <Form className={styles.general_info_form}>
-          <h4 className="fw-bold">
+          <h4>
             {key("add")} {key("store")} <FontAwesomeIcon className="text-danger" icon={faCaretDown}/>
           </h4>
           <div className={styles.photo_field}>
@@ -205,7 +225,7 @@ const AddShop = ({ refetch }) => {
               className={
                 imagePreviewUrl ? styles.photo_label_img : styles.photo_label
               }
-              htmlFor="shape"
+              htmlFor="mainLogo"
             >
               {imagePreviewUrl ? (
                 <img
@@ -219,13 +239,42 @@ const AddShop = ({ refetch }) => {
             </label>
             <input
               type="file"
-              id="shape"
+              id="mainLogo"
               name="shapeImage"
               accept="image/*"
               onChange={handleFileChange}
               className="d-none"
             />
             <ErrorMessage name="shapeImage" component={InputErrorMessage} />
+          </div>
+
+          <div className={`${styles.photo_field} my-2`}>
+            <h5>{key("cardLogo")}</h5>
+            <label
+              className={
+                cardLogoImagePreviewUrl ? styles.photo_label_img : styles.photo_label
+              }
+              htmlFor="cardLogo"
+            >
+              {cardLogoImagePreviewUrl ? (
+                <img
+                  src={cardLogoImagePreviewUrl}
+                  alt="Uploaded Preview"
+                  className={styles.image_preview}
+                />
+              ) : (
+                <FontAwesomeIcon className={styles.img_icon} icon={faImage} />
+              )}
+            </label>
+            <input
+              type="file"
+              id="cardLogo"
+              name="cardLogo"
+              accept="image/*"
+              onChange={handleCardLogoFileChange}
+              className="d-none"
+            />
+            <ErrorMessage name="cardLogo" component={InputErrorMessage} />
           </div>
 
           <div className={styles.field}>

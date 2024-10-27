@@ -52,10 +52,12 @@ const getPhoneValidationSchema = (country, key) => {
 };
 
 const UpdateShop = ({ show, onHide, shopData, refetch }) => {
-  const [selectedFile, setSelectedFile] = useState(null);
   const [selectedCountry, setSelectedCountry] = useState("SA");
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedCardLogoFile, setSelectedCardLogoFile] = useState(null);
   const [purePhoneNum, setPurePhoneNum] = useState("");
   const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
+  const [cardLogoImagePreviewUrl, setCardLogoImagePreviewUrl] = useState(null);
 
   const { t: key } = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
@@ -131,6 +133,7 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
 
   const initialValues = {
     shapeImage: "",
+    cardLogo: "",
     description: shopData.description || "",
     name: shopData.name || "",
     link: shopData.link || "",
@@ -169,7 +172,10 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
 
     if (selectedFile) {
       formData.append("logo", selectedFile);
-    } 
+    }
+    if (selectedCardLogoFile) {
+      formData.append("cardLogo", selectedCardLogoFile);
+    }
     formData.append("name", values.name);
     formData.append("description", values.description);
 
@@ -205,6 +211,16 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
     e.target.value = null;
   };
 
+  const handleUpdateCardLogoFile = (e) => {
+    const file = e.currentTarget.files[0];
+    setSelectedCardLogoFile(file);
+    if (file) {
+      const previewUrl = URL.createObjectURL(file);
+      setCardLogoImagePreviewUrl(previewUrl);
+    }
+    e.target.value = null;
+  };
+
   return (
     <Modal
       show={show}
@@ -224,9 +240,6 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
           {({ values, setFieldValue }) => (
             <Form className={styles.general_info_form}>
               <div className={styles.photo_field}>
-                <h4 className="fw-bold">
-                  {key("add")} {key("store")}
-                </h4>
                 <h5>{key("storeLogo")}</h5>
                 <label className={styles.photo_label_img} htmlFor="updateShape">
                   {imagePreviewUrl ? (
@@ -252,6 +265,43 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
                   className="d-none"
                 />
                 <ErrorMessage name="shapeImage" component={InputErrorMessage} />
+              </div>
+
+              <div className={`${styles.photo_field} my-2`}>
+                <h5>{key("cardLogo")}</h5>
+                <label
+                  className={styles.photo_label_img}
+                  htmlFor="updateCardLogo"
+                >
+                  {cardLogoImagePreviewUrl ? (
+                    <img
+                      src={cardLogoImagePreviewUrl}
+                      alt="Uploaded Preview"
+                      className={styles.image_preview}
+                    />
+                  ) : shopData.cardLogo ? (
+                    <img
+                      src={`${process.env.REACT_APP_Host}shops/${shopData.cardLogo}`}
+                      alt="old_image_Preview"
+                      className={styles.image_preview}
+                    />
+                  ) : (
+                    <img
+                      src={`${process.env.REACT_APP_Host}shops/${shopData.logo}`}
+                      alt="old_image_Preview"
+                      className={styles.image_preview}
+                    />
+                  )}
+                </label>
+                <input
+                  type="file"
+                  id="updateCardLogo"
+                  name="cardLogo"
+                  accept="image/*"
+                  onChange={handleUpdateCardLogoFile}
+                  className="d-none"
+                />
+                <ErrorMessage name="cardLogo" component={InputErrorMessage} />
               </div>
 
               <div className={styles.field}>

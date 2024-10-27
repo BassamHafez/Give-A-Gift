@@ -23,6 +23,7 @@
     height: 9.375rem;
     margin-bottom: 0.625rem;
     position: relative;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.333);
 }
 .store_logo img{
     border-radius: 50%;

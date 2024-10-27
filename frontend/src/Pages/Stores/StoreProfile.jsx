@@ -29,9 +29,14 @@ const StoreProfile = () => {
   });
 
   const goToCustomCards = () => {
+    const shopData = shop?.data?.shop;
     dispatch(customCardActions.setIsStoreSelected(true));
     dispatch(customCardActions.setStoreId(storeId));
-    dispatch(customCardActions.setStoreLogo(shop?.data?.shop?.logo));
+    dispatch(
+      customCardActions.setStoreLogo(
+        shopData.cardLogo ? shopData.cardLogo : shopData.logo
+      )
+    );
     navigate(`/custom-cards`);
   };
 

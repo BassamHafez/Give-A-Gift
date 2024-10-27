@@ -13,7 +13,7 @@ const CustomCardShops = ({ saveShop }) => {
 
   const { data: shops } = useQuery({
     queryKey: ["shops", token],
-    queryFn: () => getShops({ type: "all"}),
+    queryFn: () => getShops({ type: "all" }),
     staleTime: Infinity,
   });
 
@@ -34,7 +34,9 @@ const CustomCardShops = ({ saveShop }) => {
               sm={4}
               lg={3}
               className="d-flex justify-content-center"
-              onClick={() => settingShop(shop.logo, shop._id)}
+              onClick={() =>
+                settingShop(shop.cardLogo ? shop.cardLogo : shop.logo, shop._id)
+              }
               key={shop._id}
             >
               <div className={styles.logo_div}>
