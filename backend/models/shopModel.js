@@ -17,6 +17,11 @@ const shopSchema = new mongoose.Schema(
     },
     logo: {
       type: String,
+      required: true,
+    },
+    cardLogo: {
+      type: String,
+      required: true,
     },
     description: {
       type: String,

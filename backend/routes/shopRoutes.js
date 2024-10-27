@@ -29,8 +29,8 @@ router.use(authController.protect, authController.restrictTo("admin"));
 
 router.post(
   "/",
-  shopController.uploadShopLogo,
-  shopController.resizeShopLogo,
+  shopController.uploadShopLogos,
+  shopController.resizeShopLogos,
   shopValidator.createShopValidator,
   shopController.createShop
 );
@@ -38,8 +38,8 @@ router.post(
 router
   .route("/:id")
   .patch(
-    shopController.uploadShopLogo,
-    shopController.resizeShopLogo,
+    shopController.uploadShopLogos,
+    shopController.resizeShopLogos,
     shopValidator.updateShopValidator,
     shopController.updateShop
   )

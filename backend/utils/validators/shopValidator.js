@@ -32,6 +32,8 @@ exports.createShopValidator = [
 
   check("logo").notEmpty().withMessage("Shop logo is required"),
 
+  check("cardLogo").notEmpty().withMessage("Card logo is required"),
+
   check("description")
     .notEmpty()
     .withMessage("Shop description is required")
