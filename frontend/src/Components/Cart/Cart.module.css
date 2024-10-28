@@ -26,8 +26,12 @@
 .list_item{
     box-shadow: 0 0 0.1875rem rgba(0, 0, 0, 0.388);
     padding: 0.625rem;
-    border-radius: 0.625rem;
+    border-radius: 30px;
     margin-bottom: 0.875rem;
+}
+.pro_color_item{
+    background-size: cover;
+    background-position: 50% 50%;
 }
 .list_item h4{
     font-weight: 600;
@@ -35,24 +39,31 @@
     margin-bottom: 0.625rem;
 }
 .sub_list_item{
-    margin: 0.5rem 0;
+    margin:8px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
-.sub_list_item_en{
-    font-family: 'Times New Roman', Times, serif;
-}
-.sub_list_icon{
+
+.sub_list_icon,.sub_list_icon_ar{
     margin-right: 0.5rem;
-    color: var(--slate_blue);
+    color: var(--main_color);
+    background-color: white;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.212);
+    border-radius: 5px;
+    padding: 8px;
+    min-width: 20px;
 }
 .sub_list_icon_ar{
     margin-left: 0.5rem;
-    color: var(--slate_blue);
 }
 .controllers{
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
 }
-.trash_icon,.arrow_right_icon,.eye{
+.trash_icon,.arrow_right_icon{
     margin-inline: 0.625rem;
     font-size: 0.9375rem;
     background-color: var(--main_color);
@@ -63,16 +74,27 @@
     border: 0.0625rem solid transparent;
     transition: all .4s;
 }
-.eye{
+.view_btn{
     background-color: white;
-    box-shadow: 0 0 3px black;
-    padding: 8px;
-    color: var(--sub_color);
+    color:black;
+    padding:0.625rem 1.25rem;
+    border-radius: 1.5625rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.54);
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    min-width: 11.25rem;
+    transition: all .4s;
 }
-.eye:hover{
+.view_btn:hover{
     background-color: var(--sub_color);
     color: white;
 }
+.view_btn span,.eye{
+    margin: 0;
+    padding: 0;
+}
+
 .arrow_right_icon{
     background-color: var(--sub_color);
     color:white;
@@ -116,3 +138,10 @@
     
          }
    }
+ @media (max-width: 290px) {
+    .view_btn{
+        min-width: 6.25rem;
+        padding: 0.3125rem 0.5rem;
+    }
+   }
+

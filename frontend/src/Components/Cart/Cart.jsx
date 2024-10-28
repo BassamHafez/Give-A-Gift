@@ -1,4 +1,4 @@
-import React, {useState } from "react";
+import React, { useState } from "react";
 import styles from "./Cart.module.css";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,12 +7,11 @@ import {
   faArrowRight,
   faComment,
   faCommentSlash,
-  faEye,
-  faHandHoldingDollar,
+  faDollar,
   faStore,
-  faTrash,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
+import { faTrashCan, faEye } from "@fortawesome/free-regular-svg-icons";
 import { useQuery } from "@tanstack/react-query";
 import { getMyCards, getMyWallet } from "../../util/Http";
 import Placeholders from "../Ui/Placeholders";
@@ -25,14 +24,10 @@ import { cartActions } from "../../Store/cartCounter-slice";
 import DetailsAfterBuying from "../../Pages/DetailsAfterBuying/DetailsAfterBuying";
 import { toast } from "react-toastify";
 
-
-
 const Cart = ({ onClose, show }) => {
-
-
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
-  
+
   const [modalShow, setModalShow] = useState(false);
   const [confirmModalShow, setConfirmModalShow] = useState(false);
   const [confirmMsg, setConfirmMsg] = useState("");
@@ -67,7 +62,6 @@ const Cart = ({ onClose, show }) => {
     select: (data) => data.data?.balance,
     staleTime: Infinity,
   });
-
   const deleteCard = async () => {
     setModalShow(false);
     if (cardId && token) {
@@ -154,7 +148,7 @@ const Cart = ({ onClose, show }) => {
   const goToChargeMethods = (price, cardId) => {
     setConfirmModalShow(false);
     navigate(`/payment/payment/${cardId}/${price}`);
-    onClose()
+    onClose();
   };
 
   const choosePaymentWay = (way, isBalanced, price, totalPrice) => {
@@ -202,6 +196,24 @@ const Cart = ({ onClose, show }) => {
       onClose();
     }
   };
+
+  const isColorDark = (color) => {
+    color = color.replace("#", "");
+    const r = parseInt(color.substring(0, 2), 16);
+    const g = parseInt(color.substring(2, 4), 16);
+    const b = parseInt(color.substring(4, 6), 16);
+
+    const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
+    return luminance < 128;
+  };
+
+  const getTextColor = (color) => {
+    if (color) {
+      return isColorDark(color) ? "#ffffff" : "#000000";
+    }
+    return "#ffffff";
+  };
+
   return (
     <>
       <Offcanvas
@@ -230,7 +242,25 @@ const Cart = ({ onClose, show }) => {
                 (card) =>
                   !card.isPaid &&
                   !card.isDelivered && (
-                    <li key={card._id} className={styles.list_item}>
+                    <li
+                      key={card._id}
+                      className={`${styles.list_item} ${
+                        !card.isSpecial &&
+                        card.proColor &&
+                        styles.pro_color_item
+                      }`}
+                      style={{
+                        backgroundColor: card.color
+                          ? card.color.hex
+                          : undefined,
+                        backgroundImage: card.proColor?.image
+                          ? `url(${process.env.REACT_APP_Host}colors/${card.proColor.image})`
+                          : undefined,
+                        color:card.isSpecial?"#000000":card.color
+                          ? getTextColor(card.color.hex)
+                          : "#ffffff",
+                      }}
+                    >
                       <div className={styles.item}>
                         <h4>
                           {card.isSpecial
@@ -239,33 +269,41 @@ const Cart = ({ onClose, show }) => {
                         </h4>
                         <div className={styles.item_content}>
                           <ul className="p-0">
-                            <li className={`${styles.sub_list_item} ${isArLang?"":styles.sub_list_item_en}`}>
-                              <FontAwesomeIcon
-                                className={
-                                  isArLang
-                                    ? styles.sub_list_icon_ar
-                                    : styles.sub_list_icon
-                                }
-                                icon={faStore}
-                              />
-                              <span className="fw-bold">{key("store")}: </span>
-                              {card.shop?.name}
+                            <li className={`${styles.sub_list_item}`}>
+                              <div className="d-flex align-items-center">
+                                <FontAwesomeIcon
+                                  className={
+                                    isArLang
+                                      ? styles.sub_list_icon_ar
+                                      : styles.sub_list_icon
+                                  }
+                                  icon={faStore}
+                                />
+                                <span>{key("store")}: </span>
+                              </div>
+
+                              <span>{card.shop?.name}</span>
                             </li>
-                            <li className={`${styles.sub_list_item} ${isArLang?"":styles.sub_list_item_en}`}>
-                              <FontAwesomeIcon
-                                className={
-                                  isArLang
-                                    ? styles.sub_list_icon_ar
-                                    : styles.sub_list_icon
-                                }
-                                icon={faHandHoldingDollar}
-                              />
-                              <span className="fw-bold">{key("price")}: </span>
-                              {card.price?.value} {key("sar")}
+                            <li className={`${styles.sub_list_item}`}>
+                              <div className="d-flex align-items-center">
+                                <FontAwesomeIcon
+                                  className={
+                                    isArLang
+                                      ? styles.sub_list_icon_ar
+                                      : styles.sub_list_icon
+                                  }
+                                  icon={faDollar}
+                                />
+                                <span>{key("price")}:</span>
+                              </div>
+
+                              <span>
+                                {card.price?.value} {key("sar")}
+                              </span>
                             </li>
-                            <li className={`${styles.sub_list_item} ${isArLang?"":styles.sub_list_item_en}`}>
+                            <li className={`${styles.sub_list_item}`}>
                               {card.isDelivered ? (
-                                <span>
+                                <div className="d-flex align-items-center">
                                   <FontAwesomeIcon
                                     className={
                                       isArLang
@@ -274,10 +312,10 @@ const Cart = ({ onClose, show }) => {
                                     }
                                     icon={faComment}
                                   />{" "}
-                                  {key("cardReceived")}
-                                </span>
+                                  <span>{key("cardReceived")}</span>
+                                </div>
                               ) : (
-                                <span>
+                                <div className="d-flex align-items-center">
                                   <FontAwesomeIcon
                                     className={
                                       isArLang
@@ -286,45 +324,47 @@ const Cart = ({ onClose, show }) => {
                                     }
                                     icon={faCommentSlash}
                                   />
-                                  {key("didnotReceive")}
-                                </span>
+                                  <span>{key("didnotReceive")}</span>
+                                </div>
                               )}
                             </li>
                           </ul>
                           <div className={styles.controllers}>
                             <FontAwesomeIcon
                               className={styles.trash_icon}
-                              icon={faTrash}
+                              icon={faTrashCan}
                               onClick={() => {
                                 setCardId(card._id);
                                 setModalShow(true);
                               }}
                             />
-                            <FontAwesomeIcon
-                              title={key("viewCard")}
-                              className={styles.eye}
-                              icon={faEye}
-                              onClick={() => {
-                                navigate(`/view-card/${card._id}`);
-                                onClose();
-                              }}
-                            />
-
+                            <button className={styles.view_btn}>
                               <FontAwesomeIcon
-                                className={styles.arrow_right_icon}
-                                icon={!isArLang ? faArrowRight : faArrowLeft}
-                                onClick={() =>
-                                  goToBuyingPhases(
-                                    card?.recipient,
-                                    card?.price?.value,
-                                    card?._id,
-                                    card?.celebrateIcon,
-                                    card?.celebrateQR,
-                                    card?.shapes,
-                                    card?.proColor ? card.proColor.price : null
-                                  )
-                                }
+                                className={styles.eye}
+                                icon={faEye}
+                                onClick={() => {
+                                  navigate(`/view-card/${card._id}`);
+                                  onClose();
+                                }}
                               />
+                              <span>{key("viewCard")}</span>
+                            </button>
+
+                            <FontAwesomeIcon
+                              className={styles.arrow_right_icon}
+                              icon={!isArLang ? faArrowRight : faArrowLeft}
+                              onClick={() =>
+                                goToBuyingPhases(
+                                  card?.recipient,
+                                  card?.price?.value,
+                                  card?._id,
+                                  card?.celebrateIcon,
+                                  card?.celebrateQR,
+                                  card?.shapes,
+                                  card?.proColor ? card.proColor.price : null
+                                )
+                              }
+                            />
                           </div>
                         </div>
                       </div>

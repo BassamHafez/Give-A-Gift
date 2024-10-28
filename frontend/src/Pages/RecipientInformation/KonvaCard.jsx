@@ -10,7 +10,7 @@ const KonvaCard = ({ canvaCard, isSpecial }) => {
   const [cardWidth, setCardWidth] = useState(480);
   const [cardHeight, setCardHeight] = useState(270);
   const [loadedImages, setLoadedImages] = useState([]);
-console.log(canvaCard)
+
   useEffect(() => {
     const loadImages = async () => {
       if (!canvaCard?.shapes || !Array.isArray(canvaCard.shapes)) {
@@ -28,7 +28,7 @@ console.log(canvaCard)
               resolve(img);
             };
             img.onerror = (error) => {
-              resolve(null); 
+              resolve(null);
             };
           });
         })
@@ -53,7 +53,11 @@ console.log(canvaCard)
 
   const [logoImage] = useImage(
     canvaCard?.shop?.logo
-      ? `${process.env.REACT_APP_Host}shops/${canvaCard.shop.cardLogo?canvaCard.shop.cardLogo:canvaCard.shop.logo}`
+      ? `${process.env.REACT_APP_Host}shops/${
+          canvaCard.shop.cardLogo
+            ? canvaCard.shop.cardLogo
+            : canvaCard.shop.logo
+        }`
       : null
   );
 
@@ -74,7 +78,6 @@ console.log(canvaCard)
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
 
   return (
     <>
@@ -131,7 +134,7 @@ console.log(canvaCard)
                       x={shape.position.x}
                       y={shape.position.y}
                       width={displayWidth}
-                      height={displayHeight }
+                      height={displayHeight}
                       rotation={shape.rotation}
                       offsetX={displayWidth / 2}
                       offsetY={displayHeight / 2}
