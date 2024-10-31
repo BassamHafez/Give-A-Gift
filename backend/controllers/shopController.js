@@ -77,6 +77,8 @@ exports.resizeShopLogos = catchAsync(async (req, res, next) => {
       .toFormat("png")
       .png({ quality: 99 })
       .toFile(`uploads/shops/${logoFilename}`);
+
+    req.body.logo = logoFilename;
   }
 
   if (req.files && req.files.cardLogo && req.files.cardLogo[0].buffer) {
@@ -84,10 +86,12 @@ exports.resizeShopLogos = catchAsync(async (req, res, next) => {
       .toFormat("png")
       .png({ quality: 99 })
       .toFile(`uploads/shops/${cardLogoFilename}`);
+
+    req.body.cardLogo = cardLogoFilename;
   }
 
-  req.body.logo = logoFilename;
-  req.body.cardLogo = cardLogoFilename;
+  // req.body.logo = logoFilename;
+  // req.body.cardLogo = cardLogoFilename;
 
   next();
 });
