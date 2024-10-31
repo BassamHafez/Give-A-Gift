@@ -66,20 +66,20 @@ exports.uploadShopLogos = uploadMixOfImages([
 
 exports.resizeShopLogos = catchAsync(async (req, res, next) => {
   if (!req.files && req.method === "PATCH") return next();
-  if (!req.files?.logo || !req.files?.cardLogo)
+  if (req.method === "POST" && (!req.files?.logo || !req.files?.cardLogo))
     return next(new ApiError("Please upload both logos", 400));
 
   const logoFilename = `shop-${uuidv4()}-${Date.now()}.png`;
   const cardLogoFilename = `shopCard-${uuidv4()}-${Date.now()}.png`;
 
-  if (req.files.logo[0].buffer) {
+  if (req.files && req.files.logo && req.files.logo[0].buffer) {
     await sharp(req.files.logo[0].buffer)
       .toFormat("png")
       .png({ quality: 99 })
       .toFile(`uploads/shops/${logoFilename}`);
   }
 
-  if (req.files.cardLogo[0].buffer) {
+  if (req.files && req.files.cardLogo && req.files.cardLogo[0].buffer) {
     await sharp(req.files.cardLogo[0].buffer)
       .toFormat("png")
       .png({ quality: 99 })
