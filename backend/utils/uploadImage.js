@@ -12,7 +12,13 @@ const multerOptions = () => {
     }
   };
 
-  const upload = multer({ storage: multerStorage, fileFilter: multerFilter });
+  const upload = multer({
+    storage: multerStorage,
+    fileFilter: multerFilter,
+    limits: {
+      fileSize: 1024 * 1024 * 100, // 100MB
+    },
+  });
 
   return upload;
 };
