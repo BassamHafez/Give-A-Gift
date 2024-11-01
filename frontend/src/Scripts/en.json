@@ -467,5 +467,6 @@
     "web":"Web",
     "topShopPri":"Top Stores",
     "cardLogo":"Custom Card Logo",
-    "uploadCardLogoPhoto":"Card logo is required"
+    "uploadCardLogoPhoto":"Card logo is required",
+    "imgSizeError":"Maximum size for image is 20MB."
 }   

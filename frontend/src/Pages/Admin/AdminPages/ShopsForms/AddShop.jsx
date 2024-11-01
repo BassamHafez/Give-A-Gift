@@ -191,6 +191,10 @@ const AddShop = ({ refetch }) => {
 
   const handleFileChange = (e) => {
     const file = e.currentTarget.files[0];
+    if (file?.size > 20 * 1024 * 1024) {
+      notifyError(key("imgSizeError"));
+      return;
+    }
     setSelectedFile(file);
     if (file) {
       const previewUrl = URL.createObjectURL(file);
@@ -200,6 +204,10 @@ const AddShop = ({ refetch }) => {
   };
   const handleCardLogoFileChange = (e) => {
     const file = e.currentTarget.files[0];
+    if (file?.size > 20 * 1024 * 1024) {
+      notifyError(key("imgSizeError"));
+      return;
+    }
     setSelectedCardLogoFile(file);
     if (file) {
       const previewUrl = URL.createObjectURL(file);

@@ -459,5 +459,6 @@
     "web":"الويب",
     "topShopPri":"المتاجر الأكثر طلباً",
     "cardLogo":"لوجو البطاقة المخصصة",
-    "uploadCardLogoPhoto":"لوجو البطائق المخصصة مطلوب"
+    "uploadCardLogoPhoto":"لوجو البطائق المخصصة مطلوب",
+    "imgSizeError":"الحد الأقصي للصور هو 20 ميجا"
 }

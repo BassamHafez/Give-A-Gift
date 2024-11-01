@@ -68,6 +68,10 @@ const UpdateMainBanner = () => {
 
   const handleFileChange = (e) => {
     const file = e.currentTarget.files[0];
+    if (file?.size > 20 * 1024 * 1024) {
+      notifyError(key("imgSizeError"));
+      return;
+    }
     setSelectedFile(file);
     if (file) {
       const imgUrl = URL.createObjectURL(file);

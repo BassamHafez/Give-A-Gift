@@ -95,6 +95,7 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
   const { mutate, isPending } = useMutation({
     mutationFn: controlShops,
     onSuccess: (data) => {
+      console.log(data)
       if (data?.status === "success") {
         refetch();
         onHide();
@@ -103,6 +104,7 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
       }
     },
     onError: (error) => {
+      console.log(error)
       notifyError(key("wrong"));
     },
   });
@@ -203,6 +205,10 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
 
   const handleUpdateFileChange = (e) => {
     const file = e.currentTarget.files[0];
+    if (file?.size > 20 * 1024 * 1024) {
+      notifyError(key("imgSizeError"));
+      return;
+    }
     setSelectedFile(file);
     if (file) {
       const previewUrl = URL.createObjectURL(file);
@@ -213,6 +219,10 @@ const UpdateShop = ({ show, onHide, shopData, refetch }) => {
 
   const handleUpdateCardLogoFile = (e) => {
     const file = e.currentTarget.files[0];
+    if (file?.size > 20 * 1024 * 1024) {
+      notifyError(key("imgSizeError"));
+      return;
+    }
     setSelectedCardLogoFile(file);
     if (file) {
       const previewUrl = URL.createObjectURL(file);

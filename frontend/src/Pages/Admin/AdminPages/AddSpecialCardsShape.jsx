@@ -87,6 +87,10 @@ const AddSpecialCardsShape = () => {
 
   const handleFrontChange = (e) => {
     const file = e.currentTarget.files[0];
+    if (file?.size > 20 * 1024 * 1024) {
+      notifyError(key("imgSizeError"));
+      return;
+    }
     setSelectedFrontShape(file);
     if (file) {
       const previewUrl = URL.createObjectURL(file);
@@ -97,6 +101,10 @@ const AddSpecialCardsShape = () => {
   };
   const handleBackChange = (e) => {
     const file = e.currentTarget.files[0];
+    if (file?.size > 20 * 1024 * 1024) {
+      notifyError(key("imgSizeError"));
+      return;
+    }
     setSelectedBackShape(file);
     if (file) {
       const previewUrl = URL.createObjectURL(file);
