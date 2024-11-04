@@ -9,7 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import RecipientKonva from "./RecipientKonva";
 import { viewCard } from "../../util/Http";
 import scan from "../../Images/scan.jpg";
-import MainTitle from "../../Components/Ui/MainTitle";
+import logo from "../../Images/logo.png";
 
 const shapes = {
   all: ["circle", "triangle", "square"],
@@ -87,12 +87,12 @@ const RecipientViewCard = () => {
       {!isFetching ? (
         myCard ? (
           <div
-          className={`d-flex flex-column align-items-center ${styles.card_content}`}
+            className={`d-flex flex-column align-items-center ${styles.card_content}`}
             xlg={6}
             key={myCard.data._id}
           >
-            <h3 className="text-center mt-2 mb-4">{key("viewMyCard")}</h3>
-            <div className={styles.header} dir={`${isArLang?"ltr":"ltr"}`}>
+            <h3 className="text-center my-4">{key("viewMyCard")}</h3>
+            <div className={styles.header} dir={`${isArLang ? "ltr" : "ltr"}`}>
               <ul className={styles.header_list}>
                 <li
                   className={`${styles.header_list_item} ${
@@ -114,7 +114,7 @@ const RecipientViewCard = () => {
                     setIsFrontShape("back");
                   }}
                 >
-                  {key("viewCardTitleBack")}
+                  {key("previewBack")}
                 </li>
                 <li
                   className={`${styles.header_list_item} ${
@@ -125,18 +125,26 @@ const RecipientViewCard = () => {
                     setIsFrontShape("front");
                   }}
                 >
-                  {key("viewCardTitleFront")}
+                  {key("previewFront")}
                 </li>
               </ul>
             </div>
             {isFrontShape === "usage" ? (
               <div className={styles.steps_div}>
-                <div className="d-flex justify-content-center mb-3"><MainTitle title={key("followSteps")}/></div>
+                <div className="d-flex justify-content-center  align-items-center mb-3">
+                  <div className={styles.main_title_div}>
+                    <img className={styles.logo} src={logo} alt="logo" />
+                    <h2>{key("followSteps")}</h2>
+                    <img className={styles.logo} src={logo} alt="logo" />
+                  </div>
+                </div>
 
                 {myCard.data?.discountCode?.qrCode ? (
                   <>
                     <ul>
-                      <li>{key("qrUsageStep1")} "{myCard.data?.shop?.name}"</li>
+                      <li>
+                        {key("qrUsageStep1")} "{myCard.data?.shop?.name}"
+                      </li>
                       <li>{key("qrUsageStep2")}</li>
                       <li>{key("qrUsageStep3")}</li>
                       <li>{key("qrUsageStep4")}</li>
@@ -147,7 +155,16 @@ const RecipientViewCard = () => {
                   </>
                 ) : (
                   <ul>
-                    <li>{key("promoCodeUsageStep1")} <Link className="text-primary fw-bold" target="_blank" to={myCard.data?.shop?.link}>{key("here")}</Link></li>
+                    <li>
+                      {key("promoCodeUsageStep1")}{" "}
+                      <Link
+                        className="text-primary fw-bold"
+                        target="_blank"
+                        to={myCard.data?.shop?.link}
+                      >
+                        {key("here")}
+                      </Link>
+                    </li>
                     <li>{key("promoCodeUsageStep2")}</li>
                     <li>{key("promoCodeUsageStep3")}</li>
                     <li>{key("promoCodeUsageStep4")}</li>

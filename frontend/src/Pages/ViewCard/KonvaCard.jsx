@@ -1,9 +1,8 @@
 import {
-  faCalendarDay,
   faClock,
   faComment,
-  faCommentSlash,
 } from "@fortawesome/free-solid-svg-icons";
+import { faCalendar } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Image, Layer, Rect, Stage, Text } from "react-konva";
 import useImage from "use-image";
@@ -47,7 +46,7 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
 
     loadImages();
   }, [card]);
-  
+
   const [mainLogoImage] = useImage(mainLogo);
   const { t: key } = useTranslation();
   const isArLang = localStorage.getItem("i18nextLng") === "ar";
@@ -282,28 +281,36 @@ const KonvaCard = ({ card, isPaid, isFrontShape }) => {
               >
                 {card.price?.value} {key("sar")}
               </li>
-              <li
-                className={`${styles.list_item} ${
-                  isArLang ? styles.list_item_ar : styles.list_item_en
-                } px-3`}
+
+              <div
+                className="d-flex justify-content-between align-items-center px-2"
+                dir={`${isArLang ? "rtl" : "rtl"}`}
               >
-                <FontAwesomeIcon
-                  icon={card.receiveAt ? faCalendarDay : faCommentSlash}
-                  className={styles.list_icon}
-                />
-                {key("date")}: <span>{receiveAtFormatted.formattedDate}</span>
-              </li>
-              <li
-                className={`${styles.list_item} ${
-                  isArLang ? styles.list_item_ar : styles.list_item_en
-                } px-3`}
-              >
-                <FontAwesomeIcon
-                  icon={card.receiveAt ? faClock : faComment}
-                  className={styles.list_icon}
-                />
-                {key("time")}: <span>{receiveAtFormatted.formattedTime}</span>
-              </li>
+                <li
+                  className={`${styles.list_item} ${
+                    isArLang ? styles.list_item_ar : styles.list_item_en
+                  } px-3`}
+                >
+                  <FontAwesomeIcon
+                    icon={faCalendar}
+                    className={`${styles.list_icon} text-danger ms-3`}
+                  />
+                  <span>{receiveAtFormatted.formattedDate}</span>
+                </li>
+                {card.receiveAt && (
+                  <li
+                    className={` ${styles.list_item} ${
+                      isArLang ? styles.list_item_ar : styles.list_item_en
+                    } px-3`}
+                  >
+                    <FontAwesomeIcon
+                      icon={card.receiveAt ? faClock : faComment}
+                      className={`${styles.list_icon} text-danger ms-3`}
+                    />
+                    <span>{receiveAtFormatted.formattedTime}</span>
+                  </li>
+                )}
+              </div>
             </>
           )}
         </ul>

@@ -9,7 +9,7 @@ import { Link, useParams } from "react-router-dom";
 import confetti from "canvas-confetti";
 import KonvaCard from "./KonvaCard";
 import scan from "../../Images/scan.jpg";
-import MainTitle from "../../Components/Ui/MainTitle";
+import logo from "../../Images/logo.png";
 
 const shapes = {
   all: ["circle", "triangle", "square"],
@@ -92,8 +92,11 @@ const ViewCard = () => {
               xlg={6}
               key={myCard.data._id}
             >
-              <h3 className="text-center mt-2 mb-4">{key("viewMyCard")}</h3>
-              <div className={styles.header} dir={`${isArLang?"ltr":"ltr"}`}>
+              <h3 className="text-center my-4">{key("viewMyCard")}</h3>
+              <div
+                className={styles.header}
+                dir={`${isArLang ? "ltr" : "ltr"}`}
+              >
                 <ul className={styles.header_list}>
                   <li
                     className={`${styles.header_list_item} ${
@@ -115,7 +118,7 @@ const ViewCard = () => {
                       setIsFrontShape("back");
                     }}
                   >
-                    {key("viewCardTitleBack")}
+                    {key("previewBack")}
                   </li>
                   <li
                     className={`${styles.header_list_item} ${
@@ -126,13 +129,20 @@ const ViewCard = () => {
                       setIsFrontShape("front");
                     }}
                   >
-                    {key("viewCardTitleFront")}
+                    {key("previewFront")}
                   </li>
                 </ul>
               </div>
               {isFrontShape === "usage" ? (
                 <div className={styles.steps_div}>
-                  <div className="d-flex justify-content-center mb-3"><MainTitle title={key("followSteps")}/></div>
+                  
+                  <div className="d-flex justify-content-center  align-items-center mb-3">
+                    <div className={styles.main_title_div}>
+                      <img className={styles.logo} src={logo} alt="logo" />
+                      <h2>{key("followSteps")}</h2>
+                      <img className={styles.logo} src={logo} alt="logo" />
+                    </div>
+                  </div>
 
                   {myCard.data?.discountCode?.qrCode ? (
                     <>

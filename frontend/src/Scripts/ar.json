@@ -359,7 +359,7 @@
     "sentSucc":"تم ارسال البيانات بنجاح",
     "designs":"التصميمات",
     "banner": "تحديث البانر",
-    "payFirst": "اشترِ البطاقة للتسليم الفوري",
+    "payFirst": "الآن",
     "cancelOrder": "إلغاء الطلب",
     "confirmCancel": "هل أنت متأكد أنك تريد إلغاء الطلب؟",
     "viewCard": "عرض البطاقة",
@@ -461,7 +461,7 @@
     "cardLogo":"لوجو البطاقة المخصصة",
     "uploadCardLogoPhoto":"لوجو البطائق المخصصة مطلوب",
     "imgSizeError":"الحد الأقصي للصور هو 20 ميجا",
-    "viewMyCard":"معاينة البطاقة",
+    "viewMyCard":"عرض البطاقة",
     "viewCardTitleFront":"بطاقة",
     "viewCardTitleBack":"من الخلف"
 }
