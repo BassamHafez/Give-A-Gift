@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import RecipientKonva from "./RecipientKonva";
 import { viewCard } from "../../util/Http";
 import scan from "../../Images/scan.jpg";
+import MainTitle from "../../Components/Ui/MainTitle";
 
 const shapes = {
   all: ["circle", "triangle", "square"],
@@ -39,6 +40,7 @@ const RecipientViewCard = () => {
   const [isFirstVisit, setIsFirstVisit] = useState(true);
   const [isFrontShape, setIsFrontShape] = useState("front");
   const { t: key } = useTranslation();
+  let isArLang = localStorage.getItem("i18nextLng") === "ar";
 
   const { data: myCard, isFetching } = useQuery({
     queryKey: ["viewCard", cardId],
@@ -85,11 +87,12 @@ const RecipientViewCard = () => {
       {!isFetching ? (
         myCard ? (
           <div
-            className="d-flex flex-column justify-content-center align-items-center"
+          className={`d-flex flex-column align-items-center ${styles.card_content}`}
             xlg={6}
             key={myCard.data._id}
           >
-            <div className={styles.header}>
+            <h3 className="text-center mt-2 mb-4">{key("viewMyCard")}</h3>
+            <div className={styles.header} dir={`${isArLang?"ltr":"ltr"}`}>
               <ul className={styles.header_list}>
                 <li
                   className={`${styles.header_list_item} ${
@@ -111,7 +114,7 @@ const RecipientViewCard = () => {
                     setIsFrontShape("back");
                   }}
                 >
-                  {key("previewBack")}
+                  {key("viewCardTitleBack")}
                 </li>
                 <li
                   className={`${styles.header_list_item} ${
@@ -122,13 +125,13 @@ const RecipientViewCard = () => {
                     setIsFrontShape("front");
                   }}
                 >
-                  {key("previewFront")}
+                  {key("viewCardTitleFront")}
                 </li>
               </ul>
             </div>
             {isFrontShape === "usage" ? (
               <div className={styles.steps_div}>
-                <h4 className="fw-bold">{key("followSteps")}</h4>
+                <div className="d-flex justify-content-center mb-3"><MainTitle title={key("followSteps")}/></div>
 
                 {myCard.data?.discountCode?.qrCode ? (
                   <>

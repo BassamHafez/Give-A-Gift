@@ -9,6 +9,7 @@ import { Link, useParams } from "react-router-dom";
 import confetti from "canvas-confetti";
 import KonvaCard from "./KonvaCard";
 import scan from "../../Images/scan.jpg";
+import MainTitle from "../../Components/Ui/MainTitle";
 
 const shapes = {
   all: ["circle", "triangle", "square"],
@@ -39,6 +40,7 @@ const ViewCard = () => {
   const [isFirstVisit, setIsFirstVisit] = useState(true);
   const [isFrontShape, setIsFrontShape] = useState("front");
   const { t: key } = useTranslation();
+  let isArLang = localStorage.getItem("i18nextLng") === "ar";
 
   const { data: myCard, isFetching } = useQuery({
     queryKey: ["viewCard", cardId],
@@ -79,103 +81,109 @@ const ViewCard = () => {
       </Card.Body>
     </Card>
   );
-  
 
   return (
-    <div className={`${styles.card_container}`}>
-      {!isFetching ? (
-        myCard ? (
-          <div
-            className="d-flex flex-column justify-content-center align-items-center"
-            xlg={6}
-            key={myCard.data._id}
-          >
-            <div className={styles.header}>
-              <ul className={styles.header_list}>
-                <li
-                  className={`${styles.header_list_item} ${
-                    isFrontShape === "usage" && styles.active
-                  }`}
-                  onClick={() => {
-                    setIsFirstVisit(false);
-                    setIsFrontShape("usage");
-                  }}
-                >
-                  {key("howToUse")}
-                </li>
-                <li
-                  className={`${styles.header_list_item} ${
-                    isFrontShape === "back" && styles.active
-                  }`}
-                  onClick={() => {
-                    setIsFirstVisit(false);
-                    setIsFrontShape("back");
-                  }}
-                >
-                  {key("previewBack")}
-                </li>
-                <li
-                  className={`${styles.header_list_item} ${
-                    isFrontShape === "front" && styles.active
-                  }`}
-                  onClick={() => {
-                    setIsFirstVisit(false);
-                    setIsFrontShape("front");
-                  }}
-                >
-                  {key("previewFront")}
-                </li>
-              </ul>
-            </div>
-            {isFrontShape === "usage" ? (
-              <div className={styles.steps_div}>
-                <h4 className="fw-bold">{key("followSteps")}</h4>
+    <>
+      <div className={`${styles.card_container}`}>
+        {!isFetching ? (
+          myCard ? (
+            <div
+              className={`d-flex flex-column align-items-center ${styles.card_content}`}
+              xlg={6}
+              key={myCard.data._id}
+            >
+              <h3 className="text-center mt-2 mb-4">{key("viewMyCard")}</h3>
+              <div className={styles.header} dir={`${isArLang?"ltr":"ltr"}`}>
+                <ul className={styles.header_list}>
+                  <li
+                    className={`${styles.header_list_item} ${
+                      isFrontShape === "usage" && styles.active
+                    }`}
+                    onClick={() => {
+                      setIsFirstVisit(false);
+                      setIsFrontShape("usage");
+                    }}
+                  >
+                    {key("howToUse")}
+                  </li>
+                  <li
+                    className={`${styles.header_list_item} ${
+                      isFrontShape === "back" && styles.active
+                    }`}
+                    onClick={() => {
+                      setIsFirstVisit(false);
+                      setIsFrontShape("back");
+                    }}
+                  >
+                    {key("viewCardTitleBack")}
+                  </li>
+                  <li
+                    className={`${styles.header_list_item} ${
+                      isFrontShape === "front" && styles.active
+                    }`}
+                    onClick={() => {
+                      setIsFirstVisit(false);
+                      setIsFrontShape("front");
+                    }}
+                  >
+                    {key("viewCardTitleFront")}
+                  </li>
+                </ul>
+              </div>
+              {isFrontShape === "usage" ? (
+                <div className={styles.steps_div}>
+                  <div className="d-flex justify-content-center mb-3"><MainTitle title={key("followSteps")}/></div>
 
-                {myCard.data?.discountCode?.qrCode ? (
-                  <>
+                  {myCard.data?.discountCode?.qrCode ? (
+                    <>
+                      <ul>
+                        <li>
+                          {key("qrUsageStep1")} "{myCard.data?.shop?.name}"
+                        </li>
+                        <li>{key("qrUsageStep2")}</li>
+                        <li>{key("qrUsageStep3")}</li>
+                        <li>{key("qrUsageStep4")}</li>
+                      </ul>
+                      <div className={styles.scan_img}>
+                        <img className="w-100" src={scan} alt="scan the code" />
+                      </div>
+                    </>
+                  ) : (
                     <ul>
                       <li>
-                        {key("qrUsageStep1")} "{myCard.data?.shop?.name}"
+                        {key("promoCodeUsageStep1")}{" "}
+                        <Link
+                          className="text-primary fw-bold"
+                          target="_blank"
+                          to={myCard.data?.shop?.link}
+                        >
+                          {key("here")}
+                        </Link>
                       </li>
-                      <li>{key("qrUsageStep2")}</li>
-                      <li>{key("qrUsageStep3")}</li>
-                      <li>{key("qrUsageStep4")}</li>
+                      <li>{key("promoCodeUsageStep2")}</li>
+                      <li>{key("promoCodeUsageStep3")}</li>
+                      <li>{key("promoCodeUsageStep4")}</li>
                     </ul>
-                    <div className={styles.scan_img}>
-                      <img className="w-100" src={scan} alt="scan the code" />
-                    </div>
-                  </>
-                ) : (
-                  <ul>
-                    <li>
-                      {key("promoCodeUsageStep1")}{" "}
-                      <Link className="text-primary fw-bold" target="_blank" to={myCard.data?.shop?.link}>
-                        {key("here")}
-                      </Link>
-                    </li>
-                    <li>{key("promoCodeUsageStep2")}</li>
-                    <li>{key("promoCodeUsageStep3")}</li>
-                    <li>{key("promoCodeUsageStep4")}</li>
-                  </ul>
-                )}
-              </div>
-            ) : (
-              <div className={styles.card_body}>
-                <KonvaCard
-                  isPaid={myCard?.data?.isPaid}
-                  isFrontShape={isFrontShape}
-                  card={myCard?.data}
-                />
-              </div>
-            )}
-          </div>
+                  )}
+                </div>
+              ) : (
+                <div className={styles.card_body}>
+                  <KonvaCard
+                    isPaid={myCard?.data?.isPaid}
+                    isFrontShape={isFrontShape}
+                    card={myCard?.data}
+                  />
+                </div>
+              )}
+            </div>
+          ) : (
+            loadingCard
+          )
         ) : (
           loadingCard
-        )
-      ) : (
-        loadingCard
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 };
 

@@ -256,7 +256,9 @@ const Cart = ({ onClose, show }) => {
                         backgroundImage: card.proColor?.image
                           ? `url(${process.env.REACT_APP_Host}colors/${card.proColor.image})`
                           : undefined,
-                        color:card.isSpecial?"#000000":card.color
+                        color: card.isSpecial
+                          ? "#000000"
+                          : card.color
                           ? getTextColor(card.color.hex)
                           : "#ffffff",
                       }}
@@ -338,14 +340,16 @@ const Cart = ({ onClose, show }) => {
                                 setModalShow(true);
                               }}
                             />
-                            <button className={styles.view_btn}>
+                            <button
+                              onClick={() => {
+                                navigate(`/view-card/${card._id}`);
+                                onClose();
+                              }}
+                              className={styles.view_btn}
+                            >
                               <FontAwesomeIcon
                                 className={styles.eye}
                                 icon={faEye}
-                                onClick={() => {
-                                  navigate(`/view-card/${card._id}`);
-                                  onClose();
-                                }}
                               />
                               <span>{key("viewCard")}</span>
                             </button>

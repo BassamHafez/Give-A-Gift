@@ -377,7 +377,7 @@
     "deleteDiscWrong":"The discount no longer exists, or something went wrong. Unable to Cancel.",
     "cardUsed":"Code is Already Used",
     "noOrder":"No order found for this card",
-    "howToUse": "How to Use",
+    "howToUse": "Usage",
     "followSteps":"Follow the steps",
     "qrUsageStep1":"Go to Store",
     "qrUsageStep2":"Present the QR code the store associate",
@@ -468,5 +468,8 @@
     "topShopPri":"Top Stores",
     "cardLogo":"Custom Card Logo",
     "uploadCardLogoPhoto":"Card logo is required",
-    "imgSizeError":"Maximum size for image is 20MB."
+    "imgSizeError":"Maximum size for image is 20MB.",
+    "viewMyCard":"view card",
+    "viewCardTitleFront":"Front",
+    "viewCardTitleBack":"Back"
 }   

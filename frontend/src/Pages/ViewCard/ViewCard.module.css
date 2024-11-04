@@ -1,11 +1,12 @@
-
 .card_container{
     display: flex;
     justify-content: center;
-    align-items: center;
     min-height: 100vh;
-    margin: 1.25rem 0;
+    margin-bottom: 10px;
     overflow-x: hidden !important;
+}
+.card_content{
+    width:100%;
 }
 .card_body{
     border: 0.0625rem solid rgba(0, 0, 0, .1);
@@ -33,12 +34,8 @@
  .list_item{
      margin: 0.3125rem 0;
  }
- .list_item_ar span{
-     font-weight: 500;
- }
  .list_item_en span{
-     font-family: 'Times New Roman', Times, serif;
-     font-weight: 500;
+     font-family: 'Times New Roman', Times, serif !important;
  }
  
  .list_icon{
@@ -90,8 +87,6 @@
     color: gold !important;
  }
 
-
-
  .header{
     width: 100%;
     margin-bottom: 1.25rem;
@@ -99,21 +94,27 @@
  .header_list{
     display: flex;
     justify-content:center;
+    align-items: center;
  }
  .header_list_item{
-    font-size: 1.125rem;
-    font-weight:500;
-    border-bottom: 0.25rem solid rgb(186, 186, 186);
-    padding-inline: 3.125rem;
-    color: rgb(186, 186, 186);
+    background-color: white;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.325);
+    color: black;
+    border-radius: 20px;
+    padding: 10px 20px;
     cursor: pointer;
-
-     }
+    transition: all .4s;
+    min-width: 100px;
+    text-align: center;
+    margin: 5px 30px;
+}
  .active{
-    color: var(--blue);
-    border-bottom:0.25rem solid var(--blue);
+    background-color: var(--sub_color);
+    color: white;
  }
-
+.header_list_item:hover{
+    transform: translateY(-3px);
+}
  .shop_logo{
     width: 6.25rem;
     height: 6.25rem;
@@ -128,8 +129,8 @@
     border-radius: 50%;
  }
  .price_value{
-    font-size: 1.875rem;
-    font-weight: 600;
+    font-size: 1.25rem;
+    margin-bottom: 0.625rem;
  }
 
  .scanner{
@@ -138,10 +139,10 @@
  }
 
  .steps_div{
-    min-height: 60vh;
+    min-height: 50vh;
     padding: 1.25rem;
     background-color:#fffff2;
-    width:80%;
+    min-width:90%;
     border-radius: 0.625rem;
     box-shadow: 0 0 0.1875rem rgba(0, 0, 0, 0.359);
  }
@@ -149,15 +150,20 @@
     padding-inline: 1.25rem;
  }
  .steps_div ul li{
-    font-size: 1.25rem;
-    font-family: 'Times New Roman', Times, serif !important;
+    font-size: 1.125rem;
     padding: 0.625rem 0;
-    list-style:decimal;
+    list-style:square;
  }
  .scan_img{
     width: 150px;
     margin: auto;
  }
+ @media (max-width: 768px) {
+    .header_list_item{
+        margin: 5px 10px;
+    }
+   }
+
  @media (max-width: 500px) {
      .btns_group {
        display: none;
@@ -168,6 +174,20 @@
      .noCards_img{
          width: 100%;
      }
+     .steps_div{
+        min-height: 30vh;
+        background-color:#fafaf3;
+        min-width:80%;
+     }
+     .steps_div ul{
+        padding-inline: 1.25rem;
+     }
+     .steps_div ul li{
+        padding:3px 0;
+     }
+     .header_list_item{
+        margin: 5px;
+    }
    }
 
  @media (max-width: 390px) {
