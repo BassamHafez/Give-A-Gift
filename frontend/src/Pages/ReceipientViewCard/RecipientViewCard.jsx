@@ -10,6 +10,8 @@ import RecipientKonva from "./RecipientKonva";
 import { viewCard } from "../../util/Http";
 import scan from "../../Images/scan.jpg";
 import logo from "../../Images/logo.png";
+import { useDispatch } from "react-redux";
+import { showIconActions } from "../../Store/showLanguageIcon-slice";
 
 const shapes = {
   all: ["circle", "triangle", "square"],
@@ -39,14 +41,29 @@ const RecipientViewCard = () => {
   const { cardId } = useParams();
   const [isFirstVisit, setIsFirstVisit] = useState(true);
   const [isFrontShape, setIsFrontShape] = useState("front");
-  const { t: key } = useTranslation();
+  const [key, control] = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
+  const dispatch = useDispatch();
 
   const { data: myCard, isFetching } = useQuery({
     queryKey: ["viewCard", cardId],
     queryFn: () => viewCard(cardId),
     staleTime: Infinity,
   });
+
+  useEffect(() => {
+    dispatch(showIconActions.setShowIcon(true));
+    return () => {
+      dispatch(showIconActions.setShowIcon(false));
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
+    const changeLang = () => {
+      control.changeLanguage("ar");
+    };
+    changeLang();
+  }, [control]);
 
   useEffect(() => {
     if (isFirstVisit) {

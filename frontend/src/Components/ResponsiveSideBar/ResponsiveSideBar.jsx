@@ -156,12 +156,12 @@ const ResponsiveSideBar = ({ onClose, show }) => {
 
           {!isLogin && isSmallScreen && (
             <div
-              className={`${styles.side_bar_signing_btns} my-5 d-flex align-items-center justify-content-evenly`}
+              className={`${styles.side_bar_signing_btns} my-5 d-flex align-items-center justify-content-evenly flex-wrap`}
             >
-              <Link to={"login"} onClick={onClose} className="mx-2">
+              <Link to={"login"} onClick={onClose} className="m-2">
                 <MainButton text={key("login")} />
               </Link>
-              <Link to={"register"} onClick={onClose} className="mx-2">
+              <Link to={"register"} onClick={onClose} className="m-2">
                 <MainButton type="white" text={key("register")} />
               </Link>
             </div>

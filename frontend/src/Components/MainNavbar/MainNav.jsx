@@ -23,6 +23,9 @@ const MainNav = () => {
   const [key, control] = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const profileData = useSelector((state) => state.profileInfo.data);
+  const showLanguageIcon = useSelector(
+    (state) => state.showLanguageIcon.showIcon
+  );
   const isLogin = useSelector((state) => state.userInfo.isLogin);
   const role = useSelector((state) => state.userInfo.role);
   const navigate = useNavigate();
@@ -56,7 +59,7 @@ const MainNav = () => {
       >
         <div
           onClick={() => navigate("/")}
-          className={`${role === "user" ? styles.brand : styles.admin_brand}`}
+          className={`${role === "admin" ?styles.admin_brand:styles.brand} ${isLogin?styles.loggedBrand:""}`}
         >
           <img src={nav_logo} alt="logo" className="w-100" />
         </div>
@@ -193,6 +196,25 @@ const MainNav = () => {
             )}
           </div>
           <>
+            {showLanguageIcon && !isLogin && (
+              <ul className={styles.special_view_language}>
+                {isArLang ? (
+                  <li
+                    onClick={() => control.changeLanguage("en")}
+                    className={` ${styles.lang_item} mx-3`}
+                  >
+                    English
+                  </li>
+                ) : (
+                  <li
+                    onClick={() => control.changeLanguage("ar")}
+                    className={` ${styles.lang_item} mx-3`}
+                  >
+                    العربية
+                  </li>
+                )}
+              </ul>
+            )}
             {role !== "admin" && role !== "merchant" ? (
               isLogin ? (
                 <Link
@@ -216,7 +238,9 @@ const MainNav = () => {
                 <>
                   <Link
                     to={"login"}
-                    className={`${styles.sign_btn} ${isArLang?"ms-5":"me-5"}`}
+                    className={`${styles.sign_btn} ${
+                      isArLang ? "ms-5" : "me-5"
+                    }`}
                   >
                     <MainButton text={`${key("login")}`} />
                   </Link>
@@ -259,7 +283,7 @@ const MainNav = () => {
                             : noAvatar
                           : noAvatar
                       }
-                      alt={`${profileData?.name}_ptofile_photo`}
+                      alt={`${profileData?.name}_profile_photo`}
                     />
                   </div>
                 </Link>
@@ -269,7 +293,11 @@ const MainNav = () => {
           {!role && (
             <div
               onClick={() => setOpenResMenu(true)}
-              className={`${styles.burger_list} ${styles.list} justify-content-between flex-column ${isArLang?"ms-5":"me-5"}`}
+              className={`${styles.burger_list} ${
+                styles.list
+              } justify-content-between flex-column ${
+                isArLang ? "ms-5" : "me-5"
+              }`}
             >
               <span className={styles.half_line}></span>
               <span className={styles.full_line}></span>

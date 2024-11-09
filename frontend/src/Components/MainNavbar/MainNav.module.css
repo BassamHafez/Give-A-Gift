@@ -159,18 +159,34 @@
 .lang_item{
     font-family: "Cairo" !important;
 }
+.special_view_language{
+    display: none;
+    margin: 0;
+    
+}
+.special_view_language li{
+    color: black !important;
+}
+
  @media screen and (max-width:1150px) {
-     
      .list{
          display: flex;
      }
- 
      .special_hidden{
          display: none;
      }
      .nav_list{
          width: auto;
      }
+     .special_view_language{
+        display: inline;
+     }
+     .brand{
+        width: 7.5rem !important;
+    }
+    .brand img{
+        width: 7.5rem !important;
+    }
  }
  
  @media screen and (max-width:768px) {
@@ -194,6 +210,7 @@
     }
 
  }
+
  @media screen and (max-width:450px) {
     .profile_img_link{
         display: none;
@@ -202,10 +219,10 @@
  
  @media screen and (max-width:430px) {
      .brand{
-        width: 8.125rem !important;
+        width: 7.5rem !important;
     }
     .brand img{
-        width: 8.125rem !important;
+        width: 7.5rem !important;
     }
 
  }
@@ -245,9 +262,8 @@
 
  }
  
- 
  @media screen and (max-width:319px) {
-    .brand{
+    .loggedBrand{
         display: none;
     }
     .smallBrand{
@@ -271,6 +287,19 @@
         justify-content: center;
         align-items: center;
     }
+ }
+ @media screen and (max-width:290px) {
+    .special_view_language{
+        display: none;
+    }
+ }
+ @media screen and (max-width:267px) {
+    .admin_brand{
+        width:60px;
+      }
+      .admin_brand img{
+        width: 60px !important;
+      }
  }
 
 

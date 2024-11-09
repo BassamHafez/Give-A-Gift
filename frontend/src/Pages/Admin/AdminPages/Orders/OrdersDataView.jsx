@@ -480,7 +480,7 @@ const OrdersDataView = ({ isUser }) => {
                     </div>
 
                     <div
-                      className={`${styles.btn_gr} d-flex justify-content-between align-items-center mt-3`}
+                      className={`${styles.btn_gr} d-flex justify-content-between align-items-center mt-3 flex-wrap`}
                     >
                       <div className="my-2">
                         <MainButton
@@ -490,7 +490,6 @@ const OrdersDataView = ({ isUser }) => {
                         />
                       </div>
                       <div className="my-2">
-                        {" "}
                         {isUser ? (
                           <MainButton
                             type="blue"

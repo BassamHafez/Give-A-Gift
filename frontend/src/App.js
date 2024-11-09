@@ -134,23 +134,23 @@ function App() {
   const dispatch=useDispatch();
   const token = useSelector((state) => state.userInfo.token);
   const role = useSelector((state) => state.userInfo.role);
-  let isArLang = localStorage.getItem("i18nextLng") === "ar";
+    let isArLang = localStorage.getItem("i18nextLng") === "ar";
 
+    
+    useEffect(() => {
+      const updateFontFamily = () => {
+        if (control.language === 'ar') {
+          document.documentElement.setAttribute('dir', 'rtl');
+          document.documentElement.setAttribute('lang', 'ar');
+          document.documentElement.style.setProperty('--main_font', '"Cairo", sans-serif');
 
-  useEffect(() => {
-    const updateFontFamily = () => {
-      if (control.language === 'ar') {
-        document.documentElement.setAttribute('dir', 'rtl');
-        document.documentElement.setAttribute('lang', 'ar');
-        document.documentElement.style.setProperty('--main_font', '"Cairo", sans-serif');
+        } else {
+          document.documentElement.setAttribute('dir', 'ltr');
+          document.documentElement.setAttribute('lang', 'en');
+          document.documentElement.style.setProperty('--main_font','"Roboto", sans-serif')
 
-      } else {
-        document.documentElement.setAttribute('dir', 'ltr');
-        document.documentElement.setAttribute('lang', 'en');
-        document.documentElement.style.setProperty('--main_font','"Roboto", sans-serif')
-
-      }
-    };
+        }
+      };
     // '"ARAHAMAH1982", sans-serif'
     updateFontFamily();
 

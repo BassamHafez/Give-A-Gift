@@ -1,11 +1,9 @@
 import React from "react";
 import styles from './InputErrorMessage.module.css';
-import { useTranslation } from "react-i18next";
 
 const InputErrorMessage = (props) => {
   
-  const [t,i118n] = useTranslation();
-  let isArLang = i118n.language === "ar";
+  let isArLang = localStorage.getItem("i18nextLng") === "ar";
 
   return (
     <p
