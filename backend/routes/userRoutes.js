@@ -7,10 +7,9 @@ const userValidator = require("../utils/validators/userValidator");
 
 router.use(authController.protect);
 
-router
-  .route("/me")
+router.route('/me')
   .get(userController.getMe, userController.getUser)
-  .delete(userController.getMe, userController.deleteMe);
+  .delete(userController.getMe, userController.deleteUser);
 
 router.patch(
   "/updateMe",
