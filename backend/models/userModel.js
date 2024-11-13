@@ -31,7 +31,6 @@ const userSchema = new mongoose.Schema(
     merchantShop: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Shop",
-      unique: [true, "Shop already in use"],
     },
     password: {
       type: String,
