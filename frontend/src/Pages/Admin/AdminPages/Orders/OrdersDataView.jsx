@@ -138,7 +138,11 @@ const OrdersDataView = ({ isUser }) => {
                 >
                   {key("default")}
                 </button>
-                <SearchField className="my-2" onSearch={handleSearch} text={key("search")} />
+                <SearchField
+                  className="my-2"
+                  onSearch={handleSearch}
+                  text={key("search")}
+                />
               </div>
               {filteredDisc?.map((order, index) => (
                 <Col
@@ -514,7 +518,7 @@ const OrdersDataView = ({ isUser }) => {
               ))}
             </>
           ) : (
-           <NoDataPage text={`${key("noOrders")}`}/>
+            <NoDataPage text={`${key("noOrders")}`} />
           )
         ) : (
           <LoadingOne />

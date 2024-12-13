@@ -112,17 +112,17 @@ const router=createBrowserRouter([{
     {path:"admin-slides",element:<ProtectedRoute><Slides/></ProtectedRoute>},
     {path:"admin-categories",element:<ProtectedRoute><Categories/></ProtectedRoute>},
     {path:"admin-top-stores",element:<ProtectedRoute><TopShops/></ProtectedRoute>},
-
     //merchant
     {path:"merchant/:merchantId",element:<ProtectedRoute><MerchantProfile/></ProtectedRoute>},
     {path:"merchant-setting",element:<ProtectedRoute><MerchantAccountSetting/></ProtectedRoute>},
     {path:"merchant-discounts",element:<ProtectedRoute><AllDiscounts/></ProtectedRoute>},
     {path:"discount/:discountId",element:<ProtectedRoute><Discount/></ProtectedRoute>},
-    { path: "*", element: <Error404 /> },
 
     //recipient
     {path:"gift-card/:cardId",element:<RecipientViewCard/>},
-
+    
+    //else
+    { path: "*", element: <Error404 /> },
   ]
 }])  
 
