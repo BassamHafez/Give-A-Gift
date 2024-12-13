@@ -29,26 +29,6 @@ exports.deleteUser = factory.deleteOne(User);
 exports.getAllUsers = factory.getAll(User);
 exports.getUser = factory.getOne(User);
 
-exports.deleteMe = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.params.id);
-
-  if (user) {
-    // If user is not an admin, proceed to delete
-    await user.remove();
-
-    res.status(201).json({
-      status: "success",
-      message: 'User removed',
-    });
-  } else {
-    // User not found
-    return next(new ApiError("User does not exist", 404));
-  }
-});
-
-
-
-
 exports.addAdmin = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
     name: req.body.name,
