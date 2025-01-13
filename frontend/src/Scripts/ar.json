@@ -463,5 +463,10 @@
     "imgSizeError":"الحد الأقصي للصور هو 20 ميجا",
     "viewMyCard":"عرض البطاقة",
     "viewCardTitleFront":"بطاقة",
-    "viewCardTitleBack":"من الخلف"
+    "viewCardTitleBack":"من الخلف",
+    "transValue":"قيمة المعاملة",
+    "state":"حالة المعاملة",
+    "PaymentMethod":"طريقة الدفع",
+    "UserDefinedField":"كود المستخدم",
+    "paymentId":"كود الدفع"
 }

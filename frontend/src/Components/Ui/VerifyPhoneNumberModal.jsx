@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorMessage, Form, Formik, Field } from "formik";
 import { number, object } from "yup";
-import {sendVerificationCode } from "../../util/Http";
+import { sendVerificationCode } from "../../util/Http";
 import InputErrorMessage from "./InputErrorMessage";
 import fetchProfileData from "../../Store/profileInfo-actions";
 import { useDispatch } from "react-redux";
@@ -26,10 +26,11 @@ const VerifyPhoneNumberModal = ({ onHide, show }) => {
       if (data?.status === "success") {
         notifySuccess(key("phoneVerifiedSuccess"));
         dispatch(fetchProfileData(token));
-      }else if(data?.response?.data?.message==="Verification code is wrong"){
-         notifyError(key("verificationCodeWrong"));
-        }
-       else {
+      } else if (
+        data?.response?.data?.message === "Verification code is wrong"
+      ) {
+        notifyError(key("verificationCodeWrong"));
+      } else {
         notifyError(key("verifyCodeFailResend"));
       }
     },
@@ -43,7 +44,6 @@ const VerifyPhoneNumberModal = ({ onHide, show }) => {
   };
 
   const onSubmit = (values) => {
-
     mutate({
       formData: values,
       token: token,
@@ -62,6 +62,7 @@ const VerifyPhoneNumberModal = ({ onHide, show }) => {
       aria-labelledby="contained-modal-title-vcenter"
       centered
       className={styles.modal_container}
+      backdrop="static"
     >
       <Modal.Body className={`${styles.modal_body} text-center`}>
         <>

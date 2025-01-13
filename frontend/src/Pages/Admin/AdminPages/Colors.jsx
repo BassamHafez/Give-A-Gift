@@ -24,12 +24,14 @@ const Colors = () => {
 
   const { data: Colors, refetch } = useQuery({
     queryKey: ["colors"],
-    queryFn: getColors,
+    queryFn: () => getColors({ limit: Infinity }),
     staleTime: Infinity,
   });
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   return (
     <>
       <div className={styles.main_body}>

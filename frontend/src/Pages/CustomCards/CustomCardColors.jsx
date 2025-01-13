@@ -17,7 +17,7 @@ const CustomCardColors = ({ saveColorValues }) => {
 
   const { data: colors } = useQuery({
     queryKey: ["colors"],
-    queryFn: getColors,
+    queryFn:()=> getColors({limit:Infinity}),
     staleTime: Infinity,
   });
 

@@ -463,8 +463,8 @@ const CustomCards = () => {
                         } input-group mb-3`}
                       >
                         <input
-                          type="text"
-                          value={cardPrice}
+                          type="number"
+                          value={cardPrice?.trim()}
                           onChange={handlePriceChange}
                           onClick={() => setShowBack(false)}
                           className={`${styles.price_input} text-dark form-control`}

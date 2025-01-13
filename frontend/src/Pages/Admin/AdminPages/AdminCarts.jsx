@@ -13,10 +13,12 @@ import { useNavigate } from "react-router-dom";
 import NoDataPage from "../../../Components/Ui/NoDataPage";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
+import Pagination from "../../../Components/Pagination/Pagination";
 
 const AdminCarts = () => {
   const [selectedIds, setSelectedIds] = useState([]);
   const [searchInput, setSearchInput] = useState("");
+  const [pageNum, setPageNum] = useState(1);
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
 
@@ -48,7 +50,7 @@ const AdminCarts = () => {
 
   const { data } = useQuery({
     queryKey: ["getMyCards", token],
-    queryFn: () => getMyCards(token),
+    queryFn: () => getMyCards(token, pageNum),
     enabled: !!token,
   });
 
@@ -151,10 +153,19 @@ const AdminCarts = () => {
       )
     : [];
 
+  const settingPageNum = (num) => {
+    setPageNum(num);
+  };
+
+  const paginationContent =
+    data?.results > 100 ? (
+      <Pagination results={data?.results} settingPageNum={settingPageNum} />
+    ) : null;
+
   return (
     <div className={styles.table_body}>
       <div className="d-flex justify-content-between align-itmes-center my-4">
-        <h4 className="fw-bold text-secondary">{key("allCarts")}</h4>
+        <h4 className="text-secondary">{key("allCarts")}</h4>
 
         <button onClick={sendSelectedId} className="btn btn-danger">
           {selectedIds.length > 0
@@ -163,7 +174,7 @@ const AdminCarts = () => {
         </button>
       </div>
       <hr />
-      <div className="d-flex flex-wrap justify-content-end my-4">
+      <div className="d-flex flex-wrap justify-content-end align-itmes-center my-4">
         <button
           onClick={() => setSearchInput("")}
           className="btn btn-outline-danger"
@@ -275,7 +286,7 @@ const AdminCarts = () => {
 
             <div className={styles.show_small_screens}>
               <Row>
-                {filteredCarts.map(
+                {filteredCarts?.map(
                   (cart) =>
                     !cart.isPaid && (
                       <Col
@@ -336,6 +347,7 @@ const AdminCarts = () => {
                 )}
               </Row>
             </div>
+            {paginationContent}
           </>
         ) : (
           <NoDataPage text={`${key("noCarts")}`} />

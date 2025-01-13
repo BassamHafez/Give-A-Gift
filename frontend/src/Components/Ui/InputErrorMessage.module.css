@@ -1,16 +1,14 @@
-
-.error_message{
-    color:red;
-    font-weight: 600;
-    font-size: 14px;
-    position: absolute;
-    top: 100%;
-    transition: all .4s;
+.error_message {
+  color: red;
+  font-size: 14px;
+  position: absolute;
+  top: 100%;
+  transition: all 0.4s;
 }
 
-.error_message_ar{
-right:0 !important
+.error_message_ar {
+  right: 0 !important;
 }
-.error_message_en{
-left: 0 !important;
+.error_message_en {
+  left: 0 !important;
 }

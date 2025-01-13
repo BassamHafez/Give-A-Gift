@@ -16,9 +16,9 @@ const Root = () => {
   const dispatch = useDispatch();
 
   const mainColor = useSelector((state) => state.configs.mainColor);
+  const subColor = useSelector((state) => state.configs.subColor);
   const showAlert = useSelector((state) => state.alert.showAlert);
   const lastAlertTime = useSelector((state) => state.alert.lastAlertTime);
-  const subColor = useSelector((state) => state.configs.subColor);
   const [t, i18next] = useTranslation();
 
   useEffect(() => {
