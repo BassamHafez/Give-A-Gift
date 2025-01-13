@@ -13,9 +13,6 @@ import VerificationCode from "./VerificationCode";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 
-
-
-
 const ForgetPassword = () => {
   const [isRightEmail, setIsRightEmail] = useState(false);
   const [showModal, setShowModal] = useState(false);

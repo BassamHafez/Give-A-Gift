@@ -1,7 +1,6 @@
 .search_container{
     background-color: transparent !important;
     border: 0.0625rem solid rgb(201, 200, 200) !important;
-    border-right: none !important;
     padding: 5px !important;
     position: relative;
     border-radius: 0.625rem;

@@ -32,13 +32,13 @@ const Configs = () => {
 
   const mainColor = useSelector((state) => state.configs.mainColor);
   const subColor = useSelector((state) => state.configs.subColor);
-  const VAT = useSelector((state) => state.configs.VAT);
+  const VAT = useSelector((state) => state.configs.VAT)?.trim();
   const celebrateIconPrice = useSelector(
     (state) => state.configs.celebrateIconPrice
-  );
+  )?.trim();
   const celebrateLinkPrice = useSelector(
     (state) => state.configs.celebrateLinkPrice
-  );
+  )?.trim();
 
   const messageReminder = useSelector((state) => state.configs.messageReminder);
 
@@ -47,11 +47,12 @@ const Configs = () => {
   );
   const whatsappMessage = useSelector((state) => state.configs.whatsappMessage);
   const walletStarting = useSelector((state) => state.configs.walletStarting);
-  const cashBack = useSelector((state) => state.configs.cashBack);
+  const cashBack = useSelector((state) => state.configs.cashBack)?.trim();
 
   const { mutate, isPending } = useMutation({
     mutationFn: getConfig,
     onSuccess: (data) => {
+      console.log(data);
       if (data?.status === "success") {
         dispatch(fetchConfigs(token));
       } else {
@@ -59,6 +60,7 @@ const Configs = () => {
       }
     },
     onError: (error) => {
+      console.log(error)
       notifyError(key("wrong"));
     },
   });
@@ -67,10 +69,10 @@ const Configs = () => {
     WALLET_STARTING_BALANCE: walletStarting || "",
     MAIN_COLOR: mainColor || "",
     SECONDRY_COLOR: subColor || "",
-    VAT_VALUE: `${VAT}` || "",
-    CELEBRATE_ICON_PRICE: Number(celebrateIconPrice) || "",
-    CELEBRATE_LINK_PRICE: Number(celebrateLinkPrice) || "",
-    CASH_BACK_PERCENTAGE: Number(cashBack) || "",
+    VAT_VALUE: VAT ? Number(VAT) : "",
+    CELEBRATE_ICON_PRICE: celebrateIconPrice ? Number(celebrateIconPrice) : "",
+    CELEBRATE_LINK_PRICE: celebrateLinkPrice ? Number(celebrateLinkPrice) : "",
+    CASH_BACK_PERCENTAGE: cashBack!==undefined ? Number(cashBack) : "",
     CART_REMINDER_MESSAGE: `${messageReminder}` || "",
     UNUSED_CODE_REMINDER_MESSAGE: `${messageCodeReminder}` || "",
     WHATSAPP_CARD_MESSAGE: `${whatsappMessage}` || "",
@@ -89,6 +91,7 @@ const Configs = () => {
       UNUSED_CODE_REMINDER_MESSAGE: `${values.UNUSED_CODE_REMINDER_MESSAGE}`,
       WHATSAPP_CARD_MESSAGE: `${values.WHATSAPP_CARD_MESSAGE}`,
     };
+    console.log(updatedValues);
     mutate({
       type: "update",
       formData: updatedValues,
@@ -134,7 +137,7 @@ const Configs = () => {
               <label htmlFor="VAT_VALUE" className="mt-3">
                 {key("Vatvalue")}
               </label>
-              <Field type="text" id="VAT_VALUE" name="VAT_VALUE" />
+              <Field type="number" id="VAT_VALUE" name="VAT_VALUE" />
               <ErrorMessage name="VAT_VALUE" component={InputErrorMessage} />
             </div>
             <div className={styles.field}>

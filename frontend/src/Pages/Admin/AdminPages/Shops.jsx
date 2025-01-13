@@ -22,6 +22,7 @@ import UpdateShop from "./ShopsForms/UpdateShop";
 import AddShop from "./ShopsForms/AddShop";
 import MainButton from "../../../Components/Ui/MainButton";
 import StoresMessage from "./ShopsForms/StoresMessage";
+import Pagination from "../../../Components/Pagination/Pagination";
 
 const Shops = () => {
   const { t: key } = useTranslation();
@@ -30,7 +31,7 @@ const Shops = () => {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [selectedShopData, setSelectedShopData] = useState({});
   const [selectedIds, setSelectedIds] = useState([]);
-
+  const [pageNum, setPageNum] = useState(1);
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
   const role = useSelector((state) => state.userInfo.role);
@@ -47,7 +48,7 @@ const Shops = () => {
 
   const { data: shops, refetch } = useQuery({
     queryKey: ["shops", token],
-    queryFn: getShops,
+    queryFn: () => getShops({ pageNum }),
     staleTime: Infinity,
   });
   const { data: shopTokens } = useQuery({
@@ -113,6 +114,15 @@ const Shops = () => {
     });
   };
 
+  const settingPageNum = (num) => {
+    setPageNum(num);
+  };
+
+  const paginationContent =
+    shops?.results > 100 ? (
+      <Pagination results={shops?.results} settingPageNum={settingPageNum} />
+    ) : null;
+
   return (
     <>
       <div className={styles.main_body}>
@@ -143,6 +153,7 @@ const Shops = () => {
             />
           )}
         </div>
+        {paginationContent}
         <Row className="justify-content-center">
           {shops ? (
             shops.data?.map((shop) => (

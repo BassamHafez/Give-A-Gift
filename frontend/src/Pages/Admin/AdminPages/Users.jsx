@@ -24,6 +24,8 @@ import SearchField from "../../../Components/Ui/SearchField";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Pagination from "../../../Components/Pagination/Pagination";
+import ScrollTopButton from "../../../Components/Ui/ScrollTopButton";
 
 const getPhoneValidationSchema = (country, key) => {
   const phoneRegex = {
@@ -62,6 +64,7 @@ const Users = () => {
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
   const [isEmailError, setIsEmailError] = useState(false);
+  const [pageNum, setPageNum] = useState(1);
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const [selectedCountry, setSelectedCountry] = useState("SA");
   const [searchInput, setSearchInput] = useState("");
@@ -80,7 +83,7 @@ const Users = () => {
 
   const { data: users, refetch } = useQuery({
     queryKey: ["controlUsers", token],
-    queryFn: () => controlUsers({ token }),
+    queryFn: () => controlUsers({ token, pageNum }),
     enabled: !!token,
     staleTime: Infinity,
   });
@@ -197,6 +200,15 @@ const Users = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const settingPageNum = (num) => {
+    setPageNum(num);
+  };
+
+  const paginationContent =
+    users?.results > 100 ? (
+      <Pagination results={users?.results} settingPageNum={settingPageNum} />
+    ) : null;
   return (
     <>
       <div className={styles.main_body}>
@@ -321,7 +333,7 @@ const Users = () => {
             <h4 className="fw-bold text-secondary">{key("allUsers")}</h4>
 
             <div
-              className={`${styles.controllers} d-flex justify-content-between my-5`}
+              className={`${styles.controllers} d-flex justify-content-between align-items-center my-5`}
             >
               <div
                 onClick={() => setSearchInput("")}
@@ -334,6 +346,7 @@ const Users = () => {
               </div>
             </div>
           </div>
+          {paginationContent}
           <Row className="justify-content-center position-relative">
             {users ? (
               filteredUsers?.length > 0 ? (
@@ -439,8 +452,10 @@ const Users = () => {
               <LoadingOne />
             )}
           </Row>
+          {paginationContent}
         </div>
       </div>
+      <ScrollTopButton />
     </>
   );
 };

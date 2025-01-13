@@ -40,7 +40,7 @@ const Discounts = () => {
 
   const { data, refetch } = useQuery({
     queryKey: ["discounts", token],
-    queryFn: () => getAdminDiscount({ token }),
+    queryFn: () => getAdminDiscount({ token, limit: Infinity }),
     staleTime: Infinity,
     enabled: !!token,
   });

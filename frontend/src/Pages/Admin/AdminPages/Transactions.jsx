@@ -17,12 +17,14 @@ import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import NoDataPage from "../../../Components/Ui/NoDataPage";
+import Pagination from "../../../Components/Pagination/Pagination";
+import ScrollTopButton from "../../../Components/Ui/ScrollTopButton";
 
 const Transactions = () => {
   const { t: key } = useTranslation();
   const token = JSON.parse(localStorage.getItem("token"));
   const [searchInput, setSearchInput] = useState("");
-
+  const [pageNum, setPageNum] = useState(1);
   const role = useSelector((state) => state.userInfo.role);
   const profileData = useSelector((state) => state.profileInfo.data);
   const navigate = useNavigate();
@@ -34,15 +36,18 @@ const Transactions = () => {
       navigate(`/merchant/${profileData?._id}`);
     }
   }, [role, navigate, profileData]);
+
   const { data: allTransactions } = useQuery({
     queryKey: ["allTransactions", token],
-    queryFn: () => controlTransactions({ type: "all", token }),
+    queryFn: () => controlTransactions({ type: "all", token, pageNum }),
     enabled: !!token,
     staleTime: Infinity,
   });
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   const { data: totalSuccessTransactions } = useQuery({
     queryKey: ["successTransactions", token],
     queryFn: () => controlTransactions({ type: "successTransactions", token }),
@@ -69,7 +74,18 @@ const Transactions = () => {
       )
     : [];
 
-  
+  const settingPageNum = (num) => {
+    setPageNum(num);
+  };
+
+  const paginationContent =
+    allTransactions?.results > 100 ? (
+      <Pagination
+        results={allTransactions?.results}
+        settingPageNum={settingPageNum}
+      />
+    ) : null;
+
   return (
     <div className={styles.main_body}>
       <div>
@@ -79,7 +95,8 @@ const Transactions = () => {
           </span>{" "}
           {totalSuccessTransactions
             ? totalSuccessTransactions.data?.totalValue
-            : 0}
+            : 0}{" "}
+          {key("sar")}
         </h4>
       </div>
       <hr />
@@ -97,6 +114,7 @@ const Transactions = () => {
           </div>
         </div>
       </div>
+      {paginationContent}
       <Row className="justify-content-center position-relative">
         {allTransactions ? (
           filterTransactions?.length > 0 ? (
@@ -160,6 +178,7 @@ const Transactions = () => {
           <LoadingOne />
         )}
       </Row>
+      <ScrollTopButton />
     </div>
   );
 };

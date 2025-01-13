@@ -18,7 +18,7 @@ const CustomCardShapes = ({ addShape, settingShowBack }) => {
 
   const { data: shapes } = useQuery({
     queryKey: ["shapes", token],
-    queryFn: getShapes,
+    queryFn: ()=>getShapes({limit:Infinity}),
     staleTime: Infinity,
   });
 

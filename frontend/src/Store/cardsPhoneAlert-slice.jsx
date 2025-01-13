@@ -4,7 +4,7 @@ const alertSlice = createSlice({
     name: "alert",
     initialState: {
       showAlert: false,
-      lastAlertTime: null, // Added to track when the last alert was shown
+      lastAlertTime: null,
     },
     reducers: {
       setShowAlert(state, action) {

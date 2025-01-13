@@ -215,7 +215,7 @@ const CustomeCardStage = ({
 
               {cardPrice && (
                 <Text
-                  text={`${cardPrice} ${key("sar")}`}
+                  text={`${cardPrice?.trim()} ${key("sar")}`}
                   fontSize={20}
                   fontFamily={"'Times New Roman', Times, serif"}
                   fill={textColor}

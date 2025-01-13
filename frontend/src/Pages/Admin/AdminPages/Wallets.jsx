@@ -19,6 +19,8 @@ import AddBalance from "./WalletsForms/AddBalance";
 import RemoveBalanceAll from "./WalletsForms/RemoveBalanceAll";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Pagination from "../../../Components/Pagination/Pagination";
+import ScrollTopButton from "../../../Components/Ui/ScrollTopButton";
 
 const Wallets = () => {
   const { t: key } = useTranslation();
@@ -26,7 +28,7 @@ const Wallets = () => {
   const [searchInput, setSearchInput] = useState("");
   const [showModal, setModalShow] = useState(false);
   const [walletId, setWalletId] = useState(false);
-
+  const [pageNum, setPageNum] = useState(1);
   const role = useSelector((state) => state.userInfo.role);
   const profileData = useSelector((state) => state.profileInfo.data);
   const navigate = useNavigate();
@@ -41,7 +43,7 @@ const Wallets = () => {
 
   const { data: wallets, refetch } = useQuery({
     queryKey: ["controlWallets", token],
-    queryFn: () => controlWallets({ token }),
+    queryFn: () => controlWallets({ token, pageNum }),
     enabled: !!token,
     staleTime: Infinity,
   });
@@ -70,6 +72,19 @@ const Wallets = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const settingPageNum = (num) => {
+    setPageNum(num);
+  };
+
+  const paginationContent =
+    wallets?.data?.results > 100 ? (
+      <Pagination
+        results={wallets?.data?.results}
+        settingPageNum={settingPageNum}
+      />
+    ) : null;
+
   return (
     <>
       <div className={styles.main_body}>
@@ -80,10 +95,10 @@ const Wallets = () => {
         <hr />
         <div>
           <div>
-            <h4 className="fw-bold text-secondary">{key("allWallets")}</h4>
+            <h4 className="text-secondary">{key("allWallets")}</h4>
 
             <div
-              className={`${styles.controllers} d-flex justify-content-between my-5`}
+              className={`${styles.controllers} d-flex justify-content-between align-items-center my-5`}
             >
               <div
                 onClick={() => setSearchInput("")}
@@ -96,6 +111,7 @@ const Wallets = () => {
               </div>
             </div>
           </div>
+          {paginationContent}
           <Row className="justify-content-center position-relative">
             {wallets ? (
               filterWallets?.length > 0 ? (
@@ -215,8 +231,10 @@ const Wallets = () => {
               <LoadingOne />
             )}
           </Row>
+          {paginationContent}
         </div>
       </div>
+      <ScrollTopButton />
       {showModal && (
         <AddBalance
           show={showModal}

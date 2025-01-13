@@ -13,22 +13,22 @@ import SingleReadyCard from "../../Components/Ui/SingleReadyCard";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { alertActions } from "../../Store/cardsPhoneAlert-slice";
-
-
+import ScrollTopButton from "../../Components/Ui/ScrollTopButton";
+import Pagination from "../../Components/Pagination/Pagination";
 
 const SpecialCards = () => {
   const { t: key } = useTranslation();
+  const [pageNum, setPageNum] = useState(1);
   const [filteredCards, setFilteredCards] = useState([]);
-  const [searchInput, setSearchInput] = useState("");
   const [showFilterModal, setShowFilterModal] = useState(false);
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
   const token = JSON.parse(localStorage.getItem("token"));
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
 
   const { data, isFetching } = useQuery({
     queryKey: ["special-cards", token],
-    queryFn: getSpecialCards,
+    queryFn: () => getSpecialCards({ pageNum: pageNum }),
     staleTime: Infinity,
   });
 
@@ -60,8 +60,18 @@ const SpecialCards = () => {
     }
   };
 
+  const settingPageNum = (num) => {
+    setPageNum(num);
+  };
+
+  const paginationContent =
+    data?.results > 100 ? (
+      <Pagination results={data?.results} settingPageNum={settingPageNum} />
+    ) : null;
+
   return (
     <>
+      <ScrollTopButton />
       <Container fluid className={`page_height my-5`}>
         <h2 className="text-center my-3 mb-5">{key("buyCardPageTitle")}</h2>
         <div
@@ -89,7 +99,6 @@ const SpecialCards = () => {
             <div className="mx-3">
               <MainButton
                 onClick={() => {
-                  setSearchInput("");
                   setFilteredCards(data?.data?.cards);
                   notifySuccess("Filters cleared Successfully");
                 }}
@@ -104,6 +113,7 @@ const SpecialCards = () => {
             </span>
           </div>
         </div>
+        {paginationContent}
         <Row>
           {isFetching ? (
             <Placeholders />
@@ -112,7 +122,7 @@ const SpecialCards = () => {
               {filteredCards?.length > 0 ? (
                 <>
                   {filteredCards?.map((card) => (
-                    <SingleReadyCard card={card}/>
+                    <SingleReadyCard key={card?._id} card={card} />
                   ))}
                 </>
               ) : (
@@ -121,6 +131,7 @@ const SpecialCards = () => {
             </>
           )}
         </Row>
+        {paginationContent}
       </Container>
       {showFilterModal && (
         <FilterModal
