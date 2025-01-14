@@ -24,7 +24,7 @@ const Colors = () => {
 
   const { data: Colors, refetch } = useQuery({
     queryKey: ["colors"],
-    queryFn: () => getColors({ limit: Infinity }),
+    queryFn: getColors,
     staleTime: Infinity,
   });
 

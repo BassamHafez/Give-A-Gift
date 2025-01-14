@@ -26,6 +26,7 @@ const CustomeCardStage = ({
   removeShape,
   currentStep,
 }) => {
+
   const isSmallScreen = useMediaQuery({ query: "(max-width: 400px)" });
   const { t: key } = useTranslation();
   const [hasDraggedText, setHasDraggedText] = useState(false);
@@ -215,7 +216,7 @@ const CustomeCardStage = ({
 
               {cardPrice && (
                 <Text
-                  text={`${cardPrice?.trim()} ${key("sar")}`}
+                  text={`${cardPrice} ${key("sar")}`}
                   fontSize={20}
                   fontFamily={"'Times New Roman', Times, serif"}
                   fill={textColor}
