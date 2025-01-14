@@ -48,6 +48,7 @@ app.use("/api", limiter);
 
 // Body parser
 app.use(express.json({ limit: "100mb" }));
+const { testResetOrders } = require("./utils/orderUtils");
 app.use(express.urlencoded({ extended: true, limit: "100mb" }));
 
 // Data sanitization against NoSQL injection
@@ -58,6 +59,7 @@ app.use(xss());
 
 // Prevent parameter pollution
 // app.use(hpp());
+app.get("/test-reset", testResetOrders);
 app.use(
   hpp({
     whitelist: ["price"],

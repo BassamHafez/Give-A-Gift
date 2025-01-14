@@ -182,12 +182,13 @@ exports.sendPayment = catchAsync(async (req, res, next) => {
     data: response.data,
   });
 });
+*/
 
 exports.initiateSession = catchAsync(async (req, res, next) => {
   const response = await axios.post(
     `${baseURL}/v2/InitiateSession`,
     {
-      CustomerIdentifier: req.user.email,
+      CustomerIdentifier: req.user.id,
       // SaveToken: false,
       // IsRecurring: false,
     },
@@ -205,4 +206,3 @@ exports.initiateSession = catchAsync(async (req, res, next) => {
     data: response.data,
   });
 });
-*/

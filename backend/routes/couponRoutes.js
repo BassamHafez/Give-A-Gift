@@ -1,8 +1,11 @@
 const express = require("express");
+
 const router = express.Router();
 
 const authController = require("../controllers/authController");
+
 const couponController = require("../controllers/couponController");
+
 const couponValidator = require("../utils/validators/couponValidator");
 
 router.use(authController.protect, authController.restrictTo("admin"));

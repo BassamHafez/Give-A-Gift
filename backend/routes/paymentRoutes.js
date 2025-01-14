@@ -17,6 +17,6 @@ router.post(
 router.post("/verify-payment", paymentController.verifyPayment);
 // router.post("/pay-invoice", paymentController.payInvoice);
 // router.post("/send-payment", paymentController.sendPayment);
-// router.get("/initiate-session", paymentController.initiateSession);
+router.get("/initiate-session", paymentController.initiateSession);
 
 module.exports = router;
