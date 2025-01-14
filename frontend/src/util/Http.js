@@ -22,11 +22,11 @@ export const signFormsHandler = async ({ type, formData, method }) => {
     throw error.message;
   }
 };
-export const getShapes = async ({ limit }) => {
+export const getShapes = async () => {
   try {
     const response = await axios.get(`${baseServerUrl}shapes?sort=priority`, {
       params: {
-        limit: limit || 100,
+        limit: Infinity,
       },
     });
 
@@ -36,14 +36,7 @@ export const getShapes = async ({ limit }) => {
   }
 };
 
-export const getShops = async ({
-  type,
-  storeId,
-  token,
-  formData,
-  pageNum,
-  limit,
-}) => {
+export const getShops = async ({ type, storeId, token, formData }) => {
   let response;
   try {
     if (type === "single") {
@@ -61,8 +54,7 @@ export const getShops = async ({
     } else {
       response = await axios.get(`${baseServerUrl}shops?sort=priority`, {
         params: {
-          limit: limit || 100,
-          page: pageNum || 1,
+          limit: Infinity,
         },
       });
     }
@@ -140,13 +132,12 @@ export const updateCard = async ({ formData, token, cardId }) => {
   }
 };
 
-export const getMyCards = async (token, pageNum) => {
+export const getMyCards = async (token) => {
   try {
     const response = await axios.get(`${baseServerUrl}cards`, {
       headers: { Authorization: `Bearer ${token}` },
       params: {
-        page: pageNum || 1,
-        limit: pageNum ? 100 : Infinity,
+        limit: Infinity,
       },
     });
 
@@ -178,11 +169,11 @@ export const viewCard = async (cardId) => {
   }
 };
 
-export const getSpecialCards = async ({ pageNum }) => {
+export const getSpecialCards = async () => {
   try {
     const response = await axios.get(`${baseServerUrl}special-cards`, {
       params: {
-        page: pageNum || 1,
+        limit: Infinity,
       },
     });
     return response.data;
@@ -191,11 +182,11 @@ export const getSpecialCards = async ({ pageNum }) => {
   }
 };
 
-export const getColors = async ({ limit }) => {
+export const getColors = async () => {
   try {
     const response = await axios.get(`${baseServerUrl}colors`, {
       params: {
-        limit: limit,
+        limit: Infinity,
       },
     });
 
@@ -311,12 +302,12 @@ export const getMe = async (token) => {
   }
 };
 
-export const getAllOrders = async ({ token, pageNum }) => {
+export const getAllOrders = async ({ token }) => {
   try {
     const response = await axios.get(`${baseServerUrl}orders`, {
       headers: { Authorization: `Bearer ${token}` },
       params: {
-        page: pageNum || 1,
+        limit: Infinity,
       },
     });
 
@@ -344,14 +335,14 @@ export const joinPartner = async ({ token, formData }) => {
   }
 };
 
-// admin pages
+// ---------- admin pages --------------
 
-export const getAdminDiscount = async ({ token, limit }) => {
+export const getAdminDiscount = async ({ token }) => {
   try {
     const response = await axios.get(`${baseServerUrl}discount-codes`, {
       headers: { Authorization: `Bearer ${token}` },
       params: {
-        limit: limit || 100,
+        limit: Infinity,
       },
     });
     return response.data;
@@ -524,13 +515,7 @@ export const getConfig = async ({ formData, type, token }) => {
   }
 };
 
-export const controlUsers = async ({
-  formData,
-  type,
-  token,
-  userId,
-  pageNum,
-}) => {
+export const controlUsers = async ({ formData, type, token, userId }) => {
   try {
     let response;
     if (type === "add") {
@@ -549,7 +534,7 @@ export const controlUsers = async ({
       response = await axios.get(`${baseServerUrl}users`, {
         headers: { Authorization: `Bearer ${token}` },
         params: {
-          page: pageNum || 1,
+          limit: Infinity,
         },
       });
     }
@@ -559,13 +544,7 @@ export const controlUsers = async ({
   }
 };
 
-export const controlWallets = async ({
-  formData,
-  type,
-  token,
-  walletId,
-  pageNum,
-}) => {
+export const controlWallets = async ({ formData, type, token, walletId }) => {
   try {
     let response;
     if (type === "add") {
@@ -584,7 +563,7 @@ export const controlWallets = async ({
       response = await axios.get(`${baseServerUrl}wallets`, {
         headers: { Authorization: `Bearer ${token}` },
         params: {
-          page: pageNum || 1,
+          limit: Infinity,
         },
       });
     }
@@ -594,7 +573,7 @@ export const controlWallets = async ({
   }
 };
 
-export const controlTransactions = async ({ type, token, pageNum }) => {
+export const controlTransactions = async ({ type, token }) => {
   try {
     let response;
     if (type === "successTransactions") {
@@ -610,7 +589,7 @@ export const controlTransactions = async ({ type, token, pageNum }) => {
       response = await axios.get(`${baseServerUrl}transactions`, {
         headers: { Authorization: `Bearer ${token}` },
         params: {
-          page: pageNum || 1,
+          limit: Infinity,
         },
       });
     }
@@ -691,6 +670,9 @@ export const adsController = async ({ token, formData, type, adId }) => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        params: {
+          limit: Infinity,
+        },
       });
     } else if (type === "add") {
       response = await axios.post(`${baseServerUrl}ads`, formData, {
@@ -720,6 +702,9 @@ export const slidesController = async ({ token, formData, type, slideId }) => {
       response = await axios.get(`${baseServerUrl}slides`, {
         headers: {
           Authorization: `Bearer ${token}`,
+        },
+        params: {
+          limit: Infinity,
         },
       });
     } else if (type === "add") {
@@ -787,13 +772,15 @@ export const categoriesController = async ({
 };
 
 // merchant
-
 export const getDiscounts = async ({ token }) => {
   try {
     const response = await axios.get(
       `${baseServerUrl}discount-codes/merchant`,
       {
         headers: { Authorization: `Bearer ${token}` },
+        params: {
+          limit: Infinity,
+        },
       }
     );
     return response.data;
@@ -801,3 +788,4 @@ export const getDiscounts = async ({ token }) => {
     return error;
   }
 };
+

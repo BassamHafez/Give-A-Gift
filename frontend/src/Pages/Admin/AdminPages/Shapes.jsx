@@ -42,7 +42,7 @@ const Shapes = () => {
 
   const { data: shapes, refetch } = useQuery({
     queryKey: ["shapes", token],
-    queryFn:()=> getShapes({limit:Infinity}),
+    queryFn: getShapes,
     staleTime: Infinity,
   });
 
@@ -69,8 +69,6 @@ const Shapes = () => {
     setSelectedShapeData(shape);
     setShowUpdateModal(true);
   };
-
-
 
   return (
     <>

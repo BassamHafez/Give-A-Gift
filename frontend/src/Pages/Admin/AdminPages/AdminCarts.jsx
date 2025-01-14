@@ -13,12 +13,10 @@ import { useNavigate } from "react-router-dom";
 import NoDataPage from "../../../Components/Ui/NoDataPage";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
-import Pagination from "../../../Components/Pagination/Pagination";
 
 const AdminCarts = () => {
   const [selectedIds, setSelectedIds] = useState([]);
   const [searchInput, setSearchInput] = useState("");
-  const [pageNum, setPageNum] = useState(1);
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
 
@@ -50,7 +48,7 @@ const AdminCarts = () => {
 
   const { data } = useQuery({
     queryKey: ["getMyCards", token],
-    queryFn: () => getMyCards(token, pageNum),
+    queryFn: () => getMyCards(token),
     enabled: !!token,
   });
 
@@ -152,15 +150,6 @@ const AdminCarts = () => {
           cart.user?.phone === searchInput
       )
     : [];
-
-  const settingPageNum = (num) => {
-    setPageNum(num);
-  };
-
-  const paginationContent =
-    data?.results > 100 ? (
-      <Pagination results={data?.results} settingPageNum={settingPageNum} />
-    ) : null;
 
   return (
     <div className={styles.table_body}>
@@ -347,7 +336,6 @@ const AdminCarts = () => {
                 )}
               </Row>
             </div>
-            {paginationContent}
           </>
         ) : (
           <NoDataPage text={`${key("noCarts")}`} />

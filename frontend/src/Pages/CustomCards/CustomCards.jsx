@@ -34,7 +34,7 @@ const CustomCards = () => {
   const [cardColor, setCardColor] = useState("#FFFFFF");
   const [cardProColor, setCardProColor] = useState("");
   const [cardColorId, setCardColorId] = useState("");
-  const [textColor, setTextColor] = useState("#000");
+  const [textColor, setTextColor] = useState("#000000");
   const [selectedShopId, setSelectedShopId] = useState("");
   const [logoImage, setLogoImage] = useState(null);
   const [cardText, setCardText] = useState("");
@@ -311,6 +311,7 @@ const CustomCards = () => {
   const handleTextChange = (e) => {
     setCardText(e.target.value);
   };
+
   const handlePriceChange = (e) => {
     setCardPrice(e.target.value);
   };
@@ -436,21 +437,12 @@ const CustomCards = () => {
                         className={styles.fontSize_input}
                       />
                       <div className={styles.color_input_div}>
-                        <label
-                          className={`${textColor === "#000" ? "" : "d-none"}`}
-                          htmlFor="colorInput"
-                        >
-                          {key("color")}
-                        </label>
+                        <label htmlFor="colorInput">{key("color")}</label>
                         <input
                           type="color"
                           value={textColor}
                           onChange={(e) => setTextColor(e.target.value)}
-                          className={
-                            textColor === "#000"
-                              ? styles.color_input
-                              : styles.input_color_show
-                          }
+                          className={styles.input_color_show}
                           id="colorInput"
                         />
                       </div>
@@ -463,9 +455,9 @@ const CustomCards = () => {
                         } input-group mb-3`}
                       >
                         <input
-                          type="number"
-                          value={cardPrice?.trim()}
+                          type="text"
                           onChange={handlePriceChange}
+                          value={cardPrice}
                           onClick={() => setShowBack(false)}
                           className={`${styles.price_input} text-dark form-control`}
                         />

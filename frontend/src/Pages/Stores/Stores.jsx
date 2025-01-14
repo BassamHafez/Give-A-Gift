@@ -14,14 +14,12 @@ import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import NoDataPage from "../../Components/Ui/NoDataPage";
-import Pagination from "../../Components/Pagination/Pagination";
 
 const Stores = () => {
   const [searchInput, setSearchInput] = useState("");
   const [categoriesOptions, setCategoriesOptions] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [filteredShops, setFilteredShops] = useState([]);
-  const [pageNum, setPageNum] = useState(1);
 
   const { t: key } = useTranslation();
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
@@ -29,7 +27,7 @@ const Stores = () => {
 
   const { data: shops, isFetching } = useQuery({
     queryKey: ["shops"],
-    queryFn: () => getShops({ type: "all", pageNum: pageNum }),
+    queryFn: () => getShops({ type: "all" }),
     staleTime: Infinity,
   });
 
@@ -86,15 +84,6 @@ const Stores = () => {
     setSearchInput("");
     setSelectedCategory("");
   };
-
-  const settingPageNum = (num) => {
-    setPageNum(num);
-  };
-
-  const paginationContent =
-    shops?.results > 100 ? (
-      <Pagination results={shops?.results} settingPageNum={settingPageNum} />
-    ) : null;
 
   return (
     <>
@@ -170,7 +159,6 @@ const Stores = () => {
             <Placeholders />
           )}
         </Row>
-        {paginationContent}
       </Container>
     </>
   );

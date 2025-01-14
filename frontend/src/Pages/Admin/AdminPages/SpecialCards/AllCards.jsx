@@ -17,7 +17,6 @@ import FilterModal from "../../../../Components/Ui/FilterModal";
 import UpdateCard from "./UpdateCard";
 import AddCard from "./AddCard";
 import { toast } from "react-toastify";
-import Pagination from "../../../../Components/Pagination/Pagination";
 
 const AllCards = () => {
   const notifySuccess = (message) => toast.success(message);
@@ -27,14 +26,13 @@ const AllCards = () => {
   const [searchInput, setSearchInput] = useState("");
   const [modalShow, setModalShow] = useState(false);
   const [cardData, setCardData] = useState("");
-  const [pageNum, setPageNum] = useState(1);
   const [showFilterModal, setShowFilterModal] = useState(false);
   let isArLang = localStorage.getItem("i18nextLng") === "ar";
   const token = JSON.parse(localStorage.getItem("token"));
 
   const { data, isFetching, refetch } = useQuery({
     queryKey: ["special-cards", token],
-    queryFn: () => getSpecialCards({ pageNum }),
+    queryFn: () => getSpecialCards(),
     staleTime: Infinity,
   });
 
@@ -75,14 +73,6 @@ const AllCards = () => {
       notifyError(key("wrong"));
     }
   };
-  const settingPageNum = (num) => {
-    setPageNum(num);
-  };
-
-  const paginationContent =
-    data?.results > 100 ? (
-      <Pagination results={data?.results} settingPageNum={settingPageNum} />
-    ) : null;
 
   return (
     <>
@@ -132,7 +122,7 @@ const AllCards = () => {
             </span>
           </div>
         </div>
-        {paginationContent}
+
         <Row>
           {isFetching ? (
             <Placeholders />
@@ -216,7 +206,6 @@ const AllCards = () => {
             </>
           )}
         </Row>
-        {paginationContent}
       </Container>
       {showFilterModal && (
         <FilterModal

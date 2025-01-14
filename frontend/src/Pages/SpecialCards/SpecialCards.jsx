@@ -14,11 +14,9 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { alertActions } from "../../Store/cardsPhoneAlert-slice";
 import ScrollTopButton from "../../Components/Ui/ScrollTopButton";
-import Pagination from "../../Components/Pagination/Pagination";
 
 const SpecialCards = () => {
   const { t: key } = useTranslation();
-  const [pageNum, setPageNum] = useState(1);
   const [filteredCards, setFilteredCards] = useState([]);
   const [showFilterModal, setShowFilterModal] = useState(false);
   const notifySuccess = (message) => toast.success(message);
@@ -28,7 +26,7 @@ const SpecialCards = () => {
 
   const { data, isFetching } = useQuery({
     queryKey: ["special-cards", token],
-    queryFn: () => getSpecialCards({ pageNum: pageNum }),
+    queryFn: getSpecialCards,
     staleTime: Infinity,
   });
 
@@ -59,15 +57,6 @@ const SpecialCards = () => {
       setFilteredCards(data?.data?.cards);
     }
   };
-
-  const settingPageNum = (num) => {
-    setPageNum(num);
-  };
-
-  const paginationContent =
-    data?.results > 100 ? (
-      <Pagination results={data?.results} settingPageNum={settingPageNum} />
-    ) : null;
 
   return (
     <>
@@ -113,7 +102,7 @@ const SpecialCards = () => {
             </span>
           </div>
         </div>
-        {paginationContent}
+
         <Row>
           {isFetching ? (
             <Placeholders />
@@ -131,7 +120,6 @@ const SpecialCards = () => {
             </>
           )}
         </Row>
-        {paginationContent}
       </Container>
       {showFilterModal && (
         <FilterModal

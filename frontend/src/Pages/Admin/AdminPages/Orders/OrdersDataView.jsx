@@ -24,7 +24,6 @@ import html2pdf from "html2pdf.js";
 import OrderPdfContent from "../../../../Components/OrderPdfContent/OrderPdfContent";
 import Container from "react-bootstrap/esm/Container";
 import NoDataPage from "../../../../Components/Ui/NoDataPage";
-import Pagination from "../../../../Components/Pagination/Pagination";
 import ScrollTopButton from "../../../../Components/Ui/ScrollTopButton";
 
 const OrdersDataView = ({ isUser }) => {
@@ -32,7 +31,6 @@ const OrdersDataView = ({ isUser }) => {
   const [modalShow, setModalShow] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [expandedOrderId, setExpandedOrderId] = useState(null);
-  const [pageNum, setPageNum] = useState(1);
 
   const token = JSON.parse(localStorage.getItem("token"));
   const { t: key } = useTranslation();
@@ -42,7 +40,7 @@ const OrdersDataView = ({ isUser }) => {
 
   const { data, refetch } = useQuery({
     queryKey: ["orders", token],
-    queryFn: () => getAllOrders({ token, pageNum }),
+    queryFn: () => getAllOrders({ token }),
     enabled: !!token,
   });
 
@@ -119,15 +117,6 @@ const OrdersDataView = ({ isUser }) => {
     setExpandedOrderId(expandedOrderId === orderId ? null : orderId);
   };
 
-  const settingPageNum = (num) => {
-    setPageNum(num);
-  };
-
-  const paginationContent =
-    data?.results > 100 ? (
-      <Pagination results={data?.results} settingPageNum={settingPageNum} />
-    ) : null;
-
   return (
     <>
       <ScrollTopButton />
@@ -158,7 +147,6 @@ const OrdersDataView = ({ isUser }) => {
                   text={key("search")}
                 />
               </div>
-              {paginationContent}
               {filteredDisc?.map((order, index) => (
                 <Col
                   className={styles.order_col}
@@ -531,7 +519,6 @@ const OrdersDataView = ({ isUser }) => {
                   </div>
                 </Col>
               ))}
-              {paginationContent}
             </>
           ) : (
             <NoDataPage text={`${key("noOrders")}`} />
