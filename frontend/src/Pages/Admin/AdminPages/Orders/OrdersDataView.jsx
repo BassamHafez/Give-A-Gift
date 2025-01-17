@@ -42,6 +42,7 @@ const OrdersDataView = ({ isUser }) => {
     queryKey: ["orders", token],
     queryFn: () => getAllOrders({ token }),
     enabled: !!token,
+    staleTime: 300000,
   });
 
   const handleDownloadExcelSheet = () => {

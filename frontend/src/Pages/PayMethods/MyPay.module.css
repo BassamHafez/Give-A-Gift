@@ -80,17 +80,14 @@
 .error_content {
   background-color: var(--sub_color);
   color: white;
-  padding: 50px;
-  padding-top: 10px;
-  border-radius: 10px;
+  padding: 3.125rem;
+  border-radius: 0.625rem;
+  min-width: 50%;
+  text-align: center;
 }
-.success_content svg {
-  color: rgb(8, 216, 8);
-  font-size: 80px;
-  margin: 10px 0;
-}
+
 @media screen and (max-width: 520px) {
-  .success_img {
-    width: 99%;
+  .payment_body {
+    padding-inline: 10px;
   }
 }

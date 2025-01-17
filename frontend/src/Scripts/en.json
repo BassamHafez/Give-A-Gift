@@ -472,10 +472,13 @@
   "viewMyCard": "view card",
   "viewCardTitleFront": "Front",
   "viewCardTitleBack": "Back",
-  "paymentSuccessTitle": "Thank you for your payment!",
-  "paymentSuccessDesc": "Your transaction was successful. You can now view the details of your order by clicking the button below",
+  "paymentSuccessTitle": "Thank you for your order!",
+  "paymentSuccessDesc": "Your transaction was successful! A confirmation email for your order will be sent shortly.",
+  "paymentSuccessDesc2": "Once you receive it, you can view your order details by clicking the button below",
   "viewOrders": "View Orders",
   "paymentFailTitle": "We're sorry! Your payment could not be processed",
   "paymentFailDesc": "Unfortunately, the transaction was not successful. Please check your payment details and try again.",
-  "paymentFailDesc2": "If the issue persists, don’t hesitate to contact our support team for assistance."
+  "paymentFailDesc2": "If the issue persists, don’t hesitate to contact our support team for assistance.",
+  "processingOrder": "We are processing your order, please wait...",
+  "processingOrderDesc": "This may take a few moments. Thank you for your patience!"
 }

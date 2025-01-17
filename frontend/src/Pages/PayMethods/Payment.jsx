@@ -8,7 +8,7 @@ import { executePayment } from "../../util/Http";
 import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
 import { getPaymentMethods } from "../../util/Http";
-import {useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import InputErrorMessage from "../../Components/Ui/InputErrorMessage";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
@@ -61,7 +61,7 @@ const Payment = () => {
     };
     mutate({ token: token, formData: updatedFormData });
   };
-  
+
   const validationSchema = object({
     PaymentMethodId: number()
       .typeError(key("paymentIdValidate1"))
