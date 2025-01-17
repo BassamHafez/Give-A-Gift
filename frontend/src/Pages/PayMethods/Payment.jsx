@@ -57,7 +57,7 @@ const Payment = () => {
       InvoiceValue: values.InvoiceValue,
       cardId: cardId,
       successUrl: `${process.env.REACT_APP_Host}success-payment`,
-      failUrl: `${process.env.REACT_APP_Host}fail-payment`,
+      errorUrl: `${process.env.REACT_APP_Host}fail-payment`,
     };
     mutate({ token: token, formData: updatedFormData });
   };
