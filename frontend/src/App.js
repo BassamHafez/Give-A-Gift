@@ -87,8 +87,8 @@ const router = createBrowserRouter([
       { path: "joinUs", element: <JoinUs /> },
       { path: "docs", element: <Docs /> },
       { path: "our-policy", element: <Policy /> },
-      { path: "success-payment", element: <PaymentSuccess /> },
-      { path: "fail-payment", element: <PaymentError /> },
+      { path: "success-payment/:paymentId", element: <PaymentSuccess /> },
+      { path: "fail-payment/:paymentId", element: <PaymentError /> },
       {
         path: "view-card/:cardId",
         element: (

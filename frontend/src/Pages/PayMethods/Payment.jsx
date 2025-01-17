@@ -56,12 +56,12 @@ const Payment = () => {
       PaymentMethodId: values.PaymentMethodId,
       InvoiceValue: values.InvoiceValue,
       cardId: cardId,
-      successUrl: `${process.env.REACT_APP_Host}success-payment`,
-      errorUrl: `${process.env.REACT_APP_Host}fail-payment`,
+      successUrl: `https://www.giveagift.com.sa/success-payment/p`,
+      errorUrl: `https://www.giveagift.com.sa/fail-payment/p`,
     };
     mutate({ token: token, formData: updatedFormData });
   };
-  // `https://www.giveagift.com.sa/success-payment`
+  
   const validationSchema = object({
     PaymentMethodId: number()
       .typeError(key("paymentIdValidate1"))
