@@ -47,24 +47,33 @@ const StoreProfile = () => {
   return (
     <>
       {shop ? (
-        <div className={styles.content}>
+        <div className={`${styles.content} height_container`}>
           <div className={styles.myStore_header}>
-            <Link
-              target="_blank"
-              to={`${shop?.data?.shop?.link}`}
-              rel="noopener noreferrer"
-            >
+            {shop?.data?.shop?.link ? (
+              <Link
+                target="_blank"
+                to={`${shop?.data?.shop?.link}`}
+                rel="noopener noreferrer"
+              >
+                <div className={styles.store_logo}>
+                  <img
+                    src={`${process.env.REACT_APP_Host}shops/${shop?.data?.shop?.logo}`}
+                    alt={`${shop?.data?.shop?.name}_logo`}
+                  />
+                  <FontAwesomeIcon
+                    icon={faArrowUpRightFromSquare}
+                    className={styles.link_icon}
+                  />
+                </div>
+              </Link>
+            ) : (
               <div className={styles.store_logo}>
                 <img
                   src={`${process.env.REACT_APP_Host}shops/${shop?.data?.shop?.logo}`}
                   alt={`${shop?.data?.shop?.name}_logo`}
                 />
-                <FontAwesomeIcon
-                  icon={faArrowUpRightFromSquare}
-                  className={styles.link_icon}
-                />
               </div>
-            </Link>
+            )}
 
             <div className="text-center">
               <h1 className="fw-bold">{shop?.data?.shop?.name}</h1>

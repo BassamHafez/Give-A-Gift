@@ -5,7 +5,7 @@ import styles from "./Loading.module.css";
 
 const LoadingOne = () => {
   return (
-    <div className="w-100 h-100 d-flex justify-content-center align-items-center">
+    <div className={styles.loading_container}>
       <FontAwesomeIcon className={`fa-3x fa-spin ${styles.loading_spinner}`} icon={faSpinner} />
     </div>
   );

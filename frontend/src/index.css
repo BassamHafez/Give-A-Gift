@@ -187,7 +187,9 @@ input::-webkit-inner-spin-button {
   background-color: white !important;
   color: black !important;
 }
-
+.height_container{
+  min-height: 85vh;
+}
 @media screen and (max-width:768px) {
   body,html{
     font-size: 14px;

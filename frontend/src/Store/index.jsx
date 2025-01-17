@@ -6,6 +6,7 @@ import configsSlice from "./configs-slice";
 import customCardSlice from "./customCardStore-slice";
 import alertSlice from "./cardsPhoneAlert-slice";
 import showLanguageIconSlice from "./showLanguageIcon-slice";
+import isMyFatoorahInitializedSlice from "./isMyFatoorahInitialized-slice";
 
 const store = configureStore({
   reducer: {
@@ -15,7 +16,8 @@ const store = configureStore({
     configs: configsSlice.reducer,
     customCard: customCardSlice.reducer,
     alert: alertSlice.reducer,
-    showLanguageIcon:showLanguageIconSlice.reducer
+    showLanguageIcon:showLanguageIconSlice.reducer,
+    isMyFatoorahInitialized:isMyFatoorahInitializedSlice.reducer
   },
 });
 

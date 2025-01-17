@@ -1,24 +1,36 @@
-.loading_spinner{
-    color: var(--slate_blue);
+.loading_container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.229);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
 }
-
+.loading_spinner {
+  color: var(--slate_blue);
+}
 
 /* cart icon */
-.cart_badge{
-    position: absolute;
-    left: 110%;
-    top: -15px;
-    transform: translateX(-50%);
-    font-family: 'Times New Roman', Times, serif !important;
+.cart_badge {
+  position: absolute;
+  left: 110%;
+  top: -15px;
+  transform: translateX(-50%);
+  font-family: "Times New Roman", Times, serif !important;
 }
 
-.cart_icon{
-    font-size:1.5625rem;
-    color: white !important;
-    cursor: pointer;
-    transition: all .3s;
+.cart_icon {
+  font-size: 1.5625rem;
+  color: white !important;
+  cursor: pointer;
+  transition: all 0.3s;
 }
 
-.cart_icon:hover{
-    scale: 1.08;
+.cart_icon:hover {
+  scale: 1.08;
 }
