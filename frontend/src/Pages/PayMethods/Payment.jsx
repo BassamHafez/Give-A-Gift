@@ -68,9 +68,10 @@ const Payment = () => {
       .required(key("paymentIdValidate2")),
     InvoiceValue: number()
       .typeError(key("amountValidate1"))
-      .required(key("amountValidate2")),
+      .required(key("amountValidate2"))
+      .min(10, key("min10")),
   });
-  // .min(10, key("min10"))
+
   return (
     <>
       <div
