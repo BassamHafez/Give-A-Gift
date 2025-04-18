@@ -1,7 +1,9 @@
-<h3>Tools<h3/>
-<p>React Js, Konva.Js, Redux Toolkit, React Bootstrap, Css, Html, Node Js, Mongo db</p>
 <h2>Give-A-Gift - Customizable Gift Card Platform</h2>
 <p>A modern gifting platform built in collaboration with a backend developer. It allows users to choose or customize gift cards and send them with ease, offering flexible features and payment options.</p>
+
+<h3>Tools<h3/>
+<p>React Js, Konva.Js, Redux Toolkit, React Bootstrap, Css, Html, Node Js, Mongo db</p>
+  
 <h3>Key Features</h3>
 <ul>
   <li>Choose ready-made gift cards from partner stores.</li>
